@@ -1,0 +1,28 @@
+# build
+/bin/
+/obj/
+*.o
+*.exe
+
+# generated
+/doxygen/
+
+# project files
+*.cbp
+*.depend
+*.layout
+
+# misc
+.gitattributes
+
+# database
+/db/
+data.db
+
+# music
+/soundtrack/
+
+# ugh
+*.save-failed
+
+*.ttf

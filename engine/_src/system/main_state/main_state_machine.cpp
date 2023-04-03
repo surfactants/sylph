@@ -1,0 +1,47 @@
+#include <system/main_state/main_state_machine.hpp>
+
+#include <system/main_state/menu_state.hpp>
+#include <system/main_state/game_state.hpp>
+#include <system/main_state/quit_state.hpp>
+
+Main_State_Machine::Main_State_Machine(sf::RenderWindow& window, Event_Bus& event_bus, Audio& audio)
+{
+    Main_State::setState = std::bind(&setState, this, std::placeholders::_1);
+
+    Menu::setMainState = Main_State::setState;
+
+    states[Main_State::MENU] = std::make_unique<Menu_State>(audio);
+    states[Main_State::GAME] = std::make_unique<Game_State>();
+    states[Main_State::QUIT] = std::make_unique<Quit_State>(window);
+
+    auto gs = static_cast<Game_State*>(states[Main_State::GAME].get());
+    gs->openPauseMenu = [&]()
+        {
+            setState(Main_State::MENU);
+            static_cast<Menu_State*>(states[Main_State::MENU].get())->setMenuState(Menu::PAUSE);
+        };
+
+    state = states[Main_State::MENU].get();
+}
+
+void Main_State_Machine::handleInput(const sf::Event& event)
+{
+    state->handleInput(event);
+}
+
+void Main_State_Machine::update(float delta_time)
+{
+    state->update(delta_time);
+}
+
+void Main_State_Machine::setState(Main_State::State new_state)
+{
+    last_state = current_state;
+    current_state = new_state;
+    state = states[new_state].get();
+}
+
+void Main_State_Machine::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(*state, states);
+}
