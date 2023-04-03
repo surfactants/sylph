@@ -21,7 +21,10 @@ Slider::Slider(std::string ntitle)
     fill.setSize(sf::Vector2f(0.f, container.getSize().y - (offset * 2.f)));
     fill.setFillColor(Palette::blue);
 
+    setFill(100.f);
+
     title.setString(ntitle);
+    title.setCharacterSize(48);
 }
 
 void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const

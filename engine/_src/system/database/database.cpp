@@ -10,7 +10,6 @@ Database::Database(std::string filename)
 
 Database::~Database()
 {
-    sqlite3_finalize(statement);
     sqlite3_close(db);
 }
 
@@ -22,7 +21,11 @@ void Database::selectTable(std::string table)
 
 bool Database::step()
 {
-    return (sqlite3_step(statement) == SQLITE_ROW);
+    bool row = (sqlite3_step(statement) == SQLITE_ROW);
+    if (!row) {
+        sqlite3_finalize(statement);
+    }
+    return row;
 }
 
 std::string Database::toString(int column)

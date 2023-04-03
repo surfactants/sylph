@@ -4,7 +4,7 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 {
     nav.push_back(Button(std::string("save"), *font, std::bind(save, this), csize));
     nav.push_back(Button(std::string("default"), *font, std::bind(loadDefaults, this), csize));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(&Menu::escape, this), csize));
+    nav.push_back(Button(std::string("cancel"), *font, std::bind(cancel, this), csize));
 
     placeNav();
 
@@ -16,6 +16,8 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
     sliders[1].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::GAME, v); };
     sliders[2].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::UI, v); };
 
+    placeSliders();
+
     read = [&]()
         {
             sliders[0].setFill(audio.getMusicVolume());
@@ -25,7 +27,9 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 
     read();
 
-    placeSliders();
+    for (auto& slider : sliders) {
+        slider.finalize();
+    }
 
     setMusicVolume = [&](float v) { audio.setMusicVolume(v); };
     setSoundVolume = [&](Sound::Source s, float v) { audio.setSoundVolume(s, v); };

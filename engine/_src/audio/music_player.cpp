@@ -107,6 +107,7 @@ void Music_Player::fadeIn()
 void Music_Player::setVolume(float vol)
 {
     volume = vol;
+    music.setVolume(vol);
 }
 
 float Music_Player::getVolume()

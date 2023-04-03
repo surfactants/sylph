@@ -2,13 +2,15 @@
 
 #include <magic_enum.hpp>
 
+#include <iostream>
+
 Database_Volume::Database_Volume(bool default_vol)
 {
     std::string table = "VOLUME";
     if (default_vol) {
         table += "_DEFAULT";
     }
-    selectTable("VOLUME");
+    selectTable(table);
 }
 
 std::map<Sound::Source, float> Database_Volume::getVolume()
@@ -32,8 +34,12 @@ std::map<Sound::Source, float> Database_Volume::getVolume()
 void Database_Volume::write(std::map<Sound::Source, float> volume)
 {
     for (const auto& v : volume) {
-        std::string sql = "UPDATE table SET column2 = " + std::to_string(v.second) + " WHERE id = ";
-        sql += magic_enum::enum_name(v.first);
-        sqlite3_exec(db, sql.c_str(), NULL, 0, NULL);
+        std::string sql = "UPDATE VOLUME SET VALUE = ? WHERE ID = ?";
+        sqlite3_prepare_v2(db, sql.c_str(), -1, &statement, NULL);
+        sqlite3_bind_int(statement, 1, v.second);
+        std::string s(magic_enum::enum_name(v.first));
+        sqlite3_bind_text(statement, 2, s.c_str(), s.size(), NULL);
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
     }
 }

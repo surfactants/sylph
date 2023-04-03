@@ -61,7 +61,7 @@ protected:
 
     const static sf::Vector2f button_start;
     constexpr static float button_offset { 32.f };
-    constexpr static float slider_offset { 96.f };
+    constexpr static float slider_offset { 128.f };
 
     void placeNav();
     void placeSliders();
