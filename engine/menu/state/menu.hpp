@@ -10,6 +10,8 @@
 #include <menu/elements/button.hpp>
 #include <menu/elements/slider.hpp>
 
+// make update virtual but continue to provide a base method which checks the nav
+
 class Menu : public sf::Drawable {
 public:
     Menu();
@@ -21,6 +23,9 @@ public:
         SETTINGS_GENERAL,
         SETTINGS_AUDIO,
         SETTINGS_KEYMAPPER,
+        NEW_GAME,
+        LOAD_GAME,
+        SAVE_GAME,
         NULL_STATE
     };
 

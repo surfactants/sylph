@@ -6,6 +6,9 @@
 #include <menu/state/menu_settings_general.hpp>
 #include <menu/state/menu_settings_audio.hpp>
 #include <menu/state/menu_settings_keymapper.hpp>
+#include <menu/state/menu_new_game.hpp>
+#include <menu/state/menu_load_game.hpp>
+#include <menu/state/menu_save_game.hpp>
 
 Menu_State::Menu_State(Audio& audio)
 {
@@ -17,6 +20,9 @@ Menu_State::Menu_State(Audio& audio)
     menus[Menu::SETTINGS_GENERAL] = std::make_unique<Menu_Settings_General>();
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
     menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>();
+    menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
+    menus[Menu::LOAD_GAME] = std::make_unique<Menu_Load_Game>();
+    menus[Menu::SAVE_GAME] = std::make_unique<Menu_Save_Game>();
 
     menu = menus[Menu::MAIN].get();
     drawables.push_back(menu);
@@ -48,7 +54,8 @@ void Menu_State::setMenuState(Menu::State new_menu)
     menu = menus[new_menu].get();
     menu->enterState();
     drawables[0] = menu;
-    if (new_menu == Menu::SETTINGS && current_menu <= Menu::PAUSE) {
+    if ((new_menu == Menu::SETTINGS && current_menu <= Menu::PAUSE)
+     || (new_menu == Menu::LOAD_GAME || new_menu == Menu::SAVE_GAME)) {
         menu->setEscape(current_menu);
     }
     last_menu = current_menu;
