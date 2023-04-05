@@ -1,4 +1,4 @@
-lightweight, event-driven C++ game engine
+C++/SFML game engine
 
 dependencies:
 - [SFML 2.5.1](https://github.com/SFML/SFML/releases/tag/2.5.1)
