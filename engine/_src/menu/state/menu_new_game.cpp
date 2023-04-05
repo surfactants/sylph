@@ -4,9 +4,9 @@ Menu_New_Game::Menu_New_Game()
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    nav.push_back(Button(std::string("start"), *font, std::bind(setMenuState, Menu::NEW_GAME), csize));
-    nav.back().unsetAvailable();
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(setMenuState, Menu::LOAD_GAME), csize));
+    nav.push_back(Button(std::string("start"), *font, std::bind(setMainState, Main_State::GAME), csize));
+    //nav.back().unsetAvailable();
+    nav.push_back(Button(std::string("cancel"), *font, std::bind(setMenuState, Menu::MAIN), csize));
 
     setEscape(Main_State::QUIT);
 
