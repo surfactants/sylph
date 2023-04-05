@@ -20,6 +20,8 @@ class Input_Package {
 public:
     Input_Package() = default;
 
+    void clear();
+
     void addPress(sf::Keyboard::Key k, std::function<void()> func);
     void addPress(sf::Mouse::Button b, std::function<void()> func);
 
@@ -32,7 +34,6 @@ public:
     void release(sf::Keyboard::Key k);
     void release(sf::Mouse::Button b);
 
-private:
     std::map<sf::Keyboard::Key, std::function<void()>> key_press;
     std::map<sf::Keyboard::Key, std::function<void()>> key_release;
 

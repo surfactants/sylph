@@ -15,10 +15,8 @@ Menu::Menu()
     }
 }
 
-void Menu::update()
+void Menu::update(const sf::Vector2i& mpos)
 {
-    sf::Vector2i mpos = sf::Mouse::getPosition();
-
     for (auto& n : nav) {
         n.update(mpos);
     }
@@ -27,28 +25,30 @@ void Menu::update()
     }
 }
 
-void Menu::clickLeft()
+bool Menu::clickLeft()
 {
     for (auto& n : nav) {
         if (n.click()) {
-            return;
+            return true;
         }
     }
 
     for (auto& slider : sliders) {
         if (slider.click()) {
-
+            return true;
         }
     }
+    return false;
 }
 
-void Menu::releaseLeft()
+bool Menu::releaseLeft()
 {
     for (auto& slider : sliders) {
         if (slider.unclick()) {
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void Menu::placeNav()

@@ -1,5 +1,13 @@
 #include <system/input/input_package.hpp>
 
+void Input_Package::clear()
+{
+    key_press.clear();
+    mouse_press.clear();
+    key_release.clear();
+    mouse_release.clear();
+}
+
 void Input_Package::addPress(sf::Keyboard::Key k, std::function<void()> func)
 {
     key_press[k] = func;

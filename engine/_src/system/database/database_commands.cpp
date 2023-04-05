@@ -18,7 +18,7 @@ std::vector<Command> Database_Commands::read()
         pkg.push_back(c);
     }
 
-    finalize();
+    std::sort(pkg.begin(), pkg.end(), &commandSort);
 
     return pkg;
 }

@@ -12,3 +12,8 @@ struct Command {
     std::string press;
     std::string release;
 };
+
+inline bool commandSort(const Command& lhs, const Command& rhs)
+{
+    return (lhs.press < rhs.press);
+}

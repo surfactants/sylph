@@ -24,7 +24,7 @@ bool Database::step()
 {
     bool row = (sqlite3_step(statement) == SQLITE_ROW);
     if (!row) {
-        sqlite3_finalize(statement);
+        finalize();
     }
     return row;
 }

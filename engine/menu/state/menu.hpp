@@ -29,9 +29,9 @@ public:
         NULL_STATE
     };
 
-    void update();
-    void clickLeft();
-    void releaseLeft();
+    virtual void update(const sf::Vector2i& mpos);
+    bool clickLeft();
+    bool releaseLeft();
     void escape();
 
     virtual void enterState() = 0;

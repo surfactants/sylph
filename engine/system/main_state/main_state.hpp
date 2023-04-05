@@ -6,6 +6,8 @@
 
 class Main_State : public sf::Drawable {
 public:
+    Main_State();
+
     enum State {
         MENU,
         NEW_GAME,
@@ -21,6 +23,8 @@ public:
 
 protected:
     std::vector<sf::Drawable*> drawables;
+
+    sf::View view;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

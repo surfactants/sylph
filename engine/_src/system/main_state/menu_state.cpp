@@ -10,7 +10,9 @@
 #include <menu/state/menu_load_game.hpp>
 #include <menu/state/menu_save_game.hpp>
 
-Menu_State::Menu_State(Audio& audio)
+#include <system/database/database_commands.hpp>
+
+Menu_State::Menu_State(Audio& audio, Game_State* game)
 {
     Menu::setMenuState = std::bind(setMenuState, this, std::placeholders::_1);
 
@@ -19,7 +21,16 @@ Menu_State::Menu_State(Audio& audio)
     menus[Menu::SETTINGS] = std::make_unique<Menu_Settings>();
     menus[Menu::SETTINGS_GENERAL] = std::make_unique<Menu_Settings_General>();
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
-    menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>();
+
+    auto loadCommands = std::bind(&Game_State::getCommands, game);
+    auto saveCommands = [&](std::vector<Command> commands)
+        {
+            Database_Commands dbc;
+            dbc.write(commands);
+            game->loadCommands(commands);
+        };
+    menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>(loadCommands, saveCommands);
+
     menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
     menus[Menu::LOAD_GAME] = std::make_unique<Menu_Load_Game>();
     menus[Menu::SAVE_GAME] = std::make_unique<Menu_Save_Game>();
@@ -30,7 +41,8 @@ Menu_State::Menu_State(Audio& audio)
 
 void Menu_State::update(float delta_time)
 {
-    menu->update();
+    const sf::Vector2i mpos = sf::Mouse::getPosition();
+    menu->update(mpos);
 }
 
 void Menu_State::handleInput(const sf::Event& event)
