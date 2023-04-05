@@ -8,7 +8,7 @@
 /// \brief wrapper class for game functions
 ///
 struct Command {
-    sf::Keyboard::Key k;
+    sf::Keyboard::Key key;
     std::string press;
     std::string release;
 };

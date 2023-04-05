@@ -5,16 +5,17 @@ Database::Database(std::string filename)
     if (filename.find(".db") == std::string::npos) {
         filename += ".db";
     }
-    sqlite3_open(filename.c_str(), &db);
+    rc = sqlite3_open(filename.c_str(), &db);
 }
 
 Database::~Database()
 {
-    sqlite3_close(db);
+    rc = sqlite3_close(db);
 }
 
 void Database::selectTable(std::string table)
 {
+    this->table = table;
     std::string sql = "SELECT * FROM '" + table + "';";
     sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &statement, NULL);
 }
@@ -26,6 +27,16 @@ bool Database::step()
         sqlite3_finalize(statement);
     }
     return row;
+}
+
+void Database::finalize()
+{
+    rc = sqlite3_finalize(statement);
+}
+
+void Database::execute(std::string sql)
+{
+    rc = sqlite3_exec(db, sql.c_str(), 0, 0, 0);
 }
 
 std::string Database::toString(int column)

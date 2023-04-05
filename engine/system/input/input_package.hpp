@@ -6,6 +6,9 @@
 #include <functional>
 #include <map>
 #include <string>
+
+#include "command.hpp"
+
 /*
 struct Command {
     sf::Keyboard::Key k;

@@ -40,6 +40,6 @@ void Database_Volume::write(std::map<Sound::Source, float> volume)
         std::string s(magic_enum::enum_name(v.first));
         sqlite3_bind_text(statement, 2, s.c_str(), s.size(), NULL);
         sqlite3_step(statement);
-        sqlite3_finalize(statement);
+        finalize();
     }
 }

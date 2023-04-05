@@ -1,14 +1,22 @@
 #pragma once
 
-#include "database.hpp"
+#include <vector>
 
-#include <system/input/input_package.hpp>
+#include <system/input/command.hpp>
+#include <system/input/key_string.hpp>
+
+#include "database.hpp"
 
 class Database_Commands : protected Database {
 public:
-    Database_Commands();
+    Database_Commands() = default;
 
-    Input_Package getInputPackage();
+    std::vector<Command> read();
 
-    void write(Input_Package& pkg);
+    void write(std::vector<Command> pkg);
+
+protected:
+    void deleteMissingKeys(const std::vector<Command>& pkg);
+
+    Key_String key_string;
 };
