@@ -17,4 +17,10 @@ protected:
 
     void selectTable(std::string table);
     bool step();
+    void finalize();
+    void execute(std::string sql);
+
+    std::string table;
+
+    int rc;
 };

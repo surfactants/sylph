@@ -6,9 +6,11 @@
 
 #include <menu/state/menu.hpp>
 
+#include <system/main_state/game_state.hpp>
+
 class Menu_State : public Main_State {
 public:
-    Menu_State(Audio& audio);
+    Menu_State(Audio& audio, Game_State* game);
 
     virtual void update(float delta_time) override;
     virtual void handleInput(const sf::Event& event) override;

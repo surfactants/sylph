@@ -4,10 +4,12 @@
 
 #include <resources/palette.hpp>
 
+#include "menu_element.hpp"
+
 /// SLIDER ///
 /// \brief Slider for settings menu.
 ///
-class Slider : public sf::Drawable {
+class Slider : public Menu_Element {
 public:
     Slider() = default;
 
@@ -53,21 +55,20 @@ public:
     bool checkMouse(const sf::Vector2i& mpos);
 
 /// update ///
-///
 /// \brief applies continual changes
 ///
-    void update(const sf::Vector2i& mpos);
-
-/// unclick ///
-///
-/// \brief deactivates changing
-///
-    bool unclick();
+    virtual bool update(const sf::Vector2i& mpos);
 
 /// click ///
 ///
 /// \brief activates continual changes if
-    bool click();
+    virtual void click();
+
+/// endClick ///
+///
+/// \brief deactivates changing
+///
+    virtual void endClick();
 
 /// setFill ///
 /// \brief Sets the fill.
@@ -84,9 +85,7 @@ public:
 protected:
     sf::Text title; /**< Title label */
     sf::Text label; /**< On-container label */
-
-    sf::RectangleShape container; /**< Holds the slider */
-    const static sf::Vector2f container_size;
+    const static sf::Vector2f frame_size;
 
     sf::RectangleShape fill; /**< Slider */
     const static float offset; /**< Distance of slider from container */

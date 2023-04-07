@@ -8,18 +8,19 @@ Main_State_Machine::Main_State_Machine(sf::RenderWindow& window, Event_Bus& even
 {
     Main_State::setState = std::bind(&setState, this, std::placeholders::_1);
 
-    Menu::setMainState = Main_State::setState;
-
-    states[Main_State::MENU] = std::make_unique<Menu_State>(audio);
-    states[Main_State::GAME] = std::make_unique<Game_State>();
-    states[Main_State::QUIT] = std::make_unique<Quit_State>(window);
-
-    auto gs = static_cast<Game_State*>(states[Main_State::GAME].get());
-    gs->openPauseMenu = [&]()
+    auto open_pause = [&]()
         {
             setState(Main_State::MENU);
             static_cast<Menu_State*>(states[Main_State::MENU].get())->setMenuState(Menu::PAUSE);
         };
+    states[Main_State::GAME] = std::make_unique<Game_State>(open_pause);
+
+    Menu::setMainState = Main_State::setState;
+
+    states[Main_State::MENU] = std::make_unique<Menu_State>(audio
+                                    , static_cast<Game_State*>(states[Main_State::GAME].get()));
+
+    states[Main_State::QUIT] = std::make_unique<Quit_State>(window);
 
     state = states[Main_State::MENU].get();
 }

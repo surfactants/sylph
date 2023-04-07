@@ -10,7 +10,9 @@
 #include <menu/state/menu_load_game.hpp>
 #include <menu/state/menu_save_game.hpp>
 
-Menu_State::Menu_State(Audio& audio)
+#include <system/database/database_commands.hpp>
+
+Menu_State::Menu_State(Audio& audio, Game_State* game)
 {
     Menu::setMenuState = std::bind(setMenuState, this, std::placeholders::_1);
 
@@ -19,7 +21,11 @@ Menu_State::Menu_State(Audio& audio)
     menus[Menu::SETTINGS] = std::make_unique<Menu_Settings>();
     menus[Menu::SETTINGS_GENERAL] = std::make_unique<Menu_Settings_General>();
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
-    menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>();
+
+    auto loadCommands = std::bind(&Game_State::getCommands, game);
+    auto saveCommands = std::bind(&Game_State::loadCommands, game, std::placeholders::_1);
+    menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>(loadCommands, saveCommands);
+
     menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
     menus[Menu::LOAD_GAME] = std::make_unique<Menu_Load_Game>();
     menus[Menu::SAVE_GAME] = std::make_unique<Menu_Save_Game>();
@@ -30,20 +36,42 @@ Menu_State::Menu_State(Audio& audio)
 
 void Menu_State::update(float delta_time)
 {
-    menu->update();
+    const sf::Vector2i mpos = sf::Mouse::getPosition();
+    menu->update(mpos);
 }
 
 void Menu_State::handleInput(const sf::Event& event)
 {
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        menu->clickLeft();
+    if (event.type == sf::Event::MouseButtonPressed) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                menu->clickLeft();
+                break;
+            case sf::Mouse::Right:
+                menu->clickRight();
+                break;
+            default:
+                break;
+        }
     }
-    else if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
-        menu->releaseLeft();
+    else if (event.type == sf::Event::MouseButtonReleased) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                menu->releaseLeft();
+                break;
+            case sf::Mouse::Right:
+                menu->releaseRight();
+                break;
+            default:
+                break;
+        }
     }
     else if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             menu->escape();
+        }
+        else {
+            menu->keyPressed(event.key.code);
         }
     }
 }

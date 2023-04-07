@@ -1,5 +1,8 @@
 #include <system/shell.hpp>
 
+#include <system/database/database_commands.hpp>
+#include <system/input/command.hpp>
+
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen }
 {

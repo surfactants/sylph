@@ -29,10 +29,12 @@ public:
         NULL_STATE
     };
 
-    void update();
+    virtual void update(const sf::Vector2i& mpos);
     void clickLeft();
     void releaseLeft();
     void escape();
+    virtual void clickRight() {}
+    virtual void releaseRight() {}
 
     virtual void enterState() = 0;
     virtual void exitState() = 0;
@@ -56,13 +58,15 @@ public:
     void setEscape(Menu::State state);
     void setEscape(Main_State::State states);
 
+    virtual void keyPressed(sf::Keyboard::Key k);
+
 protected:
+    std::vector<Menu_Element*> elements;
     std::vector<Button> nav;
-    std::vector<Slider> sliders;
 
     static std::unique_ptr<sf::Font> font;
 
-    constexpr static unsigned int csize { 24 };
+    constexpr static unsigned int csize { 72 };
 
     const static sf::Vector2f button_start;
     constexpr static float button_offset { 32.f };
@@ -72,6 +76,8 @@ protected:
     void placeSliders();
 
     std::variant<Menu::State, Main_State::State> escape_target;
+
+    Menu_Element* mouse_target { nullptr };
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

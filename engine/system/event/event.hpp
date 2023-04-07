@@ -9,6 +9,7 @@ struct Event {
 
     enum class Tag {
         BUTTON_PRESSED,
+        BUTTON_TRIGGERED,
         SLIDER_MOVED,
         NONE
     };
