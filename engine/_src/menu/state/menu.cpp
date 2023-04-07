@@ -67,10 +67,6 @@ void Menu::placeNav()
     }
 }
 
-void Menu::placeSliders()
-{
-}
-
 void Menu::setEscape(Menu::State state)
 {
     escape_target = state;

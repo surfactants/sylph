@@ -73,7 +73,6 @@ protected:
     constexpr static float slider_offset { 128.f };
 
     void placeNav();
-    void placeSliders();
 
     std::variant<Menu::State, Main_State::State> escape_target;
 

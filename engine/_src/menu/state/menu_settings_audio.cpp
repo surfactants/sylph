@@ -25,8 +25,8 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 
     read();
 
-    sf::Vector2f pos = button_start;
-    pos.x += 256.f;
+    sf::Vector2f pos = nav.front().getPosition();
+    pos.x += 392.f;
 
     for (auto& slider : sliders) {
         slider.set(pos, *font);

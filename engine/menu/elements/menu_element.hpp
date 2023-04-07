@@ -14,7 +14,7 @@ public:
     virtual bool update(const sf::Vector2i& mpos) = 0;
     virtual void clickLeft() = 0;
     virtual void releaseLeft() = 0;
-    virtual void setState(State state) {}
+    virtual void setState(State state) { this->state = state; }
     virtual void keyPressed(sf::Keyboard::Key) {}
     virtual void clickRight() {}
     virtual void releaseRight() {}
