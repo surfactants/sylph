@@ -128,12 +128,12 @@ bool Slider::update(const sf::Vector2i& mpos)
     }
 }
 
-void Slider::endClick()
+void Slider::releaseLeft()
 {
     changing = false;
 }
 
-void Slider::click()
+void Slider::clickLeft()
 {
     if (moused) {
         changing = true;

@@ -17,7 +17,7 @@ void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
 
     float button_offset = 32.f;
 
-    sf::Vector2f pos(button_offset * 3.f, button_offset);
+    sf::Vector2f pos(button_offset * 3.f, button_offset * 3.f);
 
     for (const auto& c : commands) {
         std::string key = key_string.toString(c.key);
@@ -59,7 +59,7 @@ bool Keymapper::update(const sf::Vector2i& mpos)
     return cnt;
 }
 
-void Keymapper::click()
+void Keymapper::clickLeft()
 {
     int n = rows.size();
     for (int i = 0; i < n; i++) {
@@ -68,17 +68,17 @@ void Keymapper::click()
                 rows[active_index].second.setState(READY);
             }
             active_index = i;
-            rows[i].second.click();
+            rows[i].second.clickLeft();
             setState(ACTIVE);
             break;
         }
     }
 }
 
-void Keymapper::endClick()
+void Keymapper::releaseLeft()
 {}
 
-void Keymapper::rightClick()
+void Keymapper::clickRight()
 {
     if (active_index >= 0) {
         rows[active_index].second.setState(READY);

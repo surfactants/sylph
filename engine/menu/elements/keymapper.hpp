@@ -19,10 +19,10 @@ public:
     void load(std::vector<Command> new_commands, sf::Font& font);
 
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void click() override;
-    virtual void endClick() override;
+    virtual void clickLeft() override;
+    virtual void releaseLeft() override;
     virtual void keyPressed(sf::Keyboard::Key) override;
-    virtual void rightClick() override;
+    virtual void clickRight() override;
 
     std::vector<Command> getCommands();
 

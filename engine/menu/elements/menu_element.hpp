@@ -12,12 +12,12 @@ public:
     };
 
     virtual bool update(const sf::Vector2i& mpos) = 0;
-    virtual void click() = 0;
-    virtual void endClick() = 0;
+    virtual void clickLeft() = 0;
+    virtual void releaseLeft() = 0;
     virtual void setState(State state) {}
     virtual void keyPressed(sf::Keyboard::Key) {}
-    virtual void rightClick() {}
-    virtual void endRightClick() {}
+    virtual void clickRight() {}
+    virtual void releaseRight() {}
 
     bool available()
     {

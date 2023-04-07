@@ -59,16 +59,16 @@ public:
 ///
     virtual bool update(const sf::Vector2i& mpos);
 
-/// click ///
+/// clickLeft ///
 ///
 /// \brief activates continual changes if
-    virtual void click();
+    virtual void clickLeft();
 
-/// endClick ///
+/// releaseLeft ///
 ///
 /// \brief deactivates changing
 ///
-    virtual void endClick();
+    virtual void releaseLeft();
 
 /// setFill ///
 /// \brief Sets the fill.

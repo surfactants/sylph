@@ -37,14 +37,14 @@ void Menu::update(const sf::Vector2i& mpos)
 void Menu::clickLeft()
 {
     if (mouse_target) {
-        mouse_target->click();
+        mouse_target->clickLeft();
     }
 }
 
 void Menu::releaseLeft()
 {
     if (mouse_target) {
-        mouse_target->endClick();
+        mouse_target->releaseLeft();
     }
 }
 

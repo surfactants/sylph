@@ -49,7 +49,7 @@ void Menu_Settings_Keymapper::keyPressed(sf::Keyboard::Key k)
 
 void Menu_Settings_Keymapper::clickRight()
 {
-    keymapper.rightClick();
+    keymapper.clickRight();
 }
 
 void Menu_Settings_Keymapper::save()
