@@ -18,7 +18,7 @@ public:
 
     Main_State* state;
 
-    std::unordered_map<Main_State::State, std::unique_ptr<Main_State>> states;
+    std::map<Main_State::State, std::unique_ptr<Main_State>> states;
 
     Main_State::State current_state { Main_State::MENU };
     Main_State::State last_state { Main_State::QUIT };
