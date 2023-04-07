@@ -2,96 +2,64 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "menu_element.hpp"
+
 /// BUTTON ///
-///
 /// \brief Button class for mouse navigation.
 ///
-class Button : public sf::Drawable {
+class Button : public Menu_Element {
 public:
     Button() = default;
 
 /// FULL CONSTRUCTOR ///
-///
 /// \brief constructs the button, without a target
 ///
-    Button(std::string nlabel, sf::Font& font, unsigned int csize);
+    Button(std::string nlabel, sf::Font& font, unsigned int csize, State base = READY);
 
 /// FULL CONSTRUCTOR WITH TARGET ///
-///
 /// \brief constructs the button along with an onclick callback
 ///
-    Button(std::string nlabel, sf::Font& font, std::function<void()> target, unsigned int csize);
+    Button(std::string nlabel, sf::Font& font, std::function<void()> target, unsigned int csize, State base = READY);
 
 /// update ///
-///
 /// \brief checks mouse highlight
 ///
 /// \brief true if highlighted
 ///
-    bool update(const sf::Vector2i& mpos);
-
-/// highlight ///
-///
-/// \brief sets highlighted to true and changes colors accordingly
-///
-    void highlight();
-
-/// unhighlight ///
-///
-/// \brief sets highlighted to false and changes colors accordingly
-///
-    void unhighlight();
+    virtual bool update(const sf::Vector2i& mpos) override;
 
 /// setPosition ///
-///
 /// \brief places the frame and text
 ///
     void setPosition(sf::Vector2f pos);
 
 /// getPosition ///
-///
 /// \brief returns the frame's position (centered)
 ///
     sf::Vector2f getPosition();
 
+    void setSize(sf::Vector2f size);
+
 /// getSize ///
-///
 /// \brief returns the frame's size
 ///
     sf::Vector2f getSize();
 
-/// isAvailable ///
-///
-/// \brief returns true if click is enabled
-///
-    bool isAvailable();
-
-/// setAvailable ///
-///
-/// \brief enables click
-///
-    void setAvailable();
-
-/// unsetAvailable ///
-///
-/// \brief disables click
-///
-    void unsetAvailable();
-
 /// click ///
-///
 /// \brief returns true if button is available and highlighted. also calls target if applicable
 ///
-    bool click();
+    virtual void click() override;
+
+    virtual void endClick() override;
 
     std::function<void()> target; /**< onclick callback */
 
-protected:
-    sf::RectangleShape frame; /**< button frame */
-    sf::Text label; /**< button text */
+    void setState(Button::State state);
 
-    bool highlighted = false; /**< tracks mouseover */
-    bool available = true; /**< tracks whether button may be clicked */
+    void setLabel(std::string text);
+
+protected:
+    sf::Text label; /**< button text */
 
 /// draw ///
 ///

@@ -20,22 +20,37 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Comma
     sf::Vector2f size(392.f, 900.f);
     keymapper.setView(pos, size);
     keymapper.setScrollable(900.f);
-}
 
-void Menu_Settings_Keymapper::update(const sf::Vector2i& mpos)
-{
-    Menu::update(mpos);
-
-    keymapper.update(mpos);
+    elements.push_back(&keymapper);
 }
 
 void Menu_Settings_Keymapper::enterState()
 {
-    keymapper.load(loadCommands(), *font, csize);
+    keymapper.load(loadCommands(), *font);
+}
+
+void Menu_Settings_Keymapper::update(const sf::Vector2i& mpos)
+{
+    if (!keymapper.update(mpos)) {
+        Menu::update(mpos);
+    }
+    else {
+        mouse_target = &keymapper;
+    }
 }
 
 void Menu_Settings_Keymapper::exitState()
 {}
+
+void Menu_Settings_Keymapper::keyPressed(sf::Keyboard::Key k)
+{
+    keymapper.keyPressed(k);
+}
+
+void Menu_Settings_Keymapper::clickRight()
+{
+    keymapper.rightClick();
+}
 
 void Menu_Settings_Keymapper::save()
 {
@@ -43,15 +58,4 @@ void Menu_Settings_Keymapper::save()
     dbc.write(keymapper.getCommands());
     saveCommands(keymapper.getCommands());
     escape();
-}
-
-void Menu_Settings_Keymapper::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    for (const auto& n : nav) {
-        target.draw(n, states);
-    }
-    for (const auto& slider : sliders) {
-        target.draw(slider, states);
-    }
-    target.draw(keymapper, states);
 }

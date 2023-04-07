@@ -32,6 +32,7 @@ void Main_State_Machine::handleInput(const sf::Event& event)
 
 void Main_State_Machine::update(float delta_time)
 {
+    states[Main_State::GAME]->update(delta_time);
     state->update(delta_time);
 }
 

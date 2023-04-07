@@ -46,14 +46,14 @@ void Game_State::handleInput(const sf::Event& event)
     }
 }
 
-std::vector<Command>& Game_State::getCommands()
+std::vector<Command> Game_State::getCommands()
 {
     return commands;
 }
 
-void Game_State::loadCommands(std::vector<Command> commands)
+void Game_State::loadCommands(std::vector<Command> new_commands)
 {
-    this->commands = commands;
+    commands = new_commands;
     Input_Package* ig = &input_map[Game::PLAY];
     auto open_pause = ig->key_press[sf::Keyboard::Escape];
     ig->clear();

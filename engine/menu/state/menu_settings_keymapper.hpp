@@ -19,10 +19,11 @@ public:
     std::function<std::vector<Command>()> loadCommands;
     std::function<void(std::vector<Command>)> saveCommands;
 
+    virtual void keyPressed(sf::Keyboard::Key) override;
+    virtual void clickRight() override;
+
 private:
     Keymapper keymapper;
 
     void save();
-
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

@@ -26,4 +26,6 @@ public:
     void cancel();
 
     std::function<void()> read;
+
+    std::vector<Slider> sliders;
 };

@@ -14,7 +14,10 @@ void Scrollable::setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u windo
 
     view.setViewport(sf::FloatRect(xp, yp, xs, ys));
     view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-    view.setCenter(sf::Vector2f(size.x / 2, size.y / 2));
+    view.setCenter(size / 2.f);
+
+    frame.left = pos.x;
+    frame.top = pos.y;
 }
 
 sf::View Scrollable::getView()
@@ -41,7 +44,7 @@ void Scrollable::setScrollable(float max_height)
     if (size.y > fheight) {
         fheight = size.y;
     }
-    frame = sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(size.x, fheight));
+    frame = sf::FloatRect(sf::Vector2f(frame.left, frame.top), sf::Vector2f(size.x, fheight));
 
     max_scroll = max_height - view.getSize().y;
     if (max_scroll < 0.f) {
@@ -71,11 +74,6 @@ bool Scrollable::scroll(float delta, sf::Vector2f mpos){
     }
 
     return c;
-}
-
-bool Scrollable::contains(sf::Vector2f mpos)
-{
-    return frame.contains(mpos);
 }
 
 void Scrollable::scrollToTop()

@@ -11,7 +11,6 @@ std::vector<Command> Database_Commands::read()
         Command c;
         std::string key = toString(col++);
         c.key = key_string.toKey(key);
-        c.key = sf::Keyboard::A;
         c.press = toString(col++);
         c.release = toString(col++);
 

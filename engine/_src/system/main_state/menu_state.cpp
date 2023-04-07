@@ -23,12 +23,7 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
 
     auto loadCommands = std::bind(&Game_State::getCommands, game);
-    auto saveCommands = [&](std::vector<Command> commands)
-        {
-            Database_Commands dbc;
-            dbc.write(commands);
-            game->loadCommands(commands);
-        };
+    auto saveCommands = std::bind(&Game_State::loadCommands, game, std::placeholders::_1);
     menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>(loadCommands, saveCommands);
 
     menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
@@ -47,15 +42,36 @@ void Menu_State::update(float delta_time)
 
 void Menu_State::handleInput(const sf::Event& event)
 {
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        menu->clickLeft();
+    if (event.type == sf::Event::MouseButtonPressed) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                menu->clickLeft();
+                break;
+            case sf::Mouse::Right:
+                menu->clickRight();
+                break;
+            default:
+                break;
+        }
     }
-    else if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
-        menu->releaseLeft();
+    else if (event.type == sf::Event::MouseButtonReleased) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                menu->releaseLeft();
+                break;
+            case sf::Mouse::Right:
+                menu->releaseRight();
+                break;
+            default:
+                break;
+        }
     }
     else if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             menu->escape();
+        }
+        else {
+            menu->keyPressed(event.key.code);
         }
     }
 }

@@ -16,8 +16,6 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
     sliders[1].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::GAME, v); };
     sliders[2].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::UI, v); };
 
-    placeSliders();
-
     read = [&]()
         {
             sliders[0].setFill(audio.getMusicVolume());
@@ -27,8 +25,15 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 
     read();
 
+    sf::Vector2f pos = button_start;
+    pos.x += 256.f;
+
     for (auto& slider : sliders) {
+        slider.set(pos, *font);
+        pos.y += slider_offset;
+
         slider.finalize();
+        elements.push_back(&slider);
     }
 
     setMusicVolume = [&](float v) { audio.setMusicVolume(v); };

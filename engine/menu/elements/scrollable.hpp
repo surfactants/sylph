@@ -63,7 +63,17 @@ public:
 /// \brief returns true if the passed mouse pos is inside the frame.
 /// pos must be calculated with the view outside of the class.
 ///
-    bool contains(sf::Vector2f mpos);
+    template <typename T>
+    bool contains(const sf::Vector2<T>& mpos)
+    {
+        return frame.contains(mpos.x, mpos.y);
+    }
+
+    template <typename T>
+    sf::Vector2f translateGlobalPos(const sf::Vector2<T>& v)
+    {
+        return sf::Vector2f(v.x - frame.left, v.y - frame.top + current_scroll);
+    }
 
 protected:
     sf::RectangleShape scrollbar;

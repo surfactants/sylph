@@ -19,8 +19,8 @@ public:
 
     void loadInput(Input_Package input);
 
-    std::vector<Command>& getCommands();
-    void loadCommands(std::vector<Command> commands);
+    std::vector<Command> getCommands();
+    void loadCommands(std::vector<Command> new_commands);
 
 private:
     Game* game;
@@ -29,7 +29,7 @@ private:
 
     std::map<Game::State, std::unique_ptr<Game>> states;
 
-    std::vector<Command> commands;
+    std::vector<Command> commands {};
 
     std::function<void()> stringToFunction(std::string str);
 
