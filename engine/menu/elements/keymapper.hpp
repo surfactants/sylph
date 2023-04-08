@@ -28,6 +28,8 @@ public:
 
     sf::RectangleShape test_rect;
 
+    void reset();
+
 private:
     Key_String key_string;
 
@@ -38,6 +40,7 @@ private:
     int active_index = -1;
 
     constexpr static unsigned int csize { 48 };
+    constexpr static unsigned int text_size { 42 };
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

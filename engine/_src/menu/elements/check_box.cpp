@@ -2,6 +2,8 @@
 
 #include <resources/palette.hpp>
 
+#include <system/event/event_bus.hpp>
+
 Check_Box::Check_Box(sf::Font& font, std::string ls, unsigned int csize)
 {
     label.setFont(font);
@@ -64,9 +66,11 @@ void Check_Box::setChecked(bool state)
     checked = state;
     if(checked){
         frame.setFillColor(Palette::green);
+        Event_Bus::publish(Event(Event::SOUND, Event::Tag::CHECK_BOX_YES));
     }
     else{
         frame.setFillColor(sf::Color::Transparent);
+        Event_Bus::publish(Event(Event::SOUND, Event::Tag::CHECK_BOX_NO));
     }
 }
 

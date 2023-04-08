@@ -10,6 +10,8 @@ struct Event {
     enum class Tag {
         BUTTON_PRESSED,
         BUTTON_TRIGGERED,
+        CHECK_BOX_YES,
+        CHECK_BOX_NO,
         SLIDER_MOVED,
         NONE
     };
