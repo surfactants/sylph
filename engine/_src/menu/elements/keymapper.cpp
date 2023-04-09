@@ -49,6 +49,10 @@ bool Keymapper::update(const sf::Vector2i& mpos)
 {
     bool cnt = Scrollable::contains(mpos);
     switch (state) {
+        default:
+            // this should never happen, log this
+            setState(READY);
+            [[fallthrough]]; // just in case, process as normal
         case READY:
             if (cnt) {
                 setState(HIGHLIGHTED);
@@ -71,10 +75,6 @@ bool Keymapper::update(const sf::Vector2i& mpos)
                 reset();
                 setState(READY);
             }
-            break;
-        default:
-            // this should never happen, log this
-            setState(READY);
             break;
     }
     return cnt;

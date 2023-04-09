@@ -44,9 +44,14 @@ void Menu_Settings_Keymapper::exitState()
     keymapper.reset();
 }
 
-void Menu_Settings_Keymapper::keyPressed(sf::Keyboard::Key k)
+void Menu_Settings_Keymapper::handleInput(const sf::Event& event)
 {
-    keymapper.keyPressed(k);
+    if (event.type == sf::Event::KeyPressed) {
+        keymapper.keyPressed(event.key.code);
+    }
+    else {
+        Menu::handleInput(event);
+    }
 }
 
 void Menu_Settings_Keymapper::clickRight()

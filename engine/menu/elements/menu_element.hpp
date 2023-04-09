@@ -19,23 +19,23 @@ public:
     virtual void clickRight() {}
     virtual void releaseRight() {}
 
-    bool available()
+    bool available() const
     {
         return (state != UNAVAILABLE);
     }
 
-    bool highlighted()
+    bool highlighted() const
     {
         return (state == HIGHLIGHTED);
     }
 
-    bool active()
+    bool active() const
     {
         return (state == ACTIVE);
     }
 
     template <typename T>
-    bool contains(const sf::Vector2<T> v)
+    bool contains(const sf::Vector2<T> v) const
     {
         return frame.getGlobalBounds().contains(v.x, v.y);
     }

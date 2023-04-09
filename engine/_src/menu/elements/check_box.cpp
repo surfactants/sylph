@@ -64,7 +64,7 @@ void Check_Box::releaseLeft()
 void Check_Box::setChecked(bool state)
 {
     checked = state;
-    if(checked){
+    if(checked) {
         frame.setFillColor(Palette::green);
         Event_Bus::publish(Event(Event::SOUND, Event::Tag::CHECK_BOX_YES));
     }
@@ -74,7 +74,7 @@ void Check_Box::setChecked(bool state)
     }
 }
 
-void Check_Box::setPosition(sf::Vector2f pos){
+void Check_Box::setPosition(sf::Vector2f pos) {
     frame.setPosition(pos);
     pos.x += frame.getSize().x + 8;
     pos.y -= 8;

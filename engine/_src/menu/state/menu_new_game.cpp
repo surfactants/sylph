@@ -8,16 +8,35 @@ Menu_New_Game::Menu_New_Game()
     //nav.back().unsetAvailable();
     nav.push_back(Button(std::string("cancel"), *font, std::bind(setMenuState, Menu::MAIN), csize));
 
-    setEscape(Main_State::QUIT);
+    setEscape(Menu::MAIN);
 
     placeNav();
+
+    sf::Vector2f pos = nav.front().getPosition();
+    pos.x += 392.f;
+
+    Simple_Textbox textbox;
+    textbox.setFont(*font);
+    textbox.setPosition(pos);
+    textbox.clearActive = std::bind(&deactivateTextbox, this);//[&]() { active_textbox = nullptr; };
+    textbox.setActive = std::bind(&activateTextbox, this, std::placeholders::_1);//[&](Simple_Textbox* t) { active_textbox = t; };
+
+    textboxes.push_back(std::move(textbox));
+
+    for (auto& t : textboxes) {
+        elements.push_back(&t);
+    }
 }
 
 void Menu_New_Game::enterState()
 {}
 
 void Menu_New_Game::exitState()
-{}
+{
+    if (active_textbox) {
+        deactivateTextbox();
+    }
+}
 
 void Menu_New_Game::start()
 {

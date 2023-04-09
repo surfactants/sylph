@@ -10,6 +10,8 @@
 #include <menu/elements/button.hpp>
 #include <menu/elements/slider.hpp>
 
+#include <menu/elements/simple_textbox.hpp>
+
 // make update virtual but continue to provide a base method which checks the nav
 
 class Menu : public sf::Drawable {
@@ -36,12 +38,14 @@ public:
     virtual void clickRight() {}
     virtual void releaseRight() {}
 
+    virtual void handleInput(const sf::Event& event);
+
     virtual void enterState() = 0;
     virtual void exitState() = 0;
 
     virtual void save(){}
 
-// menu reversion is defined with operator() to act as a visitor
+// menu reversion is defined with operator() to act as a visitor in ::escape()
     void operator ()(Menu::State state)
     {
         setMenuState(state);
@@ -57,8 +61,6 @@ public:
 
     void setEscape(Menu::State state);
     void setEscape(Main_State::State states);
-
-    virtual void keyPressed(sf::Keyboard::Key k);
 
 protected:
     std::vector<Menu_Element*> elements;
@@ -77,6 +79,19 @@ protected:
     std::variant<Menu::State, Main_State::State> escape_target;
 
     Menu_Element* mouse_target { nullptr };
+    Simple_Textbox* active_textbox { nullptr };
+
+    void activateTextbox(Simple_Textbox* textbox);
+    void deactivateTextbox();
+
+    void left();
+    void right();
+    void up();
+    void down();
+
+    std::vector<Simple_Textbox> textboxes;
+
+    std::map<sf::Keyboard::Key, std::function<void()>> key_pressed;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

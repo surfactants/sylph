@@ -42,38 +42,7 @@ void Menu_State::update(float delta_time)
 
 void Menu_State::handleInput(const sf::Event& event)
 {
-    if (event.type == sf::Event::MouseButtonPressed) {
-        switch (event.mouseButton.button) {
-            case sf::Mouse::Left:
-                menu->clickLeft();
-                break;
-            case sf::Mouse::Right:
-                menu->clickRight();
-                break;
-            default:
-                break;
-        }
-    }
-    else if (event.type == sf::Event::MouseButtonReleased) {
-        switch (event.mouseButton.button) {
-            case sf::Mouse::Left:
-                menu->releaseLeft();
-                break;
-            case sf::Mouse::Right:
-                menu->releaseRight();
-                break;
-            default:
-                break;
-        }
-    }
-    else if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Escape) {
-            menu->escape();
-        }
-        else {
-            menu->keyPressed(event.key.code);
-        }
-    }
+    menu->handleInput(event);
 }
 
 void Menu_State::setMenuState(Menu::State new_menu)

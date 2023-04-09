@@ -19,7 +19,7 @@ public:
     std::function<std::vector<Command>()> loadCommands;
     std::function<void(std::vector<Command>)> saveCommands;
 
-    virtual void keyPressed(sf::Keyboard::Key) override;
+    virtual void handleInput(const sf::Event& event) override;
     virtual void clickRight() override;
 
 private:

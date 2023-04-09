@@ -13,6 +13,13 @@ Menu::Menu()
         font = std::make_unique<sf::Font>();
         font->loadFromFile("Abel.ttf");
     }
+
+    key_pressed[sf::Keyboard::Escape] = std::bind(&escape, this);
+
+    key_pressed[sf::Keyboard::Left] = std::bind(&left, this);
+    key_pressed[sf::Keyboard::Right] = std::bind(&right, this);
+    key_pressed[sf::Keyboard::Up] = std::bind(&up, this);
+    key_pressed[sf::Keyboard::Down] = std::bind(&down, this);
 }
 
 void Menu::update(const sf::Vector2i& mpos)
@@ -34,10 +41,47 @@ void Menu::update(const sf::Vector2i& mpos)
     }
 }
 
+void Menu::handleInput(const sf::Event& event)
+{
+    if (event.type == sf::Event::MouseButtonPressed) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                clickLeft();
+                break;
+            case sf::Mouse::Right:
+                clickRight();
+                break;
+            default:
+                break;
+        }
+    }
+    else if (event.type == sf::Event::MouseButtonReleased) {
+        switch (event.mouseButton.button) {
+            case sf::Mouse::Left:
+                releaseLeft();
+                break;
+            case sf::Mouse::Right:
+                releaseRight();
+                break;
+            default:
+                break;
+        }
+    }
+    else if (event.type == sf::Event::KeyPressed && key_pressed.contains(event.key.code)) {
+        key_pressed[event.key.code]();
+    }
+    else if (active_textbox && event.type == sf::Event::TextEntered) {
+        active_textbox->readText(event);
+    }
+}
+
 void Menu::clickLeft()
 {
     if (mouse_target) {
         mouse_target->clickLeft();
+    }
+    else if (active_textbox) {
+        deactivateTextbox();
     }
 }
 
@@ -48,8 +92,18 @@ void Menu::releaseLeft()
     }
 }
 
-void Menu::keyPressed(sf::Keyboard::Key k)
-{}
+void Menu::activateTextbox(Simple_Textbox* textbox)
+{
+    active_textbox = textbox;
+}
+
+void Menu::deactivateTextbox()
+{
+    if (active_textbox) {
+        active_textbox->setState(Menu_Element::READY);
+        active_textbox = nullptr;
+    }
+}
 
 void Menu::placeNav()
 {
@@ -79,8 +133,33 @@ void Menu::setEscape(Main_State::State state)
 
 void Menu::escape()
 {
-    std::visit(*this, escape_target);
+    if (active_textbox) {
+        deactivateTextbox();
+    }
+    else {
+        std::visit(*this, escape_target);
+    }
 }
+
+void Menu::left()
+{
+    if (active_textbox) {
+        active_textbox->scrollLeft();
+    }
+}
+
+void Menu::right()
+{
+    if (active_textbox) {
+        active_textbox->scrollRight();
+    }
+}
+
+void Menu::up()
+{}
+
+void Menu::down()
+{}
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
