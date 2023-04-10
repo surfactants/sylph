@@ -30,35 +30,10 @@ void Menu_Settings_Keymapper::enterState()
     keymapper.load(loadCommands(), *font);
 }
 
-void Menu_Settings_Keymapper::update(const sf::Vector2i& mpos)
-{
-    if (!keymapper.update(mpos)) {
-        Menu::update(mpos);
-    }
-    else {
-        mouse_target = &keymapper;
-    }
-}
-
 void Menu_Settings_Keymapper::exitState()
 {
     Menu::exitState();
     keymapper.reset();
-}
-
-void Menu_Settings_Keymapper::handleInput(const sf::Event& event)
-{
-    if (event.type == sf::Event::KeyPressed) {
-        keymapper.keyPressed(event.key.code);
-    }
-    else {
-        Menu::handleInput(event);
-    }
-}
-
-void Menu_Settings_Keymapper::clickRight()
-{
-    keymapper.clickRight();
 }
 
 void Menu_Settings_Keymapper::save()

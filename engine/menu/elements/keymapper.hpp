@@ -24,11 +24,12 @@ public:
     virtual void keyPressed(sf::Keyboard::Key) override;
     virtual void clickRight() override;
 
+    virtual void activate() override;
+    virtual void deactivate() override;
+
     std::vector<Command> getCommands();
 
     sf::RectangleShape test_rect;
-
-    void reset();
 
 private:
     Key_String key_string;

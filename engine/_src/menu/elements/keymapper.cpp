@@ -72,7 +72,6 @@ bool Keymapper::update(const sf::Vector2i& mpos)
                 }
             }
             else {
-                reset();
                 setState(READY);
             }
             break;
@@ -82,18 +81,35 @@ bool Keymapper::update(const sf::Vector2i& mpos)
 
 void Keymapper::clickLeft()
 {
+    active_index = -1;
+    if (active_index >= 0) {
+        rows[active_index].second.setState(READY);
+    }
     int n = rows.size();
     for (int i = 0; i < n; i++) {
         if (rows[i].second.highlighted()) {
-            if (active_index >= 0) {
-                rows[active_index].second.setState(READY);
-            }
             active_index = i;
             rows[i].second.clickLeft();
-            setState(ACTIVE);
-            break;
+            activate();
+            return;
         }
     }
+}
+
+void Keymapper::activate()
+{
+    Menu_Element::activate();
+    setState(ACTIVE);
+}
+
+void Keymapper::deactivate()
+{
+    if (active_index >= 0) {
+        rows[active_index].second.setState(READY);
+        active_index = -1;
+    }
+    Menu_Element::deactivate();
+    setState(READY);
 }
 
 void Keymapper::releaseLeft()
@@ -102,13 +118,16 @@ void Keymapper::releaseLeft()
 void Keymapper::clickRight()
 {
     if (active_index >= 0) {
-        rows[active_index].second.setState(READY);
-        active_index = -1;
+        deactivate();
     }
 }
 
 void Keymapper::keyPressed(sf::Keyboard::Key k)
 {
+    if (k == sf::Keyboard::Escape) {
+        deactivate();
+        return;
+    }
     if (active_index >= 0 && k != sf::Keyboard::Unknown) {
         // attempt swap
         int n = rows.size();
@@ -133,14 +152,6 @@ void Keymapper::keyPressed(sf::Keyboard::Key k)
 std::vector<Command> Keymapper::getCommands()
 {
     return commands;
-}
-
-void Keymapper::reset()
-{
-    for (auto& row : rows) {
-        row.second.setState(READY);
-    }
-    active_index = -1;
 }
 
 void Keymapper::draw(sf::RenderTarget& target, sf::RenderStates states) const

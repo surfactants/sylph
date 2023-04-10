@@ -202,5 +202,8 @@ public:
 
     virtual void releaseRight() override;
 
+    virtual void activate() override;
+    virtual void deactivate() override;
+
     bool empty();
 };

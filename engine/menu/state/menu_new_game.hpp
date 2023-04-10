@@ -15,9 +15,7 @@ public:
     void cancel();
 
 protected:
-    bool validate();
-    Color_Selector selector;
+    bool validate(); // checks that the game is ready to start (everything necessary has been set)
+    std::vector<Color_Selector> selectors;
     std::vector<Simple_Textbox> textboxes;
-    // need a method for checking readiness
-    // i.e. don't let a player start without a name, etc
 };

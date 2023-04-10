@@ -21,7 +21,7 @@ Simple_Textbox::Simple_Textbox()
     text.setFillColor(Palette::white);
     text.setCharacterSize(text_size);
 
-    cursor.setFillColor(sf::Color(250,250,250,255));
+    cursor.setFillColor(sf::Color::Transparent);
     cursor.setCharacterSize(text_size);
     cursor.setString("|");
     placeCursor();
@@ -33,8 +33,6 @@ Simple_Textbox::Simple_Textbox()
 
     state = READY;
     base_state = READY;
-
-    cursor.setFillColor(sf::Color::Transparent);
 }
 
 void Simple_Textbox::setFont(sf::Font& font)
@@ -68,12 +66,10 @@ void Simple_Textbox::textEntered(const sf::Event& event)
             case UNICODE_RETURN:
                 // confirm
                 deactivate();
-                cursor.setFillColor(sf::Color::Transparent);
                 break;
             case UNICODE_ESCAPE:
                 // confirm
                 deactivate();
-                cursor.setFillColor(sf::Color::Transparent);
                 break;
             case UNICODE_CUT:
                 break;
@@ -262,15 +258,25 @@ void Simple_Textbox::clickLeft()
     switch (state) {
         case HIGHLIGHTED:
             activate();
-            placeCursor();
-            cursor.setFillColor(Palette::white);
             // reset cursor blink
             break;
         default:
             deactivate();
-            cursor.setFillColor(sf::Color::Transparent);
             break;
     }
+}
+
+void Simple_Textbox::activate()
+{
+    Menu_Element::activate();
+    cursor.setFillColor(Palette::white);
+    placeCursor();
+}
+
+void Simple_Textbox::deactivate()
+{
+    Menu_Element::deactivate();
+    cursor.setFillColor(sf::Color::Transparent);
 }
 
 void Simple_Textbox::releaseLeft()
@@ -279,7 +285,6 @@ void Simple_Textbox::releaseLeft()
 void Simple_Textbox::releaseRight()
 {
     deactivate();
-    cursor.setFillColor(sf::Color::Transparent);
 }
 
 void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const

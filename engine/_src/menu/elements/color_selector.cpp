@@ -1,5 +1,13 @@
 #include <menu/elements/color_selector.hpp>
 
+sf::VertexArray Color_Selector::colors;
+sf::RectangleShape Color_Selector::selector;
+bool Color_Selector::selecting = false;
+
+sf::VertexArray Color_Selector::slider;
+sf::RectangleShape Color_Selector::slider_handle;
+bool Color_Selector::sliding = false;
+
 Color_Selector::Color_Selector()
 {
     colors.setPrimitiveType(sf::Points);
@@ -73,18 +81,21 @@ void Color_Selector::reset(){
     setHue();
 }
 
-void Color_Selector::setPosition(sf::Vector2f pos){
+void Color_Selector::setPosition(sf::Vector2f pos)
+{
+    position = pos;
+}
+void Color_Selector::enactPosition() {
     sf::Vector2f size = sf::Vector2f(256,256);
 
     for(unsigned int y = 0; y < 256; y++){
         for(unsigned int x = 0; x < 256; x++){
-            colors[x + y*256].position.x = pos.x + x;
-            colors[x + y*256].position.y = pos.y + y;
+            colors[x + y*256].position.x = position.x + x;
+            colors[x + y*256].position.y = position.y + y;
         }
     }
 
-
-    sf::Vector2f slider_pos = sf::Vector2f(pos.x + size.x + 8, pos.y);
+    sf::Vector2f slider_pos = sf::Vector2f(position.x + size.x + 8, position.y);
     sf::Vector2f slider_size = sf::Vector2f(16, size.y/6);
 
     unsigned int siter = 0;
@@ -110,7 +121,7 @@ void Color_Selector::setPreview(sf::Vector2f pos, sf::Vector2f size)
 }
 
 sf::Color Color_Selector::getColor(){
-    return selected_color;
+    return preview.getFillColor();
 }
 
 bool Color_Selector::update(const sf::Vector2i& mpos)
@@ -138,6 +149,9 @@ bool Color_Selector::update(const sf::Vector2i& mpos)
             else if (slider.getBounds().contains(mpos.x, mpos.y)) {
                 moused = SLIDER;
             }
+            else if (preview.getGlobalBounds().contains(mpos.x, mpos.y)) {
+                moused = PREVIEW;
+            }
             else {
                 moused = NONE;
                 return false;
@@ -158,15 +172,7 @@ void Color_Selector::clickLeft()
         case SLIDER:
             sliding = true;
             break;
-        case PREVIEW:
-            setState(ACTIVE);
-            activate();
-            break;
-        case NONE:
-            selecting = false;
-            sliding = false;
-            setState(READY);
-            deactivate();
+        default:
             break;
     }
 }
@@ -175,17 +181,51 @@ void Color_Selector::releaseLeft()
 {
     selecting = false;
     sliding = false;
+    switch (moused) {
+        case PREVIEW:
+            if (active()) {
+                deactivate();
+            }
+            else {
+                activate();
+            }
+            break;
+        case NONE:
+            deactivate();
+            break;
+        default:
+            break;
+    }
+}
+
+void Color_Selector::activate()
+{
+    enactPosition();
+    Menu_Element::activate();
+    setState(ACTIVE);
+}
+
+void Color_Selector::deactivate()
+{
+    selecting = false;
+    sliding = false;
+    setState(READY);
+    set_inactive();
 }
 
 void Color_Selector::clickRight()
-{
-    // close
-}
-
-void Color_Selector::releaseRight()
 {}
 
+void Color_Selector::releaseRight()
+{
+    if (moused == NONE) {
+        deactivate();
+    }
+}
+
 void Color_Selector::slide(sf::Vector2i mousePos){
+    // this function is VERY heavy duty, presumably due to ::setHue(). try to find a way to optimize it.
+
     slider_handle.setPosition(sf::Vector2f(slider[0].position.x, mousePos.y));
 
     if(slider_handle.getPosition().y < slider[0].position.y){
@@ -255,7 +295,7 @@ void Color_Selector::select(sf::Vector2i mousePos){
         selector.setPosition(selector.getPosition().x, colors[256*256-1].position.y);
     }
 
-    selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
+    sf::Color selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
     preview.setFillColor(selected_color);
     selector.setFillColor(selected_color);
 }

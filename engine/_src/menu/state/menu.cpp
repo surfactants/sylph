@@ -18,8 +18,12 @@ Menu::Menu()
 void Menu::update(const sf::Vector2i& mpos)
 {
     if (active_element) {
-        active_element->update(mpos);
-        return;
+        if (active_element->update(mpos)) {
+            mouse_target = active_element;
+            // successful update truncates update function
+            // so elements overlaying others will not share input
+            return;
+        }
     }
 
     if (mouse_target) {
@@ -94,7 +98,7 @@ void Menu::clickLeft()
     if (active_element) {
         active_element->clickLeft();
     }
-    else if (mouse_target) {
+    if (mouse_target && mouse_target != active_element) {
         mouse_target->clickLeft();
     }
 }
@@ -104,7 +108,7 @@ void Menu::releaseLeft()
     if (active_element) {
         active_element->releaseLeft();
     }
-    else if (mouse_target) {
+    if (mouse_target && mouse_target != active_element) {
         mouse_target->releaseLeft();
     }
 }
@@ -114,7 +118,7 @@ void Menu::clickRight()
     if (active_element) {
         active_element->clickLeft();
     }
-    else if (mouse_target) {
+    if (mouse_target && mouse_target != active_element) {
         mouse_target->clickRight();
     }
 }
@@ -124,7 +128,7 @@ void Menu::releaseRight()
     if (active_element) {
         active_element->releaseRight();
     }
-    else if (mouse_target) {
+    if (mouse_target && mouse_target != active_element) {
         mouse_target->releaseRight();
     }
 }
@@ -145,7 +149,7 @@ void Menu::unsetActive()
 void Menu::enterState()
 {
     Menu_Element::set_active = std::bind(&Menu::setActive, this, std::placeholders::_1);
-    Menu_Element::deactivate = std::bind(&Menu::unsetActive, this);
+    Menu_Element::set_inactive = std::bind(&Menu::unsetActive, this);
 }
 
 void Menu::exitState()

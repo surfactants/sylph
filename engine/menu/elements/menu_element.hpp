@@ -22,9 +22,14 @@ public:
     virtual void releaseRight() {}
 
     inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*){};
-    inline static std::function<void()> deactivate = [](){};
+    inline static std::function<void()> set_inactive = [](){};
 
-    void activate()
+    virtual void deactivate()
+    {
+        set_inactive();
+    }
+
+    virtual void activate()
     {
         set_active(this);
     }

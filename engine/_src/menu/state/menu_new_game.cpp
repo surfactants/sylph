@@ -46,14 +46,32 @@ Menu_New_Game::Menu_New_Game()
     }
 
     pos.y += 128.f;
+
+    Color_Selector selector;
     selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
 
-    pos.x += textboxes.front().getSize().x + 128.f;
-    pos.y = textboxes.front().getPosition().y;
+    sf::Vector2f selector_pos(pos);
+    selector_pos.x += textboxes.front().getSize().x + 128.f;
+    selector_pos.y = textboxes.front().getPosition().y;
+    selector.setPosition(selector_pos);
 
-    selector.setPosition(pos);
+    selectors.push_back(std::move(selector));
 
-    elements.push_back(&selector);
+    pos.y += 128.f;
+
+    selector = Color_Selector();
+    selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
+
+    selector_pos = pos;
+    selector_pos.x += textboxes.front().getSize().x + 128.f;
+    selector_pos.y = textboxes.front().getPosition().y;
+    selector.setPosition(selector_pos);
+
+    selectors.push_back(std::move(selector));
+
+    for (auto& s : selectors) {
+        elements.push_back(&s);
+    }
 }
 
 void Menu_New_Game::handleInput(const sf::Event& event)
@@ -88,7 +106,9 @@ void Menu_New_Game::exitState()
     for (auto& t : textboxes) {
         t.clear();
     }
-    selector.setState(Menu_Element::READY);
+    for (auto& s : selectors) {
+        s.deactivate();
+    }
 }
 
 void Menu_New_Game::start()

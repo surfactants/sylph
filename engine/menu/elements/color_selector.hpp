@@ -2,7 +2,16 @@
 
 #include "menu_element.hpp"
 
-////////////////////////////////////////////////////////////
+/// COLOR SELECTOR ///
+
+/** Example:
+  *
+  * Color_Selector selector;
+  * selector.setPreview(pos, size); // takes a reference
+  * selector.setPosition(position); // takes sf::Vector2f
+  *
+ **/
+
 /// \brief Color selection class
 ///
 class Color_Selector : public Menu_Element {
@@ -47,6 +56,9 @@ public:
 
     void setPreview(sf::Vector2f pos, sf::Vector2f size);
 
+    virtual void deactivate() override;
+    virtual void activate() override;
+
 private:
     constexpr static unsigned int alpha { 255 };
 
@@ -59,16 +71,19 @@ private:
 
     Moused moused { NONE };
 
-    sf::VertexArray colors; /**<256x256 grid for HSV handling*/
-        sf::RectangleShape selector; /**<Handle for color selection*/
-        bool selecting { false }; /**<For tracking mouse events*/
+    static sf::VertexArray colors; /**<256x256 grid for HSV handling*/
+    static sf::RectangleShape selector; /**<Handle for color selection*/
+    static bool selecting; /**<For tracking mouse events*/
 
-    sf::VertexArray slider; /**<Hue selector*/
-        sf::RectangleShape slider_handle; /**<Handle for hue selection*/
-        bool sliding { false }; /**<For tracking mouse events*/
+    static sf::VertexArray slider; /**< Hue selector*/
+    static sf::RectangleShape slider_handle; /**< Handle for hue selection*/
+    static bool sliding; /**< For tracking mouse events*/
 
-    sf::Color selected_color; /**<Tracks selected color*/
-        sf::RectangleShape preview; /**<Example object*/
+    sf::RectangleShape preview; /**< Opens the selector and provides a preview of the color*/
+
+    sf::Vector2f position;
+
+    void enactPosition();
 
     ////////////////////////////////////////////////////////////
     /// \brief Places hue slider according to the mouse position,
