@@ -14,7 +14,6 @@
 
 Simple_Textbox::Simple_Textbox()
 {
-
     //set text defaults
     max_length = 32;
     text_size = 32;
@@ -31,6 +30,9 @@ Simple_Textbox::Simple_Textbox()
     frame.setSize(sf::Vector2f(256.f, 96.f));
     frame.setPosition(sf::Vector2f(160,440));
     frame.setFillColor(Palette::black);
+
+    clearActive = [](){};
+    setActive = [](Simple_Textbox*){};
 }
 
 void Simple_Textbox::setFont(sf::Font& font)
@@ -156,6 +158,11 @@ void Simple_Textbox::scrollRight()
     }
 }
 
+bool Simple_Textbox::empty()
+{
+    return (text.getString().getSize() == 0);
+}
+
 std::string Simple_Textbox::getString()
 {
     return text.getString();
@@ -188,6 +195,9 @@ void Simple_Textbox::placeCursor()
 void Simple_Textbox::setSize(sf::Vector2f size)
 {
     frame.setSize(size);
+    text_offset.y = (size.y - text.getCharacterSize()) / 2.f;
+    setPosition(frame.getPosition());
+    placeCursor();
 }
 
 sf::Vector2f Simple_Textbox::getSize()

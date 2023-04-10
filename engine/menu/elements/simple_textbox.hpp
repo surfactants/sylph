@@ -4,7 +4,28 @@
 
 #include "menu_element.hpp"
 
-////////////////////////////////////////////////////////////
+/// TEXTBOX ///
+
+/** Example:
+  *
+  * Simple_Textbox textbox;
+  * // the default color values set in the constructor exist in <resources/palette.hpp>
+  * textbox.setFont(font); //takes a reference
+  * textbox.setPosition(position); // takes sf::Vector2f
+  * textbox.setSize(size); // takes sf::Vector2f
+  *
+  * the following two functions are engine callbacks for menu use.
+  *
+  * one sets the Simple_Textbox pointer in the Menu class to this:
+  * textbox.setActive
+  *
+  * the other nulls that same pointer to indicate the object should stop receiving input:
+  * textbox.clearActive
+  *
+  * they should be deprecated in favor of restoring genericity to element input
+  *
+ **/
+
 /// \brief Container class for text input.
 ///
 class Simple_Textbox : public Menu_Element {
@@ -206,4 +227,6 @@ public:
     virtual void releaseLeft() override;
 
     virtual void releaseRight() override;
+
+    bool empty();
 };

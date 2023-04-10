@@ -9,10 +9,14 @@ public:
     virtual void enterState() override;
     virtual void exitState() override;
 
+    virtual void handleInput(const sf::Event& event) override;
+
     void start();
     void cancel();
 
-private:
+protected:
+    bool validate();
+    Color_Selector selector;
     // need a method for checking readiness
     // i.e. don't let a player start without a name, etc
 };

@@ -8,8 +8,8 @@
 #include <system/main_state/main_state.hpp>
 
 #include <menu/elements/button.hpp>
+#include <menu/elements/color_selector.hpp>
 #include <menu/elements/slider.hpp>
-
 #include <menu/elements/simple_textbox.hpp>
 
 // make update virtual but continue to provide a base method which checks the nav

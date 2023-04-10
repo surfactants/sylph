@@ -109,24 +109,30 @@ void Button::releaseLeft()
 
 void Button::setState(Button::State state)
 {
-    this->state = state;
-    switch (state) {
-        case UNAVAILABLE:
-            frame.setFillColor(Palette::gray_dark);
-            label.setFillColor(Palette::black);
-            break;
-        case READY:
-            label.setFillColor(Palette::white);
-            frame.setFillColor(Palette::gray);
-            break;
-        case HIGHLIGHTED:
-            frame.setFillColor(Palette::blue);
-            label.setFillColor(Palette::white);
-            break;
-        case ACTIVE:
-            frame.setFillColor(Palette::green);
-            label.setFillColor(Palette::white);
-            break;
+    if (state != this->state) {
+        this->state = state;
+        switch (state) {
+            case UNAVAILABLE:
+                frame.setFillColor(Palette::gray_dark);
+                label.setFillColor(Palette::black);
+                break;
+            case READY:
+                label.setFillColor(Palette::white);
+                frame.setFillColor(Palette::gray);
+                break;
+            case HIGHLIGHTED:
+                frame.setFillColor(Palette::blue);
+                label.setFillColor(Palette::white);
+                break;
+            case ACTIVE:
+                frame.setFillColor(Palette::green);
+                label.setFillColor(Palette::white);
+                break;
+            default:
+                // log this
+                setState(READY);
+                break;
+        }
     }
 }
 

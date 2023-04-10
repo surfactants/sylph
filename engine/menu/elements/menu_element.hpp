@@ -8,7 +8,8 @@ public:
         UNAVAILABLE,
         READY,
         HIGHLIGHTED,
-        ACTIVE
+        ACTIVE,
+        NULL_STATE
     };
 
     virtual bool update(const sf::Vector2i& mpos) = 0;
@@ -42,6 +43,6 @@ public:
 
 protected:
     sf::RectangleShape frame;
-    State state;
-    State base_state;
+    State state { NULL_STATE };
+    State base_state { NULL_STATE };
 };
