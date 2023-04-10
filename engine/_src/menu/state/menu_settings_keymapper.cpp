@@ -26,6 +26,7 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Comma
 
 void Menu_Settings_Keymapper::enterState()
 {
+    Menu::enterState();
     keymapper.load(loadCommands(), *font);
 }
 
@@ -41,6 +42,7 @@ void Menu_Settings_Keymapper::update(const sf::Vector2i& mpos)
 
 void Menu_Settings_Keymapper::exitState()
 {
+    Menu::exitState();
     keymapper.reset();
 }
 

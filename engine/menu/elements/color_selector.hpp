@@ -45,12 +45,15 @@ public:
     virtual void clickRight() override;
     virtual void releaseRight() override;
 
+    void setPreview(sf::Vector2f pos, sf::Vector2f size);
+
 private:
     constexpr static unsigned int alpha { 255 };
 
     enum Moused {
         COLORS,
         SLIDER,
+        PREVIEW,
         NONE
     };
 
@@ -65,7 +68,7 @@ private:
         bool sliding { false }; /**<For tracking mouse events*/
 
     sf::Color selected_color; /**<Tracks selected color*/
-        sf::RectangleShape selected; /**<Example object*/
+        sf::RectangleShape preview; /**<Example object*/
 
     ////////////////////////////////////////////////////////////
     /// \brief Places hue slider according to the mouse position,

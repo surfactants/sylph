@@ -13,7 +13,11 @@ Menu_Main::Menu_Main()
 }
 
 void Menu_Main::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Main::exitState()
-{}
+{
+    Menu::exitState();
+}

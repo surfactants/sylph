@@ -31,8 +31,10 @@ Simple_Textbox::Simple_Textbox()
     frame.setPosition(sf::Vector2f(160,440));
     frame.setFillColor(Palette::black);
 
-    clearActive = [](){};
-    setActive = [](Simple_Textbox*){};
+    state = READY;
+    base_state = READY;
+
+    cursor.setFillColor(sf::Color::Transparent);
 }
 
 void Simple_Textbox::setFont(sf::Font& font)
@@ -51,7 +53,7 @@ unsigned int Simple_Textbox::getMaxLength()
     return max_length;
 }
 
-void Simple_Textbox::readText(const sf::Event& event)
+void Simple_Textbox::textEntered(const sf::Event& event)
 {
     if (event.key.code == sf::Keyboard::Left) {
     }
@@ -65,11 +67,13 @@ void Simple_Textbox::readText(const sf::Event& event)
                 break;
             case UNICODE_RETURN:
                 // confirm
-                clearActive();
+                deactivate();
+                cursor.setFillColor(sf::Color::Transparent);
                 break;
             case UNICODE_ESCAPE:
                 // confirm
-                clearActive();
+                deactivate();
+                cursor.setFillColor(sf::Color::Transparent);
                 break;
             case UNICODE_CUT:
                 break;
@@ -86,6 +90,20 @@ void Simple_Textbox::readText(const sf::Event& event)
     }
 }
 
+void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
+{
+    switch (key) {
+        case sf::Keyboard::Left:
+            scrollLeft();
+            break;
+        case sf::Keyboard::Right:
+            scrollRight();
+            break;
+        default:
+            break;
+    }
+}
+
 void Simple_Textbox::append(sf::String addition)
 {
     size_t n = addition.getSize();
@@ -97,6 +115,7 @@ void Simple_Textbox::append(sf::String addition)
         index += n;
         placeCursor();
     }
+    // reset cursor blink
 }
 
 void Simple_Textbox::backspace()
@@ -227,17 +246,31 @@ void Simple_Textbox::setTextSize(const unsigned int size)
 
 bool Simple_Textbox::update(const sf::Vector2i& mpos)
 {
-    if (active()) {
-        // cursor blink
+    // cursor blink
+    bool cnt = contains(mpos);
+    if (cnt) {
+        state = HIGHLIGHTED;
     }
-    return contains(mpos);
+    else {
+        state = READY;
+    }
+    return cnt;
 }
 
 void Simple_Textbox::clickLeft()
 {
-    setActive(this);
-    setState(ACTIVE);
-    placeCursor();
+    switch (state) {
+        case HIGHLIGHTED:
+            activate();
+            placeCursor();
+            cursor.setFillColor(Palette::white);
+            // reset cursor blink
+            break;
+        default:
+            deactivate();
+            cursor.setFillColor(sf::Color::Transparent);
+            break;
+    }
 }
 
 void Simple_Textbox::releaseLeft()
@@ -245,15 +278,14 @@ void Simple_Textbox::releaseLeft()
 
 void Simple_Textbox::releaseRight()
 {
-    clearActive();
+    deactivate();
+    cursor.setFillColor(sf::Color::Transparent);
 }
 
 void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(frame, states);
     target.draw(text, states);
-    if (active()) {
-        target.draw(cursor, states);
-    }
+    target.draw(cursor, states);
 }
 

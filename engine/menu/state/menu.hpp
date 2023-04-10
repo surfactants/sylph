@@ -35,13 +35,15 @@ public:
     void clickLeft();
     void releaseLeft();
     void escape();
-    virtual void clickRight() {}
-    virtual void releaseRight() {}
+    virtual void clickRight();
+    virtual void releaseRight();
 
     virtual void handleInput(const sf::Event& event);
+    virtual void textEntered(const sf::Event& event);
+    virtual void keyPressed(sf::Keyboard::Key key);
 
-    virtual void enterState() = 0;
-    virtual void exitState() = 0;
+    virtual void enterState();
+    virtual void exitState();
 
     virtual void save(){}
 
@@ -62,11 +64,11 @@ public:
     void setEscape(Menu::State state);
     void setEscape(Main_State::State states);
 
+    static std::unique_ptr<sf::Font> font; // protect this (temporary for fps)
+
 protected:
     std::vector<Menu_Element*> elements;
     std::vector<Button> nav;
-
-    static std::unique_ptr<sf::Font> font;
 
     constexpr static unsigned int csize { 72 };
 
@@ -79,19 +81,10 @@ protected:
     std::variant<Menu::State, Main_State::State> escape_target;
 
     Menu_Element* mouse_target { nullptr };
-    Simple_Textbox* active_textbox { nullptr };
+    Menu_Element* active_element { nullptr };
 
-    void activateTextbox(Simple_Textbox* textbox);
-    void deactivateTextbox();
-
-    void left();
-    void right();
-    void up();
-    void down();
-
-    std::vector<Simple_Textbox> textboxes;
-
-    std::map<sf::Keyboard::Key, std::function<void()>> key_pressed;
+    void setActive(Menu_Element* element);
+    void unsetActive();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

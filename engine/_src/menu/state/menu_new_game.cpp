@@ -20,8 +20,6 @@ Menu_New_Game::Menu_New_Game()
     textbox.setFont(*font);
     textbox.setPosition(pos);
     textbox.setSize(size);
-    textbox.clearActive = std::bind(&deactivateTextbox, this);
-    textbox.setActive = std::bind(&activateTextbox, this, std::placeholders::_1);
 
     textboxes.push_back(std::move(textbox));
 
@@ -31,8 +29,6 @@ Menu_New_Game::Menu_New_Game()
     textbox.setFont(*font);
     textbox.setPosition(pos);
     textbox.setSize(size);
-    textbox.clearActive = std::bind(&deactivateTextbox, this);
-    textbox.setActive = std::bind(&activateTextbox, this, std::placeholders::_1);
 
     textboxes.push_back(std::move(textbox));
 
@@ -42,14 +38,15 @@ Menu_New_Game::Menu_New_Game()
     textbox.setFont(*font);
     textbox.setPosition(pos);
     textbox.setSize(size);
-    textbox.clearActive = std::bind(&deactivateTextbox, this);
-    textbox.setActive = std::bind(&activateTextbox, this, std::placeholders::_1);
 
     textboxes.push_back(std::move(textbox));
 
     for (auto& t : textboxes) {
         elements.push_back(&t);
     }
+
+    pos.y += 128.f;
+    selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
 
     pos.x += textboxes.front().getSize().x + 128.f;
     pos.y = textboxes.front().getPosition().y;
@@ -81,16 +78,17 @@ bool Menu_New_Game::validate()
 }
 
 void Menu_New_Game::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_New_Game::exitState()
 {
-    if (active_textbox) {
-        deactivateTextbox();
-    }
+    Menu::exitState();
     for (auto& t : textboxes) {
         t.clear();
     }
+    selector.setState(Menu_Element::READY);
 }
 
 void Menu_New_Game::start()

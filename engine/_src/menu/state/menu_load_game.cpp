@@ -13,10 +13,14 @@ Menu_Load_Game::Menu_Load_Game()
 }
 
 void Menu_Load_Game::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Load_Game::exitState()
-{}
+{
+    Menu::exitState();
+}
 
 void Menu_Load_Game::start()
 {

@@ -15,7 +15,11 @@ Menu_Pause::Menu_Pause()
 }
 
 void Menu_Pause::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Pause::exitState()
-{}
+{
+    Menu::exitState();
+}

@@ -46,10 +46,14 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 }
 
 void Menu_Settings_Audio::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Settings_Audio::exitState()
-{}
+{
+    Menu::exitState();
+}
 
 void Menu_Settings_Audio::save()
 {

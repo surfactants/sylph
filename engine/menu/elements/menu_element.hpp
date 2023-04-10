@@ -16,9 +16,18 @@ public:
     virtual void clickLeft() = 0;
     virtual void releaseLeft() = 0;
     virtual void setState(State state) { this->state = state; }
+    virtual void textEntered(const sf::Event& event) {}
     virtual void keyPressed(sf::Keyboard::Key) {}
     virtual void clickRight() {}
     virtual void releaseRight() {}
+
+    inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*){};
+    inline static std::function<void()> deactivate = [](){};
+
+    void activate()
+    {
+        set_active(this);
+    }
 
     bool available() const
     {
@@ -39,6 +48,11 @@ public:
     bool contains(const sf::Vector2<T> v) const
     {
         return frame.getGlobalBounds().contains(v.x, v.y);
+    }
+
+    virtual void setToBase()
+    {
+        setState(base_state);
     }
 
 protected:

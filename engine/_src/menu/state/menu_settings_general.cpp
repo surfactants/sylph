@@ -23,7 +23,11 @@ Menu_Settings_General::Menu_Settings_General()
 }
 
 void Menu_Settings_General::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Settings_General::exitState()
-{}
+{
+    Menu::exitState();
+}

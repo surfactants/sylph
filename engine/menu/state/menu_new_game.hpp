@@ -17,6 +17,7 @@ public:
 protected:
     bool validate();
     Color_Selector selector;
+    std::vector<Simple_Textbox> textboxes;
     // need a method for checking readiness
     // i.e. don't let a player start without a name, etc
 };

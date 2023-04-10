@@ -1,7 +1,5 @@
 #include <menu/elements/color_selector.hpp>
 
-#include <util/vector2_stream.hpp>
-
 Color_Selector::Color_Selector()
 {
     colors.setPrimitiveType(sf::Points);
@@ -65,20 +63,8 @@ Color_Selector::Color_Selector()
 
     setHue();
 
-    frame.setSize(sf::Vector2f(colors.getBounds().width, colors.getBounds().height));
-
     state = READY;
     base_state = READY;
-}
-
-void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    target.draw(colors, states);
-        target.draw(selector, states);
-
-    target.draw(slider, states);
-        target.draw(slider_handle, states);
-
-    target.draw(selected);
 }
 
 void Color_Selector::reset(){
@@ -114,68 +100,53 @@ void Color_Selector::setPosition(sf::Vector2f pos){
 
     slider_handle.setPosition(slider[0].position);
 
-    sf::Vector2f selected_pos = sf::Vector2f(colors[0].position.x, colors[256*256-1].position.y + 8);
-    sf::Vector2f selected_size = sf::Vector2f(slider[1].position.x - colors[0].position.x, 32);
-
-    selected.setPosition(selected_pos);
-    selected.setSize(selected_size);
-
-    frame.setPosition(sf::Vector2f(colors.getBounds().left, colors.getBounds().top));
-
     setHue();
+}
+
+void Color_Selector::setPreview(sf::Vector2f pos, sf::Vector2f size)
+{
+    preview.setPosition(pos);
+    preview.setSize(size);
 }
 
 sf::Color Color_Selector::getColor(){
     return selected_color;
 }
 
-void Color_Selector::readEvent(sf::Event& event){
-    sf::Vector2i mousePos = sf::Mouse::getPosition();
-    if(event.type == sf::Event::MouseButtonReleased){
-        selecting = false;
-        sliding = false;
-    }
-
-    if(slider.getBounds().contains(mousePos.x,mousePos.y)){
-        if(event.type == sf::Event::MouseButtonPressed){
-            sliding = true;
-            slide(mousePos);
-        }
-    }
-    else if(colors.getBounds().contains(mousePos.x,mousePos.y)){
-        if(event.type == sf::Event::MouseButtonPressed) selecting = true;
-    }
-
-    if(event.type == sf::Event::MouseMoved){
-        if(selecting) select(mousePos);
-        else if(sliding) slide(mousePos);
-    }
-}
-
 bool Color_Selector::update(const sf::Vector2i& mpos)
 {
-    if (selecting) {
-        select(mpos);
-        return true;
+    switch (state) {
+        case READY:
+            if (preview.getGlobalBounds().contains(mpos.x, mpos.y)) {
+                moused = PREVIEW;
+            }
+            else {
+                moused = NONE;
+                return false;
+            }
+            break;
+        case ACTIVE:
+            if (selecting) {
+                select(mpos);
+            }
+            else if (sliding) {
+                slide(mpos);
+            }
+            else if (colors.getBounds().contains(mpos.x, mpos.y)) {
+                moused = COLORS;
+            }
+            else if (slider.getBounds().contains(mpos.x, mpos.y)) {
+                moused = SLIDER;
+            }
+            else {
+                moused = NONE;
+                return false;
+            }
+            break;
+        default:
+            break;
     }
-    else if (sliding) {
-        slide(mpos);
-        return true;
-    }
-    else {
-        if (colors.getBounds().contains(mpos.x, mpos.y)) {
-            moused = COLORS;
-            return true;
-        }
-        else if (slider.getBounds().contains(mpos.x, mpos.y)) {
-            moused = SLIDER;
-            return true;
-        }
-        else {
-            moused = NONE;
-            return false;
-        }
-    }
+    return true;
 }
 
 void Color_Selector::clickLeft()
@@ -187,7 +158,15 @@ void Color_Selector::clickLeft()
         case SLIDER:
             sliding = true;
             break;
-        default:
+        case PREVIEW:
+            setState(ACTIVE);
+            activate();
+            break;
+        case NONE:
+            selecting = false;
+            sliding = false;
+            setState(READY);
+            deactivate();
             break;
     }
 }
@@ -277,10 +256,22 @@ void Color_Selector::select(sf::Vector2i mousePos){
     }
 
     selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
-    selected.setFillColor(selected_color);
+    preview.setFillColor(selected_color);
     selector.setFillColor(selected_color);
 }
 
-///////////////////////////////////
-//END COLOR_SELECTOR IMPLEMENTATION
-///////////////////////////////////
+void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    switch (state) {
+        case ACTIVE:
+            target.draw(colors, states);
+            target.draw(selector, states);
+            target.draw(slider, states);
+            target.draw(slider_handle, states);
+            [[fallthrough]];
+        case READY:
+            target.draw(preview, states);
+            break;
+        default:
+            break;
+    }
+}

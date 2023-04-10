@@ -14,16 +14,6 @@
   * textbox.setPosition(position); // takes sf::Vector2f
   * textbox.setSize(size); // takes sf::Vector2f
   *
-  * the following two functions are engine callbacks for menu use.
-  *
-  * one sets the Simple_Textbox pointer in the Menu class to this:
-  * textbox.setActive
-  *
-  * the other nulls that same pointer to indicate the object should stop receiving input:
-  * textbox.clearActive
-  *
-  * they should be deprecated in favor of restoring genericity to element input
-  *
  **/
 
 /// \brief Container class for text input.
@@ -41,10 +31,6 @@ private:
     unsigned int text_size; /**< display_text font size, default 48*/
 
 public:
-
-    std::function<void()> clearActive;
-    std::function<void(Simple_Textbox*)> setActive;
-
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor.
     ///
@@ -85,7 +71,9 @@ public:
     ///
     /// \see append()
     ///
-    void readText(const sf::Event& event);
+    virtual void textEntered(const sf::Event& event) override;
+
+    virtual void keyPressed(sf::Keyboard::Key key) override;
 
     /// APPEND ///
     /// \brief Adds entered character to the end of the text.
@@ -195,20 +183,6 @@ public:
     /// \see checkMouse(), activate(), deactivate()
     ///
     bool isActive();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Sets active = true.
-    ///
-    /// \see checkMouse(), isActive(), deactivate()
-    ///
-    void activate();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Sets active = false.
-    ///
-    /// \see checkMouse(), isActive(), activate()
-    ///
-    void deactivate();
 
     ////////////////////////////////////////////////////////////
     /// \brief Disables the translucent backdrop.

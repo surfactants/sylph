@@ -13,10 +13,14 @@ Menu_Save_Game::Menu_Save_Game()
 }
 
 void Menu_Save_Game::enterState()
-{}
+{
+    Menu::enterState();
+}
 
 void Menu_Save_Game::exitState()
-{}
+{
+    Menu::exitState();
+}
 
 void Menu_Save_Game::start()
 {

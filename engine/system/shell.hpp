@@ -27,4 +27,7 @@ private:
     void update();
 
     void draw();
+
+    sf::Text fps_text;
+    sf::Clock fps_clock;
 };

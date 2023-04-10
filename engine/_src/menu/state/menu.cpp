@@ -13,17 +13,15 @@ Menu::Menu()
         font = std::make_unique<sf::Font>();
         font->loadFromFile("Abel.ttf");
     }
-
-    key_pressed[sf::Keyboard::Escape] = std::bind(&escape, this);
-
-    key_pressed[sf::Keyboard::Left] = std::bind(&left, this);
-    key_pressed[sf::Keyboard::Right] = std::bind(&right, this);
-    key_pressed[sf::Keyboard::Up] = std::bind(&up, this);
-    key_pressed[sf::Keyboard::Down] = std::bind(&down, this);
 }
 
 void Menu::update(const sf::Vector2i& mpos)
 {
+    if (active_element) {
+        active_element->update(mpos);
+        return;
+    }
+
     if (mouse_target) {
         if (!mouse_target->update(mpos)) {
             mouse_target = nullptr;
@@ -67,42 +65,92 @@ void Menu::handleInput(const sf::Event& event)
                 break;
         }
     }
-    else if (event.type == sf::Event::KeyPressed && key_pressed.contains(event.key.code)) {
-        key_pressed[event.key.code]();
+    else if (event.type == sf::Event::KeyPressed) {
+        keyPressed(event.key.code);
     }
-    else if (active_textbox && event.type == sf::Event::TextEntered) {
-        active_textbox->readText(event);
+    else if (event.type == sf::Event::TextEntered) {
+        textEntered(event);
+    }
+}
+void Menu::textEntered(const sf::Event& event)
+{
+    if (active_element) {
+        active_element->textEntered(event);
+    }
+}
+
+void Menu::keyPressed(sf::Keyboard::Key key)
+{
+    if (active_element) {
+        active_element->keyPressed(key);
+    }
+    else if (key == sf::Keyboard::Escape) {
+        escape();
     }
 }
 
 void Menu::clickLeft()
 {
-    if (mouse_target) {
-        mouse_target->clickLeft();
+    if (active_element) {
+        active_element->clickLeft();
     }
-    else if (active_textbox) {
-        deactivateTextbox();
+    else if (mouse_target) {
+        mouse_target->clickLeft();
     }
 }
 
 void Menu::releaseLeft()
 {
-    if (mouse_target) {
+    if (active_element) {
+        active_element->releaseLeft();
+    }
+    else if (mouse_target) {
         mouse_target->releaseLeft();
     }
 }
 
-void Menu::activateTextbox(Simple_Textbox* textbox)
+void Menu::clickRight()
 {
-    active_textbox = textbox;
+    if (active_element) {
+        active_element->clickLeft();
+    }
+    else if (mouse_target) {
+        mouse_target->clickRight();
+    }
 }
 
-void Menu::deactivateTextbox()
+void Menu::releaseRight()
 {
-    if (active_textbox) {
-        active_textbox->setState(Menu_Element::READY);
-        active_textbox = nullptr;
+    if (active_element) {
+        active_element->releaseRight();
     }
+    else if (mouse_target) {
+        mouse_target->releaseRight();
+    }
+}
+
+void Menu::setActive(Menu_Element* element)
+{
+    active_element = element;
+}
+
+void Menu::unsetActive()
+{
+    if (active_element) {
+        active_element->setToBase();
+        active_element = nullptr;
+    }
+}
+
+void Menu::enterState()
+{
+    Menu_Element::set_active = std::bind(&Menu::setActive, this, std::placeholders::_1);
+    Menu_Element::deactivate = std::bind(&Menu::unsetActive, this);
+}
+
+void Menu::exitState()
+{
+    unsetActive();
 }
 
 void Menu::placeNav()
@@ -123,6 +171,10 @@ void Menu::placeNav()
 
 void Menu::setEscape(Menu::State state)
 {
+    if (active_element) {
+            active_element->setState(Menu_Element::READY);
+        active_element = nullptr;
+    }
     escape_target = state;
 }
 
@@ -133,33 +185,13 @@ void Menu::setEscape(Main_State::State state)
 
 void Menu::escape()
 {
-    if (active_textbox) {
-        deactivateTextbox();
+    if (active_element) {
+        unsetActive();
     }
     else {
         std::visit(*this, escape_target);
     }
 }
-
-void Menu::left()
-{
-    if (active_textbox) {
-        active_textbox->scrollLeft();
-    }
-}
-
-void Menu::right()
-{
-    if (active_textbox) {
-        active_textbox->scrollRight();
-    }
-}
-
-void Menu::up()
-{}
-
-void Menu::down()
-{}
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
