@@ -1,65 +1,62 @@
 #include <menu/elements/color_selector.hpp>
 
+bool Color_Selector::initialized = false;
+
 sf::VertexArray Color_Selector::colors;
-sf::RectangleShape Color_Selector::selector;
-bool Color_Selector::selecting = false;
 
 sf::VertexArray Color_Selector::slider;
-sf::RectangleShape Color_Selector::slider_handle;
-bool Color_Selector::sliding = false;
 
 Color_Selector::Color_Selector()
 {
-    colors.setPrimitiveType(sf::Points);
-    colors.resize(256*256);
+    if (!initialized) {
+        initialized = true;
+        colors.setPrimitiveType(sf::Points);
+        colors.resize(256*256);
 
+        slider.setPrimitiveType(sf::Quads);
+        unsigned int ssize = 24;
+        unsigned int v = 0;
+        slider.resize(ssize);
+            sf::Color slider_color = sf::Color(255,0,0);
+                while(v < 2) slider[v++].color = slider_color;
+
+            slider_color = sf::Color(255,255,0);
+                while(v < 6) {
+                    slider[v++].color = slider_color;
+                }
+
+            slider_color = sf::Color(0,255,0);
+                while(v < 10) {
+                    slider[v++].color = slider_color;
+                }
+
+            slider_color = sf::Color(0,255,255);
+                while(v < 14) {
+                    slider[v++].color = slider_color;
+                }
+
+            slider_color = sf::Color(0,0,255);
+                while(v < 18) {
+                    slider[v++].color = slider_color;
+                }
+            slider_color = sf::Color(255,0,255);
+                while(v < 22) {
+                    slider[v++].color = slider_color;
+                }
+
+            slider_color = sf::Color(255,0,0);
+                while(v < ssize) {
+                    slider[v++].color = slider_color;
+                }
+
+        setPosition(sf::Vector2f(16,16));
+    }
 
     selector = sf::RectangleShape(sf::Vector2f(8, 8));
-        selector.setSize(sf::Vector2f(8,8));
-        selector.setOrigin(sf::Vector2f(selector.getSize().x/2, selector.getSize().y/2));
-        selector.setOutlineThickness(1);
-        selector.setOutlineColor(sf::Color(0,0,0));
-
-    selecting = false;
-    sliding = false;
-
-    slider.setPrimitiveType(sf::Quads);
-    unsigned int ssize = 24;
-    unsigned int v = 0;
-    slider.resize(ssize);
-        sf::Color slider_color = sf::Color(255,0,0);
-            while(v < 2) slider[v++].color = slider_color;
-
-        slider_color = sf::Color(255,255,0);
-            while(v < 6) {
-                slider[v++].color = slider_color;
-            }
-
-        slider_color = sf::Color(0,255,0);
-            while(v < 10) {
-                slider[v++].color = slider_color;
-            }
-
-        slider_color = sf::Color(0,255,255);
-            while(v < 14) {
-                slider[v++].color = slider_color;
-            }
-
-        slider_color = sf::Color(0,0,255);
-            while(v < 18) {
-                slider[v++].color = slider_color;
-            }
-        slider_color = sf::Color(255,0,255);
-            while(v < 22) {
-                slider[v++].color = slider_color;
-            }
-
-        slider_color = sf::Color(255,0,0);
-            while(v < ssize) {
-                slider[v++].color = slider_color;
-            }
-
-    setPosition(sf::Vector2f(16,16));
+    selector.setSize(sf::Vector2f(8,8));
+    selector.setOrigin(sf::Vector2f(selector.getSize().x/2, selector.getSize().y/2));
+    selector.setOutlineThickness(1);
+    selector.setOutlineColor(sf::Color(0,0,0));
 
     slider_handle = sf::RectangleShape(sf::Vector2f(slider[1].position.x-slider[0].position.x, 3));
     slider_handle.setPosition(slider[0].position);
@@ -67,9 +64,11 @@ Color_Selector::Color_Selector()
     slider_handle.setFillColor(sf::Color(0,0,0,0));
     slider_handle.setOutlineColor(sf::Color(250,250,250));
     slider_handle.setOutlineThickness(1);
-    sliding = false;
 
     setHue();
+
+    position = sf::Vector2f(0.f, 0.f);
+    enactPosition();
 
     state = READY;
     base_state = READY;
@@ -278,29 +277,36 @@ void Color_Selector::setHue(){
     select(sf::Vector2i(selector.getPosition().x, selector.getPosition().y));
 }
 
-void Color_Selector::select(sf::Vector2i mousePos){
+void Color_Selector::select(sf::Vector2i mousePos)
+{
     selector.setPosition(mousePos.x,mousePos.y);
 
-    if(selector.getPosition().x < colors[0].position.x){
+    if(selector.getPosition().x < colors[0].position.x) {
         selector.setPosition(colors[0].position.x, selector.getPosition().y);
     }
     else if(selector.getPosition().x > colors[256*256-1].position.x){
         selector.setPosition(colors[256*256-1].position.x, selector.getPosition().y);
     }
 
-    if(selector.getPosition().y < colors[0].position.y){
+    if(selector.getPosition().y < colors[0].position.y) {
         selector.setPosition(selector.getPosition().x, colors[0].position.y);
     }
-    else if(selector.getPosition().y > colors[256*256-1].position.y){
+    else if(selector.getPosition().y > colors[256*256-1].position.y) {
         selector.setPosition(selector.getPosition().x, colors[256*256-1].position.y);
     }
 
-    sf::Color selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
+    sf::Vector2i local_pos(selector.getPosition() - colors[0].position);
+
+    size_t index = local_pos.y * 256;
+    index += local_pos.x;
+
+    sf::Color selected_color = colors[index].color;
     preview.setFillColor(selected_color);
     selector.setFillColor(selected_color);
 }
 
-void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
     switch (state) {
         case ACTIVE:
             target.draw(colors, states);

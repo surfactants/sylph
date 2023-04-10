@@ -64,7 +64,7 @@ Menu_New_Game::Menu_New_Game()
 
     selector_pos = pos;
     selector_pos.x += textboxes.front().getSize().x + 128.f;
-    selector_pos.y = textboxes.front().getPosition().y;
+    selector_pos.y = textboxes.front().getPosition().y + 128.f;
     selector.setPosition(selector_pos);
 
     selectors.push_back(std::move(selector));

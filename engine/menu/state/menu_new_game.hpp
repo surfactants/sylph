@@ -16,6 +16,8 @@ public:
 
 protected:
     bool validate(); // checks that the game is ready to start (everything necessary has been set)
+
+    // THESE SHOULD BE MAPS! the keys will determine where the data goes on new game creation
     std::vector<Color_Selector> selectors;
     std::vector<Simple_Textbox> textboxes;
 };

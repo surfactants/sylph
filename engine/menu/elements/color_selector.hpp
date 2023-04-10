@@ -71,13 +71,15 @@ private:
 
     Moused moused { NONE };
 
+    static bool initialized;
+
     static sf::VertexArray colors; /**<256x256 grid for HSV handling*/
-    static sf::RectangleShape selector; /**<Handle for color selection*/
-    static bool selecting; /**<For tracking mouse events*/
+    sf::RectangleShape selector; /**<Handle for color selection*/
+    bool selecting { false }; /**<For tracking mouse events*/
 
     static sf::VertexArray slider; /**< Hue selector*/
-    static sf::RectangleShape slider_handle; /**< Handle for hue selection*/
-    static bool sliding; /**< For tracking mouse events*/
+    sf::RectangleShape slider_handle; /**< Handle for hue selection*/
+    bool sliding { false }; /**< For tracking mouse events*/
 
     sf::RectangleShape preview; /**< Opens the selector and provides a preview of the color*/
 
