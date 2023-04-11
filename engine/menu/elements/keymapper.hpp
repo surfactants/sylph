@@ -27,6 +27,8 @@ public:
     virtual void activate() override;
     virtual void deactivate() override;
 
+    virtual void scroll(float delta) override;
+
     std::vector<Command> getCommands();
 
     sf::RectangleShape test_rect;
@@ -40,7 +42,7 @@ private:
 
     int active_index = -1;
 
-    constexpr static unsigned int csize { 48 };
+    constexpr static unsigned int csize { 44 };
     constexpr static unsigned int text_size { 42 };
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

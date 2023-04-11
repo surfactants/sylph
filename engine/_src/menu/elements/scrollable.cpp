@@ -80,9 +80,8 @@ void Scrollable::scrollToTop()
 
 void Scrollable::resizeScrollbar() {
     sf::Vector2f scroll_size(scrollbar.getSize().x, view.getSize().y);
-    if(frame.height > scroll_size.y) {
-        scroll_size.y /= frame.height;
-        scroll_size.y *= size.y;
+    if(max_scroll > 0) {
+        scroll_size.y *= (max_scroll / size.y);
     }
     scrollbar.setSize(scroll_size);
     placeScrollbar();

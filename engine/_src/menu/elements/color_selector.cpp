@@ -74,7 +74,8 @@ Color_Selector::Color_Selector()
     base_state = READY;
 }
 
-void Color_Selector::reset(){
+void Color_Selector::reset()
+{
     slider_handle.setPosition(slider[0].position);
     selector.setPosition(colors[0].position);
     setHue();
@@ -87,8 +88,8 @@ void Color_Selector::setPosition(sf::Vector2f pos)
 void Color_Selector::enactPosition() {
     sf::Vector2f size = sf::Vector2f(256,256);
 
-    for(unsigned int y = 0; y < 256; y++){
-        for(unsigned int x = 0; x < 256; x++){
+    for(unsigned int y = 0; y < 256; y++) {
+        for(unsigned int x = 0; x < 256; x++) {
             colors[x + y*256].position.x = position.x + x;
             colors[x + y*256].position.y = position.y + y;
         }
@@ -98,7 +99,7 @@ void Color_Selector::enactPosition() {
     sf::Vector2f slider_size = sf::Vector2f(16, size.y/6);
 
     unsigned int siter = 0;
-    while(siter < slider.getVertexCount()){
+    while(siter < slider.getVertexCount()) {
         slider[siter++].position = slider_pos;
             slider_pos.x += slider_size.x;
         slider[siter++].position = slider_pos;
@@ -119,7 +120,8 @@ void Color_Selector::setPreview(sf::Vector2f pos, sf::Vector2f size)
     preview.setSize(size);
 }
 
-sf::Color Color_Selector::getColor(){
+sf::Color Color_Selector::getColor()
+{
     return preview.getFillColor();
 }
 
@@ -222,26 +224,28 @@ void Color_Selector::releaseRight()
     }
 }
 
-void Color_Selector::slide(sf::Vector2i mousePos){
+void Color_Selector::slide(sf::Vector2i mousePos)
+{
     // this function is VERY heavy duty, presumably due to ::setHue(). try to find a way to optimize it.
 
     slider_handle.setPosition(sf::Vector2f(slider[0].position.x, mousePos.y));
 
-    if(slider_handle.getPosition().y < slider[0].position.y){
+    if(slider_handle.getPosition().y < slider[0].position.y) {
         slider_handle.setPosition(sf::Vector2f(slider_handle.getPosition().x, slider[0].position.y));
     }
-    else if(slider_handle.getPosition().y > slider[23].position.y){
+    else if(slider_handle.getPosition().y > slider[23].position.y) {
         slider_handle.setPosition(sf::Vector2f(slider_handle.getPosition().x, slider[23].position.y));
     }
 
     setHue();
 }
 
-void Color_Selector::setHue(){
+void Color_Selector::setHue()
+{
     const double hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y);
     const int hp = hue * 6;
-    for(unsigned int y=0; y<256; y++){
-        for(unsigned int x=0; x<256; x++){
+    for(unsigned int y=0; y<256; y++) {
+        for(unsigned int x=0; x<256; x++) {
             const double s = x / 255.f;
             const double v = 1 - y / 255.f;
 
@@ -284,7 +288,7 @@ void Color_Selector::select(sf::Vector2i mousePos)
     if(selector.getPosition().x < colors[0].position.x) {
         selector.setPosition(colors[0].position.x, selector.getPosition().y);
     }
-    else if(selector.getPosition().x > colors[256*256-1].position.x){
+    else if(selector.getPosition().x > colors[256*256-1].position.x) {
         selector.setPosition(colors[256*256-1].position.x, selector.getPosition().y);
     }
 

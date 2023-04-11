@@ -6,8 +6,6 @@
 
 #include <util/text.hpp>
 
-#include <util/vector2_stream.hpp>
-
 //////////////////////////////////////////////////////////////
 
 const float Button::padding = 8;

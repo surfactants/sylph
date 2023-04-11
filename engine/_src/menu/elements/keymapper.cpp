@@ -5,6 +5,7 @@
 Keymapper::Keymapper()
 {
     setState(READY);
+    scrollbar.setSize(sf::Vector2f(12.f, 12.f));
 }
 
 void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
@@ -14,13 +15,13 @@ void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
 
     float button_offset = 32.f;
 
-    sf::Vector2f pos(button_offset * 1.5f, button_offset * 1.5f);
+    sf::Vector2f pos(button_offset, button_offset);
 
     for (const auto& c : commands) {
         std::string key = key_string.toString(c.key);
 
         sf::Vector2f button_pos(pos);
-        sf::Vector2f button_size = sf::Vector2f(96.f, 96.f);
+        sf::Vector2f button_size = sf::Vector2f(192.f, 128.f);
 
         Button button(key, font, csize, Button::READY);
         button.setSize(button_size);
@@ -32,7 +33,7 @@ void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
         text.setCharacterSize(csize);
         centerText(text);
 
-        sf::Vector2f text_pos(button_pos);
+        sf::Vector2f text_pos(button_pos + (button_size / 2.f));
         text_pos.x += button_size.x + button_offset;
         text_pos.x += (text.getGlobalBounds().left + text.getGlobalBounds().width) / 2.f;
         text.setPosition(text_pos);
@@ -43,6 +44,11 @@ void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
     }
 
     setScrollable(pos.y);
+}
+
+void Keymapper::scroll(float delta)
+{
+    Scrollable::scroll(delta, sf::Vector2f(sf::Mouse::getPosition()));
 }
 
 bool Keymapper::update(const sf::Vector2i& mpos)

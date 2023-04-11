@@ -69,16 +69,36 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 std::function<void()> Game_State::stringToFunction(std::string str)
 {
     // here, match the game functions to string identifiers
+    // use std::bind - the lambdas are placeholders
     static std::map<std::string, std::function<void()>> func
     {
-        { "move north", [](){} },
-        { "stop north", [](){} },
-        { "move west", [](){} },
-        { "stop west", [](){} },
-        { "move south", [](){} },
-        { "stop south", [](){} },
-        { "move east", [](){}  },
-        { "stop east", [](){}  }
+        // movement functions
+        { "null",       []() {} },
+        { "move north", []() {} },
+        { "stop north", []() {} },
+        { "move west",  []() {} },
+        { "stop west",  []() {} },
+        { "move south", []() {} },
+        { "stop south", []() {} },
+        { "move east",  []() {} },
+        { "stop east",  []() {} },
+
+        // ability functions
+        { "start ability 1", []() {} },
+        { "stop ability 1",  []() {} },
+        { "start ability 2", []() {} },
+        { "stop ability 2",  []() {} },
+        { "start ability 3", []() {} },
+        { "stop ability 3",  []() {} },
+        { "start ability 4", []() {} },
+        { "stop ability 4",  []() {} },
+
+        // world
+        { "start interact", []() {} },
+        { "stop interact",  []() {} },
+
+        // ui
+        { "open inventory", []() {} }
     };
 
     if (func.contains(str)) {
