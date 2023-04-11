@@ -25,7 +25,7 @@ public:
 /// getView ///
 /// \brief returns the view
 ///
-    sf::View getView();
+    sf::View getView() const;
 
 /// reset ///
 /// \brief minimizes the viewport and scrolls to top
@@ -70,9 +70,19 @@ public:
     }
 
     template <typename T>
-    sf::Vector2f translateGlobalPos(const sf::Vector2<T>& v)
+    sf::Vector2<T> translateGlobalPos(const sf::Vector2<T>& v)
     {
-        return sf::Vector2f(v.x - frame.left, v.y - frame.top + current_scroll);
+        return sf::Vector2<T>(v.x - frame.left, v.y - frame.top + current_scroll);
+    }
+
+    sf::Vector2f getPosition()
+    {
+        return sf::Vector2f(frame.left, frame.top);
+    }
+
+    sf::Vector2f getSize()
+    {
+        return size;
     }
 
 protected:

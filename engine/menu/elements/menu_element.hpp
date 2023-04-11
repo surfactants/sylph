@@ -15,11 +15,16 @@ public:
     virtual bool update(const sf::Vector2i& mpos) = 0;
     virtual void clickLeft() = 0;
     virtual void releaseLeft() = 0;
-    virtual void setState(State state) { this->state = state; }
+    virtual void setState(State state)
+    {
+        this->state = state;
+    }
     virtual void textEntered(const sf::Event& event) {}
     virtual void keyPressed(sf::Keyboard::Key) {}
     virtual void clickRight() {}
     virtual void releaseRight() {}
+
+    virtual void scroll(float delta) {}
 
     inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*){};
     inline static std::function<void()> set_inactive = [](){};

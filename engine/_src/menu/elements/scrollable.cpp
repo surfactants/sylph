@@ -20,7 +20,7 @@ void Scrollable::setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u windo
     frame.top = pos.y;
 }
 
-sf::View Scrollable::getView()
+sf::View Scrollable::getView() const
 {
     return view;
 }
@@ -40,11 +40,7 @@ void Scrollable::setScrollable(float max_height)
     scroll_x_pos = view.getSize().x - scrollbar.getSize().x;
     current_scroll = 0.f;
 
-    float fheight = max_height;
-    if (size.y > fheight) {
-        fheight = size.y;
-    }
-    frame = sf::FloatRect(sf::Vector2f(frame.left, frame.top), sf::Vector2f(size.x, fheight));
+    frame = sf::FloatRect(sf::Vector2f(frame.left, frame.top), sf::Vector2f(size));
 
     max_scroll = max_height - view.getSize().y;
     if (max_scroll < 0.f) {

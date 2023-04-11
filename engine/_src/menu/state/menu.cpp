@@ -7,11 +7,26 @@ const sf::Vector2f Menu::button_start = sf::Vector2f(64.f, 64.f);
 std::function<void(Main_State::State)> Menu::setMainState;
 std::function<void(Menu::State)> Menu::setMenuState;
 
+sf::View Menu::view;
+
 Menu::Menu()
 {
     if (!font) {
         font = std::make_unique<sf::Font>();
         font->loadFromFile("Abel.ttf");
+
+        sf::Vector2f pos(0.f, 0.f);
+        sf::Vector2f size(1920.f, 1080.f);
+        sf::Vector2f wsize(1920.f, 1080.f);
+        float xs = size.x / wsize.x;
+        float ys = size.y / wsize.y;
+
+        float xp = pos.x / wsize.x;
+        float yp = pos.y / wsize.y;
+
+        view.setViewport(sf::FloatRect(xp, yp, xs, ys));
+        view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
+        view.setCenter(size / 2.f);
     }
 }
 
@@ -75,7 +90,11 @@ void Menu::handleInput(const sf::Event& event)
     else if (event.type == sf::Event::TextEntered) {
         textEntered(event);
     }
+    else if (event.type == sf::Event::MouseWheelScrolled && mouse_target) {
+        mouse_target->scroll(event.mouseWheelScroll.delta);
+    }
 }
+
 void Menu::textEntered(const sf::Event& event)
 {
     if (active_element) {
@@ -116,7 +135,7 @@ void Menu::releaseLeft()
 void Menu::clickRight()
 {
     if (active_element) {
-        active_element->clickLeft();
+        active_element->clickRight();
     }
     if (mouse_target && mouse_target != active_element) {
         mouse_target->clickRight();
@@ -161,14 +180,8 @@ void Menu::placeNav()
 {
     sf::Vector2f pos = button_start;
     for (auto& n : nav) {
-        sf::Vector2f size = n.getSize();
-        pos.x += size.x / 2.f;
-        pos.y += size.y / 2.f;
         n.setPosition(pos);
-        pos.x -= size.x / 2.f;
-        pos.y += size.y / 2.f;
-        pos.y += button_offset;
-
+        pos.y += n.getSize().y + button_offset;
         elements.push_back(&n);
     }
 }
@@ -200,6 +213,7 @@ void Menu::escape()
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (const auto& element : elements) {
+        target.setView(view);
         target.draw(*element, states);
     }
 }

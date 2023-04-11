@@ -6,6 +6,8 @@
 
 #include <util/text.hpp>
 
+#include <util/vector2_stream.hpp>
+
 //////////////////////////////////////////////////////////////
 
 const float Button::padding = 8;
@@ -15,13 +17,11 @@ Button::Button(std::string nlabel, sf::Font& font, unsigned int csize, State bas
     base_state = base;
 
     label.setFont(font);
-    label.setString(nlabel);
     label.setCharacterSize(csize);
-    centerText(label);
+    setLabel(nlabel);
 
     frame.setSize(sf::Vector2f(label.getLocalBounds().left + label.getLocalBounds().width + (padding * 2.f),
         label.getLocalBounds().top + label.getLocalBounds().height + (padding * 2.f)));
-    frame.setOrigin(frame.getSize() / 2.f);
 
     setState(base);
 
@@ -33,13 +33,11 @@ Button::Button(std::string nlabel, sf::Font& font, std::function<void()> target,
 {
     base_state = base;
     label.setFont(font);
-    label.setString(nlabel);
     label.setCharacterSize(csize);
-    centerText(label);
+    setLabel(nlabel);
 
     frame.setSize(sf::Vector2f(label.getLocalBounds().left + label.getLocalBounds().width + (padding * 2.f),
         label.getLocalBounds().top + label.getLocalBounds().height + (padding * 2.f)));
-    frame.setOrigin(frame.getSize() / 2.f);
 
     setState(base);
 }
@@ -72,8 +70,8 @@ bool Button::update(const sf::Vector2i& mpos)
 
 void Button::setPosition(sf::Vector2f pos)
 {
-    label.setPosition(pos);
     frame.setPosition(pos);
+    label.setPosition(frame.getPosition() + (frame.getSize() / 2.f));
 }
 
 sf::Vector2f Button::getPosition()
@@ -84,7 +82,7 @@ sf::Vector2f Button::getPosition()
 void Button::setSize(sf::Vector2f size)
 {
     frame.setSize(size);
-    frame.setOrigin(size / 2.f);
+    label.setPosition(frame.getPosition() + (frame.getSize() / 2.f));
 }
 
 sf::Vector2f Button::getSize()
@@ -140,6 +138,12 @@ void Button::setLabel(std::string text)
 {
     label.setString(text);
     centerText(label);
+    label.setPosition(frame.getPosition() + (frame.getSize() / 2.f));
+}
+
+std::string Button::getLabel()
+{
+    return label.getString();
 }
 
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const

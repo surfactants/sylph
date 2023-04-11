@@ -313,7 +313,7 @@ void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) con
             target.draw(selector, states);
             target.draw(slider, states);
             target.draw(slider_handle, states);
-            [[fallthrough]];
+            [[fallthrough]]; // preview always gets drawn. no sense copying the draw calls
         case READY:
             target.draw(preview, states);
             break;

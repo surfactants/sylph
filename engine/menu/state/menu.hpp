@@ -8,7 +8,9 @@
 #include <system/main_state/main_state.hpp>
 
 #include <menu/elements/button.hpp>
+#include <menu/elements/check_box.hpp>
 #include <menu/elements/color_selector.hpp>
+#include <menu/elements/dropdown.hpp>
 #include <menu/elements/slider.hpp>
 #include <menu/elements/simple_textbox.hpp>
 
@@ -76,6 +78,8 @@ protected:
     constexpr static float button_offset { 32.f };
     constexpr static float slider_offset { 128.f };
 
+    const static sf::Vector2f nav_size;
+
     void placeNav();
 
     std::variant<Menu::State, Main_State::State> escape_target;
@@ -85,6 +89,8 @@ protected:
 
     void setActive(Menu_Element* element);
     void unsetActive();
+
+    static sf::View view;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -45,6 +45,8 @@ public:
 ///
     sf::Vector2f getSize();
 
+    std::string getLabel();
+
 /// clickLeft ///
 /// \brief returns true if button is available and highlighted. also calls target if applicable
 ///
