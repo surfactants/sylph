@@ -73,16 +73,14 @@ bool Keymapper::update(const sf::Vector2i& mpos)
         case HIGHLIGHTED:
             if (cnt) {
                 sf::Vector2i trans_pos(translateGlobalPos(mpos));
-                if (highlighted_button && highlighted_button->update(trans_pos)) {
+                if (highlighted_row && std::get<Button>(*highlighted_row).update(trans_pos)) {
                     break;
                 }
                 else {
-                    highlighted_button = nullptr;
-                    highlighted_command = nullptr;
-                    for (auto& [t, b, c] : rows) {
-                        if (&b != active_button && b.update(trans_pos)) {
-                            highlighted_button = &b;
-                            highlighted_command = c;
+                    highlighted_row = nullptr;
+                    for (auto& row : rows) {
+                        if (&row != active_row && std::get<Button>(row).update(trans_pos)) {
+                            highlighted_row = &row;
                         }
                     }
                 }
@@ -97,17 +95,15 @@ bool Keymapper::update(const sf::Vector2i& mpos)
 
 void Keymapper::clickLeft()
 {
-    if (highlighted_button) {
-        active_button = highlighted_button;
-        active_command = highlighted_command;
-        active_button->setState(ACTIVE);
-        highlighted_button = nullptr;
-        highlighted_command = nullptr;
+    if (highlighted_row) {
+        active_row = highlighted_row;
+        std::get<Button>(*active_row).setState(ACTIVE);
+        highlighted_row = nullptr;
         activate();
     }
     else if (state == READY) {
-        if (active_button) {
-            active_button->setState(READY);
+        if (active_row) {
+            std::get<Button>(*active_row).setState(READY);
             deactivate();
         }
     }
@@ -121,10 +117,9 @@ void Keymapper::activate()
 
 void Keymapper::deactivate()
 {
-    if (active_button) {
-        active_button->setState(READY);
-        active_button = nullptr;
-        active_command = nullptr;
+    if (active_row) {
+        std::get<Button>(*active_row).setState(READY);
+        active_row = nullptr;
     }
     Menu_Element::deactivate();
     setState(READY);
@@ -135,9 +130,7 @@ void Keymapper::releaseLeft()
 
 void Keymapper::clickRight()
 {
-    if (active_button) {
-        deactivate();
-    }
+    deactivate();
 }
 
 void Keymapper::keyPressed(sf::Keyboard::Key k)
@@ -145,22 +138,22 @@ void Keymapper::keyPressed(sf::Keyboard::Key k)
     if (k == sf::Keyboard::Escape) {
         deactivate();
     }
-    else if (active_button && k != sf::Keyboard::Unknown) {
+    else if (active_row && k != sf::Keyboard::Unknown) {
         // attempt swap
         for (auto& [t, b, c] : rows) {
             if (c->key == k) {
-                c->key = active_command->key;
-                b.setLabel(active_button->getLabel());
+                c->key = std::get<Command*>(*active_row)->key;
+                b.setLabel(std::get<Button>(*active_row).getLabel());
                 break;
             }
         }
 
-        active_command->key = k;
         std::string key = key_string.toString(k);
-        active_button->setLabel(key);
-        active_button->setState(READY);
-        active_button = nullptr;
-        active_command = nullptr;
+        auto& [t, b, c] = *active_row;
+        c->key = k;
+        b.setLabel(key);
+        b.setState(READY);
+        active_row = nullptr;
         setState(READY);
     }
 }

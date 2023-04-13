@@ -37,12 +37,12 @@ private:
 
     std::vector<Command> commands;
 
-    std::vector<std::tuple<sf::Text, Button, Command*>> rows;
+    typedef std::tuple<sf::Text, Button, Command*> Key_Row;
 
-    Button* highlighted_button { nullptr };
-    Command* highlighted_command { nullptr };
-    Button* active_button { nullptr };
-    Command* active_command { nullptr };
+    std::vector<Key_Row> rows;
+
+    Key_Row* highlighted_row;
+    Key_Row* active_row;
 
     constexpr static unsigned int csize { 44 };
     constexpr static unsigned int text_size { 42 };
