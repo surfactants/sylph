@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <tuple>
 #include <vector>
 
 #include <menu/elements/button.hpp>
@@ -31,16 +32,17 @@ public:
 
     std::vector<Command> getCommands();
 
-    sf::RectangleShape test_rect;
-
 private:
     Key_String key_string;
 
     std::vector<Command> commands;
 
-    std::vector<std::pair<sf::Text, Button>> rows;
+    std::vector<std::tuple<sf::Text, Button, Command*>> rows;
 
-    int active_index = -1;
+    Button* highlighted_button { nullptr };
+    Command* highlighted_command { nullptr };
+    Button* active_button { nullptr };
+    Command* active_command { nullptr };
 
     constexpr static unsigned int csize { 44 };
     constexpr static unsigned int text_size { 42 };

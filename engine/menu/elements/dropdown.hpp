@@ -21,12 +21,14 @@ public:
         setPosition(pos);
         pos -= sf::Vector2f(padding, padding); // offset the view so the buttons match
         option_frame.setView(pos, size, window_size);
-        option_bg.setFillColor(Palette::black);
+        option_frame.setScrollable(size.y * 2.f);
+        option_frame.setBackground(Palette::gray_dark);
     }
 
     void load(std::vector<std::pair<std::string, T>> data, sf::Font& font, unsigned int csize, size_t current)
     {
-        sf::Vector2f total_size(option_frame.getSize().x, padding);
+        sf::Vector2f view_size = option_frame.getSize();
+        sf::Vector2f total_size(view_size.x - option_frame.scrollbarSize().x, padding);
         const sf::Vector2f option_size(total_size.x - (padding * 2.f), 96.f);
 
         sf::Vector2f option_pos(padding, padding);
@@ -51,7 +53,6 @@ public:
         setSize(option_size);
 
         option_frame.setScrollable(total_size.y);
-        option_bg.setSize(total_size);
 
         setSize(option_size);
     }
@@ -228,8 +229,7 @@ protected:
     {
         switch (state) {
             case ACTIVE:
-                target.setView(option_frame.getView());
-                target.draw(option_bg, states);
+                target.draw(option_frame, states);
                 for (const auto& o : options) {
                     target.draw(o, states);
                 }

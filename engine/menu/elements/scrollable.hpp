@@ -5,8 +5,13 @@
 /// SCROLLABLE ///
 /// \brief base class for scrollable UI elements
 ///
-class Scrollable {
+class Scrollable : public sf::Drawable {
 public:
+    ////////////////////////////////////////////
+    // TODO:
+    //  - add click dragging (only on scrollbar)
+    //  - add middle mouse dragging (anywhere)
+    ////////////////////////////////////////////
 
 /// DEFAULT CONSTRUCTOR ///
 /// \brief the default constructor is insufficient. setView() and setScrollable() BOTH MUST BE CALLED
@@ -75,20 +80,20 @@ public:
         return sf::Vector2<T>(v.x - frame.left, v.y - frame.top + current_scroll);
     }
 
-    sf::Vector2f getPosition()
-    {
-        return sf::Vector2f(frame.left, frame.top);
-    }
+    sf::Vector2f getPosition();
 
-    sf::Vector2f getSize()
-    {
-        return size;
-    }
+    sf::Vector2f getSize();
+
+    sf::Vector2f scrollbarSize();
+
+    void setBackground(sf::Color color);
 
 protected:
     sf::RectangleShape scrollbar;
 
     sf::FloatRect frame;
+
+    sf::RectangleShape background;
 
     sf::Vector2f size; /**< viewport size */
 
@@ -99,5 +104,7 @@ protected:
     float current_scroll = 0.f; /**< current scroll position */
 
     float max_scroll; /**< max scroll position (max height - viewport height) */
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

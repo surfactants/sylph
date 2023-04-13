@@ -18,6 +18,8 @@ void Scrollable::setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u windo
 
     frame.left = pos.x;
     frame.top = pos.y;
+
+    background.setFillColor(Palette::gray_dark);
 }
 
 sf::View Scrollable::getView() const
@@ -34,7 +36,7 @@ void Scrollable::reset()
 
 void Scrollable::setScrollable(float max_height)
 {
-    scrollbar.setFillColor(Palette::black);
+    scrollbar.setFillColor(Palette::white);
     scrollbar.setSize(sf::Vector2f(12.f, 12.f));
 
     scroll_x_pos = view.getSize().x - scrollbar.getSize().x;
@@ -42,13 +44,15 @@ void Scrollable::setScrollable(float max_height)
 
     frame = sf::FloatRect(sf::Vector2f(frame.left, frame.top), sf::Vector2f(size));
 
-    max_scroll = max_height - view.getSize().y;
+    max_scroll = max_height - size.y;
     if (max_scroll < 0.f) {
         max_scroll = 0.f;
     }
 
     resizeScrollbar();
     placeScrollbar();
+
+    background.setSize(sf::Vector2f(size.x, max_scroll + size.y));
 }
 
 bool Scrollable::scroll(float delta, sf::Vector2f mpos) {
@@ -81,7 +85,7 @@ void Scrollable::scrollToTop()
 void Scrollable::resizeScrollbar() {
     sf::Vector2f scroll_size(scrollbar.getSize().x, view.getSize().y);
     if(max_scroll > 0) {
-        scroll_size.y *= (max_scroll / size.y);
+        scroll_size.y *= (size.y / (max_scroll + size.y));
     }
     scrollbar.setSize(scroll_size);
     placeScrollbar();
@@ -99,3 +103,29 @@ void Scrollable::placeScrollbar() {
     scrollbar.setPosition(pos);
 }
 
+sf::Vector2f Scrollable::getPosition()
+{
+    return sf::Vector2f(frame.left, frame.top);
+}
+
+sf::Vector2f Scrollable::getSize()
+{
+    return size;
+}
+
+sf::Vector2f Scrollable::scrollbarSize()
+{
+    return scrollbar.getSize();
+}
+
+void Scrollable::setBackground(sf::Color color)
+{
+    background.setFillColor(color);
+}
+
+void Scrollable::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.setView(view);
+    target.draw(background, states);
+    target.draw(scrollbar, states);
+}
