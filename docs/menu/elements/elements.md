@@ -29,7 +29,7 @@ The basic Sylph menu elements use switch statements to implement state behavior.
 
 Callback which registers `this` with the active menu
 
---
+------
 
 #### set_inactive
 
