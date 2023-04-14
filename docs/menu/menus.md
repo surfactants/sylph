@@ -25,7 +25,7 @@ Please note: the `elements` vector is not intended to hold raw owning pointers. 
 
 ### Using a newly-derived menu state:
 - add an entry to enum Menu::STATE to refer to the new menu
-- include the new menu state’s header in <src/system/main_state/menu_state.cpp>
+- add the new menu state’s header in <include/menu/states.hpp>
 - construct the menu, adding it to the map. Use the enum entry as the key.
 - Define an entry point! The menu is useless unless something can enter it. Add an extra nav button to one of the existing menus, or set up logic somewhere which sets the menu state (and sets the main state to the menu, if necessary).
 
