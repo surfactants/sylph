@@ -6,9 +6,6 @@ class Menu_Load_Game : public Menu {
 public:
     Menu_Load_Game();
 
-    virtual void enterState() override;
-    virtual void exitState() override;
-
     void start();
     void deleteSave();
     void cancel();

@@ -1,13 +1,16 @@
 #include <menu/state/menu.hpp>
 
-std::unique_ptr<sf::Font> Menu::font = nullptr;
+std::unique_ptr<sf::Font> Menu::font { nullptr };
 
-const sf::Vector2f Menu::button_start = sf::Vector2f(64.f, 64.f);
+const sf::Vector2f Menu::button_start { sf::Vector2f(64.f, 64.f) };
 
 std::function<void(Main_State::State)> Menu::setMainState;
 std::function<void(Menu::State)> Menu::setMenuState;
 
 sf::View Menu::view;
+
+Menu_Element* Menu::moused_element { nullptr };
+Menu_Element* Menu::active_element { nullptr };
 
 Menu::Menu()
 {
@@ -27,6 +30,9 @@ Menu::Menu()
         view.setViewport(sf::FloatRect(xp, yp, xs, ys));
         view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
         view.setCenter(size / 2.f);
+
+        Menu_Element::set_active = std::bind(setActive, std::placeholders::_1);
+        Menu_Element::set_inactive = std::bind(unsetActive);
     }
 }
 
@@ -34,16 +40,16 @@ void Menu::update(const sf::Vector2i& mpos)
 {
     if (active_element) {
         if (active_element->update(mpos)) {
-            mouse_target = active_element;
+            moused_element = active_element;
             // successful update truncates update function
             // so elements overlaying others will not share input
             return;
         }
     }
 
-    if (mouse_target) {
-        if (!mouse_target->update(mpos)) {
-            mouse_target = nullptr;
+    if (moused_element) {
+        if (!moused_element->update(mpos)) {
+            moused_element = nullptr;
         }
         else {
             return;
@@ -52,7 +58,7 @@ void Menu::update(const sf::Vector2i& mpos)
 
     for (auto& element : elements) {
         if (element->update(mpos)) {
-            mouse_target = element;
+            moused_element = element;
             break;
         }
     }
@@ -90,8 +96,8 @@ void Menu::handleInput(const sf::Event& event)
     else if (event.type == sf::Event::TextEntered) {
         textEntered(event);
     }
-    else if (event.type == sf::Event::MouseWheelScrolled && mouse_target) {
-        mouse_target->scroll(event.mouseWheelScroll.delta);
+    else if (event.type == sf::Event::MouseWheelScrolled && moused_element) {
+        moused_element->scroll(event.mouseWheelScroll.delta);
     }
 }
 
@@ -117,8 +123,8 @@ void Menu::clickLeft()
     if (active_element) {
         active_element->clickLeft();
     }
-    if (mouse_target && mouse_target != active_element) {
-        mouse_target->clickLeft();
+    if (moused_element && moused_element != active_element) {
+        moused_element->clickLeft();
     }
 }
 
@@ -127,8 +133,8 @@ void Menu::releaseLeft()
     if (active_element) {
         active_element->releaseLeft();
     }
-    if (mouse_target && mouse_target != active_element) {
-        mouse_target->releaseLeft();
+    if (moused_element && moused_element != active_element) {
+        moused_element->releaseLeft();
     }
 }
 
@@ -137,8 +143,8 @@ void Menu::clickRight()
     if (active_element) {
         active_element->clickRight();
     }
-    if (mouse_target && mouse_target != active_element) {
-        mouse_target->clickRight();
+    if (moused_element && moused_element != active_element) {
+        moused_element->clickRight();
     }
 }
 
@@ -147,8 +153,8 @@ void Menu::releaseRight()
     if (active_element) {
         active_element->releaseRight();
     }
-    if (mouse_target && mouse_target != active_element) {
-        mouse_target->releaseRight();
+    if (moused_element && moused_element != active_element) {
+        moused_element->releaseRight();
     }
 }
 
@@ -160,20 +166,13 @@ void Menu::setActive(Menu_Element* element)
 void Menu::unsetActive()
 {
     if (active_element) {
-        active_element->setToBase();
         active_element = nullptr;
     }
 }
 
-void Menu::enterState()
+void Menu::addNav(std::string text, std::function<void()> target, Menu_Element::State base)
 {
-    Menu_Element::set_active = std::bind(&Menu::setActive, this, std::placeholders::_1);
-    Menu_Element::set_inactive = std::bind(&Menu::unsetActive, this);
-}
-
-void Menu::exitState()
-{
-    unsetActive();
+    nav.push_back(Button(text, *font, target, nav_csize, base));
 }
 
 void Menu::placeNav()
@@ -183,6 +182,17 @@ void Menu::placeNav()
         n.setPosition(pos);
         pos.y += n.getSize().y + button_offset;
         elements.push_back(&n);
+    }
+}
+
+void Menu::reset()
+{
+    if (moused_element) {
+        moused_element->reset();
+        moused_element = nullptr;
+    }
+    if (active_element) {
+        active_element->reset();
     }
 }
 
@@ -202,11 +212,28 @@ void Menu::setEscape(Main_State::State state)
 
 void Menu::escape()
 {
+    if (moused_element) {
+        moused_element->reset();
+        moused_element = nullptr;
+    }
     if (active_element) {
-        unsetActive();
+        active_element->reset();
     }
     else {
+        reset();
         std::visit(*this, escape_target);
+    }
+}
+
+void Menu::clearNullElements()
+{
+    for (auto it = elements.begin(); it != elements.end();) {
+        if (*it == nullptr) {
+            elements.erase(it);
+        }
+        else {
+            it++;
+        }
     }
 }
 

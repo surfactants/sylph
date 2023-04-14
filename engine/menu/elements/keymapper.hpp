@@ -30,6 +30,8 @@ public:
 
     virtual void scroll(float delta) override;
 
+    void reset();
+
     std::vector<Command> getCommands();
 
 private:

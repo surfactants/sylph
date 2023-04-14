@@ -2,9 +2,9 @@
 
 Menu_Settings_General::Menu_Settings_General()
 {
-    nav.push_back(Button(std::string("save"), *font, std::bind(setMenuState, Menu::SETTINGS), csize));
-    nav.push_back(Button(std::string("default"), *font, std::bind(setMenuState, Menu::SETTINGS), csize));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(&Menu::escape, this), csize));
+    addNav("save", std::bind(save, this), Menu_Element::UNAVAILABLE);
+    addNav("default", [](){});
+    addNav("cancel", std::bind(escape, this));
 
     setEscape(Menu::SETTINGS);
 
@@ -39,14 +39,4 @@ Menu_Settings_General::Menu_Settings_General()
     }
 
     elements.push_back(&dropdown); // drop down goes last so it properly overlays other elements
-}
-
-void Menu_Settings_General::enterState()
-{
-    Menu::enterState();
-}
-
-void Menu_Settings_General::exitState()
-{
-    Menu::exitState();
 }

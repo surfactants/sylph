@@ -163,6 +163,11 @@ std::vector<Command> Keymapper::getCommands()
     return commands;
 }
 
+void Keymapper::reset()
+{
+    Menu_Element::reset();
+}
+
 void Keymapper::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.setView(view);

@@ -34,8 +34,8 @@ public:
     };
 
     virtual void update(const sf::Vector2i& mpos);
-    void clickLeft();
-    void releaseLeft();
+    virtual void clickLeft();
+    virtual void releaseLeft();
     void escape();
     virtual void clickRight();
     virtual void releaseRight();
@@ -44,10 +44,12 @@ public:
     virtual void textEntered(const sf::Event& event);
     virtual void keyPressed(sf::Keyboard::Key key);
 
-    virtual void enterState();
-    virtual void exitState();
+    virtual void enterState() {};
+    virtual void exitState() {};
 
     virtual void save(){}
+
+    void reset();
 
 // menu reversion is defined with operator() to act as a visitor in ::escape()
     void operator ()(Menu::State state)
@@ -72,7 +74,7 @@ protected:
     std::vector<Menu_Element*> elements;
     std::vector<Button> nav;
 
-    constexpr static unsigned int csize { 72 };
+    constexpr static unsigned int nav_csize { 72 };
 
     const static sf::Vector2f button_start;
     constexpr static float button_offset { 32.f };
@@ -80,17 +82,20 @@ protected:
 
     const static sf::Vector2f nav_size;
 
+    void addNav(std::string text, std::function<void()> target, Menu_Element::State base = Menu_Element::READY);
     void placeNav();
 
     std::variant<Menu::State, Main_State::State> escape_target;
 
-    Menu_Element* mouse_target { nullptr };
-    Menu_Element* active_element { nullptr };
+    static Menu_Element* moused_element;
+    static Menu_Element* active_element;
 
-    void setActive(Menu_Element* element);
-    void unsetActive();
+    static void setActive(Menu_Element* element);
+    static void unsetActive();
 
     static sf::View view;
+
+    void clearNullElements();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

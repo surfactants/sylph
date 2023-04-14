@@ -4,8 +4,8 @@ Menu_New_Game::Menu_New_Game()
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    nav.push_back(Button(std::string("start"), *font, std::bind(setMainState, Main_State::GAME), csize, Menu_Element::UNAVAILABLE));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(setMenuState, Menu::MAIN), csize));
+    addNav("start", std::bind(setMainState, Main_State::GAME), Menu_Element::UNAVAILABLE);
+    addNav("cancel", std::bind(cancel, this));
 
     setEscape(Menu::MAIN);
 
@@ -78,9 +78,13 @@ void Menu_New_Game::handleInput(const sf::Event& event)
 {
     Menu::handleInput(event);
     if (validate()) {
-        nav.front().setState(Menu_Element::READY);
+        if (!valid) {
+            valid = true;
+            nav.front().setState(Menu_Element::READY);
+        }
     }
-    else {
+    else if (valid) {
+        valid = false;
         nav.front().setState(Menu_Element::UNAVAILABLE);
     }
 }
@@ -95,14 +99,8 @@ bool Menu_New_Game::validate()
     return true;
 }
 
-void Menu_New_Game::enterState()
-{
-    Menu::enterState();
-}
-
 void Menu_New_Game::exitState()
 {
-    Menu::exitState();
     for (auto& t : textboxes) {
         t.clear();
     }

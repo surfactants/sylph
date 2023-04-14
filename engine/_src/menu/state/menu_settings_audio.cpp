@@ -2,9 +2,9 @@
 
 Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 {
-    nav.push_back(Button(std::string("save"), *font, std::bind(save, this), csize));
-    nav.push_back(Button(std::string("default"), *font, std::bind(loadDefaults, this), csize));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(cancel, this), csize));
+    addNav("save", std::bind(save, this));
+    addNav("default", std::bind(loadDefaults, this));
+    addNav("cancel", std::bind(cancel, this));
 
     placeNav();
 
@@ -43,16 +43,6 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
     saveToDatabase = std::bind(&Audio::saveToDatabase, &audio);
 
     setEscape(Menu::SETTINGS);
-}
-
-void Menu_Settings_Audio::enterState()
-{
-    Menu::enterState();
-}
-
-void Menu_Settings_Audio::exitState()
-{
-    Menu::exitState();
 }
 
 void Menu_Settings_Audio::save()

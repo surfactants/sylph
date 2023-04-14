@@ -7,9 +7,9 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Comma
     : loadCommands { loadCommands }
     , saveCommands { saveCommands }
 {
-    nav.push_back(Button(std::string("save"), *font, std::bind(save, this), csize));
-    nav.push_back(Button(std::string("default"), *font, std::bind(setMenuState, Menu::SETTINGS), csize));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(&Menu::escape, this), csize));
+    addNav("save", std::bind(save, this));
+    addNav("default", std::bind(setMenuState, Menu::SETTINGS));
+    addNav("cancel", std::bind(&Menu::escape, this));
 
     setEscape(Menu::SETTINGS);
 
@@ -26,13 +26,11 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Comma
 
 void Menu_Settings_Keymapper::enterState()
 {
-    Menu::enterState();
     keymapper.load(loadCommands(), *font);
 }
 
 void Menu_Settings_Keymapper::exitState()
 {
-    Menu::exitState();
     keymapper.reset();
 }
 

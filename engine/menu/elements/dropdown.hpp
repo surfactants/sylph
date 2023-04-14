@@ -5,6 +5,27 @@
 #include "button.hpp"
 #include "scrollable.hpp"
 
+/// DROPDOWN ///
+/// \brief a dropdown menu for selecting one of many options. uses a view-based scrollbar (Scrollable option_frame).
+/// The templated type is what the options themselves store. setView() and load() MUST be called, IN THAT ORDER.
+///
+
+/* NOTES
+ *
+ * STATE
+ * * The base Button is used to access the menu and display the selected element
+ * * READY and HIGHLIGHTED states correspond to the base Button's states
+ * * ACTIVE state indicates that the menu is open
+ * * * While active, state check is performed on the Options
+ * * * Active and moused options are tracked by two pointers (active_option, moused_option) for simpler parsing that can sometimes bypass iteration
+ *
+ * OPTION
+ * The Dropdown uses a specialized Button, called Option:
+ * * Holds T variable (one per option)
+ * * Only overrided function is update, which removes the ACTIVE case (ACTIVE tracking is handled by Dropdown-level clicks)
+ *
+ */
+
 template <typename T>
 class Dropdown : public Button {
 public:
@@ -86,6 +107,7 @@ public:
     {
         switch (state) {
             case HIGHLIGHTED:
+                // open on highlight
                 activate();
                 break;
             case ACTIVE:

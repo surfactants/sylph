@@ -65,6 +65,12 @@ public:
         setState(base_state);
     }
 
+    void reset()
+    {
+        deactivate();
+        setToBase();
+    }
+
 protected:
     sf::RectangleShape frame;
     State state { NULL_STATE };

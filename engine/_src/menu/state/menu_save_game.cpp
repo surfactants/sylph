@@ -4,22 +4,12 @@ Menu_Save_Game::Menu_Save_Game()
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    nav.push_back(Button(std::string("save"), *font, std::bind(setMenuState, Menu::NEW_GAME), csize, Button::UNAVAILABLE));
-    nav.push_back(Button(std::string("cancel"), *font, std::bind(setMenuState, Menu::LOAD_GAME), csize));
+    addNav("save", std::bind(setMenuState, Menu::NEW_GAME), Menu_Element::UNAVAILABLE);
+    addNav("cancel", std::bind(setMenuState, Menu::LOAD_GAME));
 
     setEscape(Main_State::QUIT);
 
     placeNav();
-}
-
-void Menu_Save_Game::enterState()
-{
-    Menu::enterState();
-}
-
-void Menu_Save_Game::exitState()
-{
-    Menu::exitState();
 }
 
 void Menu_Save_Game::start()

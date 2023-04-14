@@ -48,6 +48,7 @@ void Menu_State::handleInput(const sf::Event& event)
 void Menu_State::setMenuState(Menu::State new_menu)
 {
     menu->exitState();
+    menu->reset();
     menu = menus[new_menu].get();
     menu->enterState();
     drawables[0] = menu;
