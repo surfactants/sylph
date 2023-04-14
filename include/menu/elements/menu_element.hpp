@@ -27,11 +27,12 @@ public:
     virtual void scroll(float delta) {}
 
     inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*){};
-    inline static std::function<void()> set_inactive = [](){};
+    inline static std::function<void(Menu_Element*)> set_inactive = [](Menu_Element*){};
 
     virtual void deactivate()
     {
-        set_inactive();
+        set_inactive(this);
+        setToBase();
     }
 
     virtual void activate()
@@ -63,12 +64,6 @@ public:
     virtual void setToBase()
     {
         setState(base_state);
-    }
-
-    void reset()
-    {
-        deactivate();
-        setToBase();
     }
 
 protected:

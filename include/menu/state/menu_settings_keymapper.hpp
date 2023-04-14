@@ -8,17 +8,17 @@
 
 class Menu_Settings_Keymapper : public Menu {
 public:
-    Menu_Settings_Keymapper(std::function<std::vector<Command>()>     loadCommands
-                          , std::function<void(std::vector<Command>)> saveCommands);
+    Menu_Settings_Keymapper(std::function<void(std::vector<Command>)> saveCommands);
 
     virtual void enterState() override;
     virtual void exitState() override;
 
-    std::function<std::vector<Command>()> loadCommands;
     std::function<void(std::vector<Command>)> saveCommands;
 
 private:
     Keymapper keymapper;
 
+    void load();
+    void loadDefaults();
     void save();
 };

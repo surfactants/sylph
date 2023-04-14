@@ -46,11 +46,6 @@ void Game_State::handleInput(const sf::Event& event)
     }
 }
 
-std::vector<Command> Game_State::getCommands()
-{
-    return commands;
-}
-
 void Game_State::loadCommands(std::vector<Command> new_commands)
 {
     commands = new_commands;

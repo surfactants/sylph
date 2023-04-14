@@ -78,8 +78,9 @@ bool Scrollable::scroll(float delta, sf::Vector2f mpos) {
 
 void Scrollable::scrollToTop()
 {
-    view.move(sf::Vector2f(0.f, -current_scroll));
+    view.setCenter(size / 2.f);
     current_scroll = 0.f;
+    placeScrollbar();
 }
 
 void Scrollable::resizeScrollbar() {

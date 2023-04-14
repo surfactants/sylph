@@ -2,14 +2,12 @@
 
 #include <engine/database/database_commands.hpp>
 
-Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Command>()> loadCommands
-                                               , std::function<void(std::vector<Command>)> saveCommands)
-    : loadCommands { loadCommands }
-    , saveCommands { saveCommands }
+Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<void(std::vector<Command>)> saveCommands)
+    : saveCommands { saveCommands }
 {
     addNav("save", std::bind(save, this));
-    addNav("default", std::bind(setMenuState, Menu::SETTINGS));
-    addNav("cancel", std::bind(&Menu::escape, this));
+    addNav("default", std::bind(loadDefaults, this));
+    addNav("cancel", std::bind(escape, this));
 
     setEscape(Menu::SETTINGS);
 
@@ -26,12 +24,24 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<std::vector<Comma
 
 void Menu_Settings_Keymapper::enterState()
 {
-    keymapper.load(loadCommands(), *font);
+    load();
 }
 
 void Menu_Settings_Keymapper::exitState()
 {
-    keymapper.reset();
+    keymapper.scrollToTop();
+}
+
+void Menu_Settings_Keymapper::load()
+{
+    Database_Commands dbc;
+    keymapper.load(dbc.read(), *font);
+}
+
+void Menu_Settings_Keymapper::loadDefaults()
+{
+    Database_Commands dbc;
+    keymapper.load(dbc.readDefaults(), *font);
 }
 
 void Menu_Settings_Keymapper::save()

@@ -30,8 +30,6 @@ public:
 
     virtual void scroll(float delta) override;
 
-    void reset();
-
     std::vector<Command> getCommands();
 
 private:
@@ -39,12 +37,15 @@ private:
 
     std::vector<Command> commands;
 
-    typedef std::tuple<sf::Text, Button, Command*> Key_Row;
+    typedef std::tuple<sf::Text, std::unique_ptr<Button>, Command*> Key_Row;
 
     std::vector<Key_Row> rows;
 
-    Key_Row* highlighted_row;
-    Key_Row* active_row;
+    Key_Row* highlighted_row { nullptr };
+    Key_Row* active_row { nullptr };
+
+    Button* activeButton();
+    Button* highlightedButton();
 
     constexpr static unsigned int csize { 44 };
     constexpr static unsigned int text_size { 42 };

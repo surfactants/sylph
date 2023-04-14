@@ -91,7 +91,7 @@ protected:
     static Menu_Element* active_element;
 
     static void setActive(Menu_Element* element);
-    static void unsetActive();
+    static void unsetActive(Menu_Element* element);
 
     static sf::View view;
 

@@ -12,6 +12,7 @@ public:
     Database_Commands() = default;
 
     std::vector<Command> read();
+    std::vector<Command> readDefaults();
 
     void write(std::vector<Command> pkg);
 

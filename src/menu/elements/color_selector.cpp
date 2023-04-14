@@ -210,8 +210,7 @@ void Color_Selector::deactivate()
 {
     selecting = false;
     sliding = false;
-    setState(READY);
-    set_inactive();
+    Menu_Element::deactivate();
 }
 
 void Color_Selector::clickRight()

@@ -32,7 +32,7 @@ Menu::Menu()
         view.setCenter(size / 2.f);
 
         Menu_Element::set_active = std::bind(setActive, std::placeholders::_1);
-        Menu_Element::set_inactive = std::bind(unsetActive);
+        Menu_Element::set_inactive = std::bind(unsetActive, std::placeholders::_1);
     }
 }
 
@@ -163,9 +163,9 @@ void Menu::setActive(Menu_Element* element)
     active_element = element;
 }
 
-void Menu::unsetActive()
+void Menu::unsetActive(Menu_Element* element)
 {
-    if (active_element) {
+    if (element == active_element) {
         active_element = nullptr;
     }
 }
@@ -188,11 +188,11 @@ void Menu::placeNav()
 void Menu::reset()
 {
     if (moused_element) {
-        moused_element->reset();
+        moused_element->setToBase();
         moused_element = nullptr;
     }
     if (active_element) {
-        active_element->reset();
+        active_element->deactivate();
     }
 }
 
@@ -213,11 +213,11 @@ void Menu::setEscape(Main_State::State state)
 void Menu::escape()
 {
     if (moused_element) {
-        moused_element->reset();
+        moused_element->deactivate();
         moused_element = nullptr;
     }
     if (active_element) {
-        active_element->reset();
+        active_element->deactivate();
     }
     else {
         reset();

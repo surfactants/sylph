@@ -19,7 +19,6 @@ public:
 
     void loadInput(Input_Package input);
 
-    std::vector<Command> getCommands();
     void loadCommands(std::vector<Command> new_commands);
 
 private:

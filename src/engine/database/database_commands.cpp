@@ -9,15 +9,31 @@ std::vector<Command> Database_Commands::read()
     while (step()) {
         int col = 0;
         Command c;
-        std::string key = toString(col++);
-        c.key = key_string.toKey(key);
         c.press = toString(col++);
         c.release = toString(col++);
+        c.key = key_string.toKey(toString(col++));
 
         pkg.push_back(c);
     }
 
-    std::sort(pkg.begin(), pkg.end(), &commandSort);
+    return pkg;
+}
+
+std::vector<Command> Database_Commands::readDefaults()
+{
+    std::vector<Command> pkg;
+
+    selectTable("COMMANDS_DEFAULT");
+
+    while (step()) {
+        int col = 0;
+        Command c;
+        c.press = toString(col++);
+        c.release = toString(col++);
+        c.key = key_string.toKey(toString(col++));
+
+        pkg.push_back(c);
+    }
 
     return pkg;
 }
@@ -31,12 +47,12 @@ void Database_Commands::write(std::vector<Command> pkg)
     for (const auto& c : pkg) {
         std::string key = key_string.toString(c.key);
 
-        std::string update_query = "UPDATE COMMANDS SET PRESS='"
-            + c.press + "', RELEASE='"
-            + c.release + "'"
-            + "WHERE KEY ='" + key +"';";
+        std::string update_query = "UPDATE COMMANDS SET KEY='"
+            + key + "' WHERE PRESS ='"
+            + c.press + "';";
 
         execute(update_query);
+        continue;
 
         std::string insert_query = "INSERT INTO COMMANDS (KEY, PRESS, RELEASE) SELECT '"
             + key + "', '"

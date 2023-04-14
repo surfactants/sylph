@@ -12,6 +12,7 @@ Keymapper::Keymapper()
 
 void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
 {
+    reset();
     commands = new_commands;
     rows.clear();
 
@@ -40,7 +41,7 @@ void Keymapper::load(std::vector<Command> new_commands, sf::Font& font)
         text_pos.x += (text.getGlobalBounds().left + text.getGlobalBounds().width) / 2.f;
         text.setPosition(text_pos);
 
-        rows.push_back(std::make_tuple(text, button, &c));
+        rows.push_back(std::make_tuple(text, std::make_unique<Button>(button), &c));
 
         pos.y += button_size.y + button_offset;
     }
@@ -72,13 +73,17 @@ bool Keymapper::update(const sf::Vector2i& mpos)
         case HIGHLIGHTED:
             if (cnt) {
                 sf::Vector2i trans_pos(translateGlobalPos(mpos));
-                if (highlighted_row && std::get<Button>(*highlighted_row).update(trans_pos)) {
+                if (highlighted_row && highlighted_row != active_row && highlightedButton()->update(trans_pos)) {
                     break;
                 }
                 else {
                     highlighted_row = nullptr;
+                    if (active_row && activeButton()->contains(trans_pos)) {
+                        highlighted_row = active_row;
+                        break;
+                    }
                     for (auto& row : rows) {
-                        if (&row != active_row && std::get<Button>(row).update(trans_pos)) {
+                        if (&row != active_row && std::get<std::unique_ptr<Button>>(row)->update(trans_pos)) {
                             highlighted_row = &row;
                         }
                     }
@@ -86,23 +91,44 @@ bool Keymapper::update(const sf::Vector2i& mpos)
             }
             else {
                 setState(READY);
+                if (highlighted_row) {
+                    if (highlighted_row != active_row) {
+                        highlightedButton()->setToBase();
+                    }
+                    highlighted_row = nullptr;
+                }
             }
             break;
     }
     return cnt;
 }
 
+Button* Keymapper::activeButton()
+{
+    return std::get<std::unique_ptr<Button>>(*active_row).get();
+}
+
+Button* Keymapper::highlightedButton()
+{
+    return std::get<std::unique_ptr<Button>>(*highlighted_row).get();
+}
+
 void Keymapper::clickLeft()
 {
-    if (highlighted_row) {
+    if (!highlighted_row) {
+        deactivate();
+    }
+    else if (highlighted_row != active_row) {
+        if (active_row) {
+            activeButton()->setToBase();
+        }
         active_row = highlighted_row;
-        std::get<Button>(*active_row).setState(ACTIVE);
-        highlighted_row = nullptr;
+        activeButton()->setState(ACTIVE);
         activate();
     }
     else if (state == READY) {
         if (active_row) {
-            std::get<Button>(*active_row).setState(READY);
+            activeButton()->setState(READY);
             deactivate();
         }
     }
@@ -117,11 +143,10 @@ void Keymapper::activate()
 void Keymapper::deactivate()
 {
     if (active_row) {
-        std::get<Button>(*active_row).setState(READY);
+        activeButton()->deactivate();
         active_row = nullptr;
     }
     Menu_Element::deactivate();
-    setState(READY);
 }
 
 void Keymapper::releaseLeft()
@@ -142,7 +167,7 @@ void Keymapper::keyPressed(sf::Keyboard::Key k)
         for (auto& [t, b, c] : rows) {
             if (c->key == k) {
                 c->key = std::get<Command*>(*active_row)->key;
-                b.setLabel(std::get<Button>(*active_row).getLabel());
+                b->setLabel(activeButton()->getLabel());
                 break;
             }
         }
@@ -150,8 +175,8 @@ void Keymapper::keyPressed(sf::Keyboard::Key k)
         std::string key = key_string.toString(k);
         auto& [t, b, c] = *active_row;
         c->key = k;
-        b.setLabel(key);
-        b.setState(READY);
+        b->setLabel(key);
+        b->setState(READY);
         active_row = nullptr;
         setState(READY);
     }
@@ -162,18 +187,13 @@ std::vector<Command> Keymapper::getCommands()
     return commands;
 }
 
-void Keymapper::reset()
-{
-    Menu_Element::reset();
-}
-
 void Keymapper::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.setView(view);
     target.draw(background, states);
     for (const auto& [t, b, c] : rows) {
         target.draw(t, states);
-        target.draw(b, states);
+        target.draw(*b, states);
     }
     target.draw(scrollbar, states);
 }

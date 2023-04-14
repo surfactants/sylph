@@ -1,4 +1,4 @@
-#include <game/game_play.hpp>
+#include <game/state/game_play.hpp>
 
 Game_Play::Game_Play()
 {}

@@ -2,7 +2,7 @@
 
 Menu_Settings_General::Menu_Settings_General()
 {
-    addNav("save", std::bind(save, this), Menu_Element::UNAVAILABLE);
+    addNav("save", std::bind(save, this));
     addNav("default", [](){});
     addNav("cancel", std::bind(escape, this));
 
@@ -39,4 +39,15 @@ Menu_Settings_General::Menu_Settings_General()
     }
 
     elements.push_back(&dropdown); // drop down goes last so it properly overlays other elements
+}
+
+void Menu_Settings_General::save()
+{
+    // perform database operations and invoke game callback:
+    /*
+    Database_Commands dbc;
+    dbc.write(keymapper.getCommands());
+    saveCommands(keymapper.getCommands());
+    */
+    escape();
 }
