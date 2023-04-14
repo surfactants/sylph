@@ -1,10 +1,10 @@
 #pragma once
 
+#include <engine/input/input_package.hpp>
+
 #include <game/state/game.hpp>
 
 #include <menu/state/menu.hpp>
-
-#include <engine/input/input_package.hpp>
 
 #include "main_state.hpp"
 

@@ -3,7 +3,6 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <iostream>
-#include <string>
 
 /// << sf::Vector2<T> ///
 /// \brief implements stream operators for sf::Vector2 types

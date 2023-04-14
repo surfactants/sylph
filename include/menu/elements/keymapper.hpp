@@ -5,11 +5,11 @@
 #include <tuple>
 #include <vector>
 
-#include <menu/elements/button.hpp>
-#include <menu/elements/scrollable.hpp>
-
 #include <engine/input/command.hpp>
 #include <engine/input/key_string.hpp>
+
+#include <menu/elements/button.hpp>
+#include <menu/elements/scrollable.hpp>
 
 #include "menu_element.hpp"
 

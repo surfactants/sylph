@@ -4,7 +4,6 @@
 #include <memory>
 
 #include <engine/audio/audio.hpp>
-
 #include <engine/event/event_bus.hpp>
 
 #include "main_state.hpp"
