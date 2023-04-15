@@ -8,6 +8,7 @@ public:
     Game();
 
     enum State {
+        NEW,
         PLAY,
         UI
     };

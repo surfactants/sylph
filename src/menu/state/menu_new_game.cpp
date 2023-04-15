@@ -1,10 +1,13 @@
 #include <menu/state/menu_new_game.hpp>
 
-Menu_New_Game::Menu_New_Game()
+#include <game/state/new_game.hpp>
+
+Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
+    : start_game { start_game }
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    addNav("start", std::bind(setMainState, Main_State::GAME), Menu_Element::UNAVAILABLE);
+    addNav("start", std::bind(start, this), Menu_Element::UNAVAILABLE);
     addNav("cancel", std::bind(cancel, this));
 
     setEscape(Menu::MAIN);
@@ -112,6 +115,10 @@ void Menu_New_Game::exitState()
 void Menu_New_Game::start()
 {
     // initiate game loading
+    New_Game_Data data;
+    data.player_name = textboxes.front().getString();
+    data.player_color = selectors.front().getColor();
+    start_game(data);
     setMainState(Main_State::GAME);
     Event_Bus::publish(Event(Event::MAIN_MENU_EXITED));
 }

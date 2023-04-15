@@ -2,6 +2,7 @@
 
 #include <engine/database/database_commands.hpp>
 
+#include <game/state/new_game.hpp>
 #include <game/state/game_play.hpp>
 
 Game_State::Game_State(std::function<void()> open_pause)
@@ -15,7 +16,9 @@ Game_State::Game_State(std::function<void()> open_pause)
 }
 
 void Game_State::update(float delta_time)
-{}
+{
+    game->update(delta_time);
+}
 
 void Game_State::handleInput(const sf::Event& event)
 {
@@ -63,7 +66,10 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 
 void Game_State::loadSettings(Game_Settings settings)
 {
-    game->loadSettings(settings);
+    this->settings = settings;
+    if (game) {
+        game->loadSettings(settings);
+    }
 }
 
 std::function<void()> Game_State::stringToFunction(std::string str)
@@ -110,8 +116,14 @@ std::function<void()> Game_State::stringToFunction(std::string str)
     return [](){};
 }
 
+void Game_State::newGame(New_Game_Data data)
+{
+    game = std::make_unique<New_Game>(data);
+    setGameState(Game::NEW);
+}
+
 void Game_State::setGameState(Game::State new_game)
 {
-    game = states[new_game].get();
+    game_state = new_game;
     input = &input_map[new_game];
 }

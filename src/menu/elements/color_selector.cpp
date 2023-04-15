@@ -173,6 +173,9 @@ void Color_Selector::clickLeft()
         case SLIDER:
             sliding = true;
             break;
+        case NONE:
+            deactivate();
+            break;
         default:
             break;
     }
@@ -190,9 +193,6 @@ void Color_Selector::releaseLeft()
             else {
                 activate();
             }
-            break;
-        case NONE:
-            deactivate();
             break;
         default:
             break;
@@ -237,6 +237,15 @@ void Color_Selector::slide(sf::Vector2i mousePos)
     }
 
     setHue();
+
+    sf::Vector2i local_pos(selector.getPosition() - colors[0].position);
+
+    size_t index = local_pos.y * 256;
+    index += local_pos.x;
+
+    sf::Color selected_color = colors[index].color;
+    preview.setFillColor(selected_color);
+    selector.setFillColor(selected_color);
 }
 
 void Color_Selector::setHue()

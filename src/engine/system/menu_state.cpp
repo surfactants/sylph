@@ -20,7 +20,8 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
     auto saveCommands = std::bind(&Game_State::loadCommands, game, std::placeholders::_1);
     menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>(saveCommands);
 
-    menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
+    auto start_game = std::bind(&Game_State::newGame, game, std::placeholders::_1);
+    menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>(start_game);
     menus[Menu::LOAD_GAME] = std::make_unique<Menu_Load_Game>();
     menus[Menu::SAVE_GAME] = std::make_unique<Menu_Save_Game>();
 

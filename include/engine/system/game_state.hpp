@@ -2,6 +2,7 @@
 
 #include <engine/input/input_package.hpp>
 
+#include <game/data/new_game_data.hpp>
 #include <game/state/game.hpp>
 
 #include <menu/state/menu.hpp>
@@ -22,10 +23,13 @@ public:
     void loadCommands(std::vector<Command> new_commands);
     void loadSettings(Game_Settings settings);
 
-private:
-    Game* game;
+    void newGame(New_Game_Data data);
+    void loadGame();
 
-    Game::State game_state { Game::PLAY };
+private:
+    std::unique_ptr<Game> game { nullptr };
+
+    Game::State game_state;
 
     std::map<Game::State, std::unique_ptr<Game>> states;
 
@@ -36,4 +40,6 @@ private:
     Input_Package* input;
 
     std::unordered_map<Game::State, Input_Package> input_map;
+
+    Game_Settings settings;
 };
