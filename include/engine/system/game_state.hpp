@@ -16,7 +16,7 @@ public:
     virtual void update(float delta_time) override;
     virtual void handleInput(const sf::Event& event) override;
 
-    void setGameState(Game::State new_game);
+    void setGameState(Game::State state);
 
     void loadInput(Input_Package input);
 
@@ -25,6 +25,7 @@ public:
 
     void newGame(New_Game_Data data);
     void loadGame();
+    void newToPlay();
 
 private:
     std::unique_ptr<Game> game { nullptr };

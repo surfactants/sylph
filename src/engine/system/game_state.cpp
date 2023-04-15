@@ -12,7 +12,8 @@ Game_State::Game_State(std::function<void()> open_pause)
     loadCommands(dbc.read());
     states[Game::PLAY] = std::make_unique<Game_Play>();
 
-    setGameState(Game::PLAY);
+    Game::setGameState = std::bind(setGameState, this, std::placeholders::_1);
+    New_Game::newToPlay = std::bind(newToPlay, this);
 }
 
 void Game_State::update(float delta_time)
@@ -122,8 +123,16 @@ void Game_State::newGame(New_Game_Data data)
     setGameState(Game::NEW);
 }
 
-void Game_State::setGameState(Game::State new_game)
+void Game_State::newToPlay()
 {
-    game_state = new_game;
-    input = &input_map[new_game];
+    Game_Play g(*game);
+    game = nullptr;
+    game = std::make_unique<Game_Play>(g);
+    setGameState(Game::PLAY);
+}
+
+void Game_State::setGameState(Game::State state)
+{
+    game_state = state;
+    input = &input_map[state];
 }
