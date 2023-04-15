@@ -61,6 +61,11 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     }
 }
 
+void Game_State::loadSettings(Game_Settings settings)
+{
+    game->loadSettings(settings);
+}
+
 std::function<void()> Game_State::stringToFunction(std::string str)
 {
     // here, match the game functions to string identifiers

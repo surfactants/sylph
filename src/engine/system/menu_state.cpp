@@ -12,7 +12,8 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
     menus[Menu::PAUSE] = std::make_unique<Menu_Pause>();
     menus[Menu::SETTINGS] = std::make_unique<Menu_Settings>();
 
-    menus[Menu::SETTINGS_GAME] = std::make_unique<Menu_Settings_Game>();
+    auto saveSettings = std::bind(&Game_State::loadSettings, game, std::placeholders::_1);
+    menus[Menu::SETTINGS_GAME] = std::make_unique<Menu_Settings_Game>(saveSettings);
     menus[Menu::SETTINGS_GENERAL] = std::make_unique<Menu_Settings_General>();
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
 

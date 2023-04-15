@@ -2,9 +2,8 @@
 
 #include <engine/database/database_settings_game.hpp>
 
-#include <game/data/game_settings.hpp>
-
-Menu_Settings_Game::Menu_Settings_Game()
+Menu_Settings_Game::Menu_Settings_Game(std::function<void(Game_Settings)> save_settings)
+    : save_to_game { save_settings }
 {
     addNav("save", std::bind(save, this));
     addNav("default", std::bind(loadDefaults, this));
@@ -41,6 +40,11 @@ Menu_Settings_Game::Menu_Settings_Game()
     elements.push_back(&dropdown_difficulty);
 
     load();
+
+    Game_Settings s;
+    s.difficulty = dropdown_difficulty.selected();
+    s.speed = dropdown_speed.selected();
+    save_to_game(s);
 }
 
 void Menu_Settings_Game::enterState()
@@ -76,6 +80,8 @@ void Menu_Settings_Game::save()
     db.write(s);
 
     // game callback
+
+    save_to_game(s);
 
     //escape();
 }

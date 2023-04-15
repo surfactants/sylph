@@ -13,8 +13,8 @@ public:
 
     virtual void update(float delta_time) = 0;
 
-    void loadSettings(Game_Settings settings);
+    virtual void loadSettings(Game_Settings settings);
 
 protected:
-    Game_Settings settings;
+    static Game_Settings settings;
 };

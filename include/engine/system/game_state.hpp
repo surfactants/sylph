@@ -20,6 +20,7 @@ public:
     void loadInput(Input_Package input);
 
     void loadCommands(std::vector<Command> new_commands);
+    void loadSettings(Game_Settings settings);
 
 private:
     Game* game;
