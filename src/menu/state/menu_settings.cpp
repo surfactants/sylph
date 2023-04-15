@@ -2,6 +2,7 @@
 
 Menu_Settings::Menu_Settings()
 {
+    addNav("game", std::bind(setMenuState, Menu::SETTINGS_GAME));
     addNav("general", std::bind(setMenuState, Menu::SETTINGS_GENERAL));
     addNav("audio", std::bind(setMenuState, Menu::SETTINGS_AUDIO));
     addNav("controls", std::bind(setMenuState, Menu::SETTINGS_KEYMAPPER));

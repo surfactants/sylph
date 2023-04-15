@@ -19,6 +19,7 @@ public:
         MAIN = 0,
         PAUSE = 1,
         SETTINGS,
+        SETTINGS_GAME,
         SETTINGS_GENERAL,
         SETTINGS_AUDIO,
         SETTINGS_KEYMAPPER,

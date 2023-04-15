@@ -5,6 +5,7 @@
 #include "state/menu_main.hpp"
 #include "state/menu_pause.hpp"
 #include "state/menu_settings.hpp"
+#include "state/menu_settings_game.hpp"
 #include "state/menu_settings_general.hpp"
 #include "state/menu_settings_audio.hpp"
 #include "state/menu_settings_keymapper.hpp"
