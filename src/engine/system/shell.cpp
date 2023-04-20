@@ -6,10 +6,11 @@
 #include <menu/state/menu.hpp> // for font (temporary for fps)
 
 Shell::Shell()
-    : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen }
+    : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen
+             , sf::ContextSettings(0, 0, 2) }
 {
     window.setKeyRepeatEnabled(false);
-    //window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(true);
     fps_text.setFont(*Menu::font);
     fps_text.setCharacterSize(36);
     fps_text.setPosition(sf::Vector2f(1800.f, 8.f));
@@ -25,6 +26,11 @@ void Shell::run()
     }
 }
 
+void Shell::setAntiAliasing()
+{
+
+}
+
 void Shell::update()
 {
     while (window.pollEvent(event)) {
@@ -38,6 +44,6 @@ void Shell::draw()
 {
     window.clear();
     window.draw(state);
-    window.draw(fps_text);
+    //window.draw(fps_text);
     window.display();
 }

@@ -26,24 +26,6 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     textboxes.push_back(std::move(textbox));
 
-    pos.y += 128.f;
-
-    textbox = Simple_Textbox();
-    textbox.setFont(*font);
-    textbox.setPosition(pos);
-    textbox.setSize(size);
-
-    textboxes.push_back(std::move(textbox));
-
-    pos.y += 128.f;
-
-    textbox = Simple_Textbox();
-    textbox.setFont(*font);
-    textbox.setPosition(pos);
-    textbox.setSize(size);
-
-    textboxes.push_back(std::move(textbox));
-
     for (auto& t : textboxes) {
         elements.push_back(&t);
     }

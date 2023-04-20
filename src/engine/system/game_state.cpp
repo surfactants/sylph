@@ -5,6 +5,8 @@
 #include <game/state/new_game.hpp>
 #include <game/state/game_play.hpp>
 
+#include <iostream>
+
 Game_State::Game_State(std::function<void()> open_pause)
 {
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
@@ -77,6 +79,14 @@ std::function<void()> Game_State::stringToFunction(std::string str)
 {
     // here, match the game functions to string identifiers
     // use std::bind - the lambdas are placeholders
+    // also, keep in mind that pointers could become an issue...
+    // ... if casting between Game_Play and Game_UI
+    // i.e. cache Game_Play and try to use Game_State functions
+    // (ECS should handle it eventually with guaranteed persistent components)
+    // (i.e. make
+    //
+    // (it will load a different input set on state change anyway,
+    //  but don't take chances!
     static std::map<std::string, std::function<void()>> func
     {
         // movement functions
@@ -105,7 +115,10 @@ std::function<void()> Game_State::stringToFunction(std::string str)
         { "stop interact",  []() {} },
 
         // ui
-        { "open inventory", []() {} }
+        { "open inventory", []() {} },
+
+        // cheat
+        { "regenerate", std::bind(newGame, this, data) }
     };
 
     if (func.contains(str)) {
@@ -125,14 +138,24 @@ void Game_State::newGame(New_Game_Data data)
 
 void Game_State::newToPlay()
 {
-    Game_Play g(*game);
-    game = nullptr;
-    game = std::make_unique<Game_Play>(g);
+    std::unique_ptr<Game> g = std::make_unique<Game_Play>(*game);
+    drawables.clear();
+    game.reset();
+    game = std::move(g);
     setGameState(Game::PLAY);
+    std::cout << game->getWorld();
+    drawables.push_back(game->getWorld());
+    std::cout << "transitioned from new game to play state\n";
 }
 
 void Game_State::setGameState(Game::State state)
 {
     game_state = state;
     input = &input_map[state];
+}
+
+void Game_State::clear()
+{
+    game.reset();
+    drawables.clear();
 }

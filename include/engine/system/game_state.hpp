@@ -27,6 +27,8 @@ public:
     void loadGame();
     void newToPlay();
 
+    void clear();
+
 private:
     std::unique_ptr<Game> game { nullptr };
 
@@ -43,4 +45,6 @@ private:
     std::unordered_map<Game::State, Input_Package> input_map;
 
     Game_Settings settings;
+
+    New_Game_Data data;
 };

@@ -8,5 +8,7 @@ public:
 
     explicit Game_Play(const Game& g);
 
+    ~Game_Play();
+
     virtual void update(float delta_time) override;
 };

@@ -14,7 +14,7 @@ public:
     void run();
 
 private:
-    sf::RenderWindow window;
+    sf::RenderWindow window { nullptr };
 
     sf::Event event;
 
@@ -27,6 +27,8 @@ private:
     void update();
 
     void draw();
+
+    void setAntiAliasing();
 
     sf::Text fps_text;
     sf::Clock fps_clock;

@@ -18,12 +18,13 @@ public:
     static std::function<void()> newToPlay;
 
 private:
-    std::atomic_flag thread_done { true };
+    std::atomic_flag thread_done { ATOMIC_FLAG_INIT };
     std::thread thread;
 
     New_Game_Data data;
 
     void createWorld();
+    void createPlayer();
 
     std::vector<std::function<void()>> tasks;
     size_t task_index { 0 };

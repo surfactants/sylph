@@ -8,6 +8,8 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
 {
     Menu::setMenuState = std::bind(setMenuState, this, std::placeholders::_1);
 
+    Menu_Pause::clearGame = std::bind(&Game_State::clear, game);
+
     menus[Menu::MAIN] = std::make_unique<Menu_Main>();
     menus[Menu::PAUSE] = std::make_unique<Menu_Pause>();
     menus[Menu::SETTINGS] = std::make_unique<Menu_Settings>();

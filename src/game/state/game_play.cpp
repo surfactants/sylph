@@ -4,9 +4,12 @@ Game_Play::Game_Play()
 {}
 
 Game_Play::Game_Play(const Game& g)
+    : Game(g)
+{}
+
+Game_Play::~Game_Play()
 {
-    world = g.getWorld();
-    entities = g.getEntities();
+    world.reset();
 }
 
 void Game_Play::update(float delta_time)

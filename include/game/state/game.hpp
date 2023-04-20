@@ -1,14 +1,16 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 
 #include <game/data/game_settings.hpp>
 #include <game/system/entity_manager.hpp>
 #include <game/world/world.hpp>
 
-class Game {
+class Game : public sf::Drawable {
 public:
     Game();
+    Game(const Game& g);
 
     enum State {
         NEW,
@@ -22,13 +24,17 @@ public:
 
     static std::function<void(Game::State)> setGameState;
 
-    const World& getWorld() const;
+    const World* getWorld() const;
     const Entity_Manager& getEntities() const;
+
+    void deleteWorld();
 
 protected:
     static Game_Settings settings;
 
     Entity_Manager entities;
 
-    World world;
+    static std::unique_ptr<World> world;
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

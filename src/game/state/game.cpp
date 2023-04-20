@@ -4,7 +4,18 @@ Game_Settings Game::settings;
 
 std::function<void(Game::State)> Game::setGameState;
 
+std::unique_ptr<World> Game::world { nullptr };
+
 Game::Game()
+{}
+
+void Game::deleteWorld()
+{
+    world.reset();
+}
+
+Game::Game(const Game& g)
+    : entities { g.getEntities() }
 {}
 
 void Game::loadSettings(Game_Settings settings)
@@ -13,12 +24,15 @@ void Game::loadSettings(Game_Settings settings)
     // propagate
 }
 
-const World& Game::getWorld() const
+const World* Game::getWorld() const
 {
-    return world;
+    return world.get();
 }
 
 const Entity_Manager& Game::getEntities() const
 {
     return entities;
 }
+
+void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{}
