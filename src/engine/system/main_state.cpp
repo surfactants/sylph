@@ -16,7 +16,7 @@ Main_State::Main_State()
     view.setViewport(sf::FloatRect(xp, yp, xs, ys));
     view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
     view.setCenter(size / 2.f);
-    //view.zoom(1.33f); // voronoi debug
+    view.zoom(4.f); // voronoi debug
 }
 
 void Main_State::draw(sf::RenderTarget& target, sf::RenderStates states) const

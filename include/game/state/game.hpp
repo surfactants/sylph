@@ -24,7 +24,7 @@ public:
 
     static std::function<void(Game::State)> setGameState;
 
-    const World* getWorld() const;
+    World* getWorld();
     const Entity_Manager& getEntities() const;
 
     void deleteWorld();

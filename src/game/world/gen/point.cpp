@@ -164,6 +164,11 @@ Point operator-(const Point &p)
 	return Point(-p.x, -p.y);
 }
 
+bool operator == (const Point& p0, const Point& p1)
+{
+    return ((int)p0.x == (int)p1.x && (int)p0.y == (int)p1.y);
+}
+
 std::ostream &operator<<(std::ostream &stream, const Point &p)
 {
     stream << "(" << p.x << "," << p.y << ")";

@@ -25,6 +25,7 @@ namespace Voronoi
     };
 
     struct Half_Edge {
+        bool added { false };
         int left_index;
         int right_index;
 

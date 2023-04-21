@@ -8,6 +8,8 @@ class World : public sf::Drawable {
 public:
     World();
 
+    void eraseCell(unsigned int i = 0);
+
 private:
     std::vector<sf::ConvexShape> cells;
     std::vector<sf::RectangleShape> sites;

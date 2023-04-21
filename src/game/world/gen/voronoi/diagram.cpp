@@ -4,6 +4,7 @@
 #include <cmath>
 #include <queue>
 
+#include <engine/math/collide.hpp>
 #include <engine/math/primordial.hpp>
 #include <engine/resources/palette.hpp>
 #include <engine/util/prng.hpp>
@@ -84,26 +85,69 @@ Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<
     for (size_t i = 0; i < n; i++) {
         Half_Edge_ptr h = half_edges[i];
         std::vector<sf::Vector2f> p;
-        do {
-            if (h) {
-                //reduceFrameIntersection(h);
-                if (h->vertex0()) {
-                    p.push_back(h->vertex0()->point.sfv());
-                }
+        if (h && h->vertex) {
+            if (h->added) {
+                continue;
             }
-            assert(half_edges[i]->left_index == h->left_index);
-            h = h->next;
-        } while (h && h != half_edges[i]);
-        size_t s = p.size();
-        sf::ConvexShape shape(s);
-        for (size_t j = 0; j < s; j++) {
-            shape.setPoint(j, p[j]);
+            //reordered_points.push_back(h->vertex->point);
+            do {
+                if (h) {
+                    //reduceFrameIntersection(h);
+                    if (h->vertex0()) {
+                        p.push_back(h->vertex0()->point.sfv());
+                    }
+                    h->added = true;
+                }
+                assert(half_edges[i]->left_index == h->left_index);
+                h = h->next;
+            } while (h && h != half_edges[i]);
+            size_t s = p.size();
+            sf::ConvexShape shape(s);
+            for (size_t j = 0; j < s; j++) {
+                shape.setPoint(j, p[j]);
+            }
+            shape.setFillColor(sf::Color(prng::number(255), prng::number(255), prng::number(255)));
+            sf::Color color(prng::number(100, 200), prng::number(50, 200), 200);
+            shape.setFillColor(color);
+            m_cells.push_back(shape);
         }
-        shape.setFillColor(sf::Color(prng::number(255), prng::number(255), prng::number(255)));
-        sf::Color color(prng::number(100, 200), prng::number(50, 200), 200);
-        shape.setFillColor(color);
-        m_cells.push_back(shape);
     }
+
+    for (auto it = points.begin(); it != points.end();) {
+        if (!frame.contains(it->sfv())) {
+            points.erase(it);
+        }
+        else {
+            it++;
+        }
+    }
+
+    const static sf::Vector2f r_size { 32.f, 32.f };
+    const static sf::Vector2f r_orig { r_size / 2.f };
+
+    // reorder points to match the indices of the cells that contain them
+    // if no point is found, delete the cell
+    std::vector<Point> r_points;
+    std::vector<sf::ConvexShape> r_cells;
+    for (auto& c : m_cells) {
+        for (auto& p : points) {
+            if (collide::convexShape_Point(c, p.sfv())) {
+                r_cells.push_back(c);
+                r_points.push_back(p);
+
+                sf::RectangleShape r(r_size);
+                r.setOrigin(r_orig);
+                r.setPosition(p.sfv());
+                r.setFillColor(Palette::white);
+                r.setOutlineColor(Palette::black);
+                r.setOutlineThickness(1.f);
+                m_sites.push_back(r);
+                break;
+            }
+        }
+    }
+    points = r_points;
+    m_cells = r_cells;
 }
 
 void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max)
@@ -120,22 +164,18 @@ void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, 
             if (++iter >= max_find_iterations) {
                 std::cout << "\n\nWARNING: FAILED TO FIND ENOUGH SPACE FOR "
                           << point_count << "POINTS IN VORONOI GENERATION!"
-                          << "\n\tFAILED ON POINT " << i + 1<< "\n";
+                          << "\n\tFAILED ON POINT " << i + 1
+                          << "\n\t\tMIN " << min
+                          << "\n\t\tMAX " << max << "\n\n";
                 return;
             }
             x = prng::number(min.x, max.x);
             y = prng::number(min.y, max.y);
         } while (nearbyPoints(x, y));
         points.push_back(Point(x, y));
-
-        sf::RectangleShape r(size);
-        r.setOrigin(origin);
-        r.setPosition(sf::Vector2f(x, y));
-        r.setFillColor(Palette::white);
-        r.setOutlineColor(Palette::black);
-        r.setOutlineThickness(1.f);
-        m_sites.push_back(r);
     }
+
+    std::cout << "generated " << points.size() << " points!\n";
 }
 
 bool Diagram::nearbyPoints(double x, double y)

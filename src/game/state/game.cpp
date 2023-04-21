@@ -24,7 +24,7 @@ void Game::loadSettings(Game_Settings settings)
     // propagate
 }
 
-const World* Game::getWorld() const
+World* Game::getWorld()
 {
     return world.get();
 }

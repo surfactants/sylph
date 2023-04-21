@@ -67,6 +67,18 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     }
 }
 
+void Game_State::loadNums()
+{
+    Input_Package* ig = &input_map[Game::PLAY];
+    Key_String converter;
+    for (unsigned int i = 0; i < 10; i++) {
+        std::string num = "Num" + std::to_string(i);
+        ig->addPress(converter.toKey(num), [=]() {
+            game->getWorld()->eraseCell(i);
+        });
+    }
+}
+
 void Game_State::loadSettings(Game_Settings settings)
 {
     this->settings = settings;
@@ -117,7 +129,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
         // ui
         { "open inventory", []() {} },
 
-        // cheat
+        // debug
         { "regenerate", std::bind(newGame, this, data) }
     };
 
@@ -146,6 +158,8 @@ void Game_State::newToPlay()
     std::cout << game->getWorld();
     drawables.push_back(game->getWorld());
     std::cout << "transitioned from new game to play state\n";
+
+    loadNums();
 }
 
 void Game_State::setGameState(Game::State state)

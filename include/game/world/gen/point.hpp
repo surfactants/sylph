@@ -136,7 +136,6 @@ public:
     bool isValid();
 
     sf::Vector2f sfv();
-
 };
 
 double dotProduct(const Point &p1, const Point &p2);
@@ -144,3 +143,5 @@ double crossProduct(const Point &p1, const Point &p2);
 
 bool equal(const Point &p1, const Point &p2, double EPSILON = POINT_EPSILON);
 bool equal(double v1, double v2, double EPSILON = POINT_EPSILON);
+
+bool operator == (const Point& p0, const Point& p1);
