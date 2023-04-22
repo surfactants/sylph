@@ -1,10 +1,12 @@
 #pragma once
 
+#include <game/data/new_game_data.hpp>
+
 #include "menu.hpp"
 
 class Menu_New_Game : public Menu {
 public:
-    Menu_New_Game();
+    Menu_New_Game(std::function<void(New_Game_Data)> start_game);
 
     virtual void exitState() override;
 
@@ -12,6 +14,8 @@ public:
 
     void start();
     void cancel();
+
+    std::function<void(New_Game_Data)> start_game;
 
 protected:
     bool validate(); // checks that the game is ready to start (everything necessary has been set)

@@ -22,7 +22,7 @@ public:
     static std::function<void(Main_State::State)> setState;
 
 protected:
-    std::vector<sf::Drawable*> drawables;
+    std::vector<const sf::Drawable*> drawables;
 
     sf::View view;
 

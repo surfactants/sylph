@@ -165,7 +165,7 @@ void Menu::setActive(Menu_Element* element)
 
 void Menu::unsetActive(Menu_Element* element)
 {
-    if (element == active_element) {
+    if (active_element && element == active_element) {
         active_element = nullptr;
     }
 }

@@ -8,16 +8,22 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
 {
     Menu::setMenuState = std::bind(setMenuState, this, std::placeholders::_1);
 
+    Menu_Pause::clearGame = std::bind(&Game_State::clear, game);
+
     menus[Menu::MAIN] = std::make_unique<Menu_Main>();
     menus[Menu::PAUSE] = std::make_unique<Menu_Pause>();
     menus[Menu::SETTINGS] = std::make_unique<Menu_Settings>();
+
+    auto saveSettings = std::bind(&Game_State::loadSettings, game, std::placeholders::_1);
+    menus[Menu::SETTINGS_GAME] = std::make_unique<Menu_Settings_Game>(saveSettings);
     menus[Menu::SETTINGS_GENERAL] = std::make_unique<Menu_Settings_General>();
     menus[Menu::SETTINGS_AUDIO] = std::make_unique<Menu_Settings_Audio>(audio);
 
     auto saveCommands = std::bind(&Game_State::loadCommands, game, std::placeholders::_1);
     menus[Menu::SETTINGS_KEYMAPPER] = std::make_unique<Menu_Settings_Keymapper>(saveCommands);
 
-    menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>();
+    auto start_game = std::bind(&Game_State::newGame, game, std::placeholders::_1);
+    menus[Menu::NEW_GAME] = std::make_unique<Menu_New_Game>(start_game);
     menus[Menu::LOAD_GAME] = std::make_unique<Menu_Load_Game>();
     menus[Menu::SAVE_GAME] = std::make_unique<Menu_Save_Game>();
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
+
 #include <SFML/System/Vector2.hpp>
 
 #include <iostream>
@@ -21,5 +24,11 @@ template <typename T>
 inline std::ostream& operator<<(std::ostream& os, sf::Rect<T> r)
 {
     os << '(' << r.left << ", " << r.top << "; " << r.width << ", " << r.height << ')';
+    return os;
+}
+
+inline std::ostream& operator<<(std::ostream& os, sf::Color c)
+{
+    os << '(' << std::to_string(c.r)  << ", " << std::to_string(c.g) << ", " << std::to_string(c.b) << ", " << std::to_string(c.a) << ')';
     return os;
 }

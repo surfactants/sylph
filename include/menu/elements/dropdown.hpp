@@ -28,6 +28,41 @@
 
 template <typename T>
 class Dropdown : public Button {
+protected:
+
+    class Option : public Button {
+    public:
+        Option() = default;
+        Option(std::string label, sf::Font& font, unsigned int csize, State base)
+            : Button(label, font, csize, base) {}
+
+        T data;
+
+        virtual bool update(const sf::Vector2i& mpos) override
+        {
+            bool cnt = contains(mpos);
+
+            if (cnt) {
+                switch (state) {
+                    case READY:
+                        if (cnt) {
+                            Button::setState(HIGHLIGHTED);
+                        }
+                        break;
+                    case HIGHLIGHTED:
+                        if (!cnt) {
+                            Button::setState(READY);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return cnt;
+        }
+    };
+
 public:
     Dropdown()
     {
@@ -116,10 +151,7 @@ public:
                         deactivate();
                     }
                     else {
-                        active_option->setToBase();
-                        active_option = moused_option;
-                        active_option->setState(ACTIVE);
-                        setLabel(active_option->getLabel());
+                        set(moused_option);
                     }
                 }
                 else {
@@ -170,40 +202,26 @@ public:
         }
     }
 
-protected:
-    class Option : public Button {
-    public:
-        Option() = default;
-        Option(std::string label, sf::Font& font, unsigned int csize, State base)
-            : Button(label, font, csize, base) {}
-
-        T data;
-
-        virtual bool update(const sf::Vector2i& mpos) override
-        {
-            bool cnt = contains(mpos);
-
-            if (cnt) {
-                switch (state) {
-                    case READY:
-                        if (cnt) {
-                            Button::setState(HIGHLIGHTED);
-                        }
-                        break;
-                    case HIGHLIGHTED:
-                        if (!cnt) {
-                            Button::setState(READY);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+    void set(T t)
+    {
+        for (auto& o : options) {
+            if (o.data == t) {
+                set(&o);
+                return;
             }
-
-            return cnt;
         }
-    };
+        // log failure to return
+    }
 
+    void set(Option* o)
+    {
+        active_option->setToBase();
+        o->setState(ACTIVE);
+        setLabel(o->getLabel());
+        active_option = o;
+    }
+
+protected:
     Scrollable option_frame;
 
     std::vector<Option> options;
