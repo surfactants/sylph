@@ -9,16 +9,9 @@
 
 using namespace Voronoi;
 
-namespace Voronoi
-{
+namespace Voronoi {
 
-BL_Node::BL_Node(const std::pair<int, int>& indices
-      , double* sweep_line
-      , const std::vector<Point>* points
-      , BL_Node_ptr left
-      , BL_Node_ptr right
-      , BL_Node_ptr parent
-      , int height)
+BL_Node::BL_Node(const std::pair<int, int>& indices, double* sweep_line, const std::vector<Point>* points, BL_Node_ptr left, BL_Node_ptr right, BL_Node_ptr parent, int height)
     : indices { indices }
     , sweep_line { sweep_line }
     , points { points }
@@ -26,7 +19,8 @@ BL_Node::BL_Node(const std::pair<int, int>& indices
     , right { right }
     , parent { parent }
     , height { height }
-{}
+{
+}
 
 bool BL_Node::isLeaf()
 {
@@ -75,7 +69,6 @@ double BL_Node::value()
     }
 }
 
-
 /**
  Connect as a list
  */
@@ -85,7 +78,6 @@ void connect(BL_Node_ptr prev, BL_Node_ptr next)
     next->prev = prev;
 }
 
-
 /**
  Check if the node is a root node
  */
@@ -94,16 +86,15 @@ bool isRoot(BL_Node_ptr node)
     return node->parent == nullptr;
 }
 
-
 /**
  Get height of the node
  */
 int getHeight(BL_Node_ptr node)
 {
-    if (node == nullptr) return 0;
+    if (node == nullptr)
+        return 0;
     return node->height;
 }
-
 
 /**
  Update height of the node
@@ -115,7 +106,6 @@ void updateHeight(BL_Node_ptr node)
     node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
 }
 
-
 /**
  Get balance of the node (difference between the height of left and right subtrees)
  */
@@ -123,7 +113,6 @@ int getBalance(BL_Node_ptr node)
 {
     return getHeight(node->left) - getHeight(node->right);
 }
-
 
 /**
  Performs rotation of a tree around `node` such that it goes to the left subtree
@@ -168,7 +157,6 @@ BL_Node_ptr rotateLeft(BL_Node_ptr node)
     return rnode;
 }
 
-
 /**
  Performs rotation of a tree around `node` such that it goes to the right subtree
  */
@@ -212,7 +200,6 @@ BL_Node_ptr rotateRight(BL_Node_ptr node)
     return lnode;
 }
 
-
 /**
  Find a leaf in a tree such that x is under the parabolic arc,
  which corresponds to this leaf.
@@ -233,7 +220,6 @@ BL_Node_ptr find(BL_Node_ptr root, double x)
     }
     return node;
 }
-
 
 /**
  Replace a leaf `node` with a new subtree, which has root `new_node`.
@@ -310,9 +296,9 @@ BL_Node_ptr remove(BL_Node_ptr leaf)
         return nullptr;
 
     BL_Node_ptr parent = leaf->parent, grandparent = parent->parent;
-    std::pair<int,int> bp1(leaf->prev->getID(), leaf->getID());
-    std::pair<int,int> bp2(leaf->getID(), leaf->next->getID());
-    std::pair<int,int> other_bp;
+    std::pair<int, int> bp1(leaf->prev->getID(), leaf->getID());
+    std::pair<int, int> bp2(leaf->getID(), leaf->next->getID());
+    std::pair<int, int> other_bp;
 
     assert(leaf->next != nullptr);
     assert(leaf->prev != nullptr);
@@ -378,7 +364,6 @@ BL_Node_ptr remove(BL_Node_ptr leaf)
     return new_root;
 }
 
-
 /**
  Returns breakpoints for a given arc
  */
@@ -388,9 +373,9 @@ std::pair<BL_Node_ptr, BL_Node_ptr> calculateBreakpoints(BL_Node_ptr leaf)
         return std::make_pair<BL_Node_ptr>(nullptr, nullptr);
 
     BL_Node_ptr parent = leaf->parent, gparent = leaf->parent;
-    std::pair<int,int> bp1(leaf->prev->getID(), leaf->getID()); // left breakpoint
-    std::pair<int,int> bp2(leaf->getID(), leaf->next->getID()); // right breakpoint
-    std::pair<int,int> other_bp;
+    std::pair<int, int> bp1(leaf->prev->getID(), leaf->getID()); // left breakpoint
+    std::pair<int, int> bp2(leaf->getID(), leaf->next->getID()); // right breakpoint
+    std::pair<int, int> other_bp;
 
     bool left_is_missing = true;
 
@@ -419,12 +404,7 @@ std::pair<BL_Node_ptr, BL_Node_ptr> calculateBreakpoints(BL_Node_ptr leaf)
     }
 }
 
-
-BL_Node_ptr makeSubtree(int index
-                      , int index_behind
-                      , double* sweep_line
-                      , const std::vector<Point>* points
-                      , std::vector<Half_Edge_ptr> edges)
+BL_Node_ptr makeSubtree(int index, int index_behind, double* sweep_line, const std::vector<Point>* points, std::vector<Half_Edge_ptr> edges)
 {
     // create nodes corresponding to branching points
     BL_Node_ptr node1 = std::make_shared<BL_Node>(std::make_pair(index_behind, index), sweep_line, points);
@@ -450,8 +430,8 @@ BL_Node_ptr makeSubtree(int index
 
     // add halfedges
     std::pair<Half_Edge_ptr, Half_Edge_ptr> twin_edges = makeTwins(index_behind, index);
-    node1->edge = twin_edges.first;//second;//first;
-    node2->edge = twin_edges.second;//first;//second;
+    node1->edge = twin_edges.first; //second;//first;
+    node2->edge = twin_edges.second; //first;//second;
 
     edges.push_back(twin_edges.first);
     edges.push_back(twin_edges.second);
@@ -468,12 +448,7 @@ BL_Node_ptr makeSubtree(int index
     return node1;
 }
 
-
-BL_Node_ptr makeSimpleSubtree(int index
-                            , int index_behind
-                            , double *sweep_line
-                            , const std::vector<Point> *points
-                            , std::vector<Half_Edge_ptr> &edges)
+BL_Node_ptr makeSimpleSubtree(int index, int index_behind, double* sweep_line, const std::vector<Point>* points, std::vector<Half_Edge_ptr>& edges)
 {
     BL_Node_ptr node, leaf_l, leaf_r;
 
@@ -487,13 +462,13 @@ BL_Node_ptr makeSimpleSubtree(int index
         node = std::make_shared<BL_Node>(std::make_pair(index, index_behind), sweep_line, points);
         leaf_l = std::make_shared<BL_Node>(std::make_pair(index, index), sweep_line, points);
         leaf_r = std::make_shared<BL_Node>(std::make_pair(index_behind, index_behind), sweep_line, points);
-        node->edge = twin_edges.second;//twin_edges.first;
+        node->edge = twin_edges.second; //twin_edges.first;
     }
     else {
         node = std::make_shared<BL_Node>(std::make_pair(index_behind, index), sweep_line, points);
         leaf_l = std::make_shared<BL_Node>(std::make_pair(index_behind, index_behind), sweep_line, points);
         leaf_r = std::make_shared<BL_Node>(std::make_pair(index, index), sweep_line, points);
-        node->edge = twin_edges.first;//twin_edges.second;
+        node->edge = twin_edges.first; //twin_edges.second;
     }
 
     node->left = leaf_l;
@@ -507,7 +482,6 @@ BL_Node_ptr makeSimpleSubtree(int index
 
     return node;
 }
-
 
 bool _validate(BL_Node_ptr node)
 {
@@ -532,7 +506,8 @@ bool _validate(BL_Node_ptr node)
 
 bool _check_balance(BL_Node_ptr node)
 {
-    if (node == nullptr) return true;
+    if (node == nullptr)
+        return true;
     if (_check_balance(node->left) && _check_balance(node->right)) {
         if (fabs(getBalance(node)) > 1) {
 

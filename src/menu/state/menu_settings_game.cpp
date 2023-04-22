@@ -14,12 +14,7 @@ Menu_Settings_Game::Menu_Settings_Game(std::function<void(Game_Settings)> save_s
     placeNav();
 
     std::vector<std::pair<std::string, int>> data = {
-        { "zero",   0 }
-      , { "one",    1 }
-      , { "two",    2 }
-      , { "three",  3 }
-      , { "four",   4 }
-      , { "five",   5 }
+        { "zero", 0 }, { "one", 1 }, { "two", 2 }, { "three", 3 }, { "four", 4 }, { "five", 5 }
     };
 
     sf::Vector2f pos = nav.front().getPosition();
@@ -85,4 +80,3 @@ void Menu_Settings_Game::save()
 
     //escape();
 }
-

@@ -29,12 +29,13 @@
 template <typename T>
 class Dropdown : public Button {
 protected:
-
     class Option : public Button {
     public:
         Option() = default;
         Option(std::string label, sf::Font& font, unsigned int csize, State base)
-            : Button(label, font, csize, base) {}
+            : Button(label, font, csize, base)
+        {
+        }
 
         T data;
 
@@ -169,7 +170,7 @@ public:
         Menu_Element::activate();
     }
 
-    virtual void releaseLeft() override {}
+    virtual void releaseLeft() override { }
 
     virtual void clickRight() override
     {

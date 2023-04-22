@@ -29,6 +29,6 @@ inline std::ostream& operator<<(std::ostream& os, sf::Rect<T> r)
 
 inline std::ostream& operator<<(std::ostream& os, sf::Color c)
 {
-    os << '(' << std::to_string(c.r)  << ", " << std::to_string(c.g) << ", " << std::to_string(c.b) << ", " << std::to_string(c.a) << ')';
+    os << '(' << std::to_string(c.r) << ", " << std::to_string(c.g) << ", " << std::to_string(c.b) << ", " << std::to_string(c.a) << ')';
     return os;
 }

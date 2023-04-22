@@ -43,16 +43,16 @@ public:
     virtual void enterState() {};
     virtual void exitState() {};
 
-    virtual void save(){}
+    virtual void save() { }
 
     void reset();
 
-// menu reversion is defined with operator() to act as a visitor in ::escape()
-    void operator ()(Menu::State state)
+    // menu reversion is defined with operator() to act as a visitor in ::escape()
+    void operator()(Menu::State state)
     {
         setMenuState(state);
     }
-    void operator ()(Main_State::State state)
+    void operator()(Main_State::State state)
     {
         setMainState(state);
     }

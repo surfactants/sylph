@@ -4,7 +4,7 @@
 
 using namespace Voronoi;
 
-int Voronoi::intersectionPointsNum(const Point &f1, const Point& f2)
+int Voronoi::intersectionPointsNum(const Point& f1, const Point& f2)
 {
     if (fabs(f1.x - f2.x) < POINT_EPSILON && fabs(f1.y - f2.y) < POINT_EPSILON) {
         return -1;
@@ -25,7 +25,7 @@ std::vector<Point> Voronoi::findIntersections(const Point& f1, const Point& f2, 
     }
     else if (fabs(f1.y - f2.y) < POINT_EPSILON) {
         double x = 0.5 * (f1.x + f2.x);
-        result.push_back(Point(x, 0.5 * ((x - f1.x) * (x - f1.x) + f1.y * f1.y  - d * d) / (f1.y - d)));
+        result.push_back(Point(x, 0.5 * ((x - f1.x) * (x - f1.x) + f1.y * f1.y - d * d) / (f1.y - d)));
     }
     else {
 

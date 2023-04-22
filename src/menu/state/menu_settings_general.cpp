@@ -3,7 +3,7 @@
 Menu_Settings_General::Menu_Settings_General()
 {
     addNav("save", std::bind(save, this));
-    addNav("default", [](){});
+    addNav("default", []() {});
     addNav("cancel", std::bind(escape, this));
 
     setEscape(Menu::SETTINGS);
@@ -11,15 +11,7 @@ Menu_Settings_General::Menu_Settings_General()
     placeNav();
 
     std::vector<std::pair<std::string, int>> data = {
-        { "one", 1 }
-      , { "two", 2 }
-      , { "three", 3 }
-      , { "four", 4 }
-      , { "five", 5 }
-      , { "six", 6 }
-      , { "seven", 7 }
-      , { "eight", 8 }
-      , { "nine", 9 }
+        { "one", 1 }, { "two", 2 }, { "three", 3 }, { "four", 4 }, { "five", 5 }, { "six", 6 }, { "seven", 7 }, { "eight", 8 }, { "nine", 9 }
     };
 
     sf::Vector2f pos = nav.front().getPosition();

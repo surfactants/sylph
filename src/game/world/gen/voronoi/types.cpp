@@ -7,13 +7,15 @@ using namespace Voronoi;
 Voronoi::Vertex::Vertex(const Point& point, Half_Edge_ptr edge)
     : point { point }
     , edge { edge }
-{}
+{
+}
 
 Voronoi::Half_Edge::Half_Edge(int left_index, int right_index, Vertex_ptr vertex)
     : left_index { left_index }
     , right_index { right_index }
     , vertex { vertex }
-{}
+{
+}
 
 bool Voronoi::Half_Edge::finite()
 {

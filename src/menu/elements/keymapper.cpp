@@ -150,7 +150,8 @@ void Keymapper::deactivate()
 }
 
 void Keymapper::releaseLeft()
-{}
+{
+}
 
 void Keymapper::clickRight()
 {

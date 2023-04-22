@@ -13,61 +13,61 @@ public:
     //  - add middle mouse dragging (anywhere)
     ////////////////////////////////////////////
 
-/// DEFAULT CONSTRUCTOR ///
-/// \brief the default constructor is insufficient. setView() and setScrollable() BOTH MUST BE CALLED
-///
+    /// DEFAULT CONSTRUCTOR ///
+    /// \brief the default constructor is insufficient. setView() and setScrollable() BOTH MUST BE CALLED
+    ///
     Scrollable() = default;
 
-/// setView ///
-/// \brief defines the scrollable's viewport
-///
-/// \param pos The viewport's position (top-left origin)
-/// \param size The viewport's size
-/// \param window_size For properly applying the other values to the viewport
-///
+    /// setView ///
+    /// \brief defines the scrollable's viewport
+    ///
+    /// \param pos The viewport's position (top-left origin)
+    /// \param size The viewport's size
+    /// \param window_size For properly applying the other values to the viewport
+    ///
     void setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u window_size = sf::Vector2u(1920u, 1080u));
 
-/// getView ///
-/// \brief returns the view
-///
+    /// getView ///
+    /// \brief returns the view
+    ///
     sf::View getView() const;
 
-/// reset ///
-/// \brief minimizes the viewport and scrolls to top
-///
+    /// reset ///
+    /// \brief minimizes the viewport and scrolls to top
+    ///
     void reset();
 
-/// setScrollable ///
-/// \brief preps the frame and scrollbar
-///
-/// \param max_height Height of the full contents
-///
+    /// setScrollable ///
+    /// \brief preps the frame and scrollbar
+    ///
+    /// \param max_height Height of the full contents
+    ///
     void setScrollable(float max_height);
 
-/// scroll ///
-/// \brief scrolls the contents if appropriate
-///
+    /// scroll ///
+    /// \brief scrolls the contents if appropriate
+    ///
     bool scroll(float delta, sf::Vector2f mpos);
 
-/// scrollToTop ///
-/// \brief sets the scroll height to 0
-///
+    /// scrollToTop ///
+    /// \brief sets the scroll height to 0
+    ///
     void scrollToTop();
 
-/// resizeScrollbar ///
-/// \brief calculates scrollbar size based on viewport height against max height
-///
+    /// resizeScrollbar ///
+    /// \brief calculates scrollbar size based on viewport height against max height
+    ///
     void resizeScrollbar();
 
-/// placeScrollbar ///
-/// \brief places the scrollbar based on the current scroll against the max scroll
-///
+    /// placeScrollbar ///
+    /// \brief places the scrollbar based on the current scroll against the max scroll
+    ///
     void placeScrollbar();
 
-/// contains ///
-/// \brief returns true if the passed mouse pos is inside the frame.
-/// pos must be calculated with the view outside of the class.
-///
+    /// contains ///
+    /// \brief returns true if the passed mouse pos is inside the frame.
+    /// pos must be calculated with the view outside of the class.
+    ///
     template <typename T>
     bool contains(const sf::Vector2<T>& mpos)
     {
@@ -107,4 +107,3 @@ protected:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
-

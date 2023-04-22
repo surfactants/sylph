@@ -18,8 +18,7 @@
 
 using namespace Voronoi;
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<double> max)
     : frame { sf::Vector2f(min), sf::Vector2f(max) }
@@ -37,10 +36,10 @@ Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<
 
     generatePoints(point_count, min, max);
 
-    std::sort(points.begin(), points.end(), [](const Point &p1, const Point &p2) {
+    std::sort(points.begin(), points.end(), [](const Point& p1, const Point& p2) {
         return (fabs(p1.y - p2.y) < POINT_EPSILON && p1.x < p2.x) || (fabs(p1.y - p2.y) >= POINT_EPSILON && p1.y < p2.y);
     });
-/*
+    /*
     std::sort(points.begin(), points.end(), [](const Point &p1, const Point &p2) {
         return (p1.x > p2.x);
     });
@@ -197,7 +196,7 @@ void Diagram::reduceFrameIntersection(Half_Edge_ptr h)
     };
     if (h && h->vertex0() && h->vertex1()) {
         for (auto& face : frame_face) {
-                // https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+            // https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
             sf::Vector2f q = h->vertex0()->point.sfv();
             sf::Vector2f s = h->vertex1()->point.sfv() - q;
             float u; // scalar factor of s which produces an intersection
@@ -272,7 +271,8 @@ Diagram::Diagram(const std::vector<Point>& p)
                 else if (h->twin && h->twin->vertex1()) {
                     p.push_back(h->twin->vertex1()->point.sfv());
                 }
-                else std::cout << "uh oh!\n";
+                else
+                    std::cout << "uh oh!\n";
             }
             assert(half_edges[i]->left_index == h->left_index);
             h = h->next;
@@ -299,12 +299,12 @@ std::vector<sf::RectangleShape> Diagram::sites()
 }
 
 struct Event {
-    Event(int index = -1
-        , int type = Event::SKIP
-        , const Point& point = Point(0.0, 0.0))
-        : index{ index }
-        , type{ type }
-        , point { point } {}
+    Event(int index = -1, int type = Event::SKIP, const Point& point = Point(0.0, 0.0))
+        : index { index }
+        , type { type }
+        , point { point }
+    {
+    }
 
     enum {
         SITE = 0,
@@ -330,32 +330,28 @@ struct Event {
 using Event_ptr = std::shared_ptr<Event>;
 
 struct PointComparator {
-    bool operator()(const Point &p1, const Point &p2) {
+    bool operator()(const Point& p1, const Point& p2)
+    {
         return (p1.y == p2.y && p1.x > p2.x) || p1.y > p2.y;
     }
 };
 
-
 struct PointComparator2 {
-    bool operator()(const Point &p1, const Point &p2) {
+    bool operator()(const Point& p1, const Point& p2)
+    {
         return (p1.y == p2.y && p1.x < p2.x) || p1.y < p2.y;
     }
 };
 
-
 struct Event_ptrComparator {
     PointComparator point_cmp;
-    bool operator()(const Event_ptr &e1, const Event_ptr &e2) {
+    bool operator()(const Event_ptr& e1, const Event_ptr& e2)
+    {
         return point_cmp(e1->point, e2->point);
     }
 };
 
-
-Event_ptr checkCircleEvent(BL_Node_ptr n1
-                         , BL_Node_ptr n2
-                         , BL_Node_ptr n3
-                         , const std::vector<Point>& points
-                         , double sweep_line)
+Event_ptr checkCircleEvent(BL_Node_ptr n1, BL_Node_ptr n2, BL_Node_ptr n3, const std::vector<Point>& points, double sweep_line)
 {
 
     if (!n1 || !n2 || !n3) {
@@ -392,7 +388,6 @@ Event_ptr checkCircleEvent(BL_Node_ptr n1
 
     return nullptr;
 }
-
 
 void Diagram::build()
 {
@@ -473,7 +468,6 @@ void Diagram::build()
                     pq.push(circle_event);
                 }
             }
-
         }
         else if (e->type == Event::CIRCLE) { // handle circle event
 
@@ -576,10 +570,8 @@ void Diagram::build()
     }
 }
 
-void Diagram::initEdgePointsVis(Half_Edge_ptr h
-                              , std::vector<double> &x
-                              , std::vector<double> &y,
-                              const std::vector<Point> &points)
+void Diagram::initEdgePointsVis(Half_Edge_ptr h, std::vector<double>& x, std::vector<double>& y,
+    const std::vector<Point>& points)
 {
 
     if (h->vertex != nullptr && h->twin->vertex != nullptr) {

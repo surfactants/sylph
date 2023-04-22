@@ -19,15 +19,15 @@ public:
     {
         this->state = state;
     }
-    virtual void textEntered(const sf::Event& event) {}
-    virtual void keyPressed(sf::Keyboard::Key) {}
-    virtual void clickRight() {}
-    virtual void releaseRight() {}
+    virtual void textEntered(const sf::Event& event) { }
+    virtual void keyPressed(sf::Keyboard::Key) { }
+    virtual void clickRight() { }
+    virtual void releaseRight() { }
 
-    virtual void scroll(float delta) {}
+    virtual void scroll(float delta) { }
 
-    inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*){};
-    inline static std::function<void(Menu_Element*)> set_inactive = [](Menu_Element*){};
+    inline static std::function<void(Menu_Element*)> set_active = [](Menu_Element*) {};
+    inline static std::function<void(Menu_Element*)> set_inactive = [](Menu_Element*) {};
 
     virtual void deactivate()
     {

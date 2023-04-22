@@ -6,8 +6,7 @@
 #include <menu/state/menu.hpp> // for font (temporary for fps)
 
 Shell::Shell()
-    : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen
-             , sf::ContextSettings(0, 0, 2) }
+    : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2) }
 {
     window.setKeyRepeatEnabled(false);
     window.setVerticalSyncEnabled(true);
@@ -28,7 +27,6 @@ void Shell::run()
 
 void Shell::setAntiAliasing()
 {
-
 }
 
 void Shell::update()

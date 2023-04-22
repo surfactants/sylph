@@ -50,7 +50,7 @@ void Menu_State::setMenuState(Menu::State new_menu)
     menu->enterState();
     drawables[0] = menu;
     if ((new_menu == Menu::SETTINGS && current_menu <= Menu::PAUSE)
-     || (new_menu == Menu::LOAD_GAME || new_menu == Menu::SAVE_GAME)) {
+        || (new_menu == Menu::LOAD_GAME || new_menu == Menu::SAVE_GAME)) {
         menu->setEscape(current_menu);
     }
     last_menu = current_menu;

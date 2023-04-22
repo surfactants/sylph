@@ -13,68 +13,68 @@ class Slider : public Menu_Element {
 public:
     Slider() = default;
 
-/// DEFAULT CONSTRUCTOR ///
-///
+    /// DEFAULT CONSTRUCTOR ///
+    ///
     Slider(std::string ntitle);
 
-/// set ///
-/// \brief Prepares the bar.
-///
-/// \param \b pos -> rects/texts.setPosition()
-/// \param \b font -> texts.setFont()
-///
+    /// set ///
+    /// \brief Prepares the bar.
+    ///
+    /// \param \b pos -> rects/texts.setPosition()
+    /// \param \b font -> texts.setFont()
+    ///
     void set(sf::Vector2f pos, sf::Font& font);
 
-/// findFill ///
-/// \brief Finds the fill by the mouse x position.
-///
-/// \param \b sf::Mouse::getPosition().x -> setFill()
-///
+    /// findFill ///
+    /// \brief Finds the fill by the mouse x position.
+    ///
+    /// \param \b sf::Mouse::getPosition().x -> setFill()
+    ///
     void findFill(int mX); //finds by mousepos
 
-/// getFill ///
-/// \brief Returns the fill as a percentage out of 100.
-///
-/// \return \b getFill() * 100.f
-///
+    /// getFill ///
+    /// \brief Returns the fill as a percentage out of 100.
+    ///
+    /// \return \b getFill() * 100.f
+    ///
     float getFill() const;
 
-/// SCROLL ///
-/// \brief Changes the value by a fixed value.
-///
-/// \param \b delta -> setFill()
-///
+    /// SCROLL ///
+    /// \brief Changes the value by a fixed value.
+    ///
+    /// \param \b delta -> setFill()
+    ///
     void scroll(float delta);
 
-/// checkMouse ///
-/// \brief Checks to see if the mouse is inside the container,
-/// for tracking change and scrolling.
-///
-/// \return \b true if mouse is inside container
-///
+    /// checkMouse ///
+    /// \brief Checks to see if the mouse is inside the container,
+    /// for tracking change and scrolling.
+    ///
+    /// \return \b true if mouse is inside container
+    ///
     bool checkMouse(const sf::Vector2i& mpos);
 
-/// update ///
-/// \brief applies continual changes
-///
+    /// update ///
+    /// \brief applies continual changes
+    ///
     virtual bool update(const sf::Vector2i& mpos);
 
-/// clickLeft ///
-///
-/// \brief activates continual changes if
+    /// clickLeft ///
+    ///
+    /// \brief activates continual changes if
     virtual void clickLeft();
 
-/// releaseLeft ///
-///
-/// \brief deactivates changing
-///
+    /// releaseLeft ///
+    ///
+    /// \brief deactivates changing
+    ///
     virtual void releaseLeft();
 
-/// setFill ///
-/// \brief Sets the fill.
-///
-/// \param \b f -> fill.setSize()
-///
+    /// setFill ///
+    /// \brief Sets the fill.
+    ///
+    /// \param \b f -> fill.setSize()
+    ///
     void setFill(float f);
 
     float revert();
@@ -101,8 +101,7 @@ protected:
     float fill_factor { -100.f };
 
 private:
-
-/// draw ///
-///
+    /// draw ///
+    ///
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

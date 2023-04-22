@@ -28,7 +28,7 @@ Simple_Textbox::Simple_Textbox()
 
     //set box defaults
     frame.setSize(sf::Vector2f(256.f, 96.f));
-    frame.setPosition(sf::Vector2f(160,440));
+    frame.setPosition(sf::Vector2f(160, 440));
     frame.setFillColor(Palette::black);
 
     state = READY;
@@ -55,7 +55,7 @@ void Simple_Textbox::textEntered(const sf::Event& event)
 {
     if (event.key.code == sf::Keyboard::Left) {
     }
-    if(event.type == sf::Event::TextEntered && event.text.unicode < 128) {
+    if (event.type == sf::Event::TextEntered && event.text.unicode < 128) {
         switch (event.text.unicode) {
             case UNICODE_BACKSPACE:
                 backspace();
@@ -152,7 +152,8 @@ void Simple_Textbox::ctrlBackspace()
 
 void Simple_Textbox::clear()
 {
-    text.setString("");;
+    text.setString("");
+    ;
     index = 0;
     placeCursor();
 }
@@ -187,20 +188,20 @@ void Simple_Textbox::placeCursor()
 {
     sf::Vector2f cpos(0.f, 0.f);
     const unsigned int textSize = text.getString().getSize();
-    if(textSize == 0) {
+    if (textSize == 0) {
         cpos = text.getPosition();
     }
-    else if(textSize > index) {
+    else if (textSize > index) {
         cpos = text.findCharacterPos(index);
         cpos.x -= text.getFont()->getGlyph(text.getString()[index], text.getCharacterSize(), false, 0).bounds.left;
         cpos.x -= text.getLocalBounds().left;
         cpos.x -= text.getLetterSpacing();
     }
-    else if(index == textSize) {
+    else if (index == textSize) {
         cpos = text.findCharacterPos(index - 1);
         cpos.x += text.getFont()->getGlyph(text.getString()[index - 1], text.getCharacterSize(), false, 0).bounds.width;
     }
-    else{
+    else {
         cpos = text.getPosition();
     }
 
@@ -280,7 +281,8 @@ void Simple_Textbox::deactivate()
 }
 
 void Simple_Textbox::releaseLeft()
-{}
+{
+}
 
 void Simple_Textbox::releaseRight()
 {
@@ -293,4 +295,3 @@ void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) con
     target.draw(text, states);
     target.draw(cursor, states);
 }
-

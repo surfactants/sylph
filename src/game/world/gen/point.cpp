@@ -15,39 +15,42 @@ Point::Point_Compare Point::compare = Point::Point_Compare();
 Point::Point(double x, double y)
     : x { x }
     , y { y }
-{}
+{
+}
 
-Point::Point(const Point &point)
-    : x(point.x), y(point.y)
-{}
+Point::Point(const Point& point)
+    : x(point.x)
+    , y(point.y)
+{
+}
 
 sf::Vector2f Point::sfv()
 {
     return sf::Vector2f(x, y);
 }
 
-Point &Point::operator-=(const Point &p)
+Point& Point::operator-=(const Point& p)
 {
     x -= p.x;
     y -= p.y;
     return *this;
 }
 
-Point &Point::operator+=(const Point &p)
+Point& Point::operator+=(const Point& p)
 {
     x += p.x;
     y += p.y;
     return *this;
 }
 
-Point &Point::operator*=(double value)
+Point& Point::operator*=(double value)
 {
     x *= value;
     y *= value;
     return *this;
 }
 
-Point &Point::operator/=(double value)
+Point& Point::operator/=(double value)
 {
     x /= value;
     y /= value;
@@ -56,8 +59,10 @@ Point &Point::operator/=(double value)
 
 double Point::operator[](int i)
 {
-    if (i==0) return x;
-    else return y;
+    if (i == 0)
+        return x;
+    else
+        return y;
 }
 
 void Point::setX(double x)
@@ -106,7 +111,7 @@ double Point::norm()
 
 double Point::norm2()
 {
-    return x *x + y * y;
+    return x * x + y * y;
 }
 
 Point Point::getRotated90CW()
@@ -119,83 +124,79 @@ Point Point::getRotated90CCW()
     return Point(-y, x);
 }
 
-double dotProduct(const Point &p1, const Point &p2)
+double dotProduct(const Point& p1, const Point& p2)
 {
     return p1.x * p2.x + p1.y * p2.y;
 }
 
-double crossProduct(const Point &p1, const Point &p2)
+double crossProduct(const Point& p1, const Point& p2)
 {
     return p1.x * p2.y - p1.y * p2.x;
 }
 
-Point operator+(const Point &p1, const Point &p2)
+Point operator+(const Point& p1, const Point& p2)
 {
     return Point(p1.x + p2.x, p1.y + p2.y);
 }
 
-Point operator-(const Point &p1, const Point &p2)
+Point operator-(const Point& p1, const Point& p2)
 {
     return Point(p1.x - p2.x, p1.y - p2.y);
 }
 
-Point operator/(const Point &p1, const Point &p2)
+Point operator/(const Point& p1, const Point& p2)
 {
     return Point(p1.x / p2.x, p1.y / p2.y);
 }
 
-Point operator*(const Point &p, double value)
+Point operator*(const Point& p, double value)
 {
     return Point(p.x * value, p.y * value);
 }
 
-Point operator*(double value, const Point &p)
+Point operator*(double value, const Point& p)
 {
     return Point(p.x * value, p.y * value);
 }
 
-Point operator/(const Point &p, double value)
+Point operator/(const Point& p, double value)
 {
     return Point(p.x / value, p.y / value);
 }
 
-Point operator-(const Point &p)
+Point operator-(const Point& p)
 {
-	return Point(-p.x, -p.y);
+    return Point(-p.x, -p.y);
 }
 
-bool operator == (const Point& p0, const Point& p1)
+bool operator==(const Point& p0, const Point& p1)
 {
     return ((int)p0.x == (int)p1.x && (int)p0.y == (int)p1.y);
 }
 
-std::ostream &operator<<(std::ostream &stream, const Point &p)
+std::ostream& operator<<(std::ostream& stream, const Point& p)
 {
     stream << "(" << p.x << "," << p.y << ")";
     return stream;
 }
 
-std::vector<Point> &operator<<(std::vector<Point> &v, const Point &p)
+std::vector<Point>& operator<<(std::vector<Point>& v, const Point& p)
 {
     v.push_back(p);
     return v;
 }
 
-bool isLeftTurn(const Point &p1
-                     , const Point &p2
-                     , const Point &p3)
+bool isLeftTurn(const Point& p1, const Point& p2, const Point& p3)
 {
-	return (crossProduct(p2 - p1, p3 - p2) > 0.0);
+    return (crossProduct(p2 - p1, p3 - p2) > 0.0);
 }
 
-bool isRightTurn(const Point &p1
-                      , const Point &p2
-                      , const Point &p3)
+bool isRightTurn(const Point& p1, const Point& p2, const Point& p3)
 {
-	return (crossProduct(p2 - p1, p3 - p2) < 0.0);
+    return (crossProduct(p2 - p1, p3 - p2) < 0.0);
 }
 
-bool equal(const Point &p1, const Point &p2, double EPSILON)
+bool equal(const Point& p1, const Point& p2, double EPSILON)
 {
     return (fabs(p1.x - p2.x) < EPSILON && fabs(p1.y - p2.y) < EPSILON);
 }

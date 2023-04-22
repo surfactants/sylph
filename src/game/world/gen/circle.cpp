@@ -2,7 +2,8 @@
 
 #include <cmath>
 
-bool findCircleCenter(const Point &p1, const Point &p2, const Point &p3, Point &center) {
+bool findCircleCenter(const Point& p1, const Point& p2, const Point& p3, Point& center)
+{
 
     // get normalized vectors
     Point u1 = (p1 - p2).normalized(), u2 = (p3 - p2).normalized();

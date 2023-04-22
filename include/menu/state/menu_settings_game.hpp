@@ -20,4 +20,3 @@ private:
     Dropdown<int> dropdown_difficulty;
     Dropdown<int> dropdown_speed;
 };
-

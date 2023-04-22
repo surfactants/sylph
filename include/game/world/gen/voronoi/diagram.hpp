@@ -87,48 +87,44 @@ the triple where the former right neighbor is the middle arc.
 
 */
 
-namespace Voronoi
-{
-    class Diagram {
-    public:
-        Diagram(const size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
-        Diagram(const std::vector<Point>& points);
-        std::vector<sf::ConvexShape> get();
-        std::vector<sf::RectangleShape> sites();
+namespace Voronoi {
+class Diagram {
+public:
+    Diagram(const size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
+    Diagram(const std::vector<Point>& points);
+    std::vector<sf::ConvexShape> get();
+    std::vector<sf::RectangleShape> sites();
 
-    private:
-        std::vector<sf::ConvexShape> m_cells;
+private:
+    std::vector<sf::ConvexShape> m_cells;
 
-        std::vector<sf::RectangleShape> m_sites;
+    std::vector<sf::RectangleShape> m_sites;
 
-        std::vector<Point> points;
-        std::vector<Half_Edge_ptr> half_edges;
-        std::vector<Half_Edge_ptr> faces;
-        std::vector<Vertex_ptr> m_vertices;
+    std::vector<Point> points;
+    std::vector<Half_Edge_ptr> half_edges;
+    std::vector<Half_Edge_ptr> faces;
+    std::vector<Vertex_ptr> m_vertices;
 
-        std::vector<sf::VertexArray> lines;
+    std::vector<sf::VertexArray> lines;
 
-        std::vector<double> getCoordinate(const std::vector<Point> &points, int coord_id);
+    std::vector<double> getCoordinate(const std::vector<Point>& points, int coord_id);
 
-        void build();
+    void build();
 
-        void plotCircle(const Point& c, double r);
+    void plotCircle(const Point& c, double r);
 
-        size_t extra_point_count;
+    size_t extra_point_count;
 
-        sf::FloatRect frame;
+    sf::FloatRect frame;
 
-        std::vector<std::pair<sf::Vector2f, sf::Vector2f>> frame_face;
+    std::vector<std::pair<sf::Vector2f, sf::Vector2f>> frame_face;
 
-        void generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
+    void generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
 
-        bool nearbyPoints(double x, double y);
+    bool nearbyPoints(double x, double y);
 
-        void reduceFrameIntersection(Half_Edge_ptr h);
+    void reduceFrameIntersection(Half_Edge_ptr h);
 
-        void initEdgePointsVis(Half_Edge_ptr h
-                                      , std::vector<double> &x
-                                      , std::vector<double> &y
-                                      , const std::vector<Point> &points);
-    };
+    void initEdgePointsVis(Half_Edge_ptr h, std::vector<double>& x, std::vector<double>& y, const std::vector<Point>& points);
+};
 }

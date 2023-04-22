@@ -16,12 +16,11 @@ Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
     sliders[1].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::GAME, v); };
     sliders[2].fillChangeCallback = [&](float v) { audio.setSoundVolume(Sound::UI, v); };
 
-    read = [&]()
-        {
-            sliders[0].setFill(audio.getMusicVolume());
-            sliders[1].setFill(audio.getSoundVolume(Sound::GAME));
-            sliders[2].setFill(audio.getSoundVolume(Sound::UI));
-        };
+    read = [&]() {
+        sliders[0].setFill(audio.getMusicVolume());
+        sliders[1].setFill(audio.getSoundVolume(Sound::GAME));
+        sliders[2].setFill(audio.getSoundVolume(Sound::UI));
+    };
 
     read();
 

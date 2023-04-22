@@ -22,7 +22,8 @@ public:
         : buffer { buffer }
         , source { source }
         , threshold { threshold }
-    {}
+    {
+    }
 
     bool ready()
     {

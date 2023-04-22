@@ -12,7 +12,7 @@ const float Slider::scroll_factor = 5.f;
 
 Slider::Slider(std::string ntitle)
 {
-    fillChangeCallback = [](float){};
+    fillChangeCallback = [](float) {};
 
     frame.setSize(frame_size);
     frame.setFillColor(sf::Color::Transparent);

@@ -55,18 +55,19 @@ void Scrollable::setScrollable(float max_height)
     background.setSize(sf::Vector2f(size.x, max_scroll + size.y));
 }
 
-bool Scrollable::scroll(float delta, sf::Vector2f mpos) {
+bool Scrollable::scroll(float delta, sf::Vector2f mpos)
+{
     bool c = contains(mpos);
 
     if (c) {
         delta *= -40.f;
         view.move(0.f, delta);
         current_scroll += delta;
-        if(current_scroll < 0) {
+        if (current_scroll < 0) {
             view.move(0.f, -current_scroll);
             current_scroll = 0;
         }
-        else if(current_scroll > max_scroll) {
+        else if (current_scroll > max_scroll) {
             view.move(0.f, -(current_scroll - max_scroll));
             current_scroll = max_scroll;
         }
@@ -83,22 +84,24 @@ void Scrollable::scrollToTop()
     placeScrollbar();
 }
 
-void Scrollable::resizeScrollbar() {
+void Scrollable::resizeScrollbar()
+{
     sf::Vector2f scroll_size(scrollbar.getSize().x, view.getSize().y);
-    if(max_scroll > 0) {
+    if (max_scroll > 0) {
         scroll_size.y *= (size.y / (max_scroll + size.y));
     }
     scrollbar.setSize(scroll_size);
     placeScrollbar();
 }
 
-void Scrollable::placeScrollbar() {
+void Scrollable::placeScrollbar()
+{
     sf::Vector2f pos(scroll_x_pos, current_scroll);
     pos.y += (size.y - scrollbar.getSize().y) * (current_scroll / max_scroll);
     if (max_scroll == 0.f) {
         pos.y = 0.f;
     }
-    if(max_scroll > size.y) {
+    if (max_scroll > size.y) {
         //pos.y += (frame.height - scrollbar.getSize().y) * (current_scroll / max_scroll);
     }
     scrollbar.setPosition(pos);

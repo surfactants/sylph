@@ -21,11 +21,11 @@ Button::Button(std::string nlabel, sf::Font& font, unsigned int csize, State bas
 
     setState(base);
 
-    target = [](){};
+    target = []() {};
 }
 
 Button::Button(std::string nlabel, sf::Font& font, std::function<void()> target, unsigned int csize, State base)
-    : target{ target }
+    : target { target }
 {
     base_state = base;
     label.setFont(font);

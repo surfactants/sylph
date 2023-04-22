@@ -4,7 +4,6 @@
 
 #include <cmath>
 
-
 // basic math operations
 
 /// scalarDistance ///

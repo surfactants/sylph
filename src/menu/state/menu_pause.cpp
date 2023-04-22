@@ -9,8 +9,7 @@ Menu_Pause::Menu_Pause()
     addNav("load", std::bind(setMenuState, Menu::LOAD_GAME));
     addNav("settings", std::bind(setMenuState, Menu::SETTINGS));
     auto main_menu =
-        [&]()
-        {
+        [&]() {
             setMenuState(Menu::MAIN);
             clearGame();
             Event_Bus::publish(Event::MAIN_MENU_ENTERED);

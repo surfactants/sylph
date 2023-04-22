@@ -70,8 +70,8 @@ void Database_Commands::deleteMissingKeys(const std::vector<Command>& pkg)
     size_t n = pkg.size();
     for (size_t i = 0; i < n; i++) {
         delete_query += "'" + key_string.toString(pkg[i].key) + "'";
-        if (i < n - 1) { [[likely]]
-            delete_query += ",";
+        if (i < n - 1) {
+            [[likely]] delete_query += ",";
         }
     }
     delete_query += ")";

@@ -40,5 +40,5 @@ void Database_Settings_Game::write(Game_Settings s)
         + ", SPEED=" + std::to_string(s.speed)
         + " WHERE ID='ACTIVE';";
 
-        execute(update_query);
+    execute(update_query);
 }

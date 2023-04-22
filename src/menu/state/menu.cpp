@@ -199,7 +199,7 @@ void Menu::reset()
 void Menu::setEscape(Menu::State state)
 {
     if (active_element) {
-            active_element->setState(Menu_Element::READY);
+        active_element->setState(Menu_Element::READY);
         active_element = nullptr;
     }
     escape_target = state;

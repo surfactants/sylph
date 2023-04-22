@@ -19,4 +19,3 @@ public:
 private:
     static Event_Map listeners;
 };
-

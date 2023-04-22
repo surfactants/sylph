@@ -7,7 +7,8 @@ std::function<void(Game::State)> Game::setGameState;
 std::unique_ptr<World> Game::world { nullptr };
 
 Game::Game()
-{}
+{
+}
 
 void Game::deleteWorld()
 {
@@ -16,7 +17,8 @@ void Game::deleteWorld()
 
 Game::Game(const Game& g)
     : entities { g.getEntities() }
-{}
+{
+}
 
 void Game::loadSettings(Game_Settings settings)
 {
@@ -35,4 +37,5 @@ const Entity_Manager& Game::getEntities() const
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{}
+{
+}
