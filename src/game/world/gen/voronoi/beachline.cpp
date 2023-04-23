@@ -7,8 +7,6 @@
 
 #include <game/world/gen/voronoi/parabola.hpp>
 
-using namespace Voronoi;
-
 namespace Voronoi {
 
 BL_Node::BL_Node(const std::pair<int, int>& indices, double* sweep_line, const std::vector<Point>* points, BL_Node_ptr left, BL_Node_ptr right, BL_Node_ptr parent, int height)

@@ -3,6 +3,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 
+#include <any>
 #include <functional>
 #include <map>
 #include <string>
@@ -33,6 +34,9 @@ public:
 
     void release(sf::Keyboard::Key k);
     void release(sf::Mouse::Button b);
+
+    void setNumPress(sf::Keyboard::Key, std::function<void(unsigned int)> func);
+    void setNumRelease(sf::Keyboard::Key, std::function<void(unsigned int)> func);
 
     std::map<sf::Keyboard::Key, std::function<void()>> key_press;
     std::map<sf::Keyboard::Key, std::function<void()>> key_release;

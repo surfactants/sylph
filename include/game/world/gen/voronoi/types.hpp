@@ -4,9 +4,11 @@
 
 #include <memory>
 
-#include "../point.hpp"
+#include "point.hpp"
 
-namespace Voronoi {
+namespace Voronoi
+{
+
 struct Vertex;
 struct Half_Edge;
 
@@ -51,4 +53,5 @@ std::pair<Half_Edge_ptr, Half_Edge_ptr> makeTwins(int left, int right);
 std::pair<Half_Edge_ptr, Half_Edge_ptr> makeTwins(const std::pair<int, int>& indices);
 
 void connectHalfEdges(Half_Edge_ptr he1, Half_Edge_ptr he2);
+
 }

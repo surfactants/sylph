@@ -7,12 +7,13 @@ std::function<void()> New_Game::newToPlay;
 New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
+    world = std::make_unique<World>();
     tasks.push_back(std::bind(createWorld, this));
     tasks.push_back(std::bind(createPlayer, this));
     thread_done.test_and_set();
 }
 
-void New_Game::update(float delta_time)
+void New_Game::update(float delta_time, const sf::Vector2f& mpos)
 {
     if (thread_done.test()) {
         thread_done.clear();
@@ -45,9 +46,8 @@ void New_Game::loadSettings(Game_Settings settings)
 
 void New_Game::createWorld()
 {
-    world = std::make_unique<World>();
+    world->load(data);
     thread_done.test_and_set();
-    std::cout << "creating world " << world.get() << '\n';
 }
 
 void New_Game::createPlayer()

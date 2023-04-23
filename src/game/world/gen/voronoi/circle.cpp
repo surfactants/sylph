@@ -1,6 +1,9 @@
-#include <game/world/gen/circle.hpp>
+#include <game/world/gen/voronoi/circle.hpp>
 
 #include <cmath>
+
+namespace Voronoi
+{
 
 bool findCircleCenter(const Point& p1, const Point& p2, const Point& p3, Point& center)
 {
@@ -26,4 +29,6 @@ bool findCircleCenter(const Point& p1, const Point& p2, const Point& p3, Point& 
     center.y = (u1.x * b2 - u2.x * b1) / cross;
 
     return true;
+}
+
 }

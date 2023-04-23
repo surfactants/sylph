@@ -4,15 +4,30 @@
 
 #include <vector>
 
+#include <game/data/new_game_data.hpp>
+
 class World : public sf::Drawable {
 public:
     World();
 
+    void load(New_Game_Data data);
+
+    void update(float delta_time, const sf::Vector2f& mpos);
+
     void eraseCell(unsigned int i = 0);
+
+    sf::Vector2f min { 0.f, 0.f };
+    sf::Vector2f max { 1920.f * 5.f, 1080.f * 5.f };
 
 private:
     std::vector<sf::ConvexShape> cells;
     std::vector<sf::RectangleShape> sites;
+
+    sf::ConvexShape* moused_cell { nullptr };
+    sf::ConvexShape* active_cell { nullptr };
+
+    void setMousedCell(sf::ConvexShape* cell);
+    void setActiveCell();
 
     sf::RectangleShape frame;
 

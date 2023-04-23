@@ -30,12 +30,12 @@ public:
 
     void clear();
 
+    void numPress(unsigned int i);
+
 private:
     std::unique_ptr<Game> game { nullptr };
 
     Game::State game_state;
-
-    std::map<Game::State, std::unique_ptr<Game>> states;
 
     std::vector<Command> commands {};
 
@@ -48,4 +48,19 @@ private:
     Game_Settings settings;
 
     New_Game_Data data;
+
+    sf::FloatRect window_frame;
+
+    Accelerator accelerator;
+
+    sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
+    void moveFrame(sf::Vector2f& velocity);
+
+    float zoom { 1.f };
+    float max_zoom { 4.f };
+    float min_zoom { 0.5f };
+    float zoom_step { 0.1f };
+    constexpr static float zoom_speed_factor { 3.f };
+
+    void scroll(float delta);
 };

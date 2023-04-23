@@ -20,6 +20,7 @@ public:
     virtual void handleInput(const sf::Event& event) = 0;
 
     static std::function<void(Main_State::State)> setState;
+    static std::function<sf::Vector2f(sf::View)> relativeMousePos;
 
 protected:
     std::vector<const sf::Drawable*> drawables;

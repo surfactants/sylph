@@ -10,17 +10,15 @@
 #include <engine/util/prng.hpp>
 #include <engine/util/sfml_stream.hpp>
 
-#include <game/world/gen/circle.hpp>
+#include <game/world/gen/voronoi/circle.hpp>
 #include <game/world/gen/voronoi/parabola.hpp>
 #include <game/world/gen/voronoi/types.hpp>
 
 #define BREAKPOINTS_EPSILON 1.0e-5
 
-using namespace Voronoi;
-
 namespace Voronoi {
 
-Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<double> max)
+Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double> max)
     : frame { sf::Vector2f(min), sf::Vector2f(max) }
 {
     sf::Vector2f size(max - min);
@@ -35,6 +33,7 @@ Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<
     frame_face.push_back(std::make_pair(D, A));
 
     generatePoints(point_count, min, max);
+    point_count = points.size();
 
     std::sort(points.begin(), points.end(), [](const Point& p1, const Point& p2) {
         return (fabs(p1.y - p2.y) < POINT_EPSILON && p1.x < p2.x) || (fabs(p1.y - p2.y) >= POINT_EPSILON && p1.y < p2.y);
@@ -91,7 +90,6 @@ Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<
             //reordered_points.push_back(h->vertex->point);
             do {
                 if (h) {
-                    //reduceFrameIntersection(h);
                     if (h->vertex0()) {
                         p.push_back(h->vertex0()->point.sfv());
                     }
@@ -105,9 +103,8 @@ Diagram::Diagram(const size_t point_count, sf::Vector2<double> min, sf::Vector2<
             for (size_t j = 0; j < s; j++) {
                 shape.setPoint(j, p[j]);
             }
-            shape.setFillColor(sf::Color(prng::number(255), prng::number(255), prng::number(255)));
-            sf::Color color(prng::number(100, 200), prng::number(50, 200), 200);
-            shape.setFillColor(color);
+            shape.setFillColor(sf::Color::Transparent);
+            shape.setOutlineColor(Palette::white);
             m_cells.push_back(shape);
         }
     }
@@ -179,7 +176,7 @@ void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, 
 
 bool Diagram::nearbyPoints(double x, double y)
 {
-    constexpr static double min_dist { 64.d };
+    constexpr static double min_dist { 128.d };
     for (const auto& p : points) {
         double dist = scalarDistance(sf::Vector2<double>(p.x, p.y), sf::Vector2<double>(x, y));
         if (std::abs(dist) < min_dist) {
@@ -187,105 +184,6 @@ bool Diagram::nearbyPoints(double x, double y)
         }
     }
     return false;
-}
-
-void Diagram::reduceFrameIntersection(Half_Edge_ptr h)
-{
-    static auto cross = [](sf::Vector2f v, sf::Vector2f w) {
-        return (v.x * w.y) - (v.y * w.x);
-    };
-    if (h && h->vertex0() && h->vertex1()) {
-        for (auto& face : frame_face) {
-            // https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
-            sf::Vector2f q = h->vertex0()->point.sfv();
-            sf::Vector2f s = h->vertex1()->point.sfv() - q;
-            float u; // scalar factor of s which produces an intersection
-
-            sf::Vector2f p = face.first;
-            sf::Vector2f r = face.second - face.first;
-            float t; // scalar factor of r which produces an intersection
-
-            float rxs = cross(r, s);
-            float qpxr = cross(q - p, r);
-
-            if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) < POINT_EPSILON) {
-                // collinear, don't bother here
-                continue;
-            }
-
-            if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) > POINT_EPSILON) {
-                //parallel
-                continue;
-            }
-
-            float qpxs = cross(q - p, s);
-            t = qpxs / rxs;
-            u = qpxr / rxs;
-
-            if (fabs(rxs) > POINT_EPSILON && (t >= POINT_EPSILON && t <= 1.f) && (u >= 0.f && u <= 1.f)) {
-                // intersects!
-                sf::Vector2f ans(q + (u * s));
-                // determine OOB point
-                if (!frame.contains(q)) {
-                    h->vertex0()->point.x = ans.x;
-                    h->vertex0()->point.y = ans.y;
-                }
-                else if (!frame.contains(s)) {
-                    h->vertex1()->point.y = ans.y;
-                    h->vertex1()->point.y = ans.y;
-                }
-                break;
-            }
-        }
-    }
-}
-
-Diagram::Diagram(const std::vector<Point>& p)
-    : points { p }
-{
-    build();
-
-    size_t n = half_edges.size();
-    for (size_t i = 0; i < n; i++) {
-        Half_Edge_ptr h = half_edges[i];
-        std::vector<double> x = { 2.d, 0.d };
-        std::vector<double> y = { 2.d, 0.d };
-        initEdgePointsVis(h, x, y, points);
-    }
-
-    // check iterator
-    for (size_t i = 0; i < n; i++) {
-        Half_Edge_ptr h = half_edges[i];
-        std::vector<sf::Vector2f> p;
-        do {
-            if (h) {
-                if (h->vertex0()) {
-                    p.push_back(h->vertex0()->point.sfv());
-                }
-                else if (h->vertex1()) {
-                    p.push_back(h->vertex1()->point.sfv());
-                }
-                else if (h->twin && h->twin->vertex0()) {
-                    p.push_back(h->twin->vertex1()->point.sfv());
-                }
-                else if (h->twin && h->twin->vertex1()) {
-                    p.push_back(h->twin->vertex1()->point.sfv());
-                }
-                else
-                    std::cout << "uh oh!\n";
-            }
-            assert(half_edges[i]->left_index == h->left_index);
-            h = h->next;
-        } while (h && h != half_edges[i]);
-        size_t s = p.size();
-        sf::ConvexShape shape(s);
-        for (size_t j = 0; j < s; j++) {
-            shape.setPoint(j, p[j]);
-        }
-        shape.setFillColor(sf::Color(prng::number(255), prng::number(255), prng::number(255)));
-        shape.setFillColor(sf::Color(prng::number(100, 200), prng::number(50, 200), 255));
-        m_cells.push_back(shape);
-    }
 }
 
 std::vector<sf::ConvexShape> Diagram::get()

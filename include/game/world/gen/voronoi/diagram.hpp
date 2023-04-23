@@ -26,7 +26,7 @@
 #include <vector>
 
 #include "beachline.hpp"
-#include "../point.hpp"
+#include "point.hpp"
 
 /*
 1. Initialize the event queue Q with all site events, initialize an empty status
@@ -67,7 +67,7 @@ triple where the new arc is the right arc.
 
 ////////////////////////////////////////////////////////////////////////
 
-H NDLE C IRCLE E VENT (c)
+HANDLE CIRCLE E VENT (c)
 1. Delete the leaf C that represents the disappearing arc A from T. Update
 the tuples representing the breakpoints at the internal nodes. Perform
 rebalancing operations on T if necessary. Delete all circle events involving
@@ -90,8 +90,7 @@ the triple where the former right neighbor is the middle arc.
 namespace Voronoi {
 class Diagram {
 public:
-    Diagram(const size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
-    Diagram(const std::vector<Point>& points);
+    Diagram(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
     std::vector<sf::ConvexShape> get();
     std::vector<sf::RectangleShape> sites();
 
@@ -122,8 +121,6 @@ private:
     void generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
 
     bool nearbyPoints(double x, double y);
-
-    void reduceFrameIntersection(Half_Edge_ptr h);
 
     void initEdgePointsVis(Half_Edge_ptr h, std::vector<double>& x, std::vector<double>& y, const std::vector<Point>& points);
 };

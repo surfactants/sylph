@@ -1,10 +1,13 @@
-#include <game/world/gen/point.hpp>
+#include <game/world/gen/voronoi/point.hpp>
 
 #include <cmath>
 
 #if defined(_WIN64) || defined(_WIN32)
 //    #define isnan(x) _isnan(x)
 #endif
+
+namespace Voronoi
+{
 
 using namespace std;
 
@@ -204,4 +207,6 @@ bool equal(const Point& p1, const Point& p2, double EPSILON)
 bool equal(double v1, double v2, double EPSILON)
 {
     return fabs(v1 - v2) < EPSILON;
+}
+
 }

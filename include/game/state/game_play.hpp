@@ -4,11 +4,11 @@
 
 class Game_Play : public Game {
 public:
-    Game_Play();
+    Game_Play() = delete;
 
     explicit Game_Play(const Game& g);
 
     ~Game_Play();
 
-    virtual void update(float delta_time) override;
+    virtual void update(float delta_time, const sf::Vector2f& mpos) override;
 };
