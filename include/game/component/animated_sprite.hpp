@@ -37,7 +37,7 @@ public:
         , start { start }
         , Component(ANIMATED_SPRITE)
     {
-        drawable = this;
+        drawable = static_cast<sf::Sprite*>(this);
         if (!directionless) {
             loadCounts(counts);
         }
