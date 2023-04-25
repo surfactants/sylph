@@ -4,14 +4,20 @@
 #include <memory>
 
 #include <game/data/game_settings.hpp>
-#include <game/system/entity_manager.hpp>
+
 #include <game/system/accelerator.hpp>
+#include <game/system/component_manager.hpp>
+#include <game/system/entity_manager.hpp>
+#include <game/system/renderer.hpp>
+
 #include <game/world/world.hpp>
 
-class Game : public sf::Drawable {
+class Game {
 public:
     Game();
     Game(const Game& g);
+
+    ~Game();
 
     enum State {
         NEW,
@@ -23,12 +29,24 @@ public:
 
     virtual void loadSettings(Game_Settings settings);
 
+    virtual void clickLeft() // = 0;
+    {
+        world->activateCell();
+    }
+
+    virtual void clickRight() // = 0;
+    {
+        world->deactivateCell();
+    }
+
     static std::function<void(Game::State)> setGameState;
 
     World* getWorld();
     const Entity_Manager& getEntities() const;
 
     void deleteWorld();
+
+    static Renderer* getRenderer();
 
 protected:
     static Game_Settings settings;
@@ -37,7 +55,9 @@ protected:
 
     static std::unique_ptr<World> world;
 
-    Accelerator accelerator;
+    static Component_Manager components;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    static Renderer renderer;
+
+    Accelerator accelerator;
 };

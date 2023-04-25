@@ -6,8 +6,15 @@ std::function<void(Game::State)> Game::setGameState;
 
 std::unique_ptr<World> Game::world { nullptr };
 
+Renderer Game::renderer;
+
 Game::Game()
 {
+}
+
+Game::~Game()
+{
+    renderer.clear();
 }
 
 void Game::deleteWorld()
@@ -31,11 +38,12 @@ World* Game::getWorld()
     return world.get();
 }
 
+Renderer* Game::getRenderer()
+{
+    return &renderer;
+}
+
 const Entity_Manager& Game::getEntities() const
 {
     return entities;
-}
-
-void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
 }

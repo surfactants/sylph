@@ -4,6 +4,8 @@
 
 #include <cmath>
 
+constexpr static float PI { 3.14159265359 };
+
 // basic math operations
 
 /// scalarDistance ///
@@ -37,3 +39,6 @@ inline int roundFloat(float f)
 {
     return static_cast<int>(f + (sign(f) / 2.f));
 }
+
+
+sf::Vector2f calculateMoveVector(float angle, float velocity);

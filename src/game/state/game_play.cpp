@@ -3,6 +3,7 @@
 Game_Play::Game_Play(const Game& g)
     : Game(g)
 {
+    renderer.add(world.get());
 }
 
 Game_Play::~Game_Play()

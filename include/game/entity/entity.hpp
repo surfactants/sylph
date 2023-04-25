@@ -2,7 +2,7 @@
 
 #include <bitset>
 
-#include "component.hpp"
+#include <game/component/component.hpp>
 
 using Entity = uint_fast16_t;
 

@@ -12,7 +12,9 @@ Game_State::Game_State(std::function<void()> open_pause)
     accelerator.setMaxSpeed(10.f);
     accelerator.setAcceleration(1.f);
 
+    // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
+
     Database_Commands dbc;
     loadCommands(dbc.read());
 
@@ -23,6 +25,22 @@ Game_State::Game_State(std::function<void()> open_pause)
     window_frame.top = 0.f;
     window_frame.width = 1920.f;
     window_frame.height = 1080.f;
+
+    drawables.push_back(Game::getRenderer());
+    //drawables.push_back(&UI::renderer);
+
+}
+
+void Game_State::clickLeft()
+{
+    // check for UI input, otherwise, parse in-game
+    game->clickLeft();
+}
+
+void Game_State::clickRight()
+{
+    // attempt UI input first
+    game->clickRight();
 }
 
 void Game_State::update(float delta_time)
@@ -117,13 +135,19 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     Input_Package* ig = &input_map[Game::PLAY];
     auto open_pause = ig->key_press[sf::Keyboard::Escape];
     ig->clear();
-    ig->addPress(sf::Keyboard::Escape, open_pause);
     for (const auto& c : commands) {
         if (c.key != sf::Keyboard::Unknown) {
             ig->addPress(c.key, stringToFunction(c.press));
             ig->addRelease(c.key, stringToFunction(c.release));
         }
     }
+
+    // must re-add permanent options
+    ig->addPress(sf::Keyboard::Escape, open_pause);
+    ig->addPress(sf::Mouse::Left, std::bind(clickLeft, this));
+    ig->addPress(sf::Mouse::Right, std::bind(clickRight, this));
+
+    loadNums();
 }
 
 void Game_State::loadNums()
@@ -213,7 +237,6 @@ void Game_State::newToPlay()
     game = std::move(g);
     setGameState(Game::PLAY);
     drawables.push_back(game->getWorld());
-    std::cout << "transitioned from new game to play state\n";
 
     loadNums();
 }

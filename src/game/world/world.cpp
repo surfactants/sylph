@@ -73,13 +73,47 @@ void World::update(float delta_time, const sf::Vector2f& mpos)
     }
 }
 
-void World::setMousedCell(sf::ConvexShape* cell)
+void World::activateCell()
+{
+    deactivateCell();
+    if (moused_cell) {
+        active_cell = moused_cell;
+        active_cell->setOutlineThickness(active_thickness);
+    }
+}
+
+void World::deactivateCell()
+{
+    if (active_cell) {
+        if (active_cell == moused_cell) {
+            active_cell->setOutlineThickness(moused_thickness);
+        }
+        else {
+            active_cell->setOutlineThickness(0.f);
+        }
+        active_cell = nullptr;
+    }
+}
+
+void World::unmouse()
 {
     if (moused_cell) {
-        moused_cell->setOutlineThickness(0.f);
+        if (moused_cell != active_cell) {
+            moused_cell->setOutlineThickness(0.f);
+        }
+        moused_cell = nullptr;
     }
-    moused_cell = cell;
-    moused_cell->setOutlineThickness(4.f);
+}
+
+void World::setMousedCell(sf::ConvexShape* cell)
+{
+    unmouse();
+    if (moused_cell != cell) {
+        moused_cell = cell;
+        if (moused_cell != active_cell) {
+            moused_cell->setOutlineThickness(moused_thickness);
+        }
+    }
 }
 
 void World::eraseCell(unsigned int i)

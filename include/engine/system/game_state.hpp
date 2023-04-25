@@ -63,4 +63,7 @@ private:
     constexpr static float zoom_speed_factor { 3.f };
 
     void scroll(float delta);
+
+    void clickLeft();
+    void clickRight();
 };
