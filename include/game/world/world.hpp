@@ -4,13 +4,20 @@
 
 #include <vector>
 
+#include <game/component/collision_rect.hpp>
+#include <game/component/polygon_tile.hpp>
+#include <game/component/tile.hpp>
+#include <game/component/transform.hpp>
 #include <game/data/new_game_data.hpp>
 
-class World : public sf::Drawable {
+class World {
 public:
-    World();
+    World(New_Game_Data data);
 
-    void load(New_Game_Data data);
+    void load();
+
+    std::vector<std::pair<Transform, Polygon_Tile>> polygonTiles();
+    std::vector<std::pair<sf::Vector2f, Tile>> tiles();
 
     void update(float delta_time, const sf::Vector2f& mpos);
 
@@ -20,8 +27,10 @@ public:
 
     void eraseCell(unsigned int i = 0);
 
-    sf::Vector2f min { 0.f, 0.f };
-    sf::Vector2f max { 1920.f * 5.f, 1080.f * 5.f };
+    sf::Vector2f min;
+    sf::Vector2f max;
+
+    Collision_Rect getFrame();
 
 private:
     std::vector<sf::ConvexShape> cells;
@@ -35,7 +44,7 @@ private:
 
     void setMousedCell(sf::ConvexShape* cell);
 
-    sf::RectangleShape frame;
+    New_Game_Data data;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    Collision_Rect frame;
 };

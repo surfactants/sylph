@@ -16,16 +16,19 @@ Entity Entity_Manager::create()
 
 void Entity_Manager::define(Entity e, Signature s)
 {
-    entities[e] = s;
-}
-
-Signature Entity_Manager::signature(Entity e)
-{
-    return entities[e];
+    signatures[e] = s;
 }
 
 void Entity_Manager::destroy(Entity e)
 {
-    entities[e].reset();
     available.push(e);
+}
+
+void Entity_Manager::reset()
+{
+    available = {}; // clears queue
+    for (Entity e = 0; e < MAX_ENTITIES; e++) {
+        available.push(e);
+    }
+    signatures = std::array<Signature, MAX_ENTITIES>();
 }

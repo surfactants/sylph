@@ -15,9 +15,6 @@ Game_State::Game_State(std::function<void()> open_pause)
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
 
-    Database_Commands dbc;
-    loadCommands(dbc.read());
-
     Game::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     New_Game::newToPlay = std::bind(newToPlay, this);
 
@@ -28,7 +25,6 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     drawables.push_back(Game::getRenderer());
     //drawables.push_back(&UI::renderer);
-
 }
 
 void Game_State::clickLeft()
@@ -52,8 +48,8 @@ void Game_State::update(float delta_time)
 
 void Game_State::moveFrame(sf::Vector2f& velocity)
 {
-    sf::Vector2f min = game->getWorld()->min;
-    sf::Vector2f max = game->getWorld()->max - sf::Vector2f(window_frame.width, window_frame.height);
+    sf::Vector2f min(0.f, 0.f);
+    sf::Vector2f max(19200.f, 10800.f);
     sf::Vector2f fpos(window_frame.left + velocity.x, window_frame.top + velocity.y);
 
     if (fpos.x < min.x) {
@@ -144,8 +140,10 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 
     // must re-add permanent options
     ig->addPress(sf::Keyboard::Escape, open_pause);
-    ig->addPress(sf::Mouse::Left, std::bind(clickLeft, this));
-    ig->addPress(sf::Mouse::Right, std::bind(clickRight, this));
+    ig->addPress(sf::Mouse::Left, std::bind(&Game::clickLeft, game.get()));
+    ig->addPress(sf::Mouse::Left, std::bind(&Game::releaseLeft, game.get()));
+    ig->addPress(sf::Mouse::Right, std::bind(&Game::clickRight, game.get()));
+    ig->addPress(sf::Mouse::Right, std::bind(&Game::releaseRight, game.get()));
 
     loadNums();
 }
@@ -162,7 +160,6 @@ void Game_State::loadNums()
 
 void Game_State::numPress(unsigned int i)
 {
-    game->getWorld()->eraseCell(i);
 }
 
 void Game_State::loadSettings(Game_Settings settings)
@@ -232,11 +229,15 @@ void Game_State::newGame(New_Game_Data data)
 void Game_State::newToPlay()
 {
     std::unique_ptr<Game> g = std::make_unique<Game_Play>(*game);
+
+    Database_Commands dbc;
+    loadCommands(dbc.read());
+
     drawables.clear();
     game.reset();
     game = std::move(g);
     setGameState(Game::PLAY);
-    drawables.push_back(game->getWorld());
+    drawables.push_back(game->getRenderer());
 
     loadNums();
 }

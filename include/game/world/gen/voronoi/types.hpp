@@ -6,8 +6,7 @@
 
 #include "point.hpp"
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 struct Vertex;
 struct Half_Edge;

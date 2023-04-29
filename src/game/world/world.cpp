@@ -8,16 +8,19 @@
 
 #include <game/world/gen/voronoi/diagram.hpp>
 
-World::World()
-{
-}
+World::World(New_Game_Data data)
+    : data { data }
+{ }
 
-void World::load(New_Game_Data data)
+std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 {
+    std::vector<std::pair<Transform, Polygon_Tile>> ptile;
     size_t point_upper_bound;
     size_t point_lower_bound;
 
     float size_factor;
+
+    min = sf::Vector2f(0.f, 0.f);
 
     switch (data.size) {
         case New_Game_Data::SMALL:
@@ -45,22 +48,26 @@ void World::load(New_Game_Data data)
     sf::Vector2<double> world_max(max.x, max.y);
 
     Voronoi::Diagram d(point_count, world_min, world_max);
-    cells = d.get();
+    std::vector<sf::ConvexShape> cells = d.get();
     std::cout << "loaded " << cells.size() << " cells\n";
-    sites = d.sites();
+    std::vector<sf::Vector2f> sites = d.sites();
     std::cout << "loaded " << sites.size() << " sites\n";
     // assert(cells.size() == sites.size());
-
-    frame.setPosition(sf::Vector2f(min));
-    frame.setSize(sf::Vector2f(max - min));
-    frame.setFillColor(sf::Color::Transparent);
-    frame.setOutlineThickness(5.f);
-    frame.setOutlineColor(sf::Color::Red);
 
     min -= sf::Vector2f(512.f, 512.f);
     max += sf::Vector2f(512.f, 512.f);
 
+    frame.setPosition(sf::Vector2f(min));
+    frame.setSize(sf::Vector2f(max - min));
+
     cells[prng::number(cells.size())].setFillColor(data.player_color);
+
+    return ptile;
+}
+
+std::vector<std::pair<sf::Vector2f, Tile>> tiles()
+{
+    return std::vector<std::pair<sf::Vector2f, Tile>>();
 }
 
 void World::update(float delta_time, const sf::Vector2f& mpos)
@@ -125,15 +132,4 @@ void World::eraseCell(unsigned int i)
     if (i < sites.size()) {
         sites.erase(sites.begin() + i);
     }
-}
-
-void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    for (const auto& c : cells) {
-        target.draw(c, states);
-    }
-    for (const auto& s : sites) {
-        target.draw(s, states);
-    }
-    target.draw(frame, states);
 }

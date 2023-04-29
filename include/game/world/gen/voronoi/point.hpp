@@ -5,8 +5,7 @@
 #include <iostream>
 #include <vector>
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 constexpr double POINT_EPSILON { 1.0e-6 };
 

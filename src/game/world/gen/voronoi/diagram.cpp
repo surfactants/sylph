@@ -130,14 +130,7 @@ Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double
             if (collide::convexShape_Point(c, p.sfv())) {
                 r_cells.push_back(c);
                 r_points.push_back(p);
-
-                sf::RectangleShape r(r_size);
-                r.setOrigin(r_orig);
-                r.setPosition(p.sfv());
-                r.setFillColor(Palette::white);
-                r.setOutlineColor(Palette::black);
-                r.setOutlineThickness(1.f);
-                m_sites.push_back(r);
+                m_sites.push_back(p.sfv());
                 break;
             }
         }
@@ -191,7 +184,7 @@ std::vector<sf::ConvexShape> Diagram::get()
     return m_cells;
 }
 
-std::vector<sf::RectangleShape> Diagram::sites()
+std::vector<sf::Vector2f> Diagram::sites()
 {
     return m_sites;
 }
@@ -468,8 +461,7 @@ void Diagram::build()
     }
 }
 
-void Diagram::initEdgePointsVis(Half_Edge_ptr h, std::vector<double>& x, std::vector<double>& y,
-    const std::vector<Point>& points)
+void Diagram::initEdgePointsVis(Half_Edge_ptr h, std::vector<double>& x, std::vector<double>& y, const std::vector<Point>& points)
 {
 
     if (h->vertex != nullptr && h->twin->vertex != nullptr) {

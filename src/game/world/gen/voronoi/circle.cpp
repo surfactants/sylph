@@ -2,8 +2,7 @@
 
 #include <cmath>
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 bool findCircleCenter(const Point& p1, const Point& p2, const Point& p3, Point& center)
 {

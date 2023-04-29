@@ -10,8 +10,6 @@
 #include <game/system/entity_manager.hpp>
 #include <game/system/renderer.hpp>
 
-#include <game/world/world.hpp>
-
 class Game {
 public:
     Game();
@@ -29,22 +27,17 @@ public:
 
     virtual void loadSettings(Game_Settings settings);
 
-    virtual void clickLeft() // = 0;
-    {
-        world->activateCell();
-    }
+    virtual void clickLeft() = 0;
+    virtual void releaseLeft() = 0;
 
-    virtual void clickRight() // = 0;
-    {
-        world->deactivateCell();
-    }
+    virtual void clickRight() = 0;
+    virtual void releaseRight() = 0;
 
     static std::function<void(Game::State)> setGameState;
 
-    World* getWorld();
     const Entity_Manager& getEntities() const;
 
-    void deleteWorld();
+    void reset();
 
     static Renderer* getRenderer();
 
@@ -53,11 +46,11 @@ protected:
 
     Entity_Manager entities;
 
-    static std::unique_ptr<World> world;
-
     static Component_Manager components;
 
     static Renderer renderer;
 
     Accelerator accelerator;
+
+    void addEntity(Entity e, std::vector<Component*> c);
 };

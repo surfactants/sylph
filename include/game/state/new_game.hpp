@@ -17,6 +17,11 @@ public:
 
     static std::function<void()> newToPlay;
 
+    virtual void clickLeft() override;
+    virtual void releaseLeft() override;
+    virtual void clickRight() override;
+    virtual void releaseRight() override;
+
 private:
     std::atomic_flag thread_done { ATOMIC_FLAG_INIT };
     std::thread thread;

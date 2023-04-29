@@ -2,8 +2,7 @@
 
 #include "point.hpp"
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 constexpr double CIRCLE_CENTER_EPSILON { 1.0e-7 };
 

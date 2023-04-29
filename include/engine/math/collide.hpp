@@ -22,10 +22,7 @@ inline bool convexShape_Point(const sf::ConvexShape& shape, const sf::Vector2f p
     return contains;
 }
 
-inline std::pair<bool, sf::Vector2f> twoLineSegments(const sf::Vector2f& q
-                                                   , const sf::Vector2f& s
-                                                   , const sf::Vector2f& p
-                                                   , const sf::Vector2f& r)
+inline std::pair<bool, sf::Vector2f> twoLineSegments(const sf::Vector2f& q, const sf::Vector2f& s, const sf::Vector2f& p, const sf::Vector2f& r)
 {
     // https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
     std::pair<bool, sf::Vector2f> ans { false, sf::Vector2f(0.f, 0.f) };
@@ -34,31 +31,30 @@ inline std::pair<bool, sf::Vector2f> twoLineSegments(const sf::Vector2f& q
         return (v.x * w.y) - (v.y * w.x);
     };
 
-            float rxs = cross(r, s);
-            float qpxr = cross(q - p, r);
+    float rxs = cross(r, s);
+    float qpxr = cross(q - p, r);
 
-            if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) < POINT_EPSILON) {
-                // collinear
-                return ans;
-            }
+    if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) < POINT_EPSILON) {
+        // collinear
+        return ans;
+    }
 
-            if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) > POINT_EPSILON) {
-                //parallel
-                return ans;
-            }
+    if (fabs(rxs) < POINT_EPSILON && fabs(qpxr) > POINT_EPSILON) {
+        //parallel
+        return ans;
+    }
 
-            float qpxs = cross(q - p, s);
-            float t = qpxs / rxs;
-            float u = qpxr / rxs;
+    float qpxs = cross(q - p, s);
+    float t = qpxs / rxs;
+    float u = qpxr / rxs;
 
-            if (fabs(rxs) > POINT_EPSILON && (t >= POINT_EPSILON && t <= 1.f) && (u >= POINT_EPSILON && u <= 1.f)) {
-                // intersects!
-                ans.first = true;
-                ans.second = sf::Vector2f(q + (u * s));
-            }
+    if (fabs(rxs) > POINT_EPSILON && (t >= POINT_EPSILON && t <= 1.f) && (u >= POINT_EPSILON && u <= 1.f)) {
+        // intersects!
+        ans.first = true;
+        ans.second = sf::Vector2f(q + (u * s));
+    }
 
     return ans;
-
 }
 
 } // namespace collide

@@ -10,14 +10,12 @@ class Entity_Manager {
 public:
     Entity_Manager();
 
-    constexpr static Entity MAX_ENTITIES { 10000 };
-
     Entity create();
-    void define(Entity e, Signature s);
-    Signature signature(Entity e);
     void destroy(Entity e);
+    void define(Entity e, Signature s);
+    void reset();
 
 private:
     std::queue<Entity> available;
-    std::array<Signature, MAX_ENTITIES> entities;
+    std::array<Signature, MAX_ENTITIES> signatures;
 };

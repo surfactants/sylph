@@ -92,12 +92,12 @@ class Diagram {
 public:
     Diagram(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
     std::vector<sf::ConvexShape> get();
-    std::vector<sf::RectangleShape> sites();
+    std::vector<sf::Vector2f> sites();
 
 private:
     std::vector<sf::ConvexShape> m_cells;
 
-    std::vector<sf::RectangleShape> m_sites;
+    std::vector<sf::Vector2f> m_sites;
 
     std::vector<Point> points;
     std::vector<Half_Edge_ptr> half_edges;

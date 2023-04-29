@@ -6,4 +6,6 @@
 
 using Entity = uint_fast16_t;
 
-using Signature = std::bitset<static_cast<uint8_t>(Component::SIZE)>;
+constexpr static Entity MAX_ENTITIES { 10000 };
+
+using Signature = std::bitset<MAX_COMPONENTS>;

@@ -2,8 +2,7 @@
 
 #include <cmath>
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 int intersectionPointsNum(const Point& f1, const Point& f2)
 {

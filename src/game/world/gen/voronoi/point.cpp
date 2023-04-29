@@ -6,8 +6,7 @@
 //    #define isnan(x) _isnan(x)
 #endif
 
-namespace Voronoi
-{
+namespace Voronoi {
 
 using namespace std;
 

@@ -21,7 +21,6 @@
   *
 */
 
-
 class Renderer : public sf::Drawable {
 public:
     Renderer() = default;
