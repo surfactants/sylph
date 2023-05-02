@@ -68,7 +68,7 @@ void New_Game::createWorld()
         components.addComponent(e, t.first);
         components.addComponent(e, t.second);
 
-        systems.tile_renderer.addTile(e);
+        systems.tile_system.addTile(e);
 
         // read components into component manager
         // get pointers to those components and pass to the pertinent systems

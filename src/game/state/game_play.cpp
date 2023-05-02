@@ -19,7 +19,7 @@ Game_Play::Game_Play()
     map_view.setCenter(size / 2.f);
 
     renderer.setLayer(0, &map_view);
-    renderer.add(0, &systems.tile_renderer);
+    renderer.add(0, &systems.tile_system);
 
     current_view = &map_view;
     systems.camera_controller.view = &map_view;

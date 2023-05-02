@@ -2,7 +2,7 @@
 
 #include "camera_controller.hpp"
 #include "input_accelerator.hpp"
-#include "tile_renderer.hpp"
+#include "tile_system.hpp"
 
 struct System_Manager {
     void update(const float delta_time, const sf::Vector2f& mpos);
@@ -11,5 +11,5 @@ struct System_Manager {
 
     Input_Accelerator accelerator;
 
-    Tile_Renderer tile_renderer;
+    Tile_System tile_system;
 };
