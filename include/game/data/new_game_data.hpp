@@ -9,8 +9,9 @@ struct New_Game_Data {
     sf::Color player_color;
     enum Size {
         SMALL = 0,
-        MEDIUM = 1,
-        LARGE = 2
+        MEDIUM,
+        LARGE,
+        VERY_LARGE
     };
     Size size { SMALL };
 };

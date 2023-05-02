@@ -2,6 +2,8 @@
 
 #include <game/world/world.hpp>
 
+#include <engine/util/sfml_stream.hpp>
+
 std::function<void()> New_Game::newToPlay;
 
 New_Game::New_Game(New_Game_Data data)
@@ -74,6 +76,10 @@ void New_Game::createWorld()
         // get pointers to those components and pass to the pertinent systems
     }
     systems.camera_controller.bounds = world.getFrame();
+    float max_zoom = world.getFrame().size.y / 1080.f; // window size, height....
+    std::cout << "\n\ncalculated max zoom at " << max_zoom << " from " << world.getFrame().size << '\n';
+    max_zoom = static_cast<int>(max_zoom) - 1; // ensures the view will never be too big for the bounds
+    systems.camera_controller.max_zoom = max_zoom;
     thread_done.test_and_set();
 }
 

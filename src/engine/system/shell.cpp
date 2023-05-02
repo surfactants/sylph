@@ -45,6 +45,6 @@ void Shell::draw()
 {
     window.clear();
     window.draw(state);
-    window.draw(fps_text);
+    //window.draw(fps_text);
     window.display();
 }

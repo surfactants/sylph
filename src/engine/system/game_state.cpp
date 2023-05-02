@@ -87,7 +87,7 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     ig->addPress(sf::Mouse::Right, std::bind(&Game::clickRight, game.get()));
     ig->addPress(sf::Mouse::Right, std::bind(&Game::releaseRight, game.get()));
 
-    ig->scroll = std::bind(&Camera_Controller::zoom, &Game::systems.camera_controller, std::placeholders::_1);
+    ig->scroll = std::bind(&Camera_Controller::zoomImpulse, &Game::systems.camera_controller, std::placeholders::_1);
 
     loadNums();
     // TODO: deprecate current num setup

@@ -19,19 +19,24 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 
     switch (data.size) {
         case New_Game_Data::SMALL:
-            point_lower_bound = 80;
-            point_upper_bound = 120;
+            point_lower_bound = 150;
+            point_upper_bound = 250;
             size_factor = 4.f;
             break;
         case New_Game_Data::MEDIUM:
-            point_lower_bound = 140;
-            point_upper_bound = 180;
-            size_factor = 6.f;
+            point_lower_bound = 350;
+            point_upper_bound = 450;
+            size_factor = 8.f;
             break;
         case New_Game_Data::LARGE: // * 8
-            point_lower_bound = 200;
-            point_upper_bound = 250;
-            size_factor = 8.f;
+            point_lower_bound = 550;
+            point_upper_bound = 650;
+            size_factor = 12.f;
+            break;
+        case New_Game_Data::VERY_LARGE: // * 8
+            point_lower_bound = 750;
+            point_upper_bound = 850;
+            size_factor = 16.f;
             break;
     }
 
@@ -40,7 +45,7 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 
     size_t point_count = prng::number(point_lower_bound, point_upper_bound);
     sf::Vector2<double> world_min(min);
-    sf::Vector2<double> world_max(max.x, max.y);
+    sf::Vector2<double> world_max(max);
 
     Voronoi::Diagram d(point_count, world_min, world_max);
     std::vector<sf::ConvexShape> cells = d.get();

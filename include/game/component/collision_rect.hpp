@@ -17,6 +17,7 @@ struct Collision_Rect : public sf::FloatRect {
 
     void setSize(sf::Vector2f size)
     {
+        this->size = size;
         width = size.x;
         height = size.y;
         max = min + size;
