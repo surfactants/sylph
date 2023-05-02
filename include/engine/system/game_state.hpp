@@ -49,18 +49,7 @@ private:
 
     New_Game_Data data;
 
-    sf::FloatRect window_frame;
-
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
-    void moveFrame(sf::Vector2f velocity);
-
-    float zoom { 1.f };
-    float max_zoom { 4.f };
-    float min_zoom { 0.5f };
-    float zoom_step { 0.1f };
-    constexpr static float zoom_speed_factor { 3.f };
-
-    void scroll(float delta);
 
     void clickLeft();
     void clickRight();

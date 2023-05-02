@@ -1,7 +1,5 @@
 #include <game/state/new_game.hpp>
 
-#include <iostream>
-
 #include <game/world/world.hpp>
 
 std::function<void()> New_Game::newToPlay;
@@ -75,6 +73,7 @@ void New_Game::createWorld()
         // read components into component manager
         // get pointers to those components and pass to the pertinent systems
     }
+    systems.camera_controller.bounds = world.getFrame();
     thread_done.test_and_set();
 }
 

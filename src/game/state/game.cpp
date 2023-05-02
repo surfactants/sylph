@@ -13,10 +13,7 @@ Renderer Game::renderer;
 Entity_Manager Game::entities;
 
 void Game::reset()
-{
-    //components.clear();
-    entities.reset();
-}
+{}
 
 void Game::loadSettings(Game_Settings settings)
 {

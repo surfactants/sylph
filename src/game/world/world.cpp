@@ -4,13 +4,8 @@
 
 #include <engine/math/collide.hpp>
 #include <engine/util/prng.hpp>
-#include <engine/util/sfml_stream.hpp>
 
 #include <game/world/gen/voronoi/diagram.hpp>
-
-World::World(New_Game_Data data)
-    : data { data }
-{ }
 
 std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 {
@@ -49,10 +44,7 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 
     Voronoi::Diagram d(point_count, world_min, world_max);
     std::vector<sf::ConvexShape> cells = d.get();
-    std::cout << "loaded " << cells.size() << " cells\n";
     std::vector<sf::Vector2f> sites = d.sites();
-    std::cout << "loaded " << sites.size() << " sites\n";
-    assert(cells.size() == sites.size() && "Cell count different from site count!");
 
     for (size_t i = 0; i < cells.size(); i++) {
         Transform transform;
@@ -79,4 +71,9 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 std::vector<std::pair<sf::Vector2f, Tile>> tiles()
 {
     return std::vector<std::pair<sf::Vector2f, Tile>>();
+}
+
+Collision_Rect World::getFrame()
+{
+    return frame;
 }

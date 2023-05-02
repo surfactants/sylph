@@ -9,21 +9,7 @@
 #include <game/component/component_library.hpp>
 
 #include <game/system/system.hpp>
-/*
-class Component_Manager {
-public:
-    Component_Manager();
-    void clear();
 
-    void registerEntity(const Entity e, std::vector<Component*> components);
-    void deleteEntity(const Entity e);
-    Component* getComponent(const Entity e, int component_type);
-
-private:
-    std::map<Entity, std::vector<std::unique_ptr<Component>>> signature;
-    //std::map<Entity, std::unique_ptr<Derived_Component> derived;
-};
-*/
 class Component_Manager {
 public:
 	template<typename T>

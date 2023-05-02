@@ -2,8 +2,6 @@
 
 #include <engine/math/primordial.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 Input_Accelerator::Input_Accelerator()
 { }
 

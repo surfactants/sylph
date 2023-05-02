@@ -5,8 +5,6 @@
 
 #include <menu/state/menu.hpp> // for font (temporary for fps)
 
-#include <engine/util/sfml_stream.hpp>
-
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2) }
 {
@@ -37,7 +35,6 @@ void Shell::setAntiAliasing()
 void Shell::update()
 {
     while (window.pollEvent(event)) {
-        //std::cout << "Reading event!\n";
         state.handleInput(event);
     }
     state.update(1.f);
@@ -48,6 +45,6 @@ void Shell::draw()
 {
     window.clear();
     window.draw(state);
-    //window.draw(fps_text);
+    window.draw(fps_text);
     window.display();
 }

@@ -14,4 +14,7 @@ public:
     virtual void releaseLeft() override;
     virtual void clickRight() override;
     virtual void releaseRight() override;
+
+private:
+    sf::View map_view;
 };

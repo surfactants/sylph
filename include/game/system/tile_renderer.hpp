@@ -15,6 +15,7 @@ public:
 
     void addTile(Entity e)
     {
+        entities.insert(e);
         auto tile = getComponent<Polygon_Tile>(e);
         const size_t n = tile.vertices.size();
         tiles.push_back(sf::ConvexShape(n));

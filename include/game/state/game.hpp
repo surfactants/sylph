@@ -34,6 +34,10 @@ public:
 
     void reset();
 
+    sf::View base_view;
+
+    sf::View* current_view { &base_view };
+
     static Game_Settings settings;
     static Entity_Manager entities;
     static Component_Manager components;

@@ -6,6 +6,7 @@
 
 /// Renderer ///
 /// \brief game rendering system
+/// creates layers for each view
 ///
 
 /*
@@ -29,11 +30,13 @@ public:
     /// \brief stores a pointer to an sf::Drawable object.
     /// sorting/layering is not performed by this class.
     ///
-    void add(sf::Drawable* d);
+    void add(size_t layer, sf::Drawable* d);
+
+    void setLayer(size_t layer, sf::View* view);
 
     /// nullCheck ///
     /// \brief erases null pointers from the drawable container
-    /// iterative
+    /// and erases the view layers
     ///
     void nullCheck();
 
@@ -42,7 +45,11 @@ public:
     void clear();
 
 private:
-    std::vector<sf::Drawable*> drawables;
+    struct Layer {
+        sf::View* view { nullptr };
+        std::vector<sf::Drawable*> drawables;
+    };
+    std::map<size_t, Layer> layers;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

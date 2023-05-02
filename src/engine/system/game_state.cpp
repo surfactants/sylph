@@ -5,8 +5,6 @@
 #include <game/state/new_game.hpp>
 #include <game/state/game_play.hpp>
 
-#include <iostream>
-
 Game_State::Game_State(std::function<void()> open_pause)
 {
 
@@ -16,10 +14,7 @@ Game_State::Game_State(std::function<void()> open_pause)
     Game::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     New_Game::newToPlay = std::bind(newToPlay, this);
 
-    window_frame.left = 0.f;
-    window_frame.top = 0.f;
-    window_frame.width = 1920.f;
-    window_frame.height = 1080.f;
+    Game::systems.camera_controller.view = &view;
 
     drawables.push_back(&Game::renderer);
     //drawables.push_back(UI::getRenderer);
@@ -39,35 +34,7 @@ void Game_State::clickRight()
 
 void Game_State::update(float delta_time)
 {
-    game->update(delta_time, relativeMousePos(view));
-    moveFrame(game->systems.accelerator.velocity() * (zoom * 2.f));
-}
-
-void Game_State::moveFrame(sf::Vector2f velocity)
-{
-    sf::Vector2f min(0.f, 0.f);
-    sf::Vector2f max(19200.f, 10800.f);
-    sf::Vector2f fpos(window_frame.left + velocity.x, window_frame.top + velocity.y);
-
-    if (fpos.x < min.x) {
-        velocity.x = min.x - window_frame.left;
-        fpos.x = min.x;
-    }
-    else if (fpos.x > max.x) {
-        velocity.x = max.x - window_frame.left;
-        fpos.x = max.x;
-    }
-
-    if (fpos.y < min.y) {
-        velocity.y = min.y - window_frame.top;
-    }
-    else if (fpos.y > max.y) {
-        velocity.y = max.y - window_frame.top;
-    }
-
-    view.move(velocity);
-    window_frame.left += velocity.x;
-    window_frame.top += velocity.y;
+    game->update(delta_time, relativeMousePos(*game->current_view));
 }
 
 void Game_State::handleInput(const sf::Event& event)
@@ -80,7 +47,7 @@ void Game_State::handleInput(const sf::Event& event)
             input->release(event.mouseButton.button);
             break;
         case sf::Event::MouseWheelScrolled:
-            scroll(event.mouseWheelScroll.delta);
+            input->scroll(event.mouseWheelScroll.delta);
             break;
         case sf::Event::KeyPressed:
             input->press(event.key.code);
@@ -98,28 +65,6 @@ void Game_State::handleInput(const sf::Event& event)
         default:
             break;
     }
-}
-
-void Game_State::scroll(float delta)
-{
-    float target;
-    if (delta < 0.f && zoom < max_zoom) {
-        // zoom out
-        target = zoom + zoom_step;
-    }
-    else if (delta > 0.f && zoom > min_zoom) {
-        // zoom in
-        target = zoom - zoom_step;
-    }
-    else {
-        return;
-    }
-
-    float factor = (target / zoom);
-    view.zoom(factor);
-    zoom *= factor;
-
-    window_frame = sf::FloatRect(view.getCenter() - (view.getSize() / 2.f), view.getSize());
 }
 
 void Game_State::loadCommands(std::vector<Command> new_commands)
@@ -141,6 +86,8 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     ig->addPress(sf::Mouse::Left, std::bind(&Game::releaseLeft, game.get()));
     ig->addPress(sf::Mouse::Right, std::bind(&Game::clickRight, game.get()));
     ig->addPress(sf::Mouse::Right, std::bind(&Game::releaseRight, game.get()));
+
+    ig->scroll = std::bind(&Camera_Controller::zoom, &Game::systems.camera_controller, std::placeholders::_1);
 
     loadNums();
     // TODO: deprecate current num setup
@@ -243,8 +190,6 @@ void Game_State::newToPlay()
     loadNums();
 
     setGameState(Game::PLAY);
-
-    std::cout << "\n\nTRANSITION TO PLAY STATE\n\n";
 }
 
 void Game_State::setGameState(Game::State state)

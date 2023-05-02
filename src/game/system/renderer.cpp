@@ -1,30 +1,43 @@
 #include <game/system/renderer.hpp>
 
-void Renderer::add(sf::Drawable* d)
+#include <cassert>
+
+void Renderer::add(size_t layer, sf::Drawable* d)
 {
-    drawables.push_back(d);
+    assert(layers.contains(layer) && "FAILED TO FIND VIEW LAYER IN RENDERER");
+    layers[layer].drawables.push_back(d);
+}
+
+void Renderer::setLayer(size_t layer, sf::View* view)
+{
+    layers[layer].view = view;
 }
 
 void Renderer::nullCheck()
 {
-    for (auto it = drawables.begin(); it != drawables.end();) {
-        if (*it == nullptr) {
-            drawables.erase(it);
-        }
-        else {
-            it++;
+    for (auto& layer : layers) {
+        for (auto d = layer.second.drawables.begin(); d != layer.second.drawables.end();) {
+            if (*d == nullptr) {
+                layer.second.drawables.erase(d);
+            }
+            else {
+                d++;
+            }
         }
     }
 }
 
 void Renderer::clear()
 {
-    drawables.clear();
+    layers.clear();
 }
 
 void Renderer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (auto& d : drawables) {
-        target.draw(*d, states);
+    for (const auto& layer : layers) {
+        target.setView(*layer.second.view);
+        for (const auto& d : layer.second.drawables) {
+            target.draw(*d, states);
+        }
     }
 }
