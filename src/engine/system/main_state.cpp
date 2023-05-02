@@ -19,6 +19,14 @@ Main_State::Main_State()
     view.setCenter(size / 2.f);
     //view.zoom(4.f); // voronoi debug
 }
+/*
+sf::Vector2f Main_State::relativeMousePos()
+{
+    sf::Vector2f mpos(sf::Mouse::getPosition());
+    mpos += (view.getCenter() - (view.getSize() / 2.f));
+    return mpos;
+}
+*/
 
 void Main_State::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -26,5 +34,4 @@ void Main_State::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for (const auto& drawable : drawables) {
         target.draw(*drawable, states);
     }
-    target.setView(view);
 }

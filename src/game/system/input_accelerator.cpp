@@ -1,14 +1,13 @@
-#include <game/system/accelerator.hpp>
+#include <game/system/input_accelerator.hpp>
 
 #include <engine/math/primordial.hpp>
 
 #include <engine/util/sfml_stream.hpp>
 
-Accelerator::Accelerator()
-{
-}
+Input_Accelerator::Input_Accelerator()
+{ }
 
-sf::Vector2f Accelerator::update(float delta_time)
+sf::Vector2f Input_Accelerator::update(float delta_time)
 {
     bool v_decay = (up == down);
     bool h_decay = (left == right);
@@ -71,52 +70,52 @@ sf::Vector2f Accelerator::update(float delta_time)
     return m_velocity;
 }
 
-void Accelerator::setMaxSpeed(float speed)
+void Input_Accelerator::setMaxSpeed(float speed)
 {
     max_speed = speed;
 }
 
-void Accelerator::setAcceleration(float acceleration)
+void Input_Accelerator::setAcceleration(float acceleration)
 {
     this->acceleration = acceleration;
 }
 
-void Accelerator::startUp()
+void Input_Accelerator::startUp()
 {
     up = true;
 }
 
-void Accelerator::stopUp()
+void Input_Accelerator::stopUp()
 {
     up = false;
 }
 
-void Accelerator::startLeft()
+void Input_Accelerator::startLeft()
 {
     left = true;
 }
 
-void Accelerator::stopLeft()
+void Input_Accelerator::stopLeft()
 {
     left = false;
 }
 
-void Accelerator::startDown()
+void Input_Accelerator::startDown()
 {
     down = true;
 }
 
-void Accelerator::stopDown()
+void Input_Accelerator::stopDown()
 {
     down = false;
 }
 
-void Accelerator::startRight()
+void Input_Accelerator::startRight()
 {
     right = true;
 }
 
-void Accelerator::stopRight()
+void Input_Accelerator::stopRight()
 {
     right = false;
 }

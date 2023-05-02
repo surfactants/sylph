@@ -22,6 +22,8 @@ public:
     static std::function<void(Main_State::State)> setState;
     static std::function<sf::Vector2f(sf::View)> relativeMousePos;
 
+    //sf::Vector2f relativeMousePos();
+
 protected:
     std::vector<const sf::Drawable*> drawables;
 

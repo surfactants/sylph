@@ -5,17 +5,14 @@
 
 #include <game/data/game_settings.hpp>
 
-#include <game/system/accelerator.hpp>
 #include <game/system/component_manager.hpp>
 #include <game/system/entity_manager.hpp>
 #include <game/system/renderer.hpp>
+#include <game/system/system_manager.hpp>
 
 class Game {
 public:
-    Game();
-    Game(const Game& g);
-
-    ~Game();
+    Game() = default;
 
     enum State {
         NEW,
@@ -35,22 +32,11 @@ public:
 
     static std::function<void(Game::State)> setGameState;
 
-    const Entity_Manager& getEntities() const;
-
     void reset();
 
-    static Renderer* getRenderer();
-
-protected:
     static Game_Settings settings;
-
-    Entity_Manager entities;
-
+    static Entity_Manager entities;
     static Component_Manager components;
-
+    static System_Manager systems;
     static Renderer renderer;
-
-    Accelerator accelerator;
-
-    void addEntity(Entity e, std::vector<Component*> c);
 };

@@ -8,6 +8,7 @@
 #include <game/component/polygon_tile.hpp>
 #include <game/component/tile.hpp>
 #include <game/component/transform.hpp>
+
 #include <game/data/new_game_data.hpp>
 
 class World {
@@ -19,23 +20,12 @@ public:
     std::vector<std::pair<Transform, Polygon_Tile>> polygonTiles();
     std::vector<std::pair<sf::Vector2f, Tile>> tiles();
 
-    void update(float delta_time, const sf::Vector2f& mpos);
-
-    void activateCell();
-    void deactivateCell();
-    void unmouse();
-
-    void eraseCell(unsigned int i = 0);
-
     sf::Vector2f min;
     sf::Vector2f max;
 
     Collision_Rect getFrame();
 
 private:
-    std::vector<sf::ConvexShape> cells;
-    std::vector<sf::RectangleShape> sites;
-
     sf::ConvexShape* moused_cell { nullptr };
     sf::ConvexShape* active_cell { nullptr };
 

@@ -9,8 +9,15 @@ std::function<void()> New_Game::newToPlay;
 New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
+    // find another place to assign these
+    components.registerComponent<Collision_Rect>();
+    components.registerComponent<Transform>();
+    components.registerComponent<Polygon_Tile>();
+    components.registerComponent<Tile>();
+
     tasks.push_back(std::bind(createWorld, this));
     tasks.push_back(std::bind(createPlayer, this));
+
     thread_done.test_and_set();
 }
 
@@ -23,8 +30,8 @@ void New_Game::update(float delta_time, const sf::Vector2f& mpos)
                 thread.join();
             }
             // initiate transition to play
-            newToPlay();
             task_index = 0;
+            newToPlay();
             return;
         }
         else {
@@ -48,19 +55,22 @@ void New_Game::loadSettings(Game_Settings settings)
 void New_Game::createWorld()
 {
     World world(data);
-    std::vector<Signature> signatures;
     //std::vector<Tile> tiles = world.tiles();
     std::vector<std::pair<Transform, Polygon_Tile>> tiles = world.polygonTiles();
     // get world bounds with World::getFrame() - returns Collision_Rect component
     for (auto& t : tiles) {
         Signature s;
 
-        s.set(toInt(Component::COLLISION_RECT));
         s.set(toInt(Component::POLYGON_TILE));
         s.set(toInt(Component::TRANSFORM));
 
         Entity e = entities.create();
-        entities.define(e, signatures.back());
+        entities.define(e, s);
+
+        components.addComponent(e, t.first);
+        components.addComponent(e, t.second);
+
+        systems.tile_renderer.addTile(e);
 
         // read components into component manager
         // get pointers to those components and pass to the pertinent systems

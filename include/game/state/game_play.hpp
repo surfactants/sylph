@@ -4,9 +4,7 @@
 
 class Game_Play : public Game {
 public:
-    Game_Play() = delete;
-
-    explicit Game_Play(const Game& g);
+    Game_Play();
 
     ~Game_Play();
 

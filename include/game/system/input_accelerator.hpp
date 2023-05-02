@@ -8,12 +8,12 @@
 // - > (currently, it only works for an rts-type wasd parser)
 //
 
-/// ACCELERATOR ///
-/// \brief Reads motion-based player input
+/// INPUT ACCELERATOR ///
+/// \brief Reads motion-based player input and generates a velocity vector
 ///
-class Accelerator {
+class Input_Accelerator {
 public:
-    Accelerator();
+    Input_Accelerator();
     sf::Vector2f update(float delta_time);
 
     void setMaxSpeed(float speed);
@@ -28,11 +28,16 @@ public:
     void startRight();
     void stopRight();
 
+    sf::Vector2f velocity()
+    {
+        return m_velocity;
+    }
+
 private:
-    bool up { false };
-    bool left { false };
+    bool up    { false };
+    bool left  { false };
     bool right { false };
-    bool down { false };
+    bool down  { false };
 
     sf::Vector2f m_velocity { 0.f, 0.f };
 

@@ -8,14 +8,16 @@ enum class Component {
     SIZE
 };
 
-constexpr unsigned int MAX_COMPONENTS { static_cast<unsigned int>(Component::SIZE) };
+using Component_Type = short unsigned int;
 
-inline unsigned int toInt(Component c)
+constexpr Component_Type MAX_COMPONENTS { static_cast<Component_Type>(Component::SIZE) };
+
+inline Component_Type toInt(Component c)
 {
-    return static_cast<unsigned int>(c);
+    return static_cast<Component_Type>(c);
 }
 
-inline Component toComponent(unsigned int i)
+inline Component toComponent(Component_Type i)
 {
     if (i >= MAX_COMPONENTS) {
         // log this

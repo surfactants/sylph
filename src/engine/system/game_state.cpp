@@ -9,8 +9,6 @@
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
-    accelerator.setMaxSpeed(10.f);
-    accelerator.setAcceleration(1.f);
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
@@ -23,8 +21,8 @@ Game_State::Game_State(std::function<void()> open_pause)
     window_frame.width = 1920.f;
     window_frame.height = 1080.f;
 
-    drawables.push_back(Game::getRenderer());
-    //drawables.push_back(&UI::renderer);
+    drawables.push_back(&Game::renderer);
+    //drawables.push_back(UI::getRenderer);
 }
 
 void Game_State::clickLeft()
@@ -41,12 +39,11 @@ void Game_State::clickRight()
 
 void Game_State::update(float delta_time)
 {
-    sf::Vector2f velocity = accelerator.update(delta_time) * (zoom * 2.f);
-    moveFrame(velocity);
     game->update(delta_time, relativeMousePos(view));
+    moveFrame(game->systems.accelerator.velocity() * (zoom * 2.f));
 }
 
-void Game_State::moveFrame(sf::Vector2f& velocity)
+void Game_State::moveFrame(sf::Vector2f velocity)
 {
     sf::Vector2f min(0.f, 0.f);
     sf::Vector2f max(19200.f, 10800.f);
@@ -146,6 +143,10 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     ig->addPress(sf::Mouse::Right, std::bind(&Game::releaseRight, game.get()));
 
     loadNums();
+    // TODO: deprecate current num setup
+    // either set up a conditional which passes the number to the function
+    // or attempt to pass a char for all keyboard functions (yuck?)
+    // or figure something else out.....
 }
 
 void Game_State::loadNums()
@@ -178,17 +179,18 @@ std::function<void()> Game_State::stringToFunction(std::string str)
     // ... if casting between Game_Play and Game_UI
     // i.e. use Game_State functions
     //
+    auto acc = &Game::systems.accelerator;
     static std::map<std::string, std::function<void()>> func {
         // movement functions
         { "null", []() {} },
-        { "move up", std::bind(&Accelerator::startUp, &accelerator) },
-        { "stop up", std::bind(&Accelerator::stopUp, &accelerator) },
-        { "move left", std::bind(&Accelerator::startLeft, &accelerator) },
-        { "stop left", std::bind(&Accelerator::stopLeft, &accelerator) },
-        { "move down", std::bind(&Accelerator::startDown, &accelerator) },
-        { "stop down", std::bind(&Accelerator::stopDown, &accelerator) },
-        { "move right", std::bind(&Accelerator::startRight, &accelerator) },
-        { "stop right", std::bind(&Accelerator::stopRight, &accelerator) },
+        { "move up", std::bind(&Input_Accelerator::startUp,         acc) },
+        { "stop up", std::bind(&Input_Accelerator::stopUp,          acc) },
+        { "move left", std::bind(&Input_Accelerator::startLeft,     acc) },
+        { "stop left", std::bind(&Input_Accelerator::stopLeft,      acc) },
+        { "move down", std::bind(&Input_Accelerator::startDown,     acc) },
+        { "stop down", std::bind(&Input_Accelerator::stopDown,      acc) },
+        { "move right", std::bind(&Input_Accelerator::startRight,   acc) },
+        { "stop right", std::bind(&Input_Accelerator::stopRight,    acc) },
 
         // ability functions
         { "start ability 1", []() {} },
@@ -228,18 +230,21 @@ void Game_State::newGame(New_Game_Data data)
 
 void Game_State::newToPlay()
 {
-    std::unique_ptr<Game> g = std::make_unique<Game_Play>(*game);
+    game = std::make_unique<Game_Play>();
+    //std::unique_ptr<Game> g = std::make_unique<Game_Play>();
+    //game = std::move(g);
 
     Database_Commands dbc;
     loadCommands(dbc.read());
 
-    drawables.clear();
-    game.reset();
-    game = std::move(g);
-    setGameState(Game::PLAY);
-    drawables.push_back(game->getRenderer());
+    //drawables.clear();
+    //drawables.push_back(game->getRenderer());
 
     loadNums();
+
+    setGameState(Game::PLAY);
+
+    std::cout << "\n\nTRANSITION TO PLAY STATE\n\n";
 }
 
 void Game_State::setGameState(Game::State state)

@@ -14,8 +14,9 @@ public:
     void destroy(Entity e);
     void define(Entity e, Signature s);
     void reset();
+    Signature signature(Entity e);
 
 private:
     std::queue<Entity> available;
-    std::array<Signature, MAX_ENTITIES> signatures;
+    std::array<Signature, MAX_ENTITIES> signatures {};
 };

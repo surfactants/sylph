@@ -1,9 +1,11 @@
 #include <game/state/game_play.hpp>
 
-Game_Play::Game_Play(const Game& g)
-    : Game(g)
+Game_Play::Game_Play()
 {
-    //renderer.add(world.get());
+    renderer.add(&systems.tile_renderer);
+
+    systems.accelerator.setMaxSpeed(10.f);
+    systems.accelerator.setAcceleration(1.f);
 }
 
 Game_Play::~Game_Play()
@@ -12,7 +14,9 @@ Game_Play::~Game_Play()
 }
 
 void Game_Play::update(float delta_time, const sf::Vector2f& mpos)
-{ }
+{
+    systems.update(delta_time, mpos);
+}
 
 void Game_Play::clickLeft()
 { }

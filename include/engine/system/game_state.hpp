@@ -51,10 +51,8 @@ private:
 
     sf::FloatRect window_frame;
 
-    Accelerator accelerator;
-
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
-    void moveFrame(sf::Vector2f& velocity);
+    void moveFrame(sf::Vector2f velocity);
 
     float zoom { 1.f };
     float max_zoom { 4.f };

@@ -14,7 +14,7 @@ public:
     void run();
 
 private:
-    sf::RenderWindow window { nullptr };
+    sf::RenderWindow window;
 
     sf::Event event;
 

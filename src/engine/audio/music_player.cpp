@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include <iostream>
+
 Music_Player::Music_Player(Event_Bus& event_bus)
 {
     event_bus.listen(Event::MAIN_MENU_ENTERED, std::bind(setTitle, this));
@@ -46,6 +48,7 @@ void Music_Player::nextSong()
         index = 0;
     }
     volume_tracker = 0.f;
+    std::cout << "loading new song, " << playlist[index];
     music.openFromFile(playlist[index]);
     music.setVolume(volume_tracker);
     music.play();

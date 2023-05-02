@@ -52,7 +52,18 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
     std::cout << "loaded " << cells.size() << " cells\n";
     std::vector<sf::Vector2f> sites = d.sites();
     std::cout << "loaded " << sites.size() << " sites\n";
-    // assert(cells.size() == sites.size());
+    assert(cells.size() == sites.size() && "Cell count different from site count!");
+
+    for (size_t i = 0; i < cells.size(); i++) {
+        Transform transform;
+        transform.position = sites[i];
+        Polygon_Tile tile;
+        size_t n = cells[i].getPointCount();
+        for (size_t j = 0; j < n; j++) {
+            tile.vertices.push_back(cells[i].getPoint(j));
+        }
+        ptile.push_back(std::make_pair(transform, tile));
+    }
 
     min -= sf::Vector2f(512.f, 512.f);
     max += sf::Vector2f(512.f, 512.f);
@@ -68,68 +79,4 @@ std::vector<std::pair<Transform, Polygon_Tile>> World::polygonTiles()
 std::vector<std::pair<sf::Vector2f, Tile>> tiles()
 {
     return std::vector<std::pair<sf::Vector2f, Tile>>();
-}
-
-void World::update(float delta_time, const sf::Vector2f& mpos)
-{
-    for (auto& cell : cells) {
-        if (collide::convexShape_Point(cell, mpos)) {
-            setMousedCell(&cell);
-            break;
-        }
-    }
-}
-
-void World::activateCell()
-{
-    deactivateCell();
-    if (moused_cell) {
-        active_cell = moused_cell;
-        active_cell->setOutlineThickness(active_thickness);
-    }
-}
-
-void World::deactivateCell()
-{
-    if (active_cell) {
-        if (active_cell == moused_cell) {
-            active_cell->setOutlineThickness(moused_thickness);
-        }
-        else {
-            active_cell->setOutlineThickness(0.f);
-        }
-        active_cell = nullptr;
-    }
-}
-
-void World::unmouse()
-{
-    if (moused_cell) {
-        if (moused_cell != active_cell) {
-            moused_cell->setOutlineThickness(0.f);
-        }
-        moused_cell = nullptr;
-    }
-}
-
-void World::setMousedCell(sf::ConvexShape* cell)
-{
-    unmouse();
-    if (moused_cell != cell) {
-        moused_cell = cell;
-        if (moused_cell != active_cell) {
-            moused_cell->setOutlineThickness(moused_thickness);
-        }
-    }
-}
-
-void World::eraseCell(unsigned int i)
-{
-    std::cout << "erasing site/cell " << i << '\n';
-    if (i < cells.size()) {
-        cells.erase(cells.begin() + i);
-    }
-    if (i < sites.size()) {
-        sites.erase(sites.begin() + i);
-    }
 }
