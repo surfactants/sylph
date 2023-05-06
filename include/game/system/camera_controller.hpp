@@ -16,7 +16,10 @@ public:
 
     sf::View* view { nullptr };
 
+
     Collision_Rect bounds;
+
+    void setBounds(Collision_Rect b);
 
     float max_zoom { 8.f }; // scale this to world size...
     constexpr static float max_speed { 0.12f };

@@ -1,11 +1,15 @@
 #pragma once
 
 enum class Component {
-    TRANSFORM = 0,
+    ENTITY_INFO = 0,
+    COLOR,
+    TRANSFORM,
     COLLISION_RECT,
     POLYGON_TILE,
+    HIERARCHY,
     TILE,
-    SIZE
+    BODY_INFO,
+    SIZE // gets total number of components
 };
 
 using Component_Type = short unsigned int;

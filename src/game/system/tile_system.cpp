@@ -4,10 +4,15 @@
 
 #include <engine/util/prng.hpp>
 
+#include <game/component/color.hpp>
+#include <game/component/polygon_tile.hpp>
+#include <game/component/transform.hpp>
+#include <game/component/entity_info.hpp>
+
 void Tile_System::update(const sf::Vector2f& mpos)
 {
     if (moused) {
-        if (!collide::convexShape_Point(*moused, mpos)) {
+        if (!collide::convexShape_Point(moused_frame, mpos)) {
             moused_frame.setOutlineThickness(0.f);
             moused = nullptr;
         }
@@ -16,46 +21,74 @@ void Tile_System::update(const sf::Vector2f& mpos)
         }
     }
     for (auto& t : tiles) {
-        if (collide::convexShape_Point(t, mpos)) {
+        auto& shape = std::get<sf::ConvexShape>(t);
+        if (collide::convexShape_Point(shape, mpos)) {
             moused = &t;
-            moused_frame = t;
-            moused_frame.setOutlineThickness(8.f);
+            moused_frame = shape;
+            moused_frame.setOutlineThickness(moused_border);
+            break;
         }
     }
 }
 
 void Tile_System::addTile(Entity e)
 {
-    entities.insert(e);
+    // create shape
     auto tile = getComponent<Polygon_Tile>(e);
     const size_t n = tile.vertices.size();
-    tiles.push_back(sf::ConvexShape(n));
+    sf::ConvexShape shape(n);
     for (size_t i = 0; i < n; i++) {
-        tiles.back().setPoint(i, tile.vertices[i]);
+        shape.setPoint(i, tile.vertices[i]);
     }
-    tiles.back().setFillColor(sf::Color::Transparent);
-    tiles.back().setOutlineColor(Palette::white);
-    tiles.back().setOutlineThickness(0.f);
+    shape.setFillColor(sf::Color::Transparent);
+    shape.setOutlineColor(Palette::white);
+    shape.setOutlineThickness(0.f);
 
+    // create site
     auto transform = getComponent<Transform>(e);
     constexpr float site_radius { 8.f };
     constexpr size_t site_points { 16 };
-    sites.push_back(sf::CircleShape(site_radius, site_points));
-    sites.back().setOrigin(sf::Vector2f(site_radius, site_radius));
-    sites.back().setPosition(transform.position);
-    int r = prng::number(145, 245);
-    int g = prng::number(125, 225);
-    int b = prng::number(145, 245);
-    sites.back().setFillColor(sf::Color(r, g, b));
+    sf::CircleShape site(site_radius, site_points);
+    site.setOrigin(sf::Vector2f(site_radius, site_radius));
+    site.setPosition(transform.position);
+
+    auto color = getComponent<Color>(e);
+    site.setFillColor(color);
+
+    entities.insert(e);
+    tiles.push_back(std::make_tuple(shape, site, e));
+}
+
+void Tile_System::activate()
+{
+    const bool dbl = double_click();
+    if (active && active == moused && dbl) {
+        switchContext(std::get<Entity>(*active));
+        return;
+    }
+    if (moused && active != moused) {
+        active = moused;
+        active_frame = moused_frame;
+        active_frame.setOutlineThickness(active_border);
+        activateUI(std::get<Entity>(*active));
+    }
+}
+
+void Tile_System::deactivate()
+{
+    if (active) {
+        active = nullptr;
+        active_frame.setOutlineThickness(0.f);
+        activateUI(MAX_ENTITIES);
+    }
 }
 
 void Tile_System::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (const auto& t : tiles) {
-        target.draw(t, states);
-    }
-    for (const auto& s : sites) {
-        target.draw(s, states);
+    for (const auto& s : tiles) {
+        target.draw(std::get<sf::ConvexShape>(s));
+        target.draw(std::get<sf::CircleShape>(s));
     }
     target.draw(moused_frame, states);
+    target.draw(active_frame, states);
 }

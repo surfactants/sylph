@@ -5,6 +5,9 @@
 
 #include <menu/state/menu.hpp> // for font (temporary for fps)
 
+#include <game/state/game.hpp> // for assigning relativeMousePos callback.
+// abstract it through the state machine later - it will need assigning in multiple places anyway
+
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2) }
 {
@@ -14,7 +17,7 @@ Shell::Shell()
     fps_text.setCharacterSize(36);
     fps_text.setPosition(sf::Vector2f(1800.f, 8.f));
 
-    Main_State::relativeMousePos = [&](sf::View v) {
+    Game::systems.relativeMousePos = [&](sf::View v) {
         return window.mapPixelToCoords(sf::Mouse::getPosition(), v);
     };
 }

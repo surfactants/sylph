@@ -23,9 +23,18 @@ void Camera_Controller::zoomImpulse(float delta)
     }
 }
 
+void Camera_Controller::setBounds(Collision_Rect b)
+{
+    //b.setSize(b.size + sf::Vector2f(0.f, 322.f));
+    bounds = b;
+    max_zoom = static_cast<int>(b.size.x / 1920.f);
+    current_zoom = 1.f;
+    zoom_speed = 0.f;
+}
+
 void Camera_Controller::move(sf::Vector2f velocity)
 {
-    sf::Vector2f vsize = view->getSize();
+    sf::Vector2f vsize = view->getSize() / current_zoom;
     sf::Vector2f vpos = view->getCenter() - (vsize / 2.f) + velocity;
     sf::Vector2f fpos = vpos + velocity;
 

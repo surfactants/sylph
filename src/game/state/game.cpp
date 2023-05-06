@@ -8,8 +8,6 @@ Component_Manager Game::components;
 
 System_Manager Game::systems;
 
-Renderer Game::renderer;
-
 Entity_Manager Game::entities;
 
 void Game::reset()

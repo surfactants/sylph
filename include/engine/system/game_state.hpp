@@ -7,10 +7,13 @@
 
 #include <menu/state/menu.hpp>
 
+#include <ui/ui.hpp>
+
 #include "main_state.hpp"
 
 class Game_State : public Main_State {
 public:
+    //Game_State() = default;
     Game_State(std::function<void()> open_pause);
 
     virtual void update(float delta_time) override;
@@ -32,12 +35,22 @@ public:
 
     void numPress(unsigned int i);
 
+    template <typename T> registerComponent()
+    {
+        auto get = Game::components.registerComponent<T>();
+        System::getComponent<T> = get;
+        UI::getComponent<T> = get;
+        Game::systems.getComponent<T> = get;
+    }
+
 private:
     std::unique_ptr<Game> game { nullptr };
 
     Game::State game_state;
 
     std::vector<Command> commands {};
+
+    std::unique_ptr<UI> ui { nullptr };
 
     std::function<void()> stringToFunction(std::string str);
 

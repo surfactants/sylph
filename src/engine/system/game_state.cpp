@@ -5,8 +5,18 @@
 #include <game/state/new_game.hpp>
 #include <game/state/game_play.hpp>
 
+#include <ui/ui_hud.hpp>
+
 Game_State::Game_State(std::function<void()> open_pause)
 {
+    registerComponent<Entity_Info>();
+    registerComponent<Color>();
+    registerComponent<Transform>();
+    registerComponent<Collision_Rect>();
+    registerComponent<Polygon_Tile>();
+    registerComponent<Hierarchy>();
+    registerComponent<Tile>();
+    registerComponent<Body_Info>();
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
@@ -14,15 +24,15 @@ Game_State::Game_State(std::function<void()> open_pause)
     Game::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     New_Game::newToPlay = std::bind(newToPlay, this);
 
-    Game::systems.camera_controller.view = &view;
+    UI::setGameState = std::bind(setGameState, this, std::placeholders::_1);
+    UI::openPause = open_pause;
 
-    drawables.push_back(&Game::renderer);
-    //drawables.push_back(UI::getRenderer);
+    Game::systems.camera_controller.view = &view;
 }
 
 void Game_State::clickLeft()
 {
-    // check for UI input, otherwise, parse in-game
+    // attempt UI input first
     game->clickLeft();
 }
 
@@ -34,7 +44,7 @@ void Game_State::clickRight()
 
 void Game_State::update(float delta_time)
 {
-    game->update(delta_time, relativeMousePos(*game->current_view));
+    game->update(delta_time);
 }
 
 void Game_State::handleInput(const sf::Event& event)
@@ -82,10 +92,10 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 
     // must re-add permanent options
     ig->addPress(sf::Keyboard::Escape, open_pause);
-    ig->addPress(sf::Mouse::Left, std::bind(&Game::clickLeft, game.get()));
-    ig->addPress(sf::Mouse::Left, std::bind(&Game::releaseLeft, game.get()));
-    ig->addPress(sf::Mouse::Right, std::bind(&Game::clickRight, game.get()));
-    ig->addPress(sf::Mouse::Right, std::bind(&Game::releaseRight, game.get()));
+    ig->addPress(sf::Mouse::Left, std::bind(clickLeft, this));
+    //ig->addRelease(sf::Mouse::Left, std::bind(releaseLeft, this));
+    ig->addPress(sf::Mouse::Right, std::bind(clickRight, this));
+    //ig->addRelease(sf::Mouse::Right, std::bind(releaseRight, this));
 
     ig->scroll = std::bind(&Camera_Controller::zoomImpulse, &Game::systems.camera_controller, std::placeholders::_1);
 
@@ -152,9 +162,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
         // world
         { "start interact", []() {} },
         { "stop interact", []() {} },
-
-        // ui
-        { "open inventory", []() {} },
+        { "switch maps", std::bind(&Context::toggle, &Game::systems.context) },
 
         // debug
         { "regenerate", std::bind(newGame, this, data) }
@@ -178,14 +186,15 @@ void Game_State::newGame(New_Game_Data data)
 void Game_State::newToPlay()
 {
     game = std::make_unique<Game_Play>();
-    //std::unique_ptr<Game> g = std::make_unique<Game_Play>();
-    //game = std::move(g);
+
+    ui = std::make_unique<UI_HUD>(Game::systems);
 
     Database_Commands dbc;
     loadCommands(dbc.read());
 
-    //drawables.clear();
-    //drawables.push_back(game->getRenderer());
+    drawables.clear();
+    drawables.push_back(&Game::systems.renderer);
+    drawables.push_back(ui.get());
 
     loadNums();
 

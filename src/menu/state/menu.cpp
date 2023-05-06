@@ -31,8 +31,8 @@ Menu::Menu()
         view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
         view.setCenter(size / 2.f);
 
-        Menu_Element::set_active = std::bind(setActive, std::placeholders::_1);
-        Menu_Element::set_inactive = std::bind(unsetActive, std::placeholders::_1);
+        Menu_Element::setActive = std::bind(setActive, std::placeholders::_1);
+        Menu_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
     }
 }
 
@@ -101,23 +101,6 @@ void Menu::handleInput(const sf::Event& event)
     }
 }
 
-void Menu::textEntered(const sf::Event& event)
-{
-    if (active_element) {
-        active_element->textEntered(event);
-    }
-}
-
-void Menu::keyPressed(sf::Keyboard::Key key)
-{
-    if (active_element) {
-        active_element->keyPressed(key);
-    }
-    else if (key == sf::Keyboard::Escape) {
-        escape();
-    }
-}
-
 void Menu::clickLeft()
 {
     if (active_element) {
@@ -158,6 +141,23 @@ void Menu::releaseRight()
     }
 }
 
+void Menu::keyPressed(sf::Keyboard::Key key)
+{
+    if (active_element) {
+        active_element->keyPressed(key);
+    }
+    else if (key == sf::Keyboard::Escape) {
+        escape();
+    }
+}
+
+void Menu::textEntered(const sf::Event& event)
+{
+    if (active_element) {
+        active_element->textEntered(event);
+    }
+}
+
 void Menu::setActive(Menu_Element* element)
 {
     active_element = element;
@@ -165,7 +165,7 @@ void Menu::setActive(Menu_Element* element)
 
 void Menu::unsetActive(Menu_Element* element)
 {
-    if (active_element && element == active_element) {
+    if (element == active_element) {
         active_element = nullptr;
     }
 }

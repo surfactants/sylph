@@ -1,23 +1,37 @@
 #pragma once
 
+#include <cassert>
 #include <map>
 #include <memory>
 #include <vector>
 
-#include <game/component/component.hpp>
-#include <game/entity/entity.hpp>
 #include <game/component/component_library.hpp>
+#include <game/component/component.hpp>
+
+#include <game/component/body_info.hpp>
+#include <game/component/color.hpp>
+#include <game/component/entity_info.hpp>
+#include <game/component/transform.hpp>
+#include <game/component/collision_rect.hpp>
+#include <game/component/polygon_tile.hpp>
+#include <game/component/tile.hpp>
+#include <game/component/hierarchy.hpp>
+
+#include <game/entity/entity.hpp>
+
+#include <game/state/game.hpp>
 
 #include <game/system/system.hpp>
+
+#include <iostream>
 
 class Component_Manager {
 public:
 	template<typename T>
-	void registerComponent()
+	std::function<T(Entity)> registerComponent()
 	{
 		const char* name = typeid(T).name();
-
-		assert(mComponent_Types.find(name) == mComponent_Types.end() && "Registering component type more than once.");
+		assert(mComponent_Types.find(name) == mComponent_Types.end() && "Registering component type more than once." );
 
 		// Add this component type to the component type map
 		mComponent_Types.insert({name, mNextComponent_Type});
@@ -28,7 +42,7 @@ public:
 		// Increment the value so that the next component registered will be different
 		++mNextComponent_Type;
 
-		System::getComponent<T> = std::bind(getComponent<T>, this, std::placeholders::_1);
+		return std::bind(getComponent<T>, this, std::placeholders::_1);
 	}
 
 	template<typename T>

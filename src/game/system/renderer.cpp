@@ -32,6 +32,12 @@ void Renderer::clear()
     layers.clear();
 }
 
+void Renderer::clearLayer(size_t layer)
+{
+    layers[layer].drawables.clear();
+    layers.erase(layer);
+}
+
 void Renderer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (const auto& layer : layers) {

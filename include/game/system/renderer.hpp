@@ -44,6 +44,8 @@ public:
     /// \brief erases all drawables
     void clear();
 
+    void clearLayer(size_t layer);
+
 private:
     struct Layer {
         sf::View* view { nullptr };
