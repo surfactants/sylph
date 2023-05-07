@@ -42,6 +42,14 @@ void Menu_State::handleInput(const sf::Event& event)
     menu->handleInput(event);
 }
 
+void Menu_State::windowResize(const sf::Vector2u& w_size)
+{
+    Menu::setView(w_size);
+    for (auto& menu : menus) {
+        menu.second->windowResize(w_size);
+    }
+}
+
 void Menu_State::setMenuState(Menu::State new_menu)
 {
     menu->exitState();

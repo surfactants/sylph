@@ -13,6 +13,9 @@ public:
     virtual void enterState() override;
     virtual void exitState()  override;
 
+    virtual void windowResize(const sf::Vector2u& w_size) override;
+
+
 private:
     System_Info system_info;
 };

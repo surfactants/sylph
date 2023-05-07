@@ -4,10 +4,10 @@ UI_HUD::UI_HUD(System_Manager& systems)
 {
     system_info.loadFont(font.get());
     systems.tile_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
+    systems.solar_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
     system_info.loadFont(font.get());
-    system_info.setSize(sf::Vector2f(320.f, 1080.f - 4.f));
-    system_info.setPosition(sf::Vector2f(1920.f - 322.f, 2.f));
     elements.push_back(&system_info);
+    windowResize(sf::Vector2u(view.getSize()));
 }
 
 void UI_HUD::loadSystemInfo(Entity e)
@@ -30,4 +30,17 @@ void UI_HUD::enterState()
 
 void UI_HUD::exitState()
 {
+}
+
+void UI_HUD::windowResize(const sf::Vector2u& w_size)
+{
+    float padding = system_info.getFrame().getOutlineThickness();
+    sf::Vector2f sinfo_pos;
+    sf::Vector2f sinfo_size;
+    sinfo_size.x = 320.f;
+    sinfo_size.y = w_size.y - (padding * 2.f);
+    sinfo_pos.x = w_size.x - sinfo_size.x - padding;
+    sinfo_pos.y = padding;
+    system_info.setPosition(sinfo_pos);
+    system_info.setSize(sinfo_size);
 }

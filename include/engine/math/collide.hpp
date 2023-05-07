@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include "primordial.hpp"
 
 namespace collide {
@@ -55,6 +57,11 @@ inline std::pair<bool, sf::Vector2f> twoLineSegments(const sf::Vector2f& q, cons
     }
 
     return ans;
+}
+
+inline bool contains(const sf::CircleShape& c, const sf::Vector2f& p)
+{
+    return (scalarDistance(c.getPosition(), p) <= c.getRadius());
 }
 
 } // namespace collide

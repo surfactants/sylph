@@ -73,16 +73,23 @@ void Context::set(Type t, Entity e)
 
 void Context::resetView(Type t)
 {
+    setView(w_size);
+}
+
+void Context::setView(const sf::Vector2u& w_size)
+{
+    this->w_size = w_size;
     sf::Vector2f pos(0.f, 0.f);
-    sf::Vector2f size(1920.f, 1080.f);
-    sf::Vector2f wsize(1920.f, 1080.f);
-    float xs = size.x / wsize.x;
-    float ys = size.y / wsize.y;
+    sf::Vector2f size(w_size);
+    float xs = 1.f;
+    float ys = 1.f;
 
-    float xp = pos.x / wsize.x;
-    float yp = pos.y / wsize.y;
+    float xp = 0.f;
+    float yp = 0.f;
 
-    view[t].setViewport(sf::FloatRect(xp, yp, xs, ys));
-    view[t].setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-    view[t].setCenter(size / 2.f);
+    for (auto& v : view) {
+        v.second.setViewport(sf::FloatRect(xp, yp, xs, ys));
+        v.second.setSize(size);
+        v.second.setCenter(size / 2.f);
+    }
 }

@@ -17,6 +17,11 @@ public:
         frame.setPosition(position);
     }
 
+    const sf::RectangleShape& getFrame()
+    {
+        return frame;
+    }
+
     virtual bool update(const sf::Vector2i& mpos) = 0;
     virtual void clickLeft() = 0;
     virtual void releaseLeft() = 0;

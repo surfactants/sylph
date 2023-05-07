@@ -21,6 +21,7 @@ void Game_Play::clickLeft()
             systems.tile_system.activate();
             break;
         case Context::SOLAR:
+            systems.solar_system.activate();
             break;
     }
 }
@@ -30,7 +31,14 @@ void Game_Play::releaseLeft()
 
 void Game_Play::clickRight()
 {
-    systems.tile_system.deactivate();
+    switch (systems.context()) {
+        case Context::GALACTIC:
+            systems.tile_system.deactivate();
+            break;
+        case Context::SOLAR:
+            systems.solar_system.deactivate();
+            break;
+    }
 }
 
 void Game_Play::releaseRight()

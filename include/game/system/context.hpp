@@ -38,12 +38,16 @@ public:
 
     void resetView(Type t);
 
+    void setView(const sf::Vector2u& w_size);
+
 private:
     Type type { SOLAR };
     Camera_Controller& camera_controller;
     Renderer& renderer;
     Solar_System& solar_system;
     Tile_System& tile_system;
+
+    sf::Vector2u w_size;
 
     Entity last_system { MAX_ENTITIES };
 };

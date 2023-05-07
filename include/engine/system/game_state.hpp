@@ -19,6 +19,8 @@ public:
     virtual void update(float delta_time) override;
     virtual void handleInput(const sf::Event& event) override;
 
+    virtual void windowResize(const sf::Vector2u& w_size) override;
+
     void setGameState(Game::State state);
 
     void loadInput(Input_Package input);

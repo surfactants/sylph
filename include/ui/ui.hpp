@@ -32,6 +32,9 @@ public:
     template <typename T>
     static inline std::function<T(Entity)> getComponent;
 
+    static void setView(const sf::Vector2u& w_size);
+    virtual void windowResize(const sf::Vector2u& w_size) = 0;
+
 protected:
     static Renderer renderer;
     static std::unique_ptr<sf::Font> font;

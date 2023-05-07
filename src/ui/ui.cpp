@@ -156,6 +156,24 @@ void UI::unsetActive(UI_Element* element)
     }
 }
 
+void UI::setView(const sf::Vector2u& w_size)
+{
+    sf::Vector2f pos(0.f, 0.f);
+    sf::Vector2f size(w_size);
+    float xs = 1.f;
+    float ys = 1.f;
+
+    float xp = 0.f;
+    float yp = 0.f;
+
+    sf::FloatRect vrect(xp, yp, xs, ys);
+    sf::Vector2f center(size / 2.f);
+
+    view.setViewport(vrect);
+    view.setSize(size);
+    view.setCenter(center);
+}
+
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (const auto& element : elements) {

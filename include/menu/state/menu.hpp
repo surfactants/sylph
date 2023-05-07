@@ -29,6 +29,9 @@ public:
         NULL_STATE
     };
 
+    static void setView(const sf::Vector2u& w_size);
+    virtual void windowResize(const sf::Vector2u& w_size) {} // todo make this pure virtual
+
     virtual void update(const sf::Vector2i& mpos);
     virtual void clickLeft();
     virtual void releaseLeft();

@@ -2,6 +2,7 @@
 
 #include <engine/resources/palette.hpp>
 
+#include <engine/math/collide.hpp>
 #include <engine/math/primordial.hpp>
 
 #include <game/component/body_info.hpp>
@@ -11,6 +12,7 @@
 
 void Solar_System::load(Entity s)
 {
+    system = s;
     clear();
     auto c = getComponent<Hierarchy>(s).child;
     for (auto e : c) {
@@ -36,11 +38,52 @@ void Solar_System::load(Entity s)
     }
 }
 
+void Solar_System::update(const sf::Vector2f& mpos)
+{
+    // whatever
+    if (moused) {
+        if (!collide::contains(moused->first, mpos)) {
+            moused_frame.setOutlineThickness(0.f);
+            moused = nullptr;
+        }
+        else {
+            return;
+        }
+    }
+    for (auto& b : bodies) {
+        auto& circle = b.first;
+        if (collide::contains(circle, mpos)) {
+            moused = &b;
+            moused_frame = circle;
+            moused_frame.setOutlineThickness(moused_border);
+        }
+    }
+}
+
 void Solar_System::clear()
 {
     entities.clear();
     bodies.clear();
     orbits.clear();
+}
+
+void Solar_System::activate()
+{
+    if (moused && active != moused) {
+        active = moused;
+        active_frame = moused_frame;
+        active_frame.setOutlineThickness(active_border);
+        activateUI(active->second);
+    }
+}
+
+void Solar_System::deactivate()
+{
+    if (active) {
+        active = nullptr;
+        active_frame.setOutlineThickness(0.f);
+        activateUI(system);
+    }
 }
 
 void Solar_System::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -51,4 +94,6 @@ void Solar_System::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for (const auto& b : bodies) {
         target.draw(b.first, states);
     }
+    target.draw(moused_frame, states);
+    target.draw(active_frame, states);
 }

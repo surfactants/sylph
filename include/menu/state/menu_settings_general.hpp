@@ -8,7 +8,9 @@ public:
 
     virtual void save() override;
 
+    static std::function<void(sf::Vector2u)> resizeWindow;
+
 private:
     std::vector<Check_Box> check_boxes;
-    Dropdown<int> dropdown;
+    Dropdown<sf::Vector2u> window_resizer;
 };

@@ -212,3 +212,12 @@ void Game_State::clear()
     game.reset();
     drawables.clear();
 }
+
+void Game_State::windowResize(const sf::Vector2u& w_size)
+{
+    UI::setView(w_size);
+    if (ui) {
+        ui->windowResize(w_size);
+    }
+    Game::systems.windowResize(w_size);
+}

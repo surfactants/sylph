@@ -25,3 +25,8 @@ void System_Manager::update(const float delta_time)
             solar_system.update(mpos);
     }
 }
+
+void System_Manager::windowResize(const sf::Vector2u& w_size)
+{
+    context.setView(w_size);
+}

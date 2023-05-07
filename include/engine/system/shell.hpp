@@ -32,4 +32,6 @@ private:
 
     sf::Text fps_text;
     sf::Clock fps_clock;
+
+    void resizeWindow(sf::Vector2u w_size);
 };

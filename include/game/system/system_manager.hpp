@@ -28,4 +28,6 @@ public:
     static inline std::function<T(Entity)> getComponent;
 
     Context context { camera_controller, renderer, solar_system, tile_system };
+
+    void windowResize(const sf::Vector2u& w_size);
 };

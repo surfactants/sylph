@@ -18,22 +18,24 @@ Menu::Menu()
         font = std::make_unique<sf::Font>();
         font->loadFromFile("Abel.ttf");
 
-        sf::Vector2f pos(0.f, 0.f);
-        sf::Vector2f size(1920.f, 1080.f);
-        sf::Vector2f wsize(1920.f, 1080.f);
-        float xs = size.x / wsize.x;
-        float ys = size.y / wsize.y;
-
-        float xp = pos.x / wsize.x;
-        float yp = pos.y / wsize.y;
-
-        view.setViewport(sf::FloatRect(xp, yp, xs, ys));
-        view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-        view.setCenter(size / 2.f);
-
         Menu_Element::setActive = std::bind(setActive, std::placeholders::_1);
         Menu_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
     }
+}
+
+void Menu::setView(const sf::Vector2u& w_size)
+{
+    sf::Vector2f pos(0.f, 0.f);
+    sf::Vector2f size(w_size);
+    float xs = 1.f;
+    float ys = 1.f;
+
+    float xp = 0.f;
+    float yp = 0.f;
+
+    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
+    view.setSize(size);
+    view.setCenter(size / 2.f);
 }
 
 void Menu::update(const sf::Vector2i& mpos)
