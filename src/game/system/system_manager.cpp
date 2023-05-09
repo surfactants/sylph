@@ -15,7 +15,7 @@ void System_Manager::update(const float delta_time)
 {
     const sf::Vector2f mpos = relativeMousePos(*context.current_view);
     sf::Vector2f v = accelerator.update(delta_time);
-    camera_controller.update(v);
+    camera_controller.update(v, mpos);
 
     switch (context()) {
         case Context::GALACTIC:

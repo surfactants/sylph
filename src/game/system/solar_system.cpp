@@ -27,14 +27,6 @@ void Solar_System::load(Entity s)
         b.setFillColor(color);
         b.setPosition(transform.position);
         bodies.push_back(std::make_pair(b, e));
-
-        unsigned int orbit_points = roundFloat(info.orbit / 2.f); // find a better way to calculate this, with a ceiling
-
-        orbits.push_back(sf::CircleShape(info.orbit, orbit_points));
-        orbits.back().setOrigin(sf::Vector2f(info.orbit, info.orbit));
-        orbits.back().setFillColor(sf::Color::Transparent);
-        orbits.back().setOutlineColor(Palette::white);
-        orbits.back().setOutlineThickness(4.f);
     }
 }
 
@@ -43,7 +35,7 @@ void Solar_System::update(const sf::Vector2f& mpos)
     // whatever
     if (moused) {
         if (!collide::contains(moused->first, mpos)) {
-            moused_frame.setOutlineThickness(0.f);
+            moused->first.setOutlineThickness(0.f);
             moused = nullptr;
         }
         else {
@@ -54,14 +46,19 @@ void Solar_System::update(const sf::Vector2f& mpos)
         auto& circle = b.first;
         if (collide::contains(circle, mpos)) {
             moused = &b;
-            moused_frame = circle;
-            moused_frame.setOutlineThickness(moused_border);
+            moused->first.setOutlineThickness(moused_border);
         }
     }
 }
 
 void Solar_System::clear()
 {
+    if (moused) {
+        moused = nullptr;
+    }
+    if (active) {
+        active = nullptr;
+    }
     entities.clear();
     bodies.clear();
     orbits.clear();
@@ -71,8 +68,7 @@ void Solar_System::activate()
 {
     if (moused && active != moused) {
         active = moused;
-        active_frame = moused_frame;
-        active_frame.setOutlineThickness(active_border);
+        active->first.setOutlineThickness(active_border);
         activateUI(active->second);
     }
 }
@@ -80,8 +76,8 @@ void Solar_System::activate()
 void Solar_System::deactivate()
 {
     if (active) {
+        active->first.setOutlineThickness(0.f);
         active = nullptr;
-        active_frame.setOutlineThickness(0.f);
         activateUI(system);
     }
 }
@@ -94,6 +90,4 @@ void Solar_System::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for (const auto& b : bodies) {
         target.draw(b.first, states);
     }
-    target.draw(moused_frame, states);
-    target.draw(active_frame, states);
 }

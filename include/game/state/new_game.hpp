@@ -21,6 +21,8 @@ public:
     virtual void releaseLeft() override;
     virtual void clickRight() override;
     virtual void releaseRight() override;
+    virtual void clickMiddle() override;
+    virtual void releaseMiddle() override;
 
 private:
     std::atomic_flag thread_done { ATOMIC_FLAG_INIT };

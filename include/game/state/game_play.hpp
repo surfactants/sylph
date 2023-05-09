@@ -14,4 +14,6 @@ public:
     virtual void releaseLeft() override;
     virtual void clickRight() override;
     virtual void releaseRight() override;
+    virtual void clickMiddle() override;
+    virtual void releaseMiddle() override;
 };

@@ -19,11 +19,7 @@
 
 #include <game/entity/entity.hpp>
 
-#include <game/state/game.hpp>
-
 #include <game/system/system.hpp>
-
-#include <iostream>
 
 class Component_Manager {
 public:

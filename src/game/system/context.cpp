@@ -14,11 +14,20 @@ void Context::toggle()
 {
     switch (type) {
         case GALACTIC:
+            if (last_system == MAX_ENTITIES) {
+                if (tile_system.active) {
+                    last_system = std::get<Entity>(*tile_system.active);
+                }
+                else {
+                    break;
+                }
+            }
             set(SOLAR, last_system);
             break;
 
         case SOLAR:
             set(GALACTIC, last_system);
+            break;
     }
 }
 

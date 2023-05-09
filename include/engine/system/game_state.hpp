@@ -67,5 +67,9 @@ private:
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
 
     void clickLeft();
+    void releaseLeft();
     void clickRight();
+    void releaseRight();
+    void clickMiddle();
+    void releaseMiddle();
 };

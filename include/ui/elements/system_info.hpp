@@ -38,7 +38,7 @@ public:
         for (auto& t : text) {
             t.setPosition(pos);
             wrapText(t, frame.getSize().x - (offset.x * 2.f));
-            pos.y += t.getGlobalBounds().top + t.getGlobalBounds().height + offset.y;
+            pos.y += t.getLocalBounds().top + t.getLocalBounds().height + offset.y;
         }
     }
 

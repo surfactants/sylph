@@ -29,6 +29,9 @@ public:
     virtual void clickRight() = 0;
     virtual void releaseRight() = 0;
 
+    virtual void clickMiddle() = 0;
+    virtual void releaseMiddle() = 0;
+
     static std::function<void(Game::State)> setGameState;
 
     void reset();

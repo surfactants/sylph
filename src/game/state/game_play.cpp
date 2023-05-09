@@ -43,3 +43,15 @@ void Game_Play::clickRight()
 
 void Game_Play::releaseRight()
 { }
+
+void Game_Play::clickMiddle()
+{
+    const sf::Vector2f mpos = systems.relativeMousePos(*systems.context.current_view);
+    systems.camera_controller.startDrag(mpos);
+}
+
+void Game_Play::releaseMiddle()
+{
+    const sf::Vector2f mpos = systems.relativeMousePos(*systems.context.current_view);
+    systems.camera_controller.endDrag(mpos);
+}

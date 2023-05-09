@@ -10,12 +10,17 @@ class Camera_Controller : public System {
 public:
     Camera_Controller() = default;
 
-    void update(sf::Vector2f velocity);
+    void update(sf::Vector2f velocity, const sf::Vector2f& mpos);
 
     void zoomImpulse(float delta);
 
-    sf::View* view { nullptr };
+    void startDrag(const sf::Vector2f& mpos);
 
+    void endDrag(const sf::Vector2f& mpos);
+
+    void drag(const sf::Vector2f& mpos);
+
+    sf::View* view { nullptr };
 
     Collision_Rect bounds;
 
@@ -32,6 +37,9 @@ public:
 private:
     void move(sf::Vector2f velocity);
     void zoom();
+
+    bool dragging { false };
+    sf::Vector2f drag_pos;
 
     float current_zoom { 1.f };
     float zoom_speed { 0.f };

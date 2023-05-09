@@ -31,8 +31,6 @@ private:
     std::vector<sf::CircleShape> orbits;
 
     Body* moused;
-    sf::CircleShape moused_frame;
-    sf::CircleShape active_frame;
 
     Entity system;
 

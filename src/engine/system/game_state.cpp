@@ -36,10 +36,31 @@ void Game_State::clickLeft()
     game->clickLeft();
 }
 
+void Game_State::releaseLeft()
+{
+    game->releaseLeft();
+}
+
 void Game_State::clickRight()
 {
     // attempt UI input first
     game->clickRight();
+}
+
+void Game_State::releaseRight()
+{
+    game->releaseRight();
+}
+
+void Game_State::clickMiddle()
+{
+    // attempt UI input first
+    game->clickMiddle();
+}
+
+void Game_State::releaseMiddle()
+{
+    game->releaseMiddle();
 }
 
 void Game_State::update(float delta_time)
@@ -92,10 +113,15 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 
     // must re-add permanent options
     ig->addPress(sf::Keyboard::Escape, open_pause);
+
     ig->addPress(sf::Mouse::Left, std::bind(clickLeft, this));
-    //ig->addRelease(sf::Mouse::Left, std::bind(releaseLeft, this));
+    ig->addRelease(sf::Mouse::Left, std::bind(releaseLeft, this));
+
     ig->addPress(sf::Mouse::Right, std::bind(clickRight, this));
-    //ig->addRelease(sf::Mouse::Right, std::bind(releaseRight, this));
+    ig->addRelease(sf::Mouse::Right, std::bind(releaseRight, this));
+
+    ig->addPress(sf::Mouse::Middle, std::bind(clickMiddle, this));
+    ig->addRelease(sf::Mouse::Middle, std::bind(releaseMiddle, this));
 
     ig->scroll = std::bind(&Camera_Controller::zoomImpulse, &Game::systems.camera_controller, std::placeholders::_1);
 

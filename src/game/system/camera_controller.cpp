@@ -1,10 +1,19 @@
 #include <game/system/camera_controller.hpp>
 
-void Camera_Controller::update(sf::Vector2f velocity)
+void Camera_Controller::update(sf::Vector2f velocity, const sf::Vector2f& mpos)
 {
     zoom();
-    velocity *= (current_zoom * zoom_speed_factor);
-    move(velocity);
+    if (dragging) {
+        if (drag_pos != mpos) {
+            sf::Vector2f offset = drag_pos - mpos;
+            move(offset);
+            drag_pos = mpos;
+        }
+    }
+    else {
+        velocity *= (current_zoom * zoom_speed_factor);
+        move(velocity);
+    }
 }
 
 void Camera_Controller::zoomImpulse(float delta)
@@ -91,4 +100,19 @@ void Camera_Controller::zoom()
             zoom_speed = 0.f;
         }
     }
+}
+
+void Camera_Controller::startDrag(const sf::Vector2f& mpos)
+{
+    dragging = true;
+    drag_pos = mpos;
+}
+
+void Camera_Controller::endDrag(const sf::Vector2f& mpos)
+{
+    dragging = false;
+}
+
+void Camera_Controller::drag(const sf::Vector2f& mpos)
+{
 }
