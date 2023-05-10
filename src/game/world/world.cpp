@@ -81,26 +81,23 @@ void World::generateSystems()
 
         Signature s;
 
-        s.set(toInt(Component::ENTITY_INFO));
-        s.set(toInt(Component::COLOR));
+        //s.set(toInt(Component::ENTITY_INFO));
+        //s.set(toInt(Component::COLOR));
         s.set(toInt(Component::BODY_INFO));
         s.set(toInt(Component::POLYGON_TILE));
         s.set(toInt(Component::TRANSFORM));
         s.set(toInt(Component::HIERARCHY));
         s.set(toInt(Component::COLLISION_RECT));
 
-        Entity_Info e_info;
-        e_info.name = "system-" + std::to_string(prng::number(1, 999));
-        e_info.description = "an undefined solar system";
-
         Entity system = entities.create();
         entities.define(system, s);
 
         components.addComponent(system, tile);
         components.addComponent(system, transform);
-        components.addComponent(system, e_info);
+        //components.addComponent(system, e_info);
 
-        makeSystem(system);
+        system_generator.make(system);
+        //makeSystem(system);
 
         systems.tile_system.addTile(system);
     }
@@ -111,9 +108,11 @@ void World::generateSystems()
     frame.setPosition(sf::Vector2f(min));
     frame.setSize(sf::Vector2f(max - min));
 }
-
+/*
 void World::makeSystem(Entity system)
 {
+    // operate on system_generator here
+
     // stars (just one for now)
 
     Entity star = makeStar(system);
@@ -362,3 +361,4 @@ void World::makePlanets(Entity system, Entity star)
     components.addComponent(system, system_hierarchy);
 
 }
+*/

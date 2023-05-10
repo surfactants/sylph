@@ -8,7 +8,6 @@
 #include <engine/math/primordial.hpp>
 #include <engine/resources/palette.hpp>
 #include <engine/util/prng.hpp>
-#include <engine/util/sfml_stream.hpp>
 
 #include <game/world/gen/voronoi/circle.hpp>
 #include <game/world/gen/voronoi/parabola.hpp>
@@ -151,11 +150,14 @@ void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, 
         unsigned int iter { 0 };
         do {
             if (++iter >= max_find_iterations) {
+                // log this with number of systems
+                /*
                 std::cout << "\n\nWARNING: FAILED TO FIND ENOUGH SPACE FOR "
                           << point_count << "POINTS IN VORONOI GENERATION!"
                           << "\n\tFAILED ON POINT " << i + 1
                           << "\n\t\tMIN " << min
                           << "\n\t\tMAX " << max << "\n\n";
+                */
                 return;
             }
             x = prng::number(min.x, max.x);
@@ -163,8 +165,6 @@ void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, 
         } while (nearbyPoints(x, y));
         points.push_back(Point(x, y));
     }
-
-    std::cout << "generated " << points.size() << " points!\n";
 }
 
 bool Diagram::nearbyPoints(double x, double y)

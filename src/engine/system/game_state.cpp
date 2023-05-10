@@ -9,8 +9,8 @@
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
-    registerComponent<Entity_Info>();
-    registerComponent<Color>();
+    //registerComponent<Entity_Info>();
+    //registerComponent<Color>();
     registerComponent<Transform>();
     registerComponent<Collision_Rect>();
     registerComponent<Polygon_Tile>();

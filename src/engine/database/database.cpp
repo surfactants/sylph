@@ -84,7 +84,17 @@ void Database::execute(std::string sql)
     }
 }
 
-std::string Database::toString(int column)
+std::string Database::toString(int col)
 {
-    return reinterpret_cast<const char*>(sqlite3_column_text(statement, column++));
+    return reinterpret_cast<const char*>(sqlite3_column_text(statement, col));
+}
+
+int Database::toInt(int col)
+{
+    return sqlite3_column_int(statement, col);
+}
+
+float Database::toFloat(int col)
+{
+    return sqlite3_column_double(statement, col);
 }

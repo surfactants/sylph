@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <unordered_map>
 
 #include <game/entity/entity.hpp>
 

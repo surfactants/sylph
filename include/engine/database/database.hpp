@@ -9,8 +9,6 @@ public:
     Database(std::string filename = "data.db");
     ~Database();
 
-    std::string toString(int column);
-
 protected:
     sqlite3* db;
     sqlite3_stmt* statement;
@@ -21,6 +19,10 @@ protected:
     bool step();
     void finalize();
     void execute(std::string sql);
+
+    std::string toString(int column);
+    int toInt(int col);
+    float toFloat(int col);
 
     std::string table;
 

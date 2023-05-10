@@ -13,6 +13,8 @@
 
 #include <game/data/new_game_data.hpp>
 
+#include "system_generator.hpp"
+
 class World {
 public:
     World(New_Game_Data data
@@ -33,6 +35,8 @@ private:
     sf::Vector2f max;
 
     Collision_Rect frame;
+
+    System_Generator system_generator { components, entities };
 
     void generateSystems();
     void makeSystem(Entity system);

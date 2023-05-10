@@ -17,32 +17,27 @@ void UI_HUD::loadSystemInfo(Entity e)
     }
     else if (system_info.entity != e) {
         system_info.clear();
-        auto info = getComponent<Entity_Info>(e);
-        auto body_info = getComponent<Body_Info>(e);
+        auto info = getComponent<Body_Info>(e);
         system_info.addText(info.name, 48);
         std::string classtype;
-        if (body_info.type == "star") {
-            classtype = body_info.subtype + " class " + body_info.type;
+        if (info.type == "star") {
+            classtype = info.subtype + " class star";
         }
         else {
-            classtype = body_info.type;
+            classtype = info.subtype;
         }
         system_info.addText(classtype, 28);
-        if (body_info.type == "star") {
+        if (info.type == "system") {
             size_t child_count = getComponent<Hierarchy>(e).child.size();
-            if (child_count == 0) {
-                Entity parent = getComponent<Hierarchy>(e).parent.front();
-                child_count = getComponent<Hierarchy>(parent).child.size();
-                if (child_count > 0) {
-                    child_count--;
-                }
-            }
-            std::string count = std::to_string(child_count);
+            std::string count = std::to_string(child_count - 1);
             count += " planet";
             if (child_count != 1) {
                 count += "s";
             }
             system_info.addText(count, 28);
+        }
+        else if (info.type == "star") {
+            // hmmm...
         }
         system_info.addText(info.description, 24);
         system_info.setText(sf::Vector2f(16.f, 16.f));

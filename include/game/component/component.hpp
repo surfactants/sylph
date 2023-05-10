@@ -1,9 +1,9 @@
 #pragma once
 
 enum class Component {
-    ENTITY_INFO = 0,
-    COLOR,
-    TRANSFORM,
+    //ENTITY_INFO = 0,
+    //COLOR,
+    TRANSFORM = 0,
     COLLISION_RECT,
     POLYGON_TILE,
     HIERARCHY,
