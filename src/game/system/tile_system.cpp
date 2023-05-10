@@ -4,11 +4,9 @@
 
 #include <engine/util/prng.hpp>
 
-//#include <game/component/color.hpp>
 #include <game/component/polygon_tile.hpp>
 #include <game/component/transform.hpp>
 #include <game/component/body_info.hpp>
-//#include <game/component/entity_info.hpp>
 
 void Tile_System::update(const sf::Vector2f& mpos)
 {
@@ -54,8 +52,6 @@ void Tile_System::addTile(Entity e)
     site.setPosition(transform.position);
 
     auto info = getComponent<Body_Info>(e);
-
-    //auto color = getComponent<Color>(e);
     site.setFillColor(info.color);
 
     entities.insert(e);

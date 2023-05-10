@@ -6,7 +6,6 @@
 #include <engine/math/primordial.hpp>
 
 #include <game/component/body_info.hpp>
-//#include <game/component/color.hpp>
 #include <game/component/hierarchy.hpp>
 #include <game/component/transform.hpp>
 
@@ -18,7 +17,6 @@ void Solar_System::load(Entity s)
     for (auto e : c) {
         entities.insert(e);
         auto transform = getComponent<Transform>(e);
-        //auto color = getComponent<Color>(e);
         auto info = getComponent<Body_Info>(e);
         float r = info.radius;
         constexpr static size_t point_count { 30 };

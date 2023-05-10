@@ -37,11 +37,7 @@ Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double
     std::sort(points.begin(), points.end(), [](const Point& p1, const Point& p2) {
         return (fabs(p1.y - p2.y) < POINT_EPSILON && p1.x < p2.x) || (fabs(p1.y - p2.y) >= POINT_EPSILON && p1.y < p2.y);
     });
-    /*
-    std::sort(points.begin(), points.end(), [](const Point &p1, const Point &p2) {
-        return (p1.x > p2.x);
-    });
-*/
+
     for (size_t i = 1; i < point_count; ++i) {
         if ((points[i - 1] - points[i]).norm() < 100) {
             points[i - 1].x = prng::number(max.x);
