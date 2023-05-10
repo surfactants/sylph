@@ -20,8 +20,8 @@ void UI_HUD::loadSystemInfo(Entity e)
         auto info = getComponent<Body_Info>(e);
         system_info.addText(info.name, 48);
         std::string classtype;
-        if (info.type == "star") {
-            classtype = info.subtype + " class star";
+        if (info.type == "star" || info.type == "system") {
+            classtype = info.subtype + "-Class Star";
         }
         else {
             classtype = info.subtype;

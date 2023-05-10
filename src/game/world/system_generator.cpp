@@ -148,7 +148,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
     }
 
     Collision_Rect system_bounds;
-    orbital_radius *= 1.33;
+    orbital_radius += 2000.f;
     system_bounds.setPosition(sf::Vector2f(-orbital_radius, -orbital_radius));
     system_bounds.setSize(sf::Vector2f(orbital_radius * 2.f, orbital_radius * 2.f));
 

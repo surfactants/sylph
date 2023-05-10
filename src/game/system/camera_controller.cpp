@@ -70,7 +70,7 @@ void Camera_Controller::zoom()
         return;
     }
     bool stopping { false };
-    float target = current_zoom + zoom_speed;
+    float target = current_zoom + (zoom_speed * current_zoom);
     if (target < min_zoom) {
         target = min_zoom;
         stopping = true;
