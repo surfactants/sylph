@@ -4,6 +4,7 @@
 #include <engine/util/prng.hpp>
 
 #include <game/world/world.hpp>
+#include <game/world/empire_generator.hpp>
 
 std::function<void()> New_Game::newToPlay;
 
@@ -11,7 +12,7 @@ New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
     tasks.push_back(std::bind(createWorld, this));
-    tasks.push_back(std::bind(createPlayer, this));
+    tasks.push_back(std::bind(createEmpires, this));
 
     thread_done.test_and_set();
 }
@@ -52,6 +53,12 @@ void New_Game::createWorld()
     World world(data, components, entities, systems);
     systems.context.world_bounds = world.getFrame();
     systems.context.set(Context::GALACTIC, MAX_ENTITIES);
+    thread_done.test_and_set();
+}
+
+void New_Game::createEmpires()
+{
+    Empire_Generator empire_generator(data, components, entities, systems);
     thread_done.test_and_set();
 }
 

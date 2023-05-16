@@ -24,6 +24,7 @@ void Tile_System::update(const sf::Vector2f& mpos)
         if (collide::convexShape_Point(shape, mpos)) {
             moused = &t;
             moused_frame = shape;
+            moused_frame.setFillColor(sf::Color::Transparent);
             moused_frame.setOutlineThickness(moused_border);
             break;
         }
@@ -39,14 +40,14 @@ void Tile_System::addTile(Entity e)
     for (size_t i = 0; i < n; i++) {
         shape.setPoint(i, tile.vertices[i]);
     }
-    shape.setFillColor(sf::Color::Transparent);
+    //shape.setFillColor(tile.color);
     shape.setOutlineColor(Palette::white);
     shape.setOutlineThickness(0.f);
 
     // create site
     auto transform = getComponent<Transform>(e);
-    constexpr float site_radius { 8.f };
-    constexpr size_t site_points { 16 };
+    constexpr float site_radius { 16.f };
+    constexpr size_t site_points {16 };
     sf::CircleShape site(site_radius, site_points);
     site.setOrigin(sf::Vector2f(site_radius, site_radius));
     site.setPosition(transform.position);
@@ -56,6 +57,21 @@ void Tile_System::addTile(Entity e)
 
     entities.insert(e);
     tiles.push_back(std::make_tuple(shape, site, e));
+
+    size_t index = tiles.size() - 1;
+    entity_to_index[e] = index;
+    index_to_entity[index] = e;
+
+    repaintTile(e);
+}
+
+Entity Tile_System::random()
+{
+    size_t index = prng::number(tiles.size());
+    if (index_to_entity.contains(index)) {
+        return index_to_entity[index];
+    }
+    return 0;
 }
 
 void Tile_System::activate()
@@ -79,6 +95,15 @@ void Tile_System::deactivate()
         active = nullptr;
         active_frame.setOutlineThickness(0.f);
         activateUI(MAX_ENTITIES);
+    }
+}
+
+void Tile_System::repaintTile(Entity e)
+{
+    if (entity_to_index.contains(e)) {
+        auto& shape = std::get<sf::ConvexShape>(tiles[entity_to_index[e]]);
+        auto color = getComponent<Polygon_Tile>(e).color;
+        shape.setFillColor(color);
     }
 }
 

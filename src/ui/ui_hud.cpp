@@ -27,11 +27,12 @@ void UI_HUD::loadSystemInfo(Entity e)
             classtype = info.subtype;
         }
         system_info.addText(classtype, 28);
+
         if (info.type == "system") {
-            size_t child_count = getComponent<Hierarchy>(e).child.size();
-            std::string count = std::to_string(child_count - 1);
+            size_t planet_count = getComponent<Hierarchy>(e).child.size() - 1;
+            std::string count = std::to_string(planet_count - 1);
             count += " planet";
-            if (child_count != 1) {
+            if (planet_count != 1) {
                 count += "s";
             }
             system_info.addText(count, 28);
@@ -39,6 +40,13 @@ void UI_HUD::loadSystemInfo(Entity e)
         else if (info.type == "star") {
             // hmmm...
         }
+
+        if (info.owned) {
+            auto empire = getComponent<Entity_Data>(info.owner);
+            std::string own = "owned by " + empire.name;
+            system_info.addText(own, 28);
+        }
+
         system_info.addText(info.description, 24);
         system_info.setText(sf::Vector2f(16.f, 16.f));
     }

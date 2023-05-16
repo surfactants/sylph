@@ -1,5 +1,8 @@
 #include <menu/elements/color_selector.hpp>
 
+#include <engine/resources/palette.hpp>
+#include <engine/util/text.hpp>
+
 bool Color_Selector::initialized = false;
 
 sf::VertexArray Color_Selector::colors;
@@ -9,50 +12,71 @@ sf::VertexArray Color_Selector::slider;
 Color_Selector::Color_Selector()
 {
     if (!initialized) {
-        initialized = true;
-        colors.setPrimitiveType(sf::Points);
-        colors.resize(256 * 256);
+        initialize();
+    }
+    prepare();
+}
 
-        slider.setPrimitiveType(sf::Quads);
-        unsigned int ssize = 24;
-        unsigned int v = 0;
-        slider.resize(ssize);
-        sf::Color slider_color = sf::Color(255, 0, 0);
-        while (v < 2)
-            slider[v++].color = slider_color;
+Color_Selector::Color_Selector(std::string title, const sf::Font& font)
+{
+    if (!initialized) {
+        initialize();
+    }
+    prepare();
+    label.setFont(font);
+    label.setString(title);
+    label.setFillColor(Palette::white);
+    centerTextVertical(label);
+}
 
-        slider_color = sf::Color(255, 255, 0);
-        while (v < 6) {
-            slider[v++].color = slider_color;
-        }
+void Color_Selector::initialize()
+{
+    initialized = true;
+    colors.setPrimitiveType(sf::Points);
+    colors.resize(256 * 256);
 
-        slider_color = sf::Color(0, 255, 0);
-        while (v < 10) {
-            slider[v++].color = slider_color;
-        }
+    slider.setPrimitiveType(sf::Quads);
+    unsigned int ssize = 24;
+    unsigned int v = 0;
+    slider.resize(ssize);
+    sf::Color slider_color = sf::Color(255, 0, 0);
+    while (v < 2)
+        slider[v++].color = slider_color;
 
-        slider_color = sf::Color(0, 255, 255);
-        while (v < 14) {
-            slider[v++].color = slider_color;
-        }
-
-        slider_color = sf::Color(0, 0, 255);
-        while (v < 18) {
-            slider[v++].color = slider_color;
-        }
-        slider_color = sf::Color(255, 0, 255);
-        while (v < 22) {
-            slider[v++].color = slider_color;
-        }
-
-        slider_color = sf::Color(255, 0, 0);
-        while (v < ssize) {
-            slider[v++].color = slider_color;
-        }
-
-        setPosition(sf::Vector2f(16, 16));
+    slider_color = sf::Color(255, 255, 0);
+    while (v < 6) {
+        slider[v++].color = slider_color;
     }
 
+    slider_color = sf::Color(0, 255, 0);
+    while (v < 10) {
+        slider[v++].color = slider_color;
+    }
+
+    slider_color = sf::Color(0, 255, 255);
+    while (v < 14) {
+        slider[v++].color = slider_color;
+    }
+
+    slider_color = sf::Color(0, 0, 255);
+    while (v < 18) {
+        slider[v++].color = slider_color;
+    }
+    slider_color = sf::Color(255, 0, 255);
+    while (v < 22) {
+        slider[v++].color = slider_color;
+    }
+
+    slider_color = sf::Color(255, 0, 0);
+    while (v < ssize) {
+        slider[v++].color = slider_color;
+    }
+
+    setPosition(sf::Vector2f(16, 16));
+}
+
+void Color_Selector::prepare()
+{
     selector = sf::RectangleShape(sf::Vector2f(8, 8));
     selector.setSize(sf::Vector2f(8, 8));
     selector.setOrigin(sf::Vector2f(selector.getSize().x / 2, selector.getSize().y / 2));
@@ -120,6 +144,10 @@ void Color_Selector::setPreview(sf::Vector2f pos, sf::Vector2f size)
 {
     preview.setPosition(pos);
     preview.setSize(size);
+
+    pos.x += size.x + 32.f;
+    pos.y += size.y / 2.f;
+    label.setPosition(pos);
 }
 
 sf::Color Color_Selector::getColor()
@@ -322,17 +350,12 @@ void Color_Selector::select(sf::Vector2i mousePos)
 
 void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    switch (state) {
-        case ACTIVE:
-            target.draw(colors, states);
-            target.draw(selector, states);
-            target.draw(slider, states);
-            target.draw(slider_handle, states);
-            [[fallthrough]]; // preview always gets drawn. no sense copying the draw calls
-        case READY:
-            target.draw(preview, states);
-            break;
-        default:
-            break;
+    target.draw(preview, states);
+    target.draw(label, states);
+    if (active()) {
+        target.draw(colors, states);
+        target.draw(selector, states);
+        target.draw(slider, states);
+        target.draw(slider_handle, states);
     }
 }

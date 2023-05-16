@@ -22,6 +22,8 @@ public:
     ///
     Color_Selector();
 
+    Color_Selector(std::string title, const sf::Font& font);
+
     ////////////////////////////////////////////////////////////
     /// \brief Sets hue to 0 and returns selector to start position.
     ///
@@ -85,6 +87,8 @@ private:
 
     sf::Vector2f position;
 
+    sf::Text label;
+
     void enactPosition();
 
     ////////////////////////////////////////////////////////////
@@ -110,6 +114,9 @@ private:
     /// \param mousePos -> selector.setPosition(), within bounds of colors
     ///
     void select(sf::Vector2i mousePos);
+
+    void initialize();
+    void prepare();
 
     ////////////////////////////////////////////////////////////
     /// \brief Draws the frame, slider, and handles to the render target.

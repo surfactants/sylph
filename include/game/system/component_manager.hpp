@@ -15,6 +15,9 @@
 #include <game/component/tile.hpp>
 #include <game/component/hierarchy.hpp>
 
+#include <game/component/entity_data.hpp>
+#include <game/component/empire_data.hpp>
+
 #include <game/entity/entity.hpp>
 
 #include <game/system/system.hpp>

@@ -8,6 +8,18 @@ void centerText(sf::Text& text)
     text.setOrigin(trect.left + trect.width / 2.f, trect.top + trect.height / 2.f);
 }
 
+void centerTextVertical(sf::Text& text)
+{
+    sf::FloatRect trect = text.getLocalBounds();
+    text.setOrigin(text.getOrigin().x, trect.top + trect.height / 2.f);
+}
+
+void centerTextHorizontal(sf::Text& text)
+{
+    sf::FloatRect trect = text.getLocalBounds();
+    text.setOrigin(trect.left + trect.width / 2.f, text.getOrigin().y);
+}
+
 bool charInBounds(sf::Text& text, unsigned int i, float width)
 {
     return (text.findCharacterPos(i).x + text.getCharacterSize() * 1.5 - text.findCharacterPos(0).x < width);

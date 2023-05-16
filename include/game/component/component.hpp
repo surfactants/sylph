@@ -8,7 +8,9 @@ enum class Component {
     POLYGON_TILE,
     HIERARCHY,
     TILE,
+    ENTITY_DATA,
     BODY_INFO,
+    EMPIRE_DATA,
     SIZE // gets total number of components
 };
 

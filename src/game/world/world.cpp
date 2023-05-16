@@ -37,22 +37,22 @@ void World::generateSystems()
         case New_Game_Data::SMALL:
             point_lower_bound = 150;
             point_upper_bound = 250;
-            size_factor = 4.f;
+            size_factor = 8.f;
             break;
         case New_Game_Data::MEDIUM:
             point_lower_bound = 350;
             point_upper_bound = 450;
-            size_factor = 8.f;
+            size_factor = 12.f;
             break;
         case New_Game_Data::LARGE: // * 8
             point_lower_bound = 550;
             point_upper_bound = 650;
-            size_factor = 12.f;
+            size_factor = 16.f;
             break;
         case New_Game_Data::VERY_LARGE: // * 8
             point_lower_bound = 750;
             point_upper_bound = 850;
-            size_factor = 16.f;
+            size_factor = 20.f;
             break;
     }
 

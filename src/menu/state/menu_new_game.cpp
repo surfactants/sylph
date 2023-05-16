@@ -32,7 +32,7 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     pos.y += 128.f;
 
-    Color_Selector selector;
+    Color_Selector selector("empire color", *font);
     selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
 
     sf::Vector2f selector_pos(pos);

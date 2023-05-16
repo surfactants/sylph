@@ -33,6 +33,7 @@ private:
     void createWorld();
     void generateSystem(Entity system);
     void createPlayer();
+    void createEmpires();
 
     std::vector<std::function<void()>> tasks;
     size_t task_index { 0 };

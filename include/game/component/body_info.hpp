@@ -18,4 +18,7 @@ struct Body_Info {
     sf::Color color;
 
     float chance;
+
+    bool owned { false };
+    Entity owner;
 };
