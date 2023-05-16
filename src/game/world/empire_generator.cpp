@@ -38,7 +38,7 @@ void Empire_Generator::generatePlayerEmpire()
 
     Empire_Data empire_data;
     empire_data.capital_system = capital_system;
-    empire_data.capital_world = homeworld;
+    empire_data.homeworld = homeworld;
     empire_data.systems.push_back(capital_system);
     empire_data.color = data.player_color;
 
@@ -51,8 +51,8 @@ void Empire_Generator::generatePlayerEmpire()
     system_info.owner = empire;
 
     auto& home_info = components.getComponent<Body_Info>(homeworld);
-    system_info.owned = true;
-    system_info.owner = empire;
+    home_info.owned = true;
+    home_info.owner = empire;
 
     systems.tile_system.repaintTile(capital_system);
 
@@ -66,5 +66,6 @@ void Empire_Generator::print(Entity empire)
     std::cout << "generated empire '" << entity_data.name << "' (" << empire << ")\n";
     auto capital_info = components.getComponent<Body_Info>(empire_data.capital_system);
     std::cout << "\tlocated in the " << capital_info.name << " system (" << empire_data.capital_system << ")\n";
-
+    auto homeworld = components.getComponent<Body_Info>(empire_data.homeworld);
+    std::cout << "\thomeworld is " << homeworld.name << " (" << empire_data.homeworld << "), type " << homeworld.subtype << '\n';
 }

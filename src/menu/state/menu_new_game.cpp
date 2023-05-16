@@ -19,18 +19,18 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     sf::Vector2f pos = nav.front().getPosition();
     pos.x += 392.f;
 
-    Simple_Textbox textbox;
+    Simple_Textbox textbox("empire name");
     textbox.setFont(*font);
     textbox.setPosition(pos);
     textbox.setSize(size);
 
-    textboxes.push_back(std::move(textbox));
+    textboxes.push_back(textbox);
 
     for (auto& t : textboxes) {
         elements.push_back(&t);
     }
 
-    pos.y += 128.f;
+    pos.y += 144.f;
 
     Color_Selector selector("empire color", *font);
     selector.setPreview(pos, sf::Vector2f(96.f, 64.f));

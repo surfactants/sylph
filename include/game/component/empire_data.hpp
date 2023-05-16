@@ -6,7 +6,7 @@
 
 struct Empire_Data {
     Entity capital_system;
-    Entity capital_world;
+    Entity homeworld;
     std::vector<Entity> systems; // includes capital
     float population;
     sf::Color color;

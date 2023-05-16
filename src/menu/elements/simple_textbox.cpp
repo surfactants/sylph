@@ -12,7 +12,7 @@
 #define UNICODE_ESCAPE 27
 #define UNICODE_CTRL_BACKSPACE 127
 
-Simple_Textbox::Simple_Textbox()
+Simple_Textbox::Simple_Textbox(std::string title_text)
 {
     //set text defaults
     max_length = 32;
@@ -221,8 +221,16 @@ sf::Vector2f Simple_Textbox::getSize()
     return frame.getSize();
 }
 
+sf::Vector2f Simple_Textbox::totalSize()
+{
+    sf::Vector2f size = frame.getSize();
+    size.y += (frame.getPosition().y - title.getPosition().y);
+}
+
 void Simple_Textbox::setPosition(sf::Vector2f pos)
 {
+    title.setPosition(pos);
+    pos.y += title.getLocalBounds().top + title.getLocalBounds().height + 16.f;
     frame.setPosition(pos);
     text.setPosition(pos + text_offset);
 }
@@ -291,6 +299,7 @@ void Simple_Textbox::releaseRight()
 
 void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    target.draw(title, states);
     target.draw(frame, states);
     target.draw(text, states);
     target.draw(cursor, states);

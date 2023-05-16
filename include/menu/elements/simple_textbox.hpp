@@ -19,22 +19,11 @@
 /// \brief Container class for text input.
 ///
 class Simple_Textbox : public Menu_Element {
-private:
-    sf::Text text; /**< entered text*/
-
-    sf::Text cursor; /**< Cursor text, '|'*/
-    size_t max_length; /**< Maximum length of entered_text, default 32*/
-    sf::Vector2f text_offset;
-
-    size_t index { 0 }; /**< Cursor index */
-
-    unsigned int text_size; /**< display_text font size, default 48*/
-
 public:
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor.
     ///
-    Simple_Textbox();
+    Simple_Textbox(std::string title_text = "");
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
@@ -144,9 +133,16 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief returns frame size
     ///
-    /// \see setSize()
+    /// \see setSize(), totalSize()
     ///
     sf::Vector2f getSize();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief returns frame size
+    ///
+    /// \see setSize(), getSize()
+    ///
+    sf::Vector2f totalSize();
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
@@ -206,4 +202,16 @@ public:
     virtual void deactivate() override;
 
     bool empty();
+
+private:
+    sf::Text title;
+    sf::Text text; /**< entered text*/
+
+    sf::Text cursor; /**< Cursor text, '|'*/
+    size_t max_length; /**< Maximum length of entered_text, default 32*/
+    sf::Vector2f text_offset;
+
+    size_t index { 0 }; /**< Cursor index */
+
+    unsigned int text_size; /**< display_text font size, default 48*/
 };
