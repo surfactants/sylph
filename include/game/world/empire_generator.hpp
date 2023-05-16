@@ -20,6 +20,8 @@ private:
     Entity_Manager& entities;
     System_Manager& systems;
 
-    void generatePlayerEmpire();
+    void generatePlayer();
+    void generateAI();
+
     void print(Entity empire);
 };

@@ -30,7 +30,7 @@ void UI_HUD::loadSystemInfo(Entity e)
 
         if (info.type == "system") {
             size_t planet_count = getComponent<Hierarchy>(e).child.size() - 1;
-            std::string count = std::to_string(planet_count - 1);
+            std::string count = std::to_string(planet_count);
             count += " planet";
             if (planet_count != 1) {
                 count += "s";
