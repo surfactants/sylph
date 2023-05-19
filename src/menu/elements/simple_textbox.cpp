@@ -18,6 +18,10 @@ Simple_Textbox::Simple_Textbox(std::string title_text)
     max_length = 32;
     text_size = 32;
 
+    title.setFillColor(Palette::white);
+    title.setString(title_text);
+    title.setCharacterSize(48);
+
     text.setFillColor(Palette::white);
     text.setCharacterSize(text_size);
 
@@ -39,6 +43,7 @@ void Simple_Textbox::setFont(sf::Font& font)
 {
     text.setFont(font);
     cursor.setFont(font);
+    title.setFont(font);
 }
 
 void Simple_Textbox::setMaxLength(unsigned int newMax)
@@ -212,7 +217,7 @@ void Simple_Textbox::setSize(sf::Vector2f size)
 {
     frame.setSize(size);
     text_offset.y = (size.y - text.getCharacterSize()) / 2.f;
-    setPosition(frame.getPosition());
+    setPosition(title.getPosition());
     placeCursor();
 }
 

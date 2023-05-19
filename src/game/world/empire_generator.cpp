@@ -52,10 +52,15 @@ void Empire_Generator::generatePlayer()
     auto& system_info = components.getComponent<Body_Info>(capital_system);
     system_info.owned = true;
     system_info.owner = empire;
+    system_info.name = data.home_system;
+
+    auto& star_info = components.getComponent<Body_Info>(children.front());
+    star_info.name = data.home_system;
 
     auto& home_info = components.getComponent<Body_Info>(homeworld);
     home_info.owned = true;
     home_info.owner = empire;
+    home_info.name = data.homeworld;
 
     systems.tile_system.repaintTile(capital_system);
 

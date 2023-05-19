@@ -72,7 +72,7 @@ void Button::setPosition(sf::Vector2f pos)
 
 sf::Vector2f Button::getPosition()
 {
-    return label.getPosition();
+    return frame.getPosition() - frame.getOrigin();
 }
 
 void Button::setSize(sf::Vector2f size)
