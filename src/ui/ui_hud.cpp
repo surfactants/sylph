@@ -48,6 +48,16 @@ void UI_HUD::loadSystemInfo(Entity e)
         }
 
         system_info.addText(info.description, 24);
+
+        auto resource = getComponent<Resource>(e);
+
+        for (auto& r : resource.values) {
+            std::string r_text = Resource::toString(r.first);
+            std::transform(r_text.begin() + 1, r_text.end(), r_text.begin() + 1, ::tolower);
+            r_text += ": " + std::to_string(r.second);
+            system_info.addText(r_text, 24);
+        }
+
         system_info.setText(sf::Vector2f(16.f, 16.f));
     }
 }

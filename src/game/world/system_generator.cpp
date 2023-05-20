@@ -1,6 +1,6 @@
 #include <game/world/system_generator.hpp>
 
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/CircleShape.hpp> // for orbital radius
 
 #include <cmath> // pow
 
@@ -52,6 +52,7 @@ Entity System_Generator::makeStar(Entity system)
     sig.set(toInt(Component::BODY_INFO));
     sig.set(toInt(Component::HIERARCHY));
     sig.set(toInt(Component::TRANSFORM));
+    sig.set(toInt(Component::RESOURCE));
 
     entities.define(star, sig);
 
@@ -72,6 +73,9 @@ Entity System_Generator::makeStar(Entity system)
     s_info.color.b = prng::number(min.color.b, max.color.b);
     components.addComponent(star, s_info);
 
+    Resource resource;
+    components.addComponent(star, resource);
+
     Hierarchy s_hierarchy;
     s_hierarchy.parent = { system };
     components.addComponent(star, s_hierarchy);
@@ -81,8 +85,8 @@ Entity System_Generator::makeStar(Entity system)
 
     s_info.type = "system";
     s_info.description = "an undefined solar system";
-
     components.addComponent(system, s_info);
+    components.addComponent(system, resource);
 
     return star;
 }
@@ -109,6 +113,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         sig.set(toInt(Component::BODY_INFO));
         sig.set(toInt(Component::HIERARCHY));
         sig.set(toInt(Component::TRANSFORM));
+        sig.set(toInt(Component::RESOURCE));
 
         entities.define(body, sig);
 
@@ -145,6 +150,8 @@ void System_Generator::makePlanets(Entity system, Entity star)
         orbital_radius += b_info.radius; // "clearing the neighborhood";
 
         system_hierarchy.child.push_back(body);
+
+        makeResource(body);
     }
 
     Collision_Rect system_bounds;
@@ -155,6 +162,39 @@ void System_Generator::makePlanets(Entity system, Entity star)
     components.addComponent(system, system_bounds);
 
     components.addComponent(system, system_hierarchy);
+}
+
+void System_Generator::makeResource(Entity planet)
+{
+    Resource resource;
+
+    auto& info = components.getComponent<Body_Info>(planet);
+    std::string type = info.subtype;
+    float size = info.radius;
+
+    if (type == "telluric") {
+        resource.set(Resource::METALS, prng::number(0.1f, 2.5f));
+        resource.set(Resource::RARE_METALS, prng::number(0.f, 0.8f));
+        resource.set(Resource::SILICATES, prng::number(1.f, 10.f));
+        resource.set(Resource::HYDROCARBONS, prng::number(0.f, 0.8f));
+        resource.set(Resource::WATER, prng::number(0.f, 5.f));
+    }
+    else if (type == "frozen") {
+        resource.set(Resource::WATER, prng::number(1.f, 5.f));
+        resource.set(Resource::SILICATES, prng::number(0.f, 1.f));
+        resource.set(Resource::METALS, prng::number(0.f, 1.f));
+    }
+    else if (type == "gas giant") {
+        resource.set(Resource::HYDROGEN, prng::number(1.f, 5.f));
+        resource.set(Resource::HELIUM3, prng::number(0.25f, 2.5f));
+    }
+    else if (type == "ice giant") {
+        resource.set(Resource::WATER, prng::number(0.5f, 1.5f));
+        resource.set(Resource::HYDROCARBONS, prng::number(1.f, 4.f));
+        resource.set(Resource::AMMONIA, prng::number(1.f, 4.f));
+    }
+
+    components.addComponent(planet, resource);
 }
 
 std::string System_Generator::randomStar()

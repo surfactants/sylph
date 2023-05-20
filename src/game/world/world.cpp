@@ -88,6 +88,7 @@ void World::generateSystems()
         s.set(toInt(Component::TRANSFORM));
         s.set(toInt(Component::HIERARCHY));
         s.set(toInt(Component::COLLISION_RECT));
+        s.set(toInt(Component::RESOURCE));
 
         Entity system = entities.create();
         entities.define(system, s);

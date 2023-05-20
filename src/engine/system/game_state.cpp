@@ -17,6 +17,7 @@ Game_State::Game_State(std::function<void()> open_pause)
     registerComponent<Body_Info>();
     registerComponent<Entity_Data>();
     registerComponent<Empire_Data>();
+    registerComponent<Resource>();
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);

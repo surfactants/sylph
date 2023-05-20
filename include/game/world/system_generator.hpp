@@ -28,6 +28,7 @@ private:
 
     Entity makeStar(Entity system);
     void makePlanets(Entity system, Entity star);
+    void makeResource(Entity planet);
 
     std::string randomStar();
     std::string randomPlanet(Entity star, float orbital_radius);

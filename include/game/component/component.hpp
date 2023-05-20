@@ -1,8 +1,6 @@
 #pragma once
 
 enum class Component {
-    //ENTITY_INFO = 0,
-    //COLOR,
     TRANSFORM = 0,
     COLLISION_RECT,
     POLYGON_TILE,
@@ -11,6 +9,7 @@ enum class Component {
     ENTITY_DATA,
     BODY_INFO,
     EMPIRE_DATA,
+    RESOURCE,
     SIZE // gets total number of components
 };
 
