@@ -18,7 +18,11 @@ System_Generator::System_Generator(Component_Manager& components, Entity_Manager
 {
     Database_Body db;
     std::vector<std::pair<Body_Info, Body_Info>> bodies;
-    bodies = db.read();
+    // these are complex types, use move
+    bodies = std::move(db.bodies);
+    body_descriptions = std::move(db.descriptions);
+    resource_chances = std::move(db.resource_chances);
+    resource_ranges = std::move(db.resource_ranges);
     float s_chance = 0.f;
     for (const auto& body : bodies) {
         Body_Info min = body.first;
@@ -53,6 +57,7 @@ Entity System_Generator::makeStar(Entity system)
     sig.set(toInt(Component::HIERARCHY));
     sig.set(toInt(Component::TRANSFORM));
     sig.set(toInt(Component::RESOURCE));
+    sig.set(toInt(Component::ENTITY_DATA));
 
     entities.define(star, sig);
 
@@ -60,9 +65,13 @@ Entity System_Generator::makeStar(Entity system)
     Body_Info min = star_min[subtype];
     Body_Info max = star_max[subtype];
 
+    Entity_Data e_data;
+    e_data.name = alphanumericName();
+    e_data.description = body_descriptions[subtype];
+    components.addComponent(star, e_data);
+
+
     Body_Info s_info;
-    s_info.name = alphanumericName();
-    s_info.description = min.description;
     s_info.type = "star";
     s_info.subtype = subtype;
     s_info.radius = prng::number(min.radius, max.radius);
@@ -83,10 +92,11 @@ Entity System_Generator::makeStar(Entity system)
     Transform transform;
     components.addComponent(star, transform);
 
-    s_info.type = "system";
-    s_info.description = "an undefined solar system";
     components.addComponent(system, s_info);
     components.addComponent(system, resource);
+    e_data.description = "an undefined solar system";
+    e_data.name += " system";
+    components.addComponent(system, e_data);
 
     return star;
 }
@@ -114,6 +124,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         sig.set(toInt(Component::HIERARCHY));
         sig.set(toInt(Component::TRANSFORM));
         sig.set(toInt(Component::RESOURCE));
+        sig.set(toInt(Component::ENTITY_DATA));
 
         entities.define(body, sig);
 
@@ -121,9 +132,12 @@ void System_Generator::makePlanets(Entity system, Entity star)
         Body_Info min = planet_min[subtype];
         Body_Info max = planet_max[subtype];
 
+        Entity_Data entity_info;
+        entity_info.name = alphanumericName();
+        entity_info.description = body_descriptions[subtype];
+        components.addComponent(body, entity_info);
+
         Body_Info b_info;
-        b_info.name = alphanumericName();
-        b_info.description = min.description;
         b_info.type = "planet";
         b_info.subtype = subtype;
         b_info.radius = prng::number(min.radius, max.radius);
@@ -170,30 +184,27 @@ void System_Generator::makeResource(Entity planet)
 
     auto& info = components.getComponent<Body_Info>(planet);
     std::string type = info.subtype;
-    float size = info.radius;
+    float radius = info.radius;
 
-    if (type == "telluric") {
-        resource.set(Resource::METALS, prng::number(0.1f, 2.5f));
-        resource.set(Resource::RARE_METALS, prng::number(0.f, 0.8f));
-        resource.set(Resource::SILICATES, prng::number(1.f, 10.f));
-        resource.set(Resource::HYDROCARBONS, prng::number(0.f, 0.8f));
-        resource.set(Resource::WATER, prng::number(0.f, 5.f));
-    }
-    else if (type == "frozen") {
-        resource.set(Resource::WATER, prng::number(1.f, 5.f));
-        resource.set(Resource::SILICATES, prng::number(0.f, 1.f));
-        resource.set(Resource::METALS, prng::number(0.f, 1.f));
-    }
-    else if (type == "gas giant") {
-        resource.set(Resource::HYDROGEN, prng::number(1.f, 5.f));
-        resource.set(Resource::HELIUM3, prng::number(0.25f, 2.5f));
-    }
-    else if (type == "ice giant") {
-        resource.set(Resource::WATER, prng::number(0.5f, 1.5f));
-        resource.set(Resource::HYDROCARBONS, prng::number(1.f, 4.f));
-        resource.set(Resource::AMMONIA, prng::number(1.f, 4.f));
-    }
+    // the checks should be removed once all pertinent data has been added to the database and is confirmed to work
 
+    if (resource_chances.contains(type)) {
+        for (auto& chance : resource_chances[type]) {
+            if (prng::boolean(chance.second)) {
+                if (resource_ranges.contains(type)) {
+                    float min = resource_ranges[type].first.values[chance.first];
+                    float max = resource_ranges[type].second.values[chance.first];
+                    resource.set(chance.first, prng::number(min, max));
+                }
+                else {
+                    std::cout << "failed to find resource range map for bodies of subtype " << type << "!\n";
+                }
+            }
+        }
+    }
+    else {
+        std::cout << "failed to find resource chance map for bodies of subtype " << type << "!\n";
+    }
     components.addComponent(planet, resource);
 }
 

@@ -4,7 +4,7 @@
 
 #include <game/entity/entity.hpp>
 
-struct Empire_Data {
+struct Civilization_Data {
     Entity capital_system;
     Entity homeworld;
     std::vector<Entity> systems; // includes capital

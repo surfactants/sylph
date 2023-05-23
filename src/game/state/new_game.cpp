@@ -4,7 +4,7 @@
 #include <engine/util/prng.hpp>
 
 #include <game/world/world.hpp>
-#include <game/world/empire_generator.hpp>
+#include <game/world/civilization_generator.hpp>
 
 std::function<void()> New_Game::newToPlay;
 
@@ -12,7 +12,7 @@ New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
     tasks.push_back(std::bind(createWorld, this));
-    tasks.push_back(std::bind(createEmpires, this));
+    tasks.push_back(std::bind(createCivilizations, this));
 
     thread_done.test_and_set();
 }
@@ -56,9 +56,9 @@ void New_Game::createWorld()
     thread_done.test_and_set();
 }
 
-void New_Game::createEmpires()
+void New_Game::createCivilizations()
 {
-    Empire_Generator empire_generator(data, components, entities, systems);
+    Civilization_Generator civilization_generator(data, components, entities, systems);
     thread_done.test_and_set();
 }
 

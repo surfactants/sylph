@@ -81,24 +81,21 @@ void World::generateSystems()
 
         Signature s;
 
-        //s.set(toInt(Component::ENTITY_INFO));
-        //s.set(toInt(Component::COLOR));
         s.set(toInt(Component::BODY_INFO));
         s.set(toInt(Component::POLYGON_TILE));
         s.set(toInt(Component::TRANSFORM));
         s.set(toInt(Component::HIERARCHY));
         s.set(toInt(Component::COLLISION_RECT));
         s.set(toInt(Component::RESOURCE));
+        s.set(toInt(Component::ENTITY_DATA));
 
         Entity system = entities.create();
         entities.define(system, s);
 
         components.addComponent(system, tile);
         components.addComponent(system, transform);
-        //components.addComponent(system, e_info);
 
         system_generator.make(system);
-        //makeSystem(system);
 
         systems.tile_system.addTile(system);
     }

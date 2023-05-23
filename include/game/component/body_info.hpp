@@ -3,9 +3,6 @@
 #include <SFML/Graphics/Color.hpp>
 
 struct Body_Info {
-    std::string name;
-    std::string description;
-
     std::string type;
     std::string subtype;
 

@@ -6,9 +6,9 @@
 #include <game/system/component_manager.hpp>
 #include <game/system/system_manager.hpp>
 
-class Empire_Generator {
+class Civilization_Generator {
 public:
-    Empire_Generator(New_Game_Data data
+    Civilization_Generator(New_Game_Data data
         , Component_Manager& components
         , Entity_Manager& entities
         , System_Manager& systems);
@@ -23,5 +23,5 @@ private:
     void generatePlayer();
     void generateAI();
 
-    void print(Entity empire);
+    void print(Entity civilization);
 };

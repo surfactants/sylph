@@ -1,5 +1,8 @@
 #include <ui/ui_hud.hpp>
 
+#include <iomanip> // setprecision
+#include <sstream> // reading resource values into stream
+
 UI_HUD::UI_HUD(System_Manager& systems)
 {
     system_info.loadFont(font.get());
@@ -17,8 +20,9 @@ void UI_HUD::loadSystemInfo(Entity e)
     }
     else if (system_info.entity != e) {
         system_info.clear();
+        auto data = getComponent<Entity_Data>(e);
         auto info = getComponent<Body_Info>(e);
-        system_info.addText(info.name, 48);
+        system_info.addText(data.name, 48);
         std::string classtype;
         if (info.type == "star" || info.type == "system") {
             classtype = info.subtype + "-Class Star";
@@ -42,19 +46,22 @@ void UI_HUD::loadSystemInfo(Entity e)
         }
 
         if (info.owned) {
-            auto empire = getComponent<Entity_Data>(info.owner);
-            std::string own = "owned by " + empire.name;
+            auto civilization = getComponent<Entity_Data>(info.owner);
+            std::string own = "owned by " + civilization.name;
             system_info.addText(own, 28);
         }
 
-        system_info.addText(info.description, 24);
+        system_info.addText(data.description, 24);
 
         auto resource = getComponent<Resource>(e);
 
         for (auto& r : resource.values) {
             std::string r_text = Resource::toString(r.first);
             std::transform(r_text.begin() + 1, r_text.end(), r_text.begin() + 1, ::tolower);
-            r_text += ": " + std::to_string(r.second);
+            r_text += ": ";
+            std::stringstream val;
+            val << std::fixed << std::setprecision(1) << r.second;
+            r_text += val.str();
             system_info.addText(r_text, 24);
         }
 

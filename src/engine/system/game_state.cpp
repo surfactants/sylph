@@ -16,7 +16,7 @@ Game_State::Game_State(std::function<void()> open_pause)
     registerComponent<Tile>();
     registerComponent<Body_Info>();
     registerComponent<Entity_Data>();
-    registerComponent<Empire_Data>();
+    registerComponent<Civilization_Data>();
     registerComponent<Resource>();
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package

@@ -18,7 +18,7 @@
 #include <game/component/resource.hpp>
 
 #include <game/component/entity_data.hpp>
-#include <game/component/empire_data.hpp>
+#include <game/component/civilization_data.hpp>
 
 #include <game/entity/entity.hpp>
 

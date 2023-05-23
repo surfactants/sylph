@@ -2,8 +2,6 @@
 
 #include <game/state/new_game.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     : start_game { start_game }
 {
@@ -22,14 +20,13 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     pos.x += 392.f;
 
     std::vector<std::string> tbox_names = {
-        "empire name",
+        "civilization name",
         "home system name",
         "homeworld name",
         "species name"
     };
 
     for (const auto& name : tbox_names) {
-        std::cout << name << " textbox placed at " << pos << '\n';
         Simple_Textbox textbox(name);
         textbox.setFont(*font);
         textbox.setPosition(pos);
@@ -40,7 +37,6 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     int i = 0;
     for (auto& t : textboxes) {
-        std::cout << i++;
         elements.push_back(&t);
     }
 
@@ -49,7 +45,7 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     sf::Vector2f preview_size(96.f, 64.f);
 
-    Color_Selector selector("empire color", *font);
+    Color_Selector selector("civilization color", *font);
     selector.setPreview(pos, preview_size);
 
     sf::Vector2f selector_pos(pos);

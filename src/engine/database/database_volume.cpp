@@ -21,7 +21,7 @@ std::map<Sound::Source, float> Database_Volume::getVolume()
         using magic_enum::enum_cast;
 
         Sound::Source src = enum_cast<Sound::Source>(toString(col++)).value_or(Sound::Source::UI);
-        float v = sqlite3_column_double(statement, col++);
+        float v = toFloat(col++);
 
         volume[src] = v;
     }
