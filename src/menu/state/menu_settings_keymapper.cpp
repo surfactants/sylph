@@ -35,19 +35,20 @@ void Menu_Settings_Keymapper::exitState()
 void Menu_Settings_Keymapper::load()
 {
     Database_Commands dbc;
-    keymapper.load(dbc.read(), *font);
+    keymapper.load(dbc.read());
 }
 
 void Menu_Settings_Keymapper::loadDefaults()
 {
     Database_Commands dbc;
-    keymapper.load(dbc.readDefaults(), *font);
+    keymapper.load(dbc.readDefaults());
 }
 
 void Menu_Settings_Keymapper::save()
 {
     Database_Commands dbc;
-    dbc.write(keymapper.getCommands());
-    saveCommands(keymapper.getCommands());
+    auto data = keymapper.getData();
+    dbc.write(data);
+    saveCommands(data);
     escape();
 }

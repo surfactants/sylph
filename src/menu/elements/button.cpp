@@ -8,7 +8,7 @@
 
 const float Button::padding = 8;
 
-Button::Button(std::string nlabel, sf::Font& font, unsigned int csize, State base)
+Button::Button(std::string nlabel, const sf::Font& font, unsigned int csize, State base)
 {
     base_state = base;
 
@@ -24,7 +24,7 @@ Button::Button(std::string nlabel, sf::Font& font, unsigned int csize, State bas
     target = []() {};
 }
 
-Button::Button(std::string nlabel, sf::Font& font, std::function<void()> target, unsigned int csize, State base)
+Button::Button(std::string nlabel, const sf::Font& font, std::function<void()> target, unsigned int csize, State base)
     : target { target }
 {
     base_state = base;

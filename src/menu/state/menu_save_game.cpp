@@ -5,7 +5,7 @@ Menu_Save_Game::Menu_Save_Game()
     // textboxes, color pickers, buttons, checkboxes, sliders
 
     addNav("save", std::bind(setMenuState, Menu::NEW_GAME), Menu_Element::UNAVAILABLE);
-    addNav("cancel", std::bind(setMenuState, Menu::LOAD_GAME));
+    addNav("cancel", std::bind(setMenuState, Menu::PAUSE));
 
     setEscape(Main_State::QUIT);
 

@@ -29,3 +29,5 @@ data.db
 
 # doc notes
 *.odt
+
+save/
