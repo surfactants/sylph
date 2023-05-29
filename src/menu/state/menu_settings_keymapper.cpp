@@ -17,7 +17,7 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<void(std::vector<
     pos.x += 392.f;
     sf::Vector2f size(900.f, 900.f);
     keymapper.setView(pos, size);
-    keymapper.setScrollable(900.f);
+    keymapper.setScrollable(size.y);
 
     elements.push_back(&keymapper);
 }
