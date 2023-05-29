@@ -8,6 +8,11 @@
 #include <game/component/transform.hpp>
 #include <game/component/body_info.hpp>
 
+Tile_System::Tile_System()
+{
+    name = "TILE_SYSTEM";
+}
+
 void Tile_System::update(const sf::Vector2f& mpos)
 {
     if (moused) {

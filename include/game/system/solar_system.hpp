@@ -12,7 +12,7 @@ class Solar_System : public System, public sf::Drawable {
     typedef std::pair<sf::CircleShape, Entity> Body;
 
 public:
-    Solar_System() = default;
+    Solar_System();
     void load(Entity e);
     void clear();
 

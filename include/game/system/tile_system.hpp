@@ -11,7 +11,7 @@ class Tile_System : public System, public sf::Drawable {
     typedef std::tuple<sf::ConvexShape, sf::CircleShape, Entity> Tile;
 
 public:
-    Tile_System() = default;
+    Tile_System();
 
     void update(const sf::Vector2f& mpos);
 

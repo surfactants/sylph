@@ -13,7 +13,7 @@
 ///
 class Input_Accelerator {
 public:
-    Input_Accelerator();
+    Input_Accelerator() = default;
     sf::Vector2f update(float delta_time);
 
     void setMaxSpeed(float speed);

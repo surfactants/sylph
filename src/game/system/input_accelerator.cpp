@@ -2,9 +2,6 @@
 
 #include <engine/math/primordial.hpp>
 
-Input_Accelerator::Input_Accelerator()
-{ }
-
 sf::Vector2f Input_Accelerator::update(float delta_time)
 {
     bool v_decay = (up == down);

@@ -9,6 +9,9 @@ System_Manager::System_Manager()
 
     accelerator.setMaxSpeed(10.f);
     accelerator.setAcceleration(1.f);
+
+    map[tile_system.name] = &tile_system;
+    map[civilizations.name] = &civilizations;
 }
 
 void System_Manager::update(const float delta_time)

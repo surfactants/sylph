@@ -68,6 +68,8 @@ void Civilization_Generator::generatePlayer()
 
     systems.tile_system.repaintTile(capital_system);
 
+    systems.civilizations.entities.insert(civilization);
+
     print(civilization);
 }
 
@@ -120,6 +122,8 @@ void Civilization_Generator::generateAI()
     home_info.owner = civilization;
 
     systems.tile_system.repaintTile(capital_system);
+
+    systems.civilizations.entities.insert(civilization);
 
     print(civilization);
 }

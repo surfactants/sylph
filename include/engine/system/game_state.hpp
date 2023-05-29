@@ -37,7 +37,8 @@ public:
 
     void numPress(unsigned int i);
 
-    template <typename T> registerComponent()
+    template <typename T>
+    void registerComponent()
     {
         auto get = Game::components.registerComponent<T>();
         System::getComponent<T> = get;

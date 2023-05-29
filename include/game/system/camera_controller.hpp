@@ -8,7 +8,7 @@
 
 class Camera_Controller : public System {
 public:
-    Camera_Controller() = default;
+    Camera_Controller();
 
     void update(sf::Vector2f velocity, const sf::Vector2f& mpos);
 

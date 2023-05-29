@@ -11,4 +11,6 @@ public:
 
     template <typename T>
     static inline std::function<T(Entity)> getComponent;
+
+    std::string name;
 };

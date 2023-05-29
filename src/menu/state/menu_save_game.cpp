@@ -45,7 +45,7 @@ void Menu_Save_Game::confirmSave()
         // open save name decision dialog
         return;
     }
-    Save_Game save_game(Game::components, Game::entities, active_save);
+    Save_Game save_game(Game::components, Game::entities, Game::systems, active_save);
     discardSave();
     // initiate game loading
     setMainState(Main_State::GAME);

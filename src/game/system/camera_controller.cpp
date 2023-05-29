@@ -1,5 +1,10 @@
 #include <game/system/camera_controller.hpp>
 
+Camera_Controller::Camera_Controller()
+{
+    name = "CAMERA_CONTROLLER";
+}
+
 void Camera_Controller::update(sf::Vector2f velocity, const sf::Vector2f& mpos)
 {
     zoom();

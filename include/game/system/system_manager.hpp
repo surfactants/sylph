@@ -1,6 +1,7 @@
 #pragma once
 
 #include "camera_controller.hpp"
+#include "civilizations.hpp"
 #include "context.hpp"
 #include "input_accelerator.hpp"
 #include "renderer.hpp"
@@ -20,6 +21,8 @@ public:
     Tile_System tile_system;
     Solar_System solar_system;
 
+    Civilizations civilizations;
+
     Renderer renderer;
 
     std::function<sf::Vector2f(sf::View)> relativeMousePos;
@@ -30,4 +33,6 @@ public:
     Context context { camera_controller, renderer, solar_system, tile_system };
 
     void windowResize(const sf::Vector2u& w_size);
+
+    std::map<std::string, System*> map;
 };

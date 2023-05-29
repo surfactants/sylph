@@ -9,6 +9,11 @@
 #include <game/component/hierarchy.hpp>
 #include <game/component/transform.hpp>
 
+Solar_System::Solar_System()
+{
+    name = "SOLAR_SYSTEM";
+}
+
 void Solar_System::load(Entity s)
 {
     system = s;

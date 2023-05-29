@@ -4,13 +4,14 @@
 
 Save_Game::Save_Game(Component_Manager& components
         , Entity_Manager& entities
+        , System_Manager& systems
         , std::filesystem::path file)
     : components { components }
     , entities { entities }
+    , systems { systems }
     , file { file }
 {
     std::cout << "\n\nSAVING GAME AT " << file.string();
-    bool file_exists { false };
     if (std::filesystem::exists(file)) {
         std::filesystem::remove(file);
     }
@@ -20,6 +21,7 @@ Save_Game::Save_Game(Component_Manager& components
     createTables();
     writeInfo();
     writeEntities();
+    writeSystems();
     writeComponents();
 }
 
@@ -39,6 +41,11 @@ void Save_Game::createTables()
       );";
 
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
+
+    for (const auto& system : systems.map) {
+        sql = "CREATE TABLE " + system.first + "(ENTITY INT PRIMARY KEY NOT NULL);";
+        rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
+    }
 }
 
 void Save_Game::writeInfo()
@@ -62,6 +69,21 @@ void Save_Game::writeEntities()
     sql.pop_back();
     sql += ";";
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
+}
+
+void Save_Game::writeSystems()
+{
+    for (const auto& system : systems.map) {
+        std::string sql = "INSERT INTO " + system.first + "(ENTITY) VALUES";
+        for (const auto& entity : system.second->entities) {
+        sql += "("
+            + std::to_string(entity)
+            + "),";
+        }
+        sql.pop_back();
+        sql += ";";
+        rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
+    }
 }
 
 void Save_Game::writeComponents()
