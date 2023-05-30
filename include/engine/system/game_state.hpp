@@ -2,7 +2,10 @@
 
 #include <engine/input/input_package.hpp>
 
+#include <game/core/component_serializer.hpp>
+
 #include <game/data/new_game_data.hpp>
+
 #include <game/state/game.hpp>
 
 #include <menu/state/menu.hpp>
@@ -38,12 +41,19 @@ public:
     void numPress(unsigned int i);
 
     template <typename T>
-    void registerComponent()
+    void registerComponent(Component c)
     {
+        std::string t(typeid(T).name());
+        std::cout << "\nREGISTERING COMPONENT:" << t;
+
         auto get = Game::components.registerComponent<T>();
         System::getComponent<T> = get;
         UI::getComponent<T> = get;
         Game::systems.getComponent<T> = get;
+
+        Component_Serializer::to_component[t] = c;
+        Component_Serializer::to_string[c] = t;
+        Component_Serializer::getComponent<T> = get;
     }
 
 private:

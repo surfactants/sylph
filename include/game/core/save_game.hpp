@@ -22,6 +22,8 @@ private:
 
     std::filesystem::path file;
 
+    //std::map<unsigned int, std::string> insert_component;
+
     void createTables();
     void writeInfo();
     void writeEntities();

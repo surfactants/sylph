@@ -8,7 +8,7 @@ enum class Component {
     TILE,
     ENTITY_DATA,
     BODY_INFO,
-    EMPIRE_DATA,
+    CIVILIZATION_DATA,
     RESOURCE,
     SIZE // gets total number of components
 };

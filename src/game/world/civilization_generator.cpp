@@ -24,7 +24,7 @@ void Civilization_Generator::generatePlayer()
     Entity civilization = entities.create();
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
-    sig.flip(toInt(Component::EMPIRE_DATA));
+    sig.flip(toInt(Component::CIVILIZATION_DATA));
     entities.define(civilization, sig);
 
     Entity_Data entity_data;
@@ -78,7 +78,7 @@ void Civilization_Generator::generateAI()
     Entity civilization = entities.create();
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
-    sig.flip(toInt(Component::EMPIRE_DATA));
+    sig.flip(toInt(Component::CIVILIZATION_DATA));
     entities.define(civilization, sig);
 
     Entity_Data entity_data;

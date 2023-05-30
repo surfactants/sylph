@@ -9,15 +9,15 @@
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
-    registerComponent<Transform>();
-    registerComponent<Collision_Rect>();
-    registerComponent<Polygon_Tile>();
-    registerComponent<Hierarchy>();
-    registerComponent<Tile>();
-    registerComponent<Body_Info>();
-    registerComponent<Entity_Data>();
-    registerComponent<Civilization_Data>();
-    registerComponent<Resource>();
+    registerComponent<Transform>(Component::TRANSFORM);
+    registerComponent<Collision_Rect>(Component::COLLISION_RECT);
+    registerComponent<Polygon_Tile>(Component::POLYGON_TILE);
+    registerComponent<Hierarchy>(Component::HIERARCHY);
+    registerComponent<Tile>(Component::TILE);
+    registerComponent<Body_Info>(Component::BODY_INFO);
+    registerComponent<Entity_Data>(Component::ENTITY_DATA);
+    registerComponent<Civilization_Data>(Component::CIVILIZATION_DATA);
+    registerComponent<Resource>(Component::RESOURCE);
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
