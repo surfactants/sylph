@@ -9,12 +9,7 @@ std::string Component_Serializer::types(Component c, bool for_init)
     if (for_init) {
         t += " INT PRIMARY KEY NOT NULL";
     }
-    else {
-        t += ")";
-        return t;
-    }
     t += ",";
-    return t;
     switch (c) {
         default:
             break;
@@ -38,7 +33,6 @@ std::string Component_Serializer::types(Component c, bool for_init)
             addType(t, "COLOR_G", "INT", for_init);
             addType(t, "COLOR_B", "INT", for_init);
             addType(t, "COLOR_A", "INT", for_init);
-            addType(t, "SIZE_Y", "REAL", for_init);
             break;
         case Component::HIERARCHY:
             addType(t, "CHILDREN", "TEXT", for_init);
@@ -87,39 +81,39 @@ std::string Component_Serializer::values(Component c, Entity e)
 {
     std::string v = "("
                   + std::to_string(e)
-                  + ")";
-                  //+ ",";
-    return v;
+                  + ",";
     switch (c) {
         default:
             break;
         case Component::TRANSFORM:
-            //v += values<Transform>(getComponent<Transform>(e));
+            v += readTransform(e);
             break;
         case Component::COLLISION_RECT:
+            v += readCollisionRect(e);
             break;
         case Component::POLYGON_TILE:
+            v += readPolygonTile(e);
             break;
         case Component::HIERARCHY:
+            v += readHierarchy(e);
             break;
         case Component::TILE:
+            v += readTile(e);
             break;
         case Component::ENTITY_DATA:
+            v += readEntityData(e);
             break;
         case Component::BODY_INFO:
+            v += readBodyInfo(e);
             break;
         case Component::CIVILIZATION_DATA:
+            v += readCivilizationData(e);
             break;
         case Component::RESOURCE:
+            v += readResource(e);
             break;
     }
+    v.pop_back();
     v += ")";
     return v;
 }
-
-/*
-std::string Component_Serializer::values<Transform>(Transform t)
-{
-    return "bleh"
-}
-*/

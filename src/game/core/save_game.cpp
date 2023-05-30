@@ -114,6 +114,7 @@ void Save_Game::writeEntities()
         insert_component[i].pop_back();
         insert_component[i] += ";";
         rc = sqlite3_exec(db, insert_component[i].c_str(), nullptr, nullptr, nullptr);
+        std::cout << "\n\n" << rc << ": " << insert_component[i] << "\n\n";
     }
 }
 
