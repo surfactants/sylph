@@ -60,6 +60,11 @@ public:
 
     void setLabel(std::string text);
 
+    void operator () ()
+    {
+        target();
+    }
+
 protected:
     sf::Text label; /**< button text */
 

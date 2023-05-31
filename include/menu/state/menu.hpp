@@ -96,6 +96,8 @@ protected:
 
     void clearNullElements();
 
+    std::unique_ptr<Dialog> dialog { nullptr };
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

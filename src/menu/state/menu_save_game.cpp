@@ -41,14 +41,37 @@ void Menu_Save_Game::exitState()
 
 void Menu_Save_Game::confirmSave()
 {
-    if (active_save.string().length() == 0) {
+    std::cout << "\nconfirm save...\n";
+    if (dialog) {
+        std::cout << "\tdialog!\n";
+        active_save = std::filesystem::path(std::string(save_list.path + dialog->getString() + save_list.extension));
+        cancelDialog();
+    }
+    else if (active_save.string().length() == 0) {
+        std::cout << "\tempty save name!\n";
         // open save name decision dialog
+        dialog = std::make_unique<Dialog>(*font, view.getSize());
+        dialog->setTextbox("new save", true, save_list.nextSaveName());
+        dialog->setConfirm(std::bind(confirmSave, this));
+        dialog->setCancel(std::bind(cancelDialog, this));
+        active_element = dialog.get();
+        elements.push_back(dialog.get());
         return;
     }
+    std::cout << "\t...\n";
     Save_Game save_game(Game::components, Game::entities, Game::systems, active_save);
     discardSave();
     // initiate game loading
     setMainState(Main_State::GAME);
+}
+
+void Menu_Save_Game::cancelDialog()
+{
+    moused_element = nullptr;
+    active_element = nullptr;
+    dialog = nullptr;
+    elements.pop_back();
+    //clearNullElements();
 }
 
 void Menu_Save_Game::deleteSave()

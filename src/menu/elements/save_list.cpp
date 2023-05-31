@@ -99,6 +99,21 @@ void Save_List::getFilenames()
     }
 }
 
+std::string Save_List::nextSaveName()
+{
+    std::string name = "save-";
+    bool finding { true };
+    unsigned int i = 0;
+    do {
+        std::string temp = name + std::to_string(i++);
+        if (std::find(filenames.begin(), filenames.end(), temp) == filenames.end()) {
+            finding = false;
+            name = temp;
+        }
+    } while (finding);
+    return name;
+}
+
 void Save_List::clickLeft()
 {
     if (!highlighted_row) {

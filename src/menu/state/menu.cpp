@@ -230,7 +230,7 @@ void Menu::escape()
 void Menu::clearNullElements()
 {
     for (auto it = elements.begin(); it != elements.end();) {
-        if (*it == nullptr) {
+        if (!(*it)) {
             elements.erase(it);
         }
         else {

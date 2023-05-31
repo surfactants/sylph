@@ -26,5 +26,7 @@ private:
     // use obtained filename for writing
     // add confirmation dialog for overwriting
 
+    void cancelDialog();
+
     std::filesystem::path active_save;
 };

@@ -2,17 +2,7 @@
 
 #include <engine/resources/palette.hpp>
 
-// define unicode constants for reading text events
-#define UNICODE_SELECT_ALL 1
-#define UNICODE_COPY 3
-#define UNICODE_BACKSPACE 8
-#define UNICODE_RETURN 13
-#define UNICODE_PASTE 22
-#define UNICODE_CUT 24
-#define UNICODE_ESCAPE 27
-#define UNICODE_CTRL_BACKSPACE 127
-
-Simple_Textbox::Simple_Textbox(std::string title_text)
+Simple_Textbox::Simple_Textbox(std::string title_text, bool sanitized)
 {
     //set text defaults
     max_length = 32;
@@ -37,9 +27,13 @@ Simple_Textbox::Simple_Textbox(std::string title_text)
 
     state = READY;
     base_state = READY;
+
+    if (sanitized) {
+        disallowed = "\/:*?<>|\"\\";
+    }
 }
 
-void Simple_Textbox::setFont(sf::Font& font)
+void Simple_Textbox::setFont(const sf::Font& font)
 {
     text.setFont(font);
     cursor.setFont(font);
@@ -91,6 +85,24 @@ void Simple_Textbox::textEntered(const sf::Event& event)
     }
 }
 
+void Simple_Textbox::setOutline()
+{
+    frame.setOutlineColor(Palette::white);
+    frame.setOutlineThickness(1.f);
+}
+
+void Simple_Textbox::setString(std::string tstr)
+{
+    if (tstr.length() > max_length) {
+        tstr = tstr.substr(0, max_length);
+    }
+
+    text.setString(tstr);
+
+    index = tstr.length();
+    placeCursor();
+}
+
 void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
 {
     switch (key) {
@@ -107,6 +119,11 @@ void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
 
 void Simple_Textbox::append(sf::String addition)
 {
+    for (auto& c : addition) {
+        if (disallowed.find(c) != std::string::npos) {
+            return;
+        }
+    }
     size_t n = addition.getSize();
     sf::String string = text.getString();
 
@@ -158,7 +175,6 @@ void Simple_Textbox::ctrlBackspace()
 void Simple_Textbox::clear()
 {
     text.setString("");
-    ;
     index = 0;
     placeCursor();
 }
@@ -230,6 +246,7 @@ sf::Vector2f Simple_Textbox::totalSize()
 {
     sf::Vector2f size = frame.getSize();
     size.y += (frame.getPosition().y - title.getPosition().y);
+    return size;
 }
 
 void Simple_Textbox::setPosition(sf::Vector2f pos)

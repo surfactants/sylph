@@ -23,6 +23,8 @@ public:
     const static std::string path;
     const static std::string extension;
 
+    std::string nextSaveName();
+
 private:
     std::vector<std::string> filenames;
 
