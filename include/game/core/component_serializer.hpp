@@ -5,9 +5,9 @@
 #include <type_traits> // is_same_v
 
 #include <game/component/component.hpp>
-#include <game/system/component_manager.hpp> // for component types
+#include <game/core/component_manager.hpp> // for component types
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 // please don't tell anyone how i live
 
@@ -46,7 +46,7 @@ private:
         }
         sql += ",";
     }
-    std::string readTransform(Entity e)
+    std::string writeTransform(Entity e)
     {
         std::string v;
         auto t = getComponent<Transform>(e);
@@ -57,7 +57,7 @@ private:
         return v;
     }
 
-    std::string readCollisionRect(Entity e)
+    std::string writeCollisionRect(Entity e)
     {
         std::string v;
         auto t = getComponent<Collision_Rect>(e);
@@ -70,7 +70,7 @@ private:
         return v;
     }
 
-    std::string readPolygonTile(Entity e)
+    std::string writePolygonTile(Entity e)
     {
         std::string v;
         auto t = getComponent<Polygon_Tile>(e);
@@ -86,7 +86,7 @@ private:
         return v;
     }
 
-    std::string readHierarchy(Entity e)
+    std::string writeHierarchy(Entity e)
     {
         std::string v;
         auto t = getComponent<Hierarchy>(e);
@@ -103,7 +103,7 @@ private:
         return v;
     }
 
-    std::string readTile(Entity e)
+    std::string writeTile(Entity e)
     {
         std::string v;
         auto t = getComponent<Tile>(e);
@@ -111,7 +111,7 @@ private:
         return v;
     }
 
-    std::string readEntityData(Entity e)
+    std::string writeEntityData(Entity e)
     {
         std::string v;
         auto t = getComponent<Entity_Data>(e);
@@ -120,7 +120,7 @@ private:
         return v;
     }
 
-    std::string readBodyInfo(Entity e)
+    std::string writeBodyInfo(Entity e)
     {
         std::string v;
         auto t = getComponent<Body_Info>(e);
@@ -138,7 +138,7 @@ private:
         return v;
     }
 
-    std::string readCivilizationData(Entity e)
+    std::string writeCivilizationData(Entity e)
     {
         std::string v;
         auto t = getComponent<Civilization_Data>(e);
@@ -156,12 +156,11 @@ private:
         return v;
     }
 
-    std::string readResource(Entity e)
+    std::string writeResource(Entity e)
     {
         std::string v;
         auto t = getComponent<Resource>(e);
         v += "'oops',";
         return v;
     }
-
 };

@@ -4,11 +4,7 @@ Game_Settings Game::settings;
 
 std::function<void(Game::State)> Game::setGameState;
 
-Component_Manager Game::components;
-
-System_Manager Game::systems;
-
-Entity_Manager Game::entities;
+std::unique_ptr<ECS_Core> Game::core { nullptr };
 
 void Game::reset()
 {}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 #include "system.hpp"
 

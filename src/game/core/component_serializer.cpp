@@ -86,31 +86,31 @@ std::string Component_Serializer::values(Component c, Entity e)
         default:
             break;
         case Component::TRANSFORM:
-            v += readTransform(e);
+            v += writeTransform(e);
             break;
         case Component::COLLISION_RECT:
-            v += readCollisionRect(e);
+            v += writeCollisionRect(e);
             break;
         case Component::POLYGON_TILE:
-            v += readPolygonTile(e);
+            v += writePolygonTile(e);
             break;
         case Component::HIERARCHY:
-            v += readHierarchy(e);
+            v += writeHierarchy(e);
             break;
         case Component::TILE:
-            v += readTile(e);
+            v += writeTile(e);
             break;
         case Component::ENTITY_DATA:
-            v += readEntityData(e);
+            v += writeEntityData(e);
             break;
         case Component::BODY_INFO:
-            v += readBodyInfo(e);
+            v += writeBodyInfo(e);
             break;
         case Component::CIVILIZATION_DATA:
-            v += readCivilizationData(e);
+            v += writeCivilizationData(e);
             break;
         case Component::RESOURCE:
-            v += readResource(e);
+            v += writeResource(e);
             break;
     }
     v.pop_back();

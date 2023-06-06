@@ -4,7 +4,7 @@
 #include <memory>
 #include <queue>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 class Entity_Manager {
 public:

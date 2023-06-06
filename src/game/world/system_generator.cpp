@@ -12,9 +12,8 @@
 
 #include <engine/util/sfml_stream.hpp>
 
-System_Generator::System_Generator(Component_Manager& components, Entity_Manager& entities)
-    : components { components }
-    , entities { entities }
+System_Generator::System_Generator(ECS_Core* core)
+    : core { core }
 {
     Database_Body db;
     std::vector<std::pair<Body_Info, Body_Info>> bodies;
@@ -50,7 +49,7 @@ void System_Generator::make(Entity system)
 Entity System_Generator::makeStar(Entity system)
 {
     // initialize entity
-    Entity star = entities.create();
+    Entity star = core->entities.create();
     Signature sig;
 
     sig.set(toInt(Component::BODY_INFO));
@@ -59,7 +58,7 @@ Entity System_Generator::makeStar(Entity system)
     sig.set(toInt(Component::RESOURCE));
     sig.set(toInt(Component::ENTITY_DATA));
 
-    entities.define(star, sig);
+    core->entities.define(star, sig);
 
     std::string subtype = randomStar();
     Body_Info min = star_min[subtype];
@@ -68,7 +67,7 @@ Entity System_Generator::makeStar(Entity system)
     Entity_Data e_data;
     e_data.name = alphanumericName();
     e_data.description = body_descriptions[subtype];
-    components.addComponent(star, e_data);
+    core->components.addComponent(star, e_data);
 
 
     Body_Info s_info;
@@ -80,23 +79,23 @@ Entity System_Generator::makeStar(Entity system)
     s_info.color.r = prng::number(min.color.r, max.color.r);
     s_info.color.g = prng::number(min.color.g, max.color.g);
     s_info.color.b = prng::number(min.color.b, max.color.b);
-    components.addComponent(star, s_info);
+    core->components.addComponent(star, s_info);
 
     Resource resource;
-    components.addComponent(star, resource);
+    core->components.addComponent(star, resource);
 
     Hierarchy s_hierarchy;
     s_hierarchy.parent = { system };
-    components.addComponent(star, s_hierarchy);
+    core->components.addComponent(star, s_hierarchy);
 
     Transform transform;
-    components.addComponent(star, transform);
+    core->components.addComponent(star, transform);
 
-    components.addComponent(system, s_info);
-    components.addComponent(system, resource);
+    core->components.addComponent(system, s_info);
+    core->components.addComponent(system, resource);
     e_data.description = "an undefined solar system";
     e_data.name += " system";
-    components.addComponent(system, e_data);
+    core->components.addComponent(system, e_data);
 
     return star;
 }
@@ -108,7 +107,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
     Hierarchy system_hierarchy;
     system_hierarchy.child = { star };
 
-    float orbital_radius = components.getComponent<Body_Info>(star).radius;
+    float orbital_radius = core->components.getComponent<Body_Info>(star).radius;
 
     constexpr static float radius_diff_min { 512.f };
     constexpr static float radius_diff_max { 2048.f };
@@ -116,7 +115,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
     for (size_t i = 0; i < count; i++) {
         orbital_radius += prng::number(radius_diff_min, radius_diff_max);
 
-        Entity body = entities.create();
+        Entity body = core->entities.create();
 
         Signature sig;
 
@@ -126,7 +125,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         sig.set(toInt(Component::RESOURCE));
         sig.set(toInt(Component::ENTITY_DATA));
 
-        entities.define(body, sig);
+        core->entities.define(body, sig);
 
         std::string subtype = randomPlanet(star, orbital_radius);
         Body_Info min = planet_min[subtype];
@@ -135,7 +134,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         Entity_Data entity_info;
         entity_info.name = alphanumericName();
         entity_info.description = body_descriptions[subtype];
-        components.addComponent(body, entity_info);
+        core->components.addComponent(body, entity_info);
 
         Body_Info b_info;
         b_info.type = "planet";
@@ -147,11 +146,11 @@ void System_Generator::makePlanets(Entity system, Entity star)
         b_info.color.r = prng::number(min.color.r, max.color.r);
         b_info.color.g = prng::number(min.color.g, max.color.g);
         b_info.color.b = prng::number(min.color.b, max.color.b);
-        components.addComponent(body, b_info);
+        core->components.addComponent(body, b_info);
 
         Hierarchy b_hierarchy;
         b_hierarchy.parent = { system };
-        components.addComponent(body, b_hierarchy);
+        core->components.addComponent(body, b_hierarchy);
 
         unsigned int point_count = std::pow(orbital_radius, .5) + 1;
         sf::CircleShape orbit(orbital_radius, point_count);
@@ -159,7 +158,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         Transform transform;
         unsigned int point = prng::number(orbit.getPointCount());
         transform.position = orbit.getPoint(point) - sf::Vector2f(orbital_radius, orbital_radius);
-        components.addComponent(body, transform);
+        core->components.addComponent(body, transform);
 
         orbital_radius += b_info.radius; // "clearing the neighborhood";
 
@@ -173,16 +172,16 @@ void System_Generator::makePlanets(Entity system, Entity star)
     system_bounds.setPosition(sf::Vector2f(-orbital_radius, -orbital_radius));
     system_bounds.setSize(sf::Vector2f(orbital_radius * 2.f, orbital_radius * 2.f));
 
-    components.addComponent(system, system_bounds);
+    core->components.addComponent(system, system_bounds);
 
-    components.addComponent(system, system_hierarchy);
+    core->components.addComponent(system, system_hierarchy);
 }
 
 void System_Generator::makeResource(Entity planet)
 {
     Resource resource;
 
-    auto& info = components.getComponent<Body_Info>(planet);
+    auto& info = core->components.getComponent<Body_Info>(planet);
     std::string type = info.subtype;
     float radius = info.radius;
 
@@ -205,7 +204,7 @@ void System_Generator::makeResource(Entity planet)
     else {
         std::cout << "failed to find resource chance map for bodies of subtype " << type << "!\n";
     }
-    components.addComponent(planet, resource);
+    core->components.addComponent(planet, resource);
 }
 
 std::string System_Generator::randomStar()
@@ -225,7 +224,7 @@ std::string System_Generator::randomPlanet(Entity star, float orbital_radius)
 {
     std::string subtype;
 
-    Body_Info star_info = components.getComponent<Body_Info>(star);
+    Body_Info star_info = core->components.getComponent<Body_Info>(star);
 
     // calculate temperature from star here
     // solar radiation received follows an inverse square law

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 struct Hierarchy {
     std::vector<Entity> child;

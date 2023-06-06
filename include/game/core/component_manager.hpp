@@ -20,7 +20,7 @@
 #include <game/component/entity_data.hpp>
 #include <game/component/civilization_data.hpp>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 #include <game/system/system.hpp>
 
@@ -30,7 +30,6 @@ public:
 	std::function<T(Entity)> registerComponent()
 	{
 		const char* name = typeid(T).name();
-        std::cout << "\tMANAGER NAME:" << name;
 		assert(mComponent_Types.find(name) == mComponent_Types.end() && "Registering component type more than once." );
 
 		// Add this component type to the component type map

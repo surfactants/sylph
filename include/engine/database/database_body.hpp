@@ -8,8 +8,6 @@
 
 #include "database.hpp"
 
-#include <iostream>
-
 using Resource_Chances = std::map<std::string, std::map<Resource::Type, float>>;
 using Resource_Ranges = std::map<std::string, std::pair<Resource, Resource>>;
 

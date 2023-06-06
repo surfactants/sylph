@@ -6,8 +6,6 @@
 
 #include <engine/util/time.hpp>
 
-#include <engine/util/sfml_stream.hpp> // debug
-
 const std::string Save_List::path { "save/" };
 const std::string Save_List::extension { ".db" };
 
@@ -38,8 +36,6 @@ void Save_List::load()
     button_size = sf::Vector2f(192.f, 128.f);
 
     getFilenames();
-
-    std::cout << "\n\n";
 
     for (const auto& name : filenames) {
         Row r;
@@ -92,9 +88,7 @@ void Save_List::getFilenames()
         //filenames.push_back(entry.path().filename().string());
     }
 
-    std::cout << "\n\n";
     for (auto it = sorter.rbegin(); it != sorter.rend(); it++) {
-        std::cout << '\t' << (*it).second << '\n';
         filenames.push_back((*it).second);
     }
 }

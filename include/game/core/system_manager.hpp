@@ -1,12 +1,12 @@
 #pragma once
 
-#include "camera_controller.hpp"
-#include "civilizations.hpp"
-#include "context.hpp"
-#include "input_accelerator.hpp"
-#include "renderer.hpp"
-#include "solar_system.hpp"
-#include "tile_system.hpp"
+#include <game/system/camera_controller.hpp>
+#include <game/system/civilizations.hpp>
+#include <game/system/context.hpp>
+#include <game/system/input_accelerator.hpp>
+#include <game/system/renderer.hpp>
+#include <game/system/solar_system.hpp>
+#include <game/system/tile_system.hpp>
 
 class System_Manager {
 public:
@@ -25,7 +25,7 @@ public:
 
     Renderer renderer;
 
-    std::function<sf::Vector2f(sf::View)> relativeMousePos;
+    static std::function<sf::Vector2f(sf::View)> relativeMousePos;
 
     template <typename T>
     static inline std::function<T(Entity)> getComponent;

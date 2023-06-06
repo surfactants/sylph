@@ -3,8 +3,6 @@
 #include <game/core/save_game.hpp>
 #include <game/state/game.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 Menu_Save_Game::Menu_Save_Game()
     : save_list { Save_List(*font
                           , std::bind(chooseSave, this, std::placeholders::_1)
@@ -41,14 +39,11 @@ void Menu_Save_Game::exitState()
 
 void Menu_Save_Game::confirmSave()
 {
-    std::cout << "\nconfirm save...\n";
     if (dialog) {
-        std::cout << "\tdialog!\n";
         active_save = std::filesystem::path(std::string(save_list.path + dialog->getString() + save_list.extension));
         cancelDialog();
     }
     else if (active_save.string().length() == 0) {
-        std::cout << "\tempty save name!\n";
         // open save name decision dialog
         dialog = std::make_unique<Dialog>(*font, view.getSize());
         dialog->setTextbox("new save", true, save_list.nextSaveName());
@@ -58,8 +53,7 @@ void Menu_Save_Game::confirmSave()
         elements.push_back(dialog.get());
         return;
     }
-    std::cout << "\t...\n";
-    Save_Game save_game(Game::components, Game::entities, Game::systems, active_save);
+    Save_Game save_game(Game::core.get(), active_save);
     discardSave();
     // initiate game loading
     setMainState(Main_State::GAME);

@@ -4,12 +4,11 @@
 
 #include <vector>
 
-#include <game/system/entity_manager.hpp>
-#include <game/system/component_manager.hpp>
+#include <game/core/ecs_core.hpp>
 
 #include <game/system/solar_system.hpp>
 #include <game/system/tile_system.hpp>
-#include <game/system/system_manager.hpp>
+#include <game/core/system_manager.hpp>
 
 #include <game/data/new_game_data.hpp>
 
@@ -17,26 +16,21 @@
 
 class World {
 public:
-    World(New_Game_Data data
-        , Component_Manager& components
-        , Entity_Manager& entities
-        , System_Manager& systems);
+    World(New_Game_Data data, ECS_Core* core);
 
     Collision_Rect getFrame();
 
 private:
     New_Game_Data data;
 
-    Component_Manager& components;
-    Entity_Manager& entities;
-    System_Manager& systems;
+    ECS_Core* core;
 
     sf::Vector2f min;
     sf::Vector2f max;
 
     Collision_Rect frame;
 
-    System_Generator system_generator { components, entities };
+    System_Generator system_generator { core };
 
     void generateSystems();
     void makeSystem(Entity system);

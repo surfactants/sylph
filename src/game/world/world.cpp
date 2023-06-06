@@ -7,14 +7,9 @@
 
 #include <game/world/gen/voronoi/diagram.hpp>
 
-World::World(New_Game_Data data
-    , Component_Manager& components
-    , Entity_Manager& entities
-    , System_Manager& systems)
+World::World(New_Game_Data data, ECS_Core* core)
     : data { data }
-    , components { components }
-    , entities { entities }
-    , systems { systems }
+    , core { core }
 {
     generateSystems();
 }
@@ -89,15 +84,15 @@ void World::generateSystems()
         s.set(toInt(Component::RESOURCE));
         s.set(toInt(Component::ENTITY_DATA));
 
-        Entity system = entities.create();
-        entities.define(system, s);
+        Entity system = core->entities.create();
+        core->entities.define(system, s);
 
-        components.addComponent(system, tile);
-        components.addComponent(system, transform);
+        core->components.addComponent(system, tile);
+        core->components.addComponent(system, transform);
 
         system_generator.make(system);
 
-        systems.tile_system.addTile(system);
+        core->systems.tile_system.addTile(system);
     }
 
     min -= sf::Vector2f(512.f, 512.f);

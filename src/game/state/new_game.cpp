@@ -11,6 +11,8 @@ std::function<void()> New_Game::newToPlay;
 New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
+    core = std::make_unique<ECS_Core>();
+    core->info.player_name = data.player_name;
     tasks.push_back(std::bind(createWorld, this));
     tasks.push_back(std::bind(createCivilizations, this));
 
@@ -50,26 +52,26 @@ void New_Game::loadSettings(Game_Settings settings)
 
 void New_Game::createWorld()
 {
-    World world(data, components, entities, systems);
-    systems.context.world_bounds = world.getFrame();
-    systems.context.set(Context::GALACTIC, MAX_ENTITIES);
+    World world(data, core.get());
+    core->systems.context.world_bounds = world.getFrame();
+    core->systems.context.set(Context::GALACTIC, MAX_ENTITIES);
     thread_done.test_and_set();
 }
 
 void New_Game::createCivilizations()
 {
-    Civilization_Generator civilization_generator(data, components, entities, systems);
+    Civilization_Generator civilization_generator(data, Game::core.get());
     thread_done.test_and_set();
 }
 
 void New_Game::createPlayer()
 {
-    Entity player = entities.create();
+    Entity player = core->entities.create();
 
     Signature s;
     s.set(toInt(Component::TRANSFORM));
     s.set(toInt(Component::COLLISION_RECT));
-    entities.define(player, s);
+    core->entities.define(player, s);
     thread_done.test_and_set();
 }
 

@@ -4,6 +4,16 @@
 
 #include <string>
 
+/// DATABASE ///
+/// \brief base class for accessing sqlite databases.
+/// simple extension:
+/// - by default, it opens "data.db".
+/// to avoid this, pass a string to the base constructor in the derived initializer list.
+/// - call selectTable(table_name)
+/// - while(step()) loop
+/// - do the loop even for tables with only one row by design.
+/// this is because step() also calls finalize() when there are no more rows available.
+
 class Database {
 public:
     Database(std::string filename = "data.db");

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/system/system_manager.hpp>
+#include <game/core/system_manager.hpp>
 
 #include "ui.hpp"
 

@@ -4,8 +4,6 @@
 
 #include <engine/util/text.hpp>
 
-#include <iostream>
-
 Dialog::Dialog(const sf::Font& font, const sf::Vector2f w_size)
     : w_size { w_size }
     , font { font }

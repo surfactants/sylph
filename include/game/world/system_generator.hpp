@@ -3,8 +3,7 @@
 #include <map>
 #include <string>
 
-#include <game/system/entity_manager.hpp>
-#include <game/system/component_manager.hpp>
+#include <game/core/ecs_core.hpp>
 
 // transcluded from Database_Body:
 //#include <engine/database/database_body.hpp>
@@ -15,7 +14,7 @@ using Resource_Ranges = std::map<std::string, std::pair<Resource, Resource>>;
 
 class System_Generator {
 public:
-    System_Generator(Component_Manager& components, Entity_Manager& entities);
+    System_Generator(ECS_Core* core);
 
     void make(Entity system);
 
@@ -28,8 +27,7 @@ private:
 
     std::vector<std::pair<float, std::string>> star_chance;
 
-    Component_Manager& components;
-    Entity_Manager& entities;
+    ECS_Core* core;
 
     Entity makeStar(Entity system);
     void makePlanets(Entity system, Entity star);

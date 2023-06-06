@@ -1,4 +1,4 @@
-#include <game/system/entity_manager.hpp>
+#include <game/core/entity_manager.hpp>
 
 #include <cassert>
 

@@ -2,16 +2,11 @@
 
 #include <engine/util/prng.hpp>
 
-#include <iostream>
+#include <engine/util/sfml_stream.hpp>
 
-Civilization_Generator::Civilization_Generator(New_Game_Data data
-    , Component_Manager& components
-    , Entity_Manager& entities
-    , System_Manager& systems)
+Civilization_Generator::Civilization_Generator(New_Game_Data data, ECS_Core* core)
     : data { data }
-    , components { components }
-    , entities { entities }
-    , systems { systems }
+    , core { core }
 {
     generatePlayer();
     for (size_t i = 0; i < 9; i++) {
@@ -21,18 +16,18 @@ Civilization_Generator::Civilization_Generator(New_Game_Data data
 
 void Civilization_Generator::generatePlayer()
 {
-    Entity civilization = entities.create();
+    Entity civilization = core->entities.create();
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
     sig.flip(toInt(Component::CIVILIZATION_DATA));
-    entities.define(civilization, sig);
+    core->entities.define(civilization, sig);
 
     Entity_Data entity_data;
     entity_data.name = data.player_name;
     entity_data.description = "player_civilization_desc";
 
-    Entity capital_system = systems.tile_system.random();
-    auto children = components.getComponent<Hierarchy>(capital_system).child;
+    Entity capital_system = core->systems.tile_system.random();
+    auto children = core->components.getComponent<Hierarchy>(capital_system).child;
     size_t body_index;
     do {
         body_index = prng::number(children.size());
@@ -45,41 +40,43 @@ void Civilization_Generator::generatePlayer()
     civilization_data.systems.push_back(capital_system);
     civilization_data.color = data.player_color;
 
-    components.addComponent(civilization, entity_data);
-    components.addComponent(civilization, civilization_data);
+    core->components.addComponent(civilization, entity_data);
+    core->components.addComponent(civilization, civilization_data);
 
-    components.getComponent<Polygon_Tile>(capital_system).color = data.player_color;
-    auto& system_info = components.getComponent<Body_Info>(capital_system);
+    core->components.getComponent<Polygon_Tile>(capital_system).color = data.player_color;
+    auto& system_info = core->components.getComponent<Body_Info>(capital_system);
     system_info.owned = true;
     system_info.owner = civilization;
 
-    auto& system_data = components.getComponent<Entity_Data>(capital_system);
+    auto& system_data = core->components.getComponent<Entity_Data>(capital_system);
     system_data.name = data.home_system;
 
-    auto& star_info = components.getComponent<Entity_Data>(children.front());
+    auto& star_info = core->components.getComponent<Entity_Data>(children.front());
     star_info.name = data.home_system;
 
-    auto& home_info = components.getComponent<Body_Info>(homeworld);
+    auto& home_info = core->components.getComponent<Body_Info>(homeworld);
     home_info.owned = true;
     home_info.owner = civilization;
 
-    auto& home_data = components.getComponent<Entity_Data>(homeworld);
+    auto& home_data = core->components.getComponent<Entity_Data>(homeworld);
     home_data.name = data.homeworld;
 
-    systems.tile_system.repaintTile(capital_system);
+    core->systems.tile_system.repaintTile(capital_system);
 
-    systems.civilizations.entities.insert(civilization);
+    core->systems.civilizations.entities.insert(civilization);
+
+    core->info.player = civilization;
 
     print(civilization);
 }
 
 void Civilization_Generator::generateAI()
 {
-    Entity civilization = entities.create();
+    Entity civilization = core->entities.create();
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
     sig.flip(toInt(Component::CIVILIZATION_DATA));
-    entities.define(civilization, sig);
+    core->entities.define(civilization, sig);
 
     Entity_Data entity_data;
     entity_data.name = "ai civilization " + std::to_string(civilization);
@@ -87,9 +84,9 @@ void Civilization_Generator::generateAI()
 
     Entity capital_system;
     do {
-        capital_system = systems.tile_system.random();
-    } while (components.getComponent<Body_Info>(capital_system).owned);
-    auto children = components.getComponent<Hierarchy>(capital_system).child;
+        capital_system = core->systems.tile_system.random();
+    } while (core->components.getComponent<Body_Info>(capital_system).owned);
+    auto children = core->components.getComponent<Hierarchy>(capital_system).child;
     size_t body_index;
     do {
         body_index = prng::number(children.size());
@@ -109,32 +106,32 @@ void Civilization_Generator::generateAI()
 
     civilization_data.color = color;
 
-    components.addComponent(civilization, entity_data);
-    components.addComponent(civilization, civilization_data);
+    core->components.addComponent(civilization, entity_data);
+    core->components.addComponent(civilization, civilization_data);
 
-    components.getComponent<Polygon_Tile>(capital_system).color = color;
-    auto& system_info = components.getComponent<Body_Info>(capital_system);
+    core->components.getComponent<Polygon_Tile>(capital_system).color = color;
+    auto& system_info = core->components.getComponent<Body_Info>(capital_system);
     system_info.owned = true;
     system_info.owner = civilization;
 
-    auto& home_info = components.getComponent<Body_Info>(homeworld);
+    auto& home_info = core->components.getComponent<Body_Info>(homeworld);
     home_info.owned = true;
     home_info.owner = civilization;
 
-    systems.tile_system.repaintTile(capital_system);
+    core->systems.tile_system.repaintTile(capital_system);
 
-    systems.civilizations.entities.insert(civilization);
+    core->systems.civilizations.entities.insert(civilization);
 
     print(civilization);
 }
 
 void Civilization_Generator::print(Entity civilization)
 {
-    auto entity_data = components.getComponent<Entity_Data>(civilization);
-    auto civilization_data = components.getComponent<Civilization_Data>(civilization);
-    auto capital_info = components.getComponent<Entity_Data>(civilization_data.capital_system);
-    auto homeworld_info = components.getComponent<Body_Info>(civilization_data.homeworld);
-    auto homeworld_data = components.getComponent<Entity_Data>(civilization_data.homeworld);
+    auto entity_data = core->components.getComponent<Entity_Data>(civilization);
+    auto civilization_data = core->components.getComponent<Civilization_Data>(civilization);
+    auto capital_info = core->components.getComponent<Entity_Data>(civilization_data.capital_system);
+    auto homeworld_info = core->components.getComponent<Body_Info>(civilization_data.homeworld);
+    auto homeworld_data = core->components.getComponent<Entity_Data>(civilization_data.homeworld);
 
     std::cout << "generated civilization '" << entity_data.name << "' (" << civilization << ")\n";
     std::cout << "\tlocated in the " << capital_info.name << " system (" << civilization_data.capital_system << ")\n";

@@ -1,6 +1,8 @@
-#include <game/system/system_manager.hpp>
+#include <game/core/system_manager.hpp>
 
 #include <game/component/transform.hpp> // move to the context system when it's created
+
+std::function<sf::Vector2f(sf::View)> System_Manager::relativeMousePos;
 
 System_Manager::System_Manager()
 {

@@ -9,15 +9,6 @@
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
-    registerComponent<Transform>(Component::TRANSFORM);
-    registerComponent<Collision_Rect>(Component::COLLISION_RECT);
-    registerComponent<Polygon_Tile>(Component::POLYGON_TILE);
-    registerComponent<Hierarchy>(Component::HIERARCHY);
-    registerComponent<Tile>(Component::TILE);
-    registerComponent<Body_Info>(Component::BODY_INFO);
-    registerComponent<Entity_Data>(Component::ENTITY_DATA);
-    registerComponent<Civilization_Data>(Component::CIVILIZATION_DATA);
-    registerComponent<Resource>(Component::RESOURCE);
 
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
@@ -27,8 +18,21 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     UI::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     UI::openPause = open_pause;
+}
 
-    Game::systems.camera_controller.view = &view;
+void Game_State::registration()
+{
+    Game::core->systems.camera_controller.view = &view;
+
+    registerComponent<Transform>(Component::TRANSFORM);
+    registerComponent<Collision_Rect>(Component::COLLISION_RECT);
+    registerComponent<Polygon_Tile>(Component::POLYGON_TILE);
+    registerComponent<Hierarchy>(Component::HIERARCHY);
+    registerComponent<Tile>(Component::TILE);
+    registerComponent<Body_Info>(Component::BODY_INFO);
+    registerComponent<Entity_Data>(Component::ENTITY_DATA);
+    registerComponent<Civilization_Data>(Component::CIVILIZATION_DATA);
+    registerComponent<Resource>(Component::RESOURCE);
 }
 
 void Game_State::clickLeft()
@@ -62,6 +66,11 @@ void Game_State::clickMiddle()
 void Game_State::releaseMiddle()
 {
     game->releaseMiddle();
+}
+
+void Game_State::scroll(const float delta)
+{
+    game->core->systems.camera_controller.zoomImpulse(delta);
 }
 
 void Game_State::update(float delta_time)
@@ -124,7 +133,7 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
     ig->addPress(sf::Mouse::Middle, std::bind(clickMiddle, this));
     ig->addRelease(sf::Mouse::Middle, std::bind(releaseMiddle, this));
 
-    ig->scroll = std::bind(&Camera_Controller::zoomImpulse, &Game::systems.camera_controller, std::placeholders::_1);
+    ig->scroll = std::bind(scroll, this, std::placeholders::_1);
 
     loadNums();
     // TODO: deprecate current num setup
@@ -163,7 +172,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
     // ... if casting between Game_Play and Game_UI
     // i.e. use Game_State functions
     //
-    auto acc = &Game::systems.accelerator;
+    auto acc = &Game::core->systems.accelerator;
     static std::map<std::string, std::function<void()>> func {
         // movement functions
         { "null", []() {} },
@@ -189,7 +198,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
         // world
         { "start interact", []() {} },
         { "stop interact", []() {} },
-        { "switch maps", std::bind(&Context::toggle, &Game::systems.context) },
+        { "switch maps", std::bind(&Context::toggle, &Game::core->systems.context) },
 
         // debug
         { "regenerate", std::bind(newGame, this, data) }
@@ -207,6 +216,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
 void Game_State::newGame(New_Game_Data data)
 {
     game = std::make_unique<New_Game>(data);
+    registration();
     setGameState(Game::NEW);
 }
 
@@ -214,13 +224,15 @@ void Game_State::newToPlay()
 {
     game = std::make_unique<Game_Play>();
 
-    ui = std::make_unique<UI_HUD>(Game::systems);
+    ui = std::make_unique<UI_HUD>(Game::core->systems);
 
     Database_Commands dbc;
     loadCommands(dbc.read());
 
+    windowResize();
+
     drawables.clear();
-    drawables.push_back(&Game::systems.renderer);
+    drawables.push_back(&Game::core->systems.renderer);
     drawables.push_back(ui.get());
 
     loadNums();
@@ -242,9 +254,17 @@ void Game_State::clear()
 
 void Game_State::windowResize(const sf::Vector2u& w_size)
 {
+    this->w_size = w_size;
     UI::setView(w_size);
     if (ui) {
         ui->windowResize(w_size);
     }
-    Game::systems.windowResize(w_size);
+    if (Game::core) {
+        Game::core->systems.windowResize(w_size);
+    }
+}
+
+void Game_State::windowResize()
+{
+    windowResize(w_size);
 }

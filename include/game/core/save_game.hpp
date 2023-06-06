@@ -4,25 +4,14 @@
 
 #include <filesystem>
 
-#include <game/system/component_manager.hpp>
-#include <game/system/entity_manager.hpp>
-#include <game/system/system_manager.hpp>
+#include <game/core/ecs_core.hpp>
 
 class Save_Game {
 public:
-    Save_Game(Component_Manager& components
-            , Entity_Manager& entities
-            , System_Manager& systems
-            , std::filesystem::path file);
+    Save_Game(ECS_Core* core, std::filesystem::path file);
 
 private:
-    Component_Manager& components;
-    Entity_Manager& entities;
-    System_Manager& systems;
-
-    std::filesystem::path file;
-
-    //std::map<unsigned int, std::string> insert_component;
+    ECS_Core* core;
 
     void createTables();
     void writeInfo();

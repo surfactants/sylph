@@ -3,11 +3,14 @@
 #include <functional>
 #include <memory>
 
+#include <game/core/ecs_core.hpp>
+#include <game/core/game_info.hpp>
+
 #include <game/data/game_settings.hpp>
 
-#include <game/system/component_manager.hpp>
-#include <game/system/entity_manager.hpp>
-#include <game/system/system_manager.hpp>
+#include <game/core/component_manager.hpp>
+#include <game/core/entity_manager.hpp>
+#include <game/core/system_manager.hpp>
 
 class Game {
 public:
@@ -36,8 +39,11 @@ public:
 
     void reset();
 
+    static std::unique_ptr<ECS_Core> core;
     static Game_Settings settings;
-    static Entity_Manager entities;
-    static Component_Manager components;
-    static System_Manager systems;
+
+    //static Entity_Manager entities;
+    //static Component_Manager components;
+    //static System_Manager systems;
+    //static Game_Info info;
 };

@@ -3,7 +3,7 @@
 #include <cassert>
 #include <unordered_map>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 class IComponent_Library {
 public:

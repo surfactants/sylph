@@ -3,7 +3,7 @@
 #include <functional>
 #include <set>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 class System {
 public:

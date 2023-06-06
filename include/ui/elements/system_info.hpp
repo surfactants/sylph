@@ -3,7 +3,7 @@
 #include <engine/resources/palette.hpp>
 #include <engine/util/text.hpp>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 #include "info_panel.hpp"
 

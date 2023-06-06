@@ -2,7 +2,6 @@
 
 #include <magic_enum.hpp>
 
-#include <iostream>
 #include <cstdlib> // abort
 
 struct Resource {
@@ -61,7 +60,7 @@ public:
         }
         Type t = magic_enum::enum_cast<Type>(s).value_or(COUNT);
         if (t == COUNT) {
-            std::cout << "\n\ncritical error! failed to convert string " << s << " to resource type! aborting...\n\n";
+            // log this
             std::abort();
         }
         return t;

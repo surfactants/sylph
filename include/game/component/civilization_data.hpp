@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 struct Civilization_Data {
     Entity capital_system;

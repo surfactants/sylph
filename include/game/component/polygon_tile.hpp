@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <game/entity/entity.hpp>
+#include <game/core/entity.hpp>
 
 struct Polygon_Tile {
     std::vector<sf::Vector2f> vertices;

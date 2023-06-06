@@ -2,18 +2,9 @@
 
 #include <game/core/component_serializer.hpp>
 
-#include <iostream>
-
-Save_Game::Save_Game(Component_Manager& components
-        , Entity_Manager& entities
-        , System_Manager& systems
-        , std::filesystem::path file)
-    : components { components }
-    , entities { entities }
-    , systems { systems }
-    , file { file }
+Save_Game::Save_Game(ECS_Core* core, std::filesystem::path file)
+    : core { core }
 {
-    std::cout << "\n\nSAVING GAME AT " << file.string();
     if (std::filesystem::exists(file)) {
         std::filesystem::remove(file);
     }
@@ -39,11 +30,13 @@ void Save_Game::createTables()
         PLAYER_UID INT PRIMARY KEY NOT NULL\
       , PLAYER_NAME INT NOT NULL\
       , YEAR INT NOT NULL\
+      , MINUTES_PLAYED INT NOT NULL\
       );";
+      // todo blob for preview image
 
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
 
-    for (const auto& system : systems.map) {
+    for (const auto& system : core->systems.map) {
         sql = "CREATE TABLE " + system.first + "(ENTITY INT PRIMARY KEY NOT NULL);";
         rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
     }
@@ -73,6 +66,10 @@ void Save_Game::writeEntities()
                             + itype
                             + " VALUES";
 
+        // typeid.name(T) produces a numeric identifier prepending the string
+        // sqlite does not allow table names to start with numbers
+        // wrapping table name with brackets supercedes this
+
         std::string ctype = serialize_component.types(c, true);
         ctype.pop_back();
         ctype += ")";
@@ -88,7 +85,7 @@ void Save_Game::writeEntities()
 
     std::string sql = "INSERT INTO ENTITIES(UID, SIGNATURE) VALUES";
     for (Entity e = 0; e < MAX_ENTITIES; e++) {
-        Signature s = entities.signature(e);
+        Signature s = core->entities.signature(e);
         if (s.none()) {
             continue;
         }
@@ -114,13 +111,12 @@ void Save_Game::writeEntities()
         insert_component[i].pop_back();
         insert_component[i] += ";";
         rc = sqlite3_exec(db, insert_component[i].c_str(), nullptr, nullptr, nullptr);
-        //std::cout << "\n\n" << rc << ": " << insert_component[i] << "\n\n";
     }
 }
 
 void Save_Game::writeSystems()
 {
-    for (const auto& system : systems.map) {
+    for (const auto& system : core->systems.map) {
         std::string sql = "INSERT INTO " + system.first + "(ENTITY) VALUES";
         for (const auto& entity : system.second->entities) {
         sql += "("

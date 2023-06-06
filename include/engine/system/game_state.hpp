@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream> // debug
+
 #include <engine/input/input_package.hpp>
 
 #include <game/core/component_serializer.hpp>
@@ -38,6 +40,8 @@ public:
 
     void clear();
 
+    void registration();
+
     void numPress(unsigned int i);
 
     template <typename T>
@@ -46,10 +50,10 @@ public:
         std::string t(typeid(T).name());
         std::cout << "\nREGISTERING COMPONENT:" << t;
 
-        auto get = Game::components.registerComponent<T>();
+        auto get = Game::core->components.registerComponent<T>();
         System::getComponent<T> = get;
         UI::getComponent<T> = get;
-        Game::systems.getComponent<T> = get;
+        Game::core->systems.getComponent<T> = get;
 
         Component_Serializer::to_component[t] = c;
         Component_Serializer::to_string[c] = t;
@@ -75,6 +79,8 @@ private:
 
     New_Game_Data data;
 
+    sf::Vector2u w_size;
+
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
 
     void clickLeft();
@@ -83,4 +89,7 @@ private:
     void releaseRight();
     void clickMiddle();
     void releaseMiddle();
+    void scroll(const float delta);
+
+    void windowResize();
 };
