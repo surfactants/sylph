@@ -3,7 +3,10 @@
 #include <engine/database/database_commands.hpp>
 #include <engine/input/command.hpp>
 
+#include <engine/system/game_state.hpp> // for assigning loadGame
+
 #include <menu/state/menu.hpp> // for font (temporary for fps)
+#include <menu/state/menu_load_game.hpp> // for assigning loadGame
 #include <menu/state/menu_settings_general.hpp> // for assigning resizeWindow
 
 #include <game/state/game.hpp> // for assigning relativeMousePos
@@ -15,6 +18,8 @@ Shell::Shell()
     window.setKeyRepeatEnabled(false);
     window.setVerticalSyncEnabled(true);
 
+    Game_State* game_state = dynamic_cast<Game_State*>(state.states[Main_State::GAME].get());
+    Menu_Load_Game::loadGame = std::bind(&Game_State::loadGame, game_state, std::placeholders::_1);
     Menu_Settings_General::resizeWindow = std::bind(resizeWindow, this, std::placeholders::_1);
 
     fps_text.setFont(*Menu::font);

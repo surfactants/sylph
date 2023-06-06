@@ -21,9 +21,7 @@ public:
     void discardSave();
 
 private:
-    //Save_List save_list { *font, true };
     Save_List save_list;
-    // use obtained filename for writing
     // add confirmation dialog for overwriting
 
     void cancelDialog();

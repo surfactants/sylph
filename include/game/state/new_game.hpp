@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <filesystem>
 #include <thread>
 
 #include <game/data/new_game_data.hpp>
@@ -10,6 +11,7 @@
 class New_Game : public Game {
 public:
     New_Game(New_Game_Data data);
+    New_Game(std::filesystem::path load_path);
 
     virtual void update(float delta_time) override;
 

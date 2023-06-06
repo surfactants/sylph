@@ -3,6 +3,8 @@
 #include <engine/math/primordial.hpp>
 #include <engine/util/prng.hpp>
 
+#include <game/core/load_game.hpp>
+
 #include <game/world/world.hpp>
 #include <game/world/civilization_generator.hpp>
 
@@ -15,6 +17,15 @@ New_Game::New_Game(New_Game_Data data)
     core->info.player_name = data.player_name;
     tasks.push_back(std::bind(createWorld, this));
     tasks.push_back(std::bind(createCivilizations, this));
+
+    thread_done.test_and_set();
+}
+
+New_Game::New_Game(std::filesystem::path load_path)
+{
+    core = std::make_unique<ECS_Core>();
+    core->info.player_name = data.player_name;
+    tasks.push_back([&]() { Load_Game(core.get(), load_path); });
 
     thread_done.test_and_set();
 }

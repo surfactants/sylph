@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <iostream> // debug
 
 #include <engine/input/input_package.hpp>
@@ -35,7 +36,7 @@ public:
     void loadSettings(Game_Settings settings);
 
     void newGame(New_Game_Data data);
-    void loadGame();
+    void loadGame(std::filesystem::path load_path);
     void newToPlay();
 
     void clear();
@@ -80,6 +81,9 @@ private:
     New_Game_Data data;
 
     sf::Vector2u w_size;
+
+    std::map<std::string, std::function<void()>> string_to_function;
+    void loadFunctions();
 
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);
 

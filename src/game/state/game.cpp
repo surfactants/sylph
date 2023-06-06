@@ -7,7 +7,9 @@ std::function<void(Game::State)> Game::setGameState;
 std::unique_ptr<ECS_Core> Game::core { nullptr };
 
 void Game::reset()
-{}
+{
+    core = nullptr;
+}
 
 void Game::loadSettings(Game_Settings settings)
 {

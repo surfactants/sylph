@@ -111,13 +111,14 @@ void Game_State::handleInput(const sf::Event& event)
 void Game_State::loadCommands(std::vector<Command> new_commands)
 {
     commands = new_commands;
+    loadFunctions();
     Input_Package* ig = &input_map[Game::PLAY];
     auto open_pause = ig->key_press[sf::Keyboard::Escape];
     ig->clear();
     for (const auto& c : commands) {
         if (c.key != sf::Keyboard::Unknown) {
-            ig->addPress(c.key, stringToFunction(c.press));
-            ig->addRelease(c.key, stringToFunction(c.release));
+            ig->addPress(c.key, string_to_function[c.press]);
+            ig->addRelease(c.key, string_to_function[c.release]);
         }
     }
 
@@ -164,7 +165,7 @@ void Game_State::loadSettings(Game_Settings settings)
     }
 }
 
-std::function<void()> Game_State::stringToFunction(std::string str)
+void Game_State::loadFunctions()
 {
     // here, match the game functions to string identifiers
     // use std::bind - the lambdas are placeholders
@@ -173,7 +174,7 @@ std::function<void()> Game_State::stringToFunction(std::string str)
     // i.e. use Game_State functions
     //
     auto acc = &Game::core->systems.accelerator;
-    static std::map<std::string, std::function<void()>> func {
+    string_to_function = {
         // movement functions
         { "null", []() {} },
         { "move up", std::bind(&Input_Accelerator::startUp,         acc) },
@@ -203,19 +204,18 @@ std::function<void()> Game_State::stringToFunction(std::string str)
         // debug
         { "regenerate", std::bind(newGame, this, data) }
     };
-
-    if (func.contains(str)) {
-        return func[str];
-    }
-
-    // log failure to find command
-
-    return []() {};
 }
 
 void Game_State::newGame(New_Game_Data data)
 {
     game = std::make_unique<New_Game>(data);
+    registration();
+    setGameState(Game::NEW);
+}
+
+void Game_State::loadGame(std::filesystem::path load_path)
+{
+    game = std::make_unique<New_Game>(load_path);
     registration();
     setGameState(Game::NEW);
 }

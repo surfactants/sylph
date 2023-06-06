@@ -6,6 +6,7 @@ Load_Game::Load_Game(ECS_Core* core, std::filesystem::path file)
     : Database(file.string())
     , core { core }
 {
+    std::cout << "loading\n";
     readInfo();
     readEntities();
     readComponents();
