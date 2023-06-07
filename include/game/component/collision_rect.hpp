@@ -30,4 +30,11 @@ struct Collision_Rect : public sf::FloatRect {
         min += offset;
         max += offset;
     }
+
+    Collision_Rect() = default;
+    Collision_Rect(sf::FloatRect r)
+    {
+        setPosition(sf::Vector2f(r.left, r.top));
+        setSize(sf::Vector2f(r.width, r.height));
+    }
 };

@@ -34,8 +34,9 @@ private:
 
     void createWorld();
     void generateSystem(Entity system);
-    void createPlayer();
     void createCivilizations();
+
+    void load(std::filesystem::path load_path);
 
     std::vector<std::function<void()>> tasks;
     size_t task_index { 0 };

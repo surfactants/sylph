@@ -44,3 +44,13 @@ Signature Entity_Manager::signature(Entity e)
     assert(e < MAX_ENTITIES && "Entity out of range in ::get!");
     return signatures[e];
 }
+
+void Entity_Manager::readAvailable()
+{
+    available = {};
+    for (Entity e = 0; e < MAX_ENTITIES; e++) {
+        if (signatures[e].none()) {
+            available.push(e);
+        }
+    }
+}

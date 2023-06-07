@@ -13,6 +13,8 @@ std::function<void()> New_Game::newToPlay;
 New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
+    tasks.clear();
+
     core = std::make_unique<ECS_Core>();
     core->info.player_name = data.player_name;
     tasks.push_back(std::bind(createWorld, this));
@@ -23,9 +25,11 @@ New_Game::New_Game(New_Game_Data data)
 
 New_Game::New_Game(std::filesystem::path load_path)
 {
+    tasks.clear();
+
     core = std::make_unique<ECS_Core>();
     core->info.player_name = data.player_name;
-    tasks.push_back([&]() { Load_Game(core.get(), load_path); });
+    tasks.push_back(std::bind(load, this, load_path));
 
     thread_done.test_and_set();
 }
@@ -40,6 +44,8 @@ void New_Game::update(float delta_time)
             }
             // initiate transition to play
             task_index = 0;
+            core->systems.context.world_bounds = Collision_Rect(core->info.world_bounds);
+            core->systems.context.set(Context::GALACTIC, MAX_ENTITIES);
             newToPlay();
             return;
         }
@@ -64,8 +70,7 @@ void New_Game::loadSettings(Game_Settings settings)
 void New_Game::createWorld()
 {
     World world(data, core.get());
-    core->systems.context.world_bounds = world.getFrame();
-    core->systems.context.set(Context::GALACTIC, MAX_ENTITIES);
+    core->info.world_bounds = world.getFrame();
     thread_done.test_and_set();
 }
 
@@ -75,14 +80,9 @@ void New_Game::createCivilizations()
     thread_done.test_and_set();
 }
 
-void New_Game::createPlayer()
+void New_Game::load(std::filesystem::path load_path)
 {
-    Entity player = core->entities.create();
-
-    Signature s;
-    s.set(toInt(Component::TRANSFORM));
-    s.set(toInt(Component::COLLISION_RECT));
-    core->entities.define(player, s);
+    Load_Game(core.get(), load_path);
     thread_done.test_and_set();
 }
 

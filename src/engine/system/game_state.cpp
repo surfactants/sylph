@@ -7,6 +7,8 @@
 
 #include <ui/ui_hud.hpp>
 
+#include <iostream>
+
 Game_State::Game_State(std::function<void()> open_pause)
 {
 

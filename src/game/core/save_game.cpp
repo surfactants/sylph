@@ -2,6 +2,8 @@
 
 #include <game/core/component_serializer.hpp>
 
+#include <iostream>
+
 Save_Game::Save_Game(ECS_Core* core, std::filesystem::path file)
     : core { core }
 {
@@ -31,6 +33,10 @@ void Save_Game::createTables()
       , PLAYER_NAME INT NOT NULL\
       , YEAR INT NOT NULL\
       , MINUTES_PLAYED INT NOT NULL\
+      , WORLD_BOUNDS_LEFT REAL NOT NULL\
+      , WORLD_BOUNDS_TOP REAL NOT NULL\
+      , WORLD_BOUNDS_WIDTH REAL NOT NULL\
+      , WORLD_BOUNDS_HEIGHT REAL NOT NULL\
       );";
       // todo blob for preview image
 
@@ -44,6 +50,30 @@ void Save_Game::createTables()
 
 void Save_Game::writeInfo()
 {
+    const Game_Info& info = core->info;
+    std::string sql = "INSERT INTO INFO(";
+    sql += "PLAYER_UID,";
+    sql += "PLAYER_NAME,";
+    sql += "YEAR,";
+    sql += "MINUTES_PLAYED,";
+    sql += "WORLD_BOUNDS_LEFT,";
+    sql += "WORLD_BOUNDS_TOP,";
+    sql += "WORLD_BOUNDS_WIDTH,";
+    sql += "WORLD_BOUNDS_HEIGHT) ";
+    sql += "VALUES(";
+    sql += std::to_string(info.player);
+    sql += ",'" + info.player_name + "',";
+    sql += std::to_string(info.year) + ",";
+    sql += std::to_string(info.minutes_played) + ",";
+    sql += std::to_string(info.world_bounds.left) + ",";
+    sql += std::to_string(info.world_bounds.top) + ",";
+    sql += std::to_string(info.world_bounds.width) + ",";
+    sql += std::to_string(info.world_bounds.height) + ");";
+
+    rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
+    std::cout << "\n" << rc << "______________________________________________________\n";
+    std::cout << sql;
+    std::cout << "\n______________________________________________________\n";
 }
 
 void Save_Game::writeEntities()
@@ -65,6 +95,9 @@ void Save_Game::writeEntities()
                            + "]"
                             + itype
                             + " VALUES";
+    std::cout << "\n______________________________________________________\n";
+    std::cout << insert_component[i];
+    std::cout << "\n______________________________________________________\n";
 
         // typeid.name(T) produces a numeric identifier prepending the string
         // sqlite does not allow table names to start with numbers

@@ -22,8 +22,6 @@ std::string Component_Serializer::types(Component c, bool for_init)
         case Component::COLLISION_RECT:
             addType(t, "MIN_X", "REAL", for_init);
             addType(t, "MIN_Y", "REAL", for_init);
-            addType(t, "MAX_X", "REAL", for_init);
-            addType(t, "MAX_Y", "REAL", for_init);
             addType(t, "SIZE_X", "REAL", for_init);
             addType(t, "SIZE_Y", "REAL", for_init);
             break;

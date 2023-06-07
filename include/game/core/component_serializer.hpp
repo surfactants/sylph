@@ -63,8 +63,6 @@ private:
         auto t = getComponent<Collision_Rect>(e);
         addValue(v, t.min.x);
         addValue(v, t.min.y);
-        addValue(v, t.max.x);
-        addValue(v, t.max.y);
         addValue(v, t.size.x);
         addValue(v, t.size.y);
         return v;

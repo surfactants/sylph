@@ -16,6 +16,8 @@ public:
     void reset();
     Signature signature(Entity e);
 
+    void readAvailable();
+
 private:
     std::queue<Entity> available;
     std::array<Signature, MAX_ENTITIES> signatures {};
