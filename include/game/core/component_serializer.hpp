@@ -156,9 +156,15 @@ private:
 
     std::string writeResource(Entity e)
     {
-        std::string v;
-        auto t = getComponent<Resource>(e);
-        v += "'oops',";
+        std::string v = "'";
+        auto r = getComponent<Resource>(e);
+        for (const auto& t : r.values) {
+            v += Resource::toString(t.first);
+            v += ',';
+            v += std::to_string(t.second);
+            v += ";";
+        }
+        v += "'";
         return v;
     }
 };

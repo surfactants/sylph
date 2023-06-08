@@ -1,12 +1,9 @@
 #include <game/core/load_game.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 Load_Game::Load_Game(ECS_Core* core, std::filesystem::path file)
     : Database(file.string())
     , core { core }
 {
-    std::cout << "loading\n";
     readInfo();
     readEntities();
     readComponents();
@@ -46,30 +43,18 @@ void Load_Game::readEntities()
 
 void Load_Game::readComponents()
 {
-    std::cout << "\n\nREADING COMPONENTS...\n";
     bodyInfo();
-    std::cout << "\tbody info read\n";
     civData();
-    std::cout << "\tciv data read\n";
     collisionRect();
-    std::cout << "\tcollision rect read\n";
     entityData();
-    std::cout << "\tentity data read\n";
     hierarchy();
-    std::cout << "\thierarchy read\n";
     polygonTile();
-    std::cout << "\tpolygon tile read\n";
     resource();
-    std::cout << "\tresource read\n";
     tile();
-    std::cout << "\ttile read\n";
     transform();
-    std::cout << "\ttransform read\n";
 
     passCivs();
     passTiles();
-
-    std::cout << "READING COMPLETE!\n";
 }
 
 void Load_Game::bodyInfo()
@@ -123,9 +108,12 @@ void Load_Game::collisionRect()
         Entity e = toInt(col++);
 
         Collision_Rect rect;
-        sf::Vector2f min(toFloat(col++), toFloat(col++));
-        //sf::Vector2f max(toFloat(col++), toFloat(col++)); // debug, TODO erase this after confirmation of load functioning when new saves can be generated
-        sf::Vector2f size(toFloat(col++), toFloat(col++));
+        sf::Vector2f min;
+        min.x = toFloat(col++);
+        min.y = toFloat(col++);
+        sf::Vector2f size;
+        size.x = toFloat(col++);
+        size.y = toFloat(col++);
         rect.setPosition(min);
         rect.setSize(size);
 
@@ -183,7 +171,29 @@ void Load_Game::polygonTile()
 
 void Load_Game::resource()
 {
-    // todo
+    selectTable(serializer.to_string[Component::RESOURCE]);
+
+    while (step()) {
+        int col { 0 };
+        Entity e = toInt(col++);
+
+        Resource resource;
+        const std::string r_string = toString(col++);
+
+        std::istringstream rstream { r_string };
+
+        std::string r;
+
+        while (std::getline(rstream, r, ';')) {
+            auto it = r.find(',');
+            std::string type_string = r.substr(0, it);
+            Resource::Type type = Resource::fromString(type_string);
+            float val = std::stof(r.substr(it + 1));
+            resource.values[type] = val;
+        }
+
+        core->components.addComponent(e, resource);
+    }
 }
 
 void Load_Game::tile()

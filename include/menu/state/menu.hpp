@@ -69,6 +69,8 @@ public:
 
     static std::unique_ptr<sf::Font> font; // protect this (temporary for fps)
 
+    static std::function<void()> clearGame;
+
 protected:
     std::vector<Menu_Element*> elements;
     std::vector<Button> nav;

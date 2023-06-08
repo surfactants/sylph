@@ -2,8 +2,6 @@
 
 #include <game/core/component_serializer.hpp>
 
-#include <iostream>
-
 Save_Game::Save_Game(ECS_Core* core, std::filesystem::path file)
     : core { core }
 {
@@ -71,21 +69,18 @@ void Save_Game::writeInfo()
     sql += std::to_string(info.world_bounds.height) + ");";
 
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
-    std::cout << "\n" << rc << "______________________________________________________\n";
-    std::cout << sql;
-    std::cout << "\n______________________________________________________\n";
 }
 
 void Save_Game::writeEntities()
 {
     Component_Serializer serialize_component;
 
-    unsigned int size = toInt(Component::SIZE);
+    const unsigned int component_size = toInt(Component::SIZE);
 
     std::map<unsigned int, std::string> insert_component;
 
 
-    for (unsigned int i = 0; i < size; i++) {
+    for (unsigned int i = 0; i < component_size; i++) {
         Component c = toComponent(i);
         std::string cname = serialize_component.to_string[c];
 
@@ -95,9 +90,6 @@ void Save_Game::writeEntities()
                            + "]"
                             + itype
                             + " VALUES";
-    std::cout << "\n______________________________________________________\n";
-    std::cout << insert_component[i];
-    std::cout << "\n______________________________________________________\n";
 
         // typeid.name(T) produces a numeric identifier prepending the string
         // sqlite does not allow table names to start with numbers
@@ -128,9 +120,7 @@ void Save_Game::writeEntities()
             + s.to_string()
             + "),";
 
-        unsigned int size = toInt(Component::SIZE);
-
-        for (unsigned int i = 0; i < size; i++) {
+        for (unsigned int i = 0; i < component_size; i++) {
             if (s.test(i)) {
                 insert_component[i] += serialize_component.values(toComponent(i), e) + ",";
             }
@@ -140,7 +130,7 @@ void Save_Game::writeEntities()
     sql += ";";
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
 
-    for (unsigned int i = 0; i < size; i++) {
+    for (unsigned int i = 0; i < component_size; i++) {
         insert_component[i].pop_back();
         insert_component[i] += ";";
         rc = sqlite3_exec(db, insert_component[i].c_str(), nullptr, nullptr, nullptr);

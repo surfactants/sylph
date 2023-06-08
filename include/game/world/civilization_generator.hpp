@@ -17,10 +17,6 @@ private:
 
     ECS_Core* core;
 
-    //Component_Manager& components;
-    //Entity_Manager& entities;
-    //System_Manager& systems;
-
     void generatePlayer();
     void generateAI();
 

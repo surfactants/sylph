@@ -1,5 +1,7 @@
 #include <menu/state/menu.hpp>
 
+std::function<void()> Menu::clearGame;
+
 std::unique_ptr<sf::Font> Menu::font { nullptr };
 
 const sf::Vector2f Menu::button_start { sf::Vector2f(64.f, 64.f) };

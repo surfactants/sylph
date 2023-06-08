@@ -66,10 +66,12 @@ std::string Component_Serializer::types(Component c, bool for_init)
             addType(t, "COLOR_B", "INT", for_init);
             break;
         case Component::RESOURCE:
-            addType(t, "TODO", "TEXT", for_init);
+            addType(t, "VAL", "TEXT", for_init);
             break;
     }
-    t.pop_back();
+    if (t.back() == ',') {
+        t.pop_back();
+    }
     t += ")";
     return t;
 }
@@ -111,7 +113,9 @@ std::string Component_Serializer::values(Component c, Entity e)
             v += writeResource(e);
             break;
     }
-    v.pop_back();
+    if (v.back() == ',') {
+        v.pop_back();
+    }
     v += ")";
     return v;
 }

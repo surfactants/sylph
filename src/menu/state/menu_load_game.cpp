@@ -8,7 +8,7 @@ Menu_Load_Game::Menu_Load_Game()
                           , std::bind(discardSave, this)) }
 {
     addNav("load", std::bind(confirmLoad, this), Menu_Element::UNAVAILABLE);
-    addNav("cancel", std::bind(cancel, this));
+    addNav("cancel", std::bind(&Menu::escape, this));
 
     setEscape(Main_State::QUIT);
 
@@ -79,6 +79,7 @@ void Menu_Load_Game::confirmLoad()
         elements.push_back(dialog.get());
         return;
     }
+    clearGame();
     loadGame(active_save);
     discardSave();
     // initiate game loading

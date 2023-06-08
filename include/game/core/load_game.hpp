@@ -38,20 +38,20 @@ private:
     void passTiles();
 
     template <typename T>
-    void vectorize(std::vector<sf::Vector2<T>> v_all, const std::string& read)
+    void vectorize(std::vector<sf::Vector2<T>>& v_all, const std::string& read)
     {
         std::istringstream rstream { read };
         std::string entry;
         while (std::getline(rstream, entry, ';')) {
             sf::Vector2<T> v;
             auto it = entry.find(',');
-            v.x = std::stof(entry.substr(0, it - 1));
+            v.x = std::stof(entry.substr(0, it));
             v.y = std::stof(entry.substr(it + 1));
             v_all.push_back(v);
         }
     }
 
-    void vectorize(std::vector<Entity> v_all, const std::string& read)
+    void vectorize(std::vector<Entity>& v_all, const std::string read)
     {
         std::istringstream rstream { read };
         std::string entry;
