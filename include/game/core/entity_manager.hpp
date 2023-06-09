@@ -10,7 +10,7 @@ class Entity_Manager {
 public:
     Entity_Manager();
 
-    Entity create() [[nodiscard]];
+    Entity create();
     void destroy(Entity e);
     void define(Entity e, Signature s);
     void reset();

@@ -1,6 +1,8 @@
 #include <ui/ui.hpp>
 
-std::unique_ptr<sf::Font> UI::font { nullptr };
+#include <engine/resources/font_manager.hpp>
+
+sf::Font* UI::font { Font_Manager::get(Font::UI) };
 
 std::function<void(Game::State)> UI::setGameState;
 std::function<void()> UI::openPause;
@@ -19,26 +21,21 @@ UI::UI()
         moused_element->setToBase();
     }
 
-    if (!font) {
-        font = std::make_unique<sf::Font>();
-        font->loadFromFile("Abel.ttf");
+    sf::Vector2f pos(0.f, 0.f);
+    sf::Vector2f size(1920.f, 1080.f);
+    sf::Vector2f wsize(1920.f, 1080.f);
+    float xs = size.x / wsize.x;
+    float ys = size.y / wsize.y;
 
-        sf::Vector2f pos(0.f, 0.f);
-        sf::Vector2f size(1920.f, 1080.f);
-        sf::Vector2f wsize(1920.f, 1080.f);
-        float xs = size.x / wsize.x;
-        float ys = size.y / wsize.y;
+    float xp = pos.x / wsize.x;
+    float yp = pos.y / wsize.y;
 
-        float xp = pos.x / wsize.x;
-        float yp = pos.y / wsize.y;
+    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
+    view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
+    view.setCenter(size / 2.f);
 
-        view.setViewport(sf::FloatRect(xp, yp, xs, ys));
-        view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-        view.setCenter(size / 2.f);
-
-        UI_Element::setActive = std::bind(setActive, std::placeholders::_1);
-        UI_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
-    }
+    UI_Element::setActive = std::bind(setActive, std::placeholders::_1);
+    UI_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
 }
 
 void UI::update(const sf::Vector2i& mpos)

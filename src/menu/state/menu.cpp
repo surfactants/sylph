@@ -2,7 +2,7 @@
 
 std::function<void()> Menu::clearGame;
 
-std::unique_ptr<sf::Font> Menu::font { nullptr };
+sf::Font* Menu::font = Font_Manager::get(Font::MENU);
 
 const sf::Vector2f Menu::button_start { sf::Vector2f(64.f, 64.f) };
 
@@ -16,13 +16,8 @@ Menu_Element* Menu::active_element { nullptr };
 
 Menu::Menu()
 {
-    if (!font) {
-        font = std::make_unique<sf::Font>();
-        font->loadFromFile("Abel.ttf");
-
-        Menu_Element::setActive = std::bind(setActive, std::placeholders::_1);
-        Menu_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
-    }
+    Menu_Element::setActive = std::bind(setActive, std::placeholders::_1);
+    Menu_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
 }
 
 void Menu::setView(const sf::Vector2u& w_size)

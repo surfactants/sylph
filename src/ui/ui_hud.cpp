@@ -5,10 +5,9 @@
 
 UI_HUD::UI_HUD(System_Manager& systems)
 {
-    system_info.loadFont(font.get());
     systems.tile_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
     systems.solar_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
-    system_info.loadFont(font.get());
+    system_info.loadFont(font);
     elements.push_back(&system_info);
     windowResize(sf::Vector2u(view.getSize()));
 }

@@ -9,14 +9,14 @@ Database_Sound::Database_Sound()
 
 std::map<Event::Tag, Sound> Database_Sound::getBuffers()
 {
+    using magic_enum::enum_cast;
+
     std::map<Event::Tag, Sound> buffers;
 
     int row = 0;
 
     while (step()) {
         int col = 0;
-
-        using magic_enum::enum_cast;
 
         // load tag and source using magic_enum
         Event::Tag tag = enum_cast<Event::Tag>(toString(col++)).value_or(Event::Tag::NONE);

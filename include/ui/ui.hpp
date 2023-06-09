@@ -37,7 +37,7 @@ public:
 
 protected:
     static Renderer renderer;
-    static std::unique_ptr<sf::Font> font;
+    static sf::Font* font;
     static sf::View view;
 
     static UI_Element* moused_element;

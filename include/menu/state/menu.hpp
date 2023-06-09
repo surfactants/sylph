@@ -67,7 +67,7 @@ public:
     void setEscape(Menu::State state);
     void setEscape(Main_State::State states);
 
-    static std::unique_ptr<sf::Font> font; // protect this (temporary for fps)
+    static sf::Font* font; // protect this (temporary for fps)
 
     static std::function<void()> clearGame;
 
