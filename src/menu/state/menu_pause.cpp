@@ -1,7 +1,5 @@
 #include <menu/state/menu_pause.hpp>
 
-std::function<void()> Menu_Pause::clearGame;
-
 Menu_Pause::Menu_Pause()
 {
     addNav("resume", std::bind(&Menu::escape, this));

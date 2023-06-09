@@ -4,17 +4,36 @@
 
 #include <vector>
 
-class World : public sf::Drawable {
-public:
-    World();
+#include <game/core/ecs_core.hpp>
 
-    void eraseCell(unsigned int i = 0);
+#include <game/system/solar_system.hpp>
+#include <game/system/tile_system.hpp>
+#include <game/core/system_manager.hpp>
+
+#include <game/data/new_game_data.hpp>
+
+#include "system_generator.hpp"
+
+class World {
+public:
+    World(New_Game_Data data, ECS_Core* core);
+
+    Collision_Rect getFrame();
 
 private:
-    std::vector<sf::ConvexShape> cells;
-    std::vector<sf::RectangleShape> sites;
+    New_Game_Data data;
 
-    sf::RectangleShape frame;
+    ECS_Core* core;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    sf::Vector2f min;
+    sf::Vector2f max;
+
+    Collision_Rect frame;
+
+    System_Generator system_generator { core };
+
+    void generateSystems();
+    void makeSystem(Entity system);
+    Entity makeStar(Entity system);
+    void makePlanets(Entity system, Entity star);
 };

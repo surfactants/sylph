@@ -19,37 +19,38 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     sf::Vector2f pos = nav.front().getPosition();
     pos.x += 392.f;
 
-    Simple_Textbox textbox;
-    textbox.setFont(*font);
-    textbox.setPosition(pos);
-    textbox.setSize(size);
+    std::vector<std::string> tbox_names = {
+        "civilization name",
+        "home system name",
+        "homeworld name",
+        "species name"
+    };
 
-    textboxes.push_back(std::move(textbox));
+    for (const auto& name : tbox_names) {
+        Simple_Textbox textbox(name);
+        textbox.setFont(*font);
+        textbox.setPosition(pos);
+        textbox.setSize(size);
+        textboxes.push_back(std::move(textbox));
+        pos.y += size.y + 128.f;
+    }
 
+    int i = 0;
     for (auto& t : textboxes) {
         elements.push_back(&t);
     }
 
-    pos.y += 128.f;
+    pos = textboxes.front().getPosition();
+    pos.x += 512.f + 64.f;
 
-    Color_Selector selector;
-    selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
+    sf::Vector2f preview_size(96.f, 64.f);
+
+    Color_Selector selector("civilization color", *font);
+    selector.setPreview(pos, preview_size);
 
     sf::Vector2f selector_pos(pos);
-    selector_pos.x += textboxes.front().getSize().x + 128.f;
+    selector_pos.x += preview_size.x + 192.f;
     selector_pos.y = textboxes.front().getPosition().y;
-    selector.setPosition(selector_pos);
-
-    selectors.push_back(std::move(selector));
-
-    pos.y += 128.f;
-
-    selector = Color_Selector();
-    selector.setPreview(pos, sf::Vector2f(96.f, 64.f));
-
-    selector_pos = pos;
-    selector_pos.x += textboxes.front().getSize().x + 128.f;
-    selector_pos.y = textboxes.front().getPosition().y + 128.f;
     selector.setPosition(selector_pos);
 
     selectors.push_back(std::move(selector));
@@ -98,7 +99,9 @@ void Menu_New_Game::start()
 {
     // initiate game loading
     New_Game_Data data;
-    data.player_name = textboxes.front().getString();
+    data.player_name = textboxes[0].getString();
+    data.home_system = textboxes[1].getString();
+    data.homeworld = textboxes[2].getString();
     data.player_color = selectors.front().getColor();
     start_game(data);
     setMainState(Main_State::GAME);

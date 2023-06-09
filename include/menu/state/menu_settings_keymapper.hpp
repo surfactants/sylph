@@ -16,7 +16,7 @@ public:
     std::function<void(std::vector<Command>)> saveCommands;
 
 private:
-    Keymapper keymapper;
+    Keymapper keymapper { *font };
 
     void load();
     void loadDefaults();

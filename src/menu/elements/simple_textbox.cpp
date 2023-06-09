@@ -2,21 +2,15 @@
 
 #include <engine/resources/palette.hpp>
 
-// define unicode constants for reading text events
-#define UNICODE_SELECT_ALL 1
-#define UNICODE_COPY 3
-#define UNICODE_BACKSPACE 8
-#define UNICODE_RETURN 13
-#define UNICODE_PASTE 22
-#define UNICODE_CUT 24
-#define UNICODE_ESCAPE 27
-#define UNICODE_CTRL_BACKSPACE 127
-
-Simple_Textbox::Simple_Textbox()
+Simple_Textbox::Simple_Textbox(std::string title_text, bool sanitized)
 {
     //set text defaults
     max_length = 32;
     text_size = 32;
+
+    title.setFillColor(Palette::white);
+    title.setString(title_text);
+    title.setCharacterSize(48);
 
     text.setFillColor(Palette::white);
     text.setCharacterSize(text_size);
@@ -33,12 +27,17 @@ Simple_Textbox::Simple_Textbox()
 
     state = READY;
     base_state = READY;
+
+    if (sanitized) {
+        disallowed = "\/:*?<>|\"\\";
+    }
 }
 
-void Simple_Textbox::setFont(sf::Font& font)
+void Simple_Textbox::setFont(const sf::Font& font)
 {
     text.setFont(font);
     cursor.setFont(font);
+    title.setFont(font);
 }
 
 void Simple_Textbox::setMaxLength(unsigned int newMax)
@@ -86,6 +85,24 @@ void Simple_Textbox::textEntered(const sf::Event& event)
     }
 }
 
+void Simple_Textbox::setOutline()
+{
+    frame.setOutlineColor(Palette::white);
+    frame.setOutlineThickness(1.f);
+}
+
+void Simple_Textbox::setString(std::string tstr)
+{
+    if (tstr.length() > max_length) {
+        tstr = tstr.substr(0, max_length);
+    }
+
+    text.setString(tstr);
+
+    index = tstr.length();
+    placeCursor();
+}
+
 void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
 {
     switch (key) {
@@ -102,6 +119,11 @@ void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
 
 void Simple_Textbox::append(sf::String addition)
 {
+    for (auto& c : addition) {
+        if (disallowed.find(c) != std::string::npos) {
+            return;
+        }
+    }
     size_t n = addition.getSize();
     sf::String string = text.getString();
 
@@ -153,7 +175,6 @@ void Simple_Textbox::ctrlBackspace()
 void Simple_Textbox::clear()
 {
     text.setString("");
-    ;
     index = 0;
     placeCursor();
 }
@@ -212,7 +233,7 @@ void Simple_Textbox::setSize(sf::Vector2f size)
 {
     frame.setSize(size);
     text_offset.y = (size.y - text.getCharacterSize()) / 2.f;
-    setPosition(frame.getPosition());
+    setPosition(title.getPosition());
     placeCursor();
 }
 
@@ -221,8 +242,17 @@ sf::Vector2f Simple_Textbox::getSize()
     return frame.getSize();
 }
 
+sf::Vector2f Simple_Textbox::totalSize()
+{
+    sf::Vector2f size = frame.getSize();
+    size.y += (frame.getPosition().y - title.getPosition().y);
+    return size;
+}
+
 void Simple_Textbox::setPosition(sf::Vector2f pos)
 {
+    title.setPosition(pos);
+    pos.y += title.getLocalBounds().top + title.getLocalBounds().height + 16.f;
     frame.setPosition(pos);
     text.setPosition(pos + text_offset);
 }
@@ -291,6 +321,7 @@ void Simple_Textbox::releaseRight()
 
 void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    target.draw(title, states);
     target.draw(frame, states);
     target.draw(text, states);
     target.draw(cursor, states);

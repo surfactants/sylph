@@ -3,14 +3,18 @@
 #include <functional>
 #include <memory>
 
-#include <game/data/game_settings.hpp>
-#include <game/system/entity_manager.hpp>
-#include <game/world/world.hpp>
+#include <game/core/ecs_core.hpp>
+#include <game/core/game_info.hpp>
 
-class Game : public sf::Drawable {
+#include <game/data/game_settings.hpp>
+
+#include <game/core/component_manager.hpp>
+#include <game/core/entity_manager.hpp>
+#include <game/core/system_manager.hpp>
+
+class Game {
 public:
-    Game();
-    Game(const Game& g);
+    Game() = default;
 
     enum State {
         NEW,
@@ -22,19 +26,24 @@ public:
 
     virtual void loadSettings(Game_Settings settings);
 
+    virtual void clickLeft() = 0;
+    virtual void releaseLeft() = 0;
+
+    virtual void clickRight() = 0;
+    virtual void releaseRight() = 0;
+
+    virtual void clickMiddle() = 0;
+    virtual void releaseMiddle() = 0;
+
     static std::function<void(Game::State)> setGameState;
 
-    World* getWorld();
-    const Entity_Manager& getEntities() const;
+    void reset();
 
-    void deleteWorld();
-
-protected:
+    static std::unique_ptr<ECS_Core> core;
     static Game_Settings settings;
 
-    Entity_Manager entities;
-
-    static std::unique_ptr<World> world;
-
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    //static Entity_Manager entities;
+    //static Component_Manager components;
+    //static System_Manager systems;
+    //static Game_Info info;
 };

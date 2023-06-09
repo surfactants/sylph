@@ -1,6 +1,8 @@
 #include <menu/state/menu.hpp>
 
-std::unique_ptr<sf::Font> Menu::font { nullptr };
+std::function<void()> Menu::clearGame;
+
+sf::Font* Menu::font = Font_Manager::get(Font::MENU);
 
 const sf::Vector2f Menu::button_start { sf::Vector2f(64.f, 64.f) };
 
@@ -14,26 +16,23 @@ Menu_Element* Menu::active_element { nullptr };
 
 Menu::Menu()
 {
-    if (!font) {
-        font = std::make_unique<sf::Font>();
-        font->loadFromFile("Abel.ttf");
+    Menu_Element::setActive = std::bind(setActive, std::placeholders::_1);
+    Menu_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
+}
 
-        sf::Vector2f pos(0.f, 0.f);
-        sf::Vector2f size(1920.f, 1080.f);
-        sf::Vector2f wsize(1920.f, 1080.f);
-        float xs = size.x / wsize.x;
-        float ys = size.y / wsize.y;
+void Menu::setView(const sf::Vector2u& w_size)
+{
+    sf::Vector2f pos(0.f, 0.f);
+    sf::Vector2f size(w_size);
+    float xs = 1.f;
+    float ys = 1.f;
 
-        float xp = pos.x / wsize.x;
-        float yp = pos.y / wsize.y;
+    float xp = 0.f;
+    float yp = 0.f;
 
-        view.setViewport(sf::FloatRect(xp, yp, xs, ys));
-        view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-        view.setCenter(size / 2.f);
-
-        Menu_Element::set_active = std::bind(setActive, std::placeholders::_1);
-        Menu_Element::set_inactive = std::bind(unsetActive, std::placeholders::_1);
-    }
+    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
+    view.setSize(size);
+    view.setCenter(size / 2.f);
 }
 
 void Menu::update(const sf::Vector2i& mpos)
@@ -101,23 +100,6 @@ void Menu::handleInput(const sf::Event& event)
     }
 }
 
-void Menu::textEntered(const sf::Event& event)
-{
-    if (active_element) {
-        active_element->textEntered(event);
-    }
-}
-
-void Menu::keyPressed(sf::Keyboard::Key key)
-{
-    if (active_element) {
-        active_element->keyPressed(key);
-    }
-    else if (key == sf::Keyboard::Escape) {
-        escape();
-    }
-}
-
 void Menu::clickLeft()
 {
     if (active_element) {
@@ -158,6 +140,23 @@ void Menu::releaseRight()
     }
 }
 
+void Menu::keyPressed(sf::Keyboard::Key key)
+{
+    if (active_element) {
+        active_element->keyPressed(key);
+    }
+    else if (key == sf::Keyboard::Escape) {
+        escape();
+    }
+}
+
+void Menu::textEntered(const sf::Event& event)
+{
+    if (active_element) {
+        active_element->textEntered(event);
+    }
+}
+
 void Menu::setActive(Menu_Element* element)
 {
     active_element = element;
@@ -165,7 +164,7 @@ void Menu::setActive(Menu_Element* element)
 
 void Menu::unsetActive(Menu_Element* element)
 {
-    if (active_element && element == active_element) {
+    if (element == active_element) {
         active_element = nullptr;
     }
 }
@@ -228,7 +227,7 @@ void Menu::escape()
 void Menu::clearNullElements()
 {
     for (auto it = elements.begin(); it != elements.end();) {
-        if (*it == nullptr) {
+        if (!(*it)) {
             elements.erase(it);
         }
         else {

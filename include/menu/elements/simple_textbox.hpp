@@ -16,30 +16,29 @@
   *
  **/
 
+// define unicode constants for reading text events
+#define UNICODE_SELECT_ALL 1
+#define UNICODE_COPY 3
+#define UNICODE_BACKSPACE 8
+#define UNICODE_RETURN 13
+#define UNICODE_PASTE 22
+#define UNICODE_CUT 24
+#define UNICODE_ESCAPE 27
+#define UNICODE_CTRL_BACKSPACE 127
+
 /// \brief Container class for text input.
 ///
 class Simple_Textbox : public Menu_Element {
-private:
-    sf::Text text; /**< entered text*/
-
-    sf::Text cursor; /**< Cursor text, '|'*/
-    size_t max_length; /**< Maximum length of entered_text, default 32*/
-    sf::Vector2f text_offset;
-
-    size_t index { 0 }; /**< Cursor index */
-
-    unsigned int text_size; /**< display_text font size, default 48*/
-
 public:
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor.
     ///
-    Simple_Textbox();
+    Simple_Textbox(std::string title_text = "", bool sanitized = false);
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
     ///
-    void setFont(sf::Font& font);
+    void setFont(const sf::Font& font);
 
     ////////////////////////////////////////////////////////////
     /// \brief Draws background, box, title, text, and cursor to the render target.
@@ -144,9 +143,16 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief returns frame size
     ///
-    /// \see setSize()
+    /// \see setSize(), totalSize()
     ///
     sf::Vector2f getSize();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief returns frame size
+    ///
+    /// \see setSize(), getSize()
+    ///
+    sf::Vector2f totalSize();
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
@@ -206,4 +212,22 @@ public:
     virtual void deactivate() override;
 
     bool empty();
+
+    void setString(std::string tstr);
+
+    void setOutline();
+
+private:
+    sf::Text title;
+    sf::Text text; /**< entered text*/
+
+    sf::Text cursor; /**< Cursor text, '|'*/
+    size_t max_length; /**< Maximum length of entered_text, default 32*/
+    sf::Vector2f text_offset;
+
+    size_t index { 0 }; /**< Cursor index */
+
+    unsigned int text_size; /**< display_text font size, default 48*/
+
+    std::string disallowed {};
 };

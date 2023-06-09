@@ -24,6 +24,8 @@ public:
 
     void setState(Main_State::State new_state);
 
+    void windowResize(const sf::Vector2u& w_size);
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

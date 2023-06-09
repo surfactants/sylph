@@ -14,12 +14,12 @@ public:
     /// FULL CONSTRUCTOR ///
     /// \brief constructs the button, without a target
     ///
-    Button(std::string nlabel, sf::Font& font, unsigned int csize, State base = READY);
+    Button(std::string nlabel, const sf::Font& font, unsigned int csize, State base = READY);
 
     /// FULL CONSTRUCTOR WITH TARGET ///
     /// \brief constructs the button along with an onclick callback
     ///
-    Button(std::string nlabel, sf::Font& font, std::function<void()> target, unsigned int csize, State base = READY);
+    Button(std::string nlabel, const sf::Font& font, std::function<void()> target, unsigned int csize, State base = READY);
 
     /// update ///
     /// \brief checks mouse highlight
@@ -59,6 +59,11 @@ public:
     void setState(Button::State state);
 
     void setLabel(std::string text);
+
+    void operator () ()
+    {
+        target();
+    }
 
 protected:
     sf::Text label; /**< button text */

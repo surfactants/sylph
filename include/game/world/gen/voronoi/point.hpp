@@ -5,77 +5,9 @@
 #include <iostream>
 #include <vector>
 
+namespace Voronoi {
+
 constexpr double POINT_EPSILON { 1.0e-6 };
-
-//using Point = sf::Vector2<double>;
-/*
-class Point {
-
-	struct Point_Compare {
-		bool operator ()(const Point& p1, const Point& p2) {
-			return (p1.x < p2.x || (p1.x == p2.x && p1.y < p2.y));
-		}
-	};
-
-public:
-    Point(double x = 0.0, double y = 0.0);
-    Point(const Point& point);
-
-    Point& operator = (const Point& point) = default;
-
-    sf::Vector2f sfv();
-
-    double x, y;
-
-    Point normalized();
-    void normalize();
-    double norm();
-    double norm2();
-
-    Point getRotated90CW();
-    Point getRotated90CCW();
-
-    void setX(double x);
-    void setY(double y);
-
-    bool isVertical();
-    bool isHorizontal();
-    bool isValid();
-
-    const static double Inf;
-	static Point_Compare compare;
-
-    double operator [](int i);
-
-    Point& operator -=(const Point& p);
-    Point& operator +=(const Point& p);
-    Point& operator *=(double value);
-    Point& operator /=(double value);
-};
-
-double dotProduct(const Point& p1, const Point& p2);
-double crossProduct(const Point& p1, const Point& p2);
-
-Point operator +(const Point& p1, const Point& p2);
-Point operator -(const Point& p1, const Point& p2);
-Point operator /(const Point& p1, const Point& p2);
-Point operator *(const Point& p, double value);
-Point operator *(double value, const Point& p);
-Point operator /(const Point& p, double value);
-Point operator -(const Point& p);
-
-std::ostream& operator <<(std::ostream& stream, const Point& p);
-std::vector<Point>& operator <<(std::vector<Point>& v, const Point& p);
-
-bool isLeftTurn(const Point& p1, const Point& p2, const Point& p3);
-bool isRightTurn(const Point& p1, const Point& p2, const Point& p3);
-
-double dotProduct(const Point& p1, const Point& p2);
-double crossProduct(const Point& p1, const Point& p2);
-
-bool equal(const Point& p1, const Point& p2, double EPSILON = POINT_EPSILON);
-bool equal(double v1, double v2, double EPSILON = POINT_EPSILON);
-*/
 
 class Point {
 
@@ -144,3 +76,5 @@ bool equal(const Point& p1, const Point& p2, double EPSILON = POINT_EPSILON);
 bool equal(double v1, double v2, double EPSILON = POINT_EPSILON);
 
 bool operator==(const Point& p0, const Point& p1);
+
+}

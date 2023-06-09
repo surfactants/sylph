@@ -2,9 +2,9 @@
 
 #include <cmath>
 
-using namespace Voronoi;
+namespace Voronoi {
 
-int Voronoi::intersectionPointsNum(const Point& f1, const Point& f2)
+int intersectionPointsNum(const Point& f1, const Point& f2)
 {
     if (fabs(f1.x - f2.x) < POINT_EPSILON && fabs(f1.y - f2.y) < POINT_EPSILON) {
         return -1;
@@ -15,7 +15,7 @@ int Voronoi::intersectionPointsNum(const Point& f1, const Point& f2)
     return 2;
 }
 
-std::vector<Point> Voronoi::findIntersections(const Point& f1, const Point& f2, double d)
+std::vector<Point> findIntersections(const Point& f1, const Point& f2, double d)
 {
     std::vector<Point> result;
     if (fabs(f1.x - f2.x) < POINT_EPSILON) {
@@ -45,4 +45,6 @@ std::vector<Point> Voronoi::findIntersections(const Point& f1, const Point& f2, 
         result.push_back(Point(x2, y2));
     }
     return result;
+}
+
 }

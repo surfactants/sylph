@@ -14,7 +14,7 @@ public:
     void run();
 
 private:
-    sf::RenderWindow window { nullptr };
+    sf::RenderWindow window;
 
     sf::Event event;
 
@@ -32,4 +32,6 @@ private:
 
     sf::Text fps_text;
     sf::Clock fps_clock;
+
+    void resizeWindow(sf::Vector2u w_size);
 };

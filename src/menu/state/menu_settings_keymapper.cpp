@@ -17,7 +17,7 @@ Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<void(std::vector<
     pos.x += 392.f;
     sf::Vector2f size(900.f, 900.f);
     keymapper.setView(pos, size);
-    keymapper.setScrollable(900.f);
+    keymapper.setScrollable(size.y);
 
     elements.push_back(&keymapper);
 }
@@ -35,19 +35,20 @@ void Menu_Settings_Keymapper::exitState()
 void Menu_Settings_Keymapper::load()
 {
     Database_Commands dbc;
-    keymapper.load(dbc.read(), *font);
+    keymapper.load(dbc.read());
 }
 
 void Menu_Settings_Keymapper::loadDefaults()
 {
     Database_Commands dbc;
-    keymapper.load(dbc.readDefaults(), *font);
+    keymapper.load(dbc.readDefaults());
 }
 
 void Menu_Settings_Keymapper::save()
 {
     Database_Commands dbc;
-    dbc.write(keymapper.getCommands());
-    saveCommands(keymapper.getCommands());
+    auto data = keymapper.getData();
+    dbc.write(data);
+    saveCommands(data);
     escape();
 }

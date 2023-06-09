@@ -29,6 +29,9 @@ public:
         NULL_STATE
     };
 
+    static void setView(const sf::Vector2u& w_size);
+    virtual void windowResize(const sf::Vector2u& w_size) {} // todo make this pure virtual
+
     virtual void update(const sf::Vector2i& mpos);
     virtual void clickLeft();
     virtual void releaseLeft();
@@ -64,7 +67,9 @@ public:
     void setEscape(Menu::State state);
     void setEscape(Main_State::State states);
 
-    static std::unique_ptr<sf::Font> font; // protect this (temporary for fps)
+    static sf::Font* font; // protect this (temporary for fps)
+
+    static std::function<void()> clearGame;
 
 protected:
     std::vector<Menu_Element*> elements;
@@ -92,6 +97,8 @@ protected:
     static sf::View view;
 
     void clearNullElements();
+
+    std::unique_ptr<Dialog> dialog { nullptr };
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

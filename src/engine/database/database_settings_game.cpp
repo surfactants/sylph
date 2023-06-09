@@ -12,8 +12,8 @@ Game_Settings Database_Settings_Game::read()
     selectByKey("GAME_SETTINGS", "ACTIVE");
     step();
     int col = 1;
-    settings.difficulty = sqlite3_column_int(statement, col++);
-    settings.speed = sqlite3_column_int(statement, col++);
+    settings.difficulty = toInt(col++);
+    settings.speed = toInt(col++);
     finalize();
     return settings;
 }
@@ -25,8 +25,8 @@ Game_Settings Database_Settings_Game::readDefaults()
     selectByKey("GAME_SETTINGS", "DEFAULT");
     step();
     int col = 1;
-    settings.difficulty = sqlite3_column_int(statement, col++);
-    settings.speed = sqlite3_column_int(statement, col++);
+    settings.difficulty = toInt(col++);
+    settings.speed = toInt(col++);
     finalize();
 
     return settings;

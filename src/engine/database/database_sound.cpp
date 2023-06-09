@@ -9,6 +9,8 @@ Database_Sound::Database_Sound()
 
 std::map<Event::Tag, Sound> Database_Sound::getBuffers()
 {
+    using magic_enum::enum_cast;
+
     std::map<Event::Tag, Sound> buffers;
 
     int row = 0;
@@ -16,12 +18,12 @@ std::map<Event::Tag, Sound> Database_Sound::getBuffers()
     while (step()) {
         int col = 0;
 
-        using magic_enum::enum_cast;
-
         // load tag and source using magic_enum
         Event::Tag tag = enum_cast<Event::Tag>(toString(col++)).value_or(Event::Tag::NONE);
         Sound::Source src = enum_cast<Sound::Source>(toString(col++)).value_or(Sound::Source::UI);
-        float threshold = sqlite3_column_double(statement, col++);
+        float threshold = toFloat(col++);
+
+        // todo: toBlob()
 
         // load buffer
         sqlite3_blob* blob;

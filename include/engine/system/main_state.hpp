@@ -19,6 +19,8 @@ public:
     virtual void update(float delta_time) = 0;
     virtual void handleInput(const sf::Event& event) = 0;
 
+    virtual void windowResize(const sf::Vector2u& w_size) = 0;
+
     static std::function<void(Main_State::State)> setState;
 
 protected:

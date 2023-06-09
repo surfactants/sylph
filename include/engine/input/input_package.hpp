@@ -9,13 +9,6 @@
 
 #include "command.hpp"
 
-/*
-struct Command {
-    sf::Keyboard::Key k;
-    std::string pressed;
-    std::string released;
-};
-*/
 class Input_Package {
 public:
     Input_Package() = default;
@@ -33,6 +26,8 @@ public:
 
     void release(sf::Keyboard::Key k);
     void release(sf::Mouse::Button b);
+
+    std::function<void(float)> scroll { [](float) {} };
 
     std::map<sf::Keyboard::Key, std::function<void()>> key_press;
     std::map<sf::Keyboard::Key, std::function<void()>> key_release;

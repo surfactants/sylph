@@ -2,17 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 
+////////////////////////////////////////////
+// TODO:
+//  - add click dragging (only on scrollbar)
+//  - add middle mouse dragging (anywhere)
+////////////////////////////////////////////
+
 /// SCROLLABLE ///
 /// \brief base class for scrollable UI elements
 ///
 class Scrollable : public sf::Drawable {
 public:
-    ////////////////////////////////////////////
-    // TODO:
-    //  - add click dragging (only on scrollbar)
-    //  - add middle mouse dragging (anywhere)
-    ////////////////////////////////////////////
-
     /// DEFAULT CONSTRUCTOR ///
     /// \brief the default constructor is insufficient. setView() and setScrollable() BOTH MUST BE CALLED
     ///

@@ -12,7 +12,10 @@ Main_State_Machine::Main_State_Machine(sf::RenderWindow& window, Event_Bus& even
         setState(Main_State::MENU);
         static_cast<Menu_State*>(states[Main_State::MENU].get())->setMenuState(Menu::PAUSE);
     };
+
     states[Main_State::GAME] = std::make_unique<Game_State>(open_pause);
+
+    states[Main_State::GAME]->windowResize(window.getSize());
 
     Menu::setMainState = Main_State::setState;
 
@@ -38,6 +41,16 @@ void Main_State_Machine::setState(Main_State::State new_state)
     last_state = current_state;
     current_state = new_state;
     state = states[new_state].get();
+}
+
+
+void Main_State_Machine::windowResize(const sf::Vector2u& w_size)
+{
+    for (auto& state : states) {
+        if (state.second) {
+            state.second->windowResize(w_size);
+        }
+    }
 }
 
 void Main_State_Machine::draw(sf::RenderTarget& target, sf::RenderStates states) const
