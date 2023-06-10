@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include <engine/math/collide.hpp>
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <game/world/gen/voronoi/diagram.hpp>
 
