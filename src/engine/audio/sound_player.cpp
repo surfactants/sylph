@@ -10,7 +10,7 @@ Sound_Player::Sound_Player(Event_Bus& event_bus)
     volume[Sound::GAME] = 100.f;
 
     Database_Sound db;
-    context = db.getBuffers();
+    context = db.read();
 }
 
 void Sound_Player::update()

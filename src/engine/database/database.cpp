@@ -98,3 +98,13 @@ float Database::toFloat(int col)
 {
     return sqlite3_column_double(statement, col);
 }
+
+Database::Blob Database::toBlob(int row, const std::string cname)
+{
+    sqlite3_blob* sql_blob;
+    rc = sqlite3_blob_open(db, "main", table.c_str(), cname.c_str(), row, 0, &sql_blob);
+    Blob blob(sqlite3_blob_bytes(sql_blob));
+    sqlite3_blob_read(sql_blob, blob.buffer.get(), blob.length, 0);
+    sqlite3_blob_close(sql_blob);
+    return blob;
+}

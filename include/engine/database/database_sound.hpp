@@ -10,5 +10,5 @@ class Database_Sound : protected Database {
 public:
     Database_Sound();
 
-    std::map<Event::Tag, Sound> getBuffers();
+    std::map<Event::Tag, Sound> read();
 };
