@@ -2,6 +2,7 @@
 
 #include <sqlite3.h>
 
+#include <memory>
 #include <string>
 
 /// DATABASE ///
@@ -33,6 +34,22 @@ protected:
     std::string toString(int column);
     int toInt(int column);
     float toFloat(int column);
+
+    struct Blob {
+        Blob() = default;
+        Blob(int length)
+            : length { length }
+        {
+            buffer = std::shared_ptr<char[]>(new char[length]);
+        }
+
+        std::shared_ptr<char[]> buffer;
+        int length;
+    };
+
+    /// blob ///
+    /// \brief reads a blob from the selected table.
+    Blob toBlob(int row, const std::string cname = "DATA");
 
     std::string table;
 

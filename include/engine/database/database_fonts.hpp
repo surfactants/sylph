@@ -12,5 +12,5 @@ public:
     void read(std::map<Font, sf::Font>& fonts);
 
 private:
-    static std::vector<char*> buffers;
+    static std::vector<std::shared_ptr<char[]>> buffers;
 };

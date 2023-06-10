@@ -1,5 +1,7 @@
 #include <menu/state/menu.hpp>
 
+#include <engine/resources/font_manager.hpp>
+
 std::function<void()> Menu::clearGame;
 
 sf::Font* Menu::font = Font_Manager::get(Font::MENU);
