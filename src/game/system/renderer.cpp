@@ -38,6 +38,12 @@ void Renderer::clearLayer(size_t layer)
     layers.erase(layer);
 }
 
+void Renderer::moveLayer(size_t src, size_t target)
+{
+    layers.insert(std::make_pair(target, std::move(layers[src])));
+    layers.erase(src);
+}
+
 void Renderer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (const auto& layer : layers) {

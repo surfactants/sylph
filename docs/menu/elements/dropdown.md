@@ -6,4 +6,4 @@ TODO: make sure selected element is in view when opening the menu.
 
 ## Read more:
 - [Menu Elements](elements.md)
-- [Menus](../menus.md)
+- [Menus](../menu.md)

@@ -167,22 +167,19 @@ void Game_State::loadSettings(Game_Settings settings)
 
 void Game_State::loadFunctions()
 {
-    // here, match the game functions to string identifiers
-    // use std::bind - the lambdas are placeholders
-    // also, keep in mind that pointers could become an issue...
-    // ... if casting between Game_Play and Game_UI
-    // i.e. use Game_State functions
-    //
+    // here, bind game functions to string identifiers
+
     auto acc = &Game::core->systems.accelerator;
     string_to_function = {
-        // movement functions
         { "null", []() {} },
-        { "move up", std::bind(&Input_Accelerator::startUp,         acc) },
-        { "stop up", std::bind(&Input_Accelerator::stopUp,          acc) },
-        { "move left", std::bind(&Input_Accelerator::startLeft,     acc) },
-        { "stop left", std::bind(&Input_Accelerator::stopLeft,      acc) },
-        { "move down", std::bind(&Input_Accelerator::startDown,     acc) },
-        { "stop down", std::bind(&Input_Accelerator::stopDown,      acc) },
+
+        // movement functions
+        { "move up",    std::bind(&Input_Accelerator::startUp,      acc) },
+        { "stop up",    std::bind(&Input_Accelerator::stopUp,       acc) },
+        { "move left",  std::bind(&Input_Accelerator::startLeft,    acc) },
+        { "stop left",  std::bind(&Input_Accelerator::stopLeft,     acc) },
+        { "move down",  std::bind(&Input_Accelerator::startDown,    acc) },
+        { "stop down",  std::bind(&Input_Accelerator::stopDown,     acc) },
         { "move right", std::bind(&Input_Accelerator::startRight,   acc) },
         { "stop right", std::bind(&Input_Accelerator::stopRight,    acc) },
 

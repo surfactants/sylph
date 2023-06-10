@@ -7,13 +7,13 @@ Database_Sound::Database_Sound()
     selectTable("SOUNDS");
 }
 
-std::map<Event::Tag, Sound> Database_Sound::getBuffers()
+std::map<Event::Tag, Sound> Database_Sound::read()
 {
     using magic_enum::enum_cast;
 
-    std::map<Event::Tag, Sound> buffers;
+    std::map<Event::Tag, Sound> sounds;
 
-    int row = 0;
+    int row = 1;
 
     while (step()) {
         int col = 0;
@@ -23,21 +23,12 @@ std::map<Event::Tag, Sound> Database_Sound::getBuffers()
         Sound::Source src = enum_cast<Sound::Source>(toString(col++)).value_or(Sound::Source::UI);
         float threshold = toFloat(col++);
 
-        // todo: toBlob()
-
         // load buffer
-        sqlite3_blob* blob;
-        sqlite3_blob_open(db, "main", "SOUNDS", "DATA", ++row, 0, &blob);
-        int bsize = sqlite3_blob_bytes(blob);
-        char* buffer = new char[bsize];
-        sqlite3_blob_read(blob, buffer, bsize, 0);
-        sf::SoundBuffer sound;
-        sound.loadFromMemory(buffer, bsize);
-        delete[] buffer;
-        sqlite3_blob_close(blob);
-
-        buffers[tag] = Sound(sound, threshold, src);
+        Blob blob = toBlob(row++);
+        sf::SoundBuffer sound_buffer;
+        sound_buffer.loadFromMemory(blob.buffer.get(), blob.length);
+        sounds[tag] = Sound(sound_buffer, threshold, src);
     }
 
-    return buffers;
+    return sounds;
 }

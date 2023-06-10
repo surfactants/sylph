@@ -9,19 +9,6 @@
 /// creates layers for each view
 ///
 
-/*
-  * FUNCTIONS:
-  *
-  * * Default constructor
-  *
-  * * void add(sf::Drawable* d)
-  * > saves a
-  *
-  *
-  *
-  *
-*/
-
 class Renderer : public sf::Drawable {
 public:
     Renderer() = default;
@@ -44,7 +31,13 @@ public:
     /// \brief erases all drawables
     void clear();
 
+    /// clearLayer ///
+    /// \brief erases the selected layer
     void clearLayer(size_t layer);
+
+    /// moveLayer ///
+    /// \brief moves the source layer to the target index
+    void moveLayer(size_t src, size_t target);
 
 private:
     struct Layer {

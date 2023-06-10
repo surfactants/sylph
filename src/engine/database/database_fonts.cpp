@@ -1,6 +1,6 @@
 #include <engine/database/database_fonts.hpp>
 
-std::vector<char*> Database_Fonts::buffers;
+std::vector<std::shared_ptr<char[]>> Database_Fonts::buffers;
 
 void Database_Fonts::read(std::map<Font, sf::Font>& fonts)
 {
@@ -8,19 +8,12 @@ void Database_Fonts::read(std::map<Font, sf::Font>& fonts)
 
     selectTable("FONTS");
 
-    int row { 0 };
-
-    std::cout << "\n\n";
+    int row { 1 }; // sqlite rows are 1-indexed
 
     while (step()) {
         Font font_type = stringToFont(toString(0));
-        sqlite3_blob* blob;
-        rc = sqlite3_blob_open(db, "main", "FONTS", "DATA", ++row, 0, &blob);
-        int bsize = sqlite3_blob_bytes(blob);
-        char* buffer = new char[bsize];
-        rc = sqlite3_blob_read(blob, buffer, bsize, 0);
-        fonts[font_type].loadFromMemory(buffer, bsize);
-        sqlite3_blob_close(blob);
-        buffers.push_back(buffer);
+        Blob blob = toBlob(row++);
+        fonts[font_type].loadFromMemory(blob.buffer.get(), blob.length);
+        buffers.push_back(blob.buffer);
     }
 }

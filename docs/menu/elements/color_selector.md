@@ -9,4 +9,4 @@ The latter two elements are static. Each instance may define a position for them
 
 ## Read more:
 - [Menu Elements](elements.md)
-- [Menus](../menus.md)
+- [Menus](../menu.md)
