@@ -13,6 +13,7 @@ public:
     System_Manager();
 
     void update(const float delta_time);
+    void windowResize(const sf::Vector2u& w_size);
 
     Camera_Controller camera_controller;
 
@@ -31,8 +32,6 @@ public:
     static inline std::function<T(Entity)> getComponent;
 
     Context context { camera_controller, renderer, solar_system, tile_system };
-
-    void windowResize(const sf::Vector2u& w_size);
 
     std::map<std::string, System*> map;
 };

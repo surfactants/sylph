@@ -1,8 +1,13 @@
 # Component
 *game/component/component.hpp*
 
-Components are structs, typically POD (though with no such requirement). They do not inherit anything - the Component type is an enum class. Sylph provides several standard component types, but more are easily added:
-- Declare a struct, T
+All standard components are structs, typically POD (though with no such requirement). They do not inherit anything - the Component type itself is an enum class.
+
+***Please do not use type aliases for components. If multiple components alias the same type, it will crash.***
+
+To add a custom component, follow 
+- Declare a type T
+- Include it in the [component manager](component_manager.md)
 - Add an entry to the enum
 - Register the component inside Game_State::registration()
 - Extend the Component_Serializer (TODO add link):

@@ -10,8 +10,6 @@ void Database_Fonts::read(std::map<Font, sf::Font>& fonts)
 
     int row { 0 };
 
-    std::cout << "\n\n";
-
     while (step()) {
         Font font_type = stringToFont(toString(0));
         sqlite3_blob* blob;
