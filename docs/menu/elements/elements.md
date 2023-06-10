@@ -127,4 +127,4 @@ resets `state` to `base_state`
 The [Scrollable](scrollable.md) class allows the creation of spatially large classes in small areas, and the means to vertically scroll the view. It is not currently a Menu_Element subclass, though that is a priority, to remove some potential ambiguities. 
 
 ## Read more:
-- [Menus](../menus.md)
+- [Menus](../menu.md)

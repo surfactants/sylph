@@ -6,4 +6,4 @@ Contains a callback for effecting value changes. No passing required, just assig
 
 ## Read more:
 - [Menu Elements](elements.md)
-- [Menus](../menus.md)
+- [Menus](../menu.md)

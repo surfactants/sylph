@@ -1,4 +1,4 @@
 # blah!
 
 ## Read more...
-- [Menus](../menus.md)
+- [Menus](../menu.md)
