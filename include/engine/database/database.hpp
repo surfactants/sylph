@@ -32,8 +32,8 @@ protected:
     void execute(std::string sql);
 
     std::string toString(int column);
-    int toInt(int col);
-    float toFloat(int col);
+    int toInt(int column);
+    float toFloat(int column);
 
     struct Blob {
         Blob() = default;

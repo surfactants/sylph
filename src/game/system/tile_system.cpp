@@ -2,7 +2,7 @@
 
 #include <engine/math/collide.hpp>
 
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <game/component/polygon_tile.hpp>
 #include <game/component/transform.hpp>

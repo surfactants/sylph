@@ -1,7 +1,7 @@
 #include <game/state/new_game.hpp>
 
 #include <engine/math/primordial.hpp>
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <game/core/load_game.hpp>
 

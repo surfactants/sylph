@@ -5,7 +5,7 @@
 #include <cmath> // pow
 
 #include <engine/database/database_body.hpp>
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <game/component/body_info.hpp>
 #include <game/component/transform.hpp>

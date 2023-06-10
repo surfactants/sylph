@@ -1,6 +1,6 @@
 #include <game/world/civilization_generator.hpp>
 
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <engine/util/sfml_stream.hpp>
 

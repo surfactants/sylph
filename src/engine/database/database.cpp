@@ -84,19 +84,19 @@ void Database::execute(std::string sql)
     }
 }
 
-std::string Database::toString(int col)
+std::string Database::toString(int column)
 {
-    return reinterpret_cast<const char*>(sqlite3_column_text(statement, col));
+    return reinterpret_cast<const char*>(sqlite3_column_text(statement, column));
 }
 
-int Database::toInt(int col)
+int Database::toInt(int column)
 {
-    return sqlite3_column_int(statement, col);
+    return sqlite3_column_int(statement, column);
 }
 
-float Database::toFloat(int col)
+float Database::toFloat(int column)
 {
-    return sqlite3_column_double(statement, col);
+    return sqlite3_column_double(statement, column);
 }
 
 Database::Blob Database::toBlob(int row, const std::string cname)

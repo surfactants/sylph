@@ -7,7 +7,7 @@
 #include <engine/math/collide.hpp>
 #include <engine/math/primordial.hpp>
 #include <engine/resources/palette.hpp>
-#include <engine/util/prng.hpp>
+#include <engine/math/prng.hpp>
 
 #include <game/world/gen/voronoi/circle.hpp>
 #include <game/world/gen/voronoi/parabola.hpp>
