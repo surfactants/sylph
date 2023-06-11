@@ -6,9 +6,8 @@
 #include <string>
 
 /// KEY_STRING ///
-/// \brief This class handles conversions between
-/// sf::Keyboard::Key and std::string
-/// it is a modification of the solution in the Thor library by Bromeon
+/// \brief This class handles conversions between sf::Keyboard::Key and std::string.
+/// It is a modification of the solution in the Thor library by Bromeon
 /// (uses two maps instead of a bimap)
 ///
 class Key_String {

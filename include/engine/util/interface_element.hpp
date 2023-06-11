@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+// MOVE THIS SOMEWHERE ELSE!!
+
 class Interface_Element : public sf::Drawable {
 public:
     enum State {
