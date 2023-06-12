@@ -23,6 +23,5 @@ struct Event {
     Event(Type type, Tag tag = Tag::NONE)
         : type { type }
         , tag { tag }
-    {
-    }
+    { }
 };

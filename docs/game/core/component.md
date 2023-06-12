@@ -1,4 +1,5 @@
 # Component
+*concept/enum class*
 *game/component/component.hpp*
 
 All standard components are structs, typically POD (though with no such requirement). They do not inherit anything - the Component type itself is an enum class.

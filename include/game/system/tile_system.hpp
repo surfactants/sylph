@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <engine/resources/palette.hpp>
-#include <engine/util/double_click.hpp>
+#include <engine/input/double_click.hpp>
 
 #include "system.hpp"
 

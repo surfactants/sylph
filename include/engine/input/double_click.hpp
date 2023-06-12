@@ -7,12 +7,12 @@ public:
     bool operator () ()
     {
         bool dbl = (flag && timer.getElapsedTime().asSeconds() <= threshold);
+        timer.restart();
         if (dbl) {
             flag = false;
         }
         else {
             flag = true;
-            timer.restart();
         }
         return dbl;
     }

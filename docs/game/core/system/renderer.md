@@ -1,4 +1,6 @@
 # Renderer
+*class : System, sf::Drawable*
+*game/system/renderer.hpp*
 
 Draws game objects in private Layer structures. Each Layer holds a pointer to an sf::View object, along with a vector of sf::Drawable pointers. The layers themselves are stored in a map structure, ensuring that index values always stay valid when removing a layer. 
 

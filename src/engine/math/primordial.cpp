@@ -1,5 +1,10 @@
 #include <engine/math/primordial.hpp>
 
+int roundFloat(float f)
+{
+    return static_cast<int>(f + (sign(f) / 2.f));
+}
+
 sf::Vector2f calculateMoveVector(float angle, float velocity)
 {
     sf::Vector2f v;

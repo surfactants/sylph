@@ -1,4 +1,5 @@
 # Component_Manager
+*class*
 *game/core/component_manager.hpp*
 
 Handles the creation, destruction, and storage of [Component](component.md) types.
