@@ -2,6 +2,9 @@
 *class*
 *engine/resources/texture_manager.hpp*
 
+[Module Engine](../engine.md)
+[Submodule Resources](resources.md)
+
 TODO
 
 Singleton that contains and provides sf::Texture objects.

@@ -2,6 +2,9 @@
 *class*
 *engine/event/event_bus.hpp*
 
+[Module Engine](../engine.md)
+[Submodule Event](event.md)
+
 Accepts the creation of Event objects statically, and then propagates those events to any functions that have been registered as listeners.
 
 ## Public Member Functions

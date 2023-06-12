@@ -2,6 +2,8 @@
 *submodule*
 *engine/input/*
 
+[Module Engine](../engine.md)
+
 Classes for handling mouse/keyboard input.
 
 - [Command](command.md): POD struct for determining keyboard input functions.

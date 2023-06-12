@@ -2,6 +2,8 @@
 *submodule*
 *engine/event/*
 
+[Module Engine](../engine.md)
+
 For publishing and listening to events, through the [Event_Bus](event_bus.md).
 
 Event operations make use of the eponymous struct, which primarily holds two enums:

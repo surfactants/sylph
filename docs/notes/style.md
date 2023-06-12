@@ -1,4 +1,7 @@
 # Style
+
+[Return to docs](../docs.md)
+
 ### clang-format
 Sylph uses a custom [clang-format](.././.clang-format) based on stroustrup style. Differences include:
 - empty braces may occupy a single line

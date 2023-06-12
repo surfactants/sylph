@@ -2,6 +2,9 @@
 *class*
 *engine/input/input_package.hpp*
 
+[Module Engine](../engine.md)
+[Submodule Input](input.md)
+
 Stores functions bound to specific mouse or keyboard input, in public maps. Also provides invocation functions.
 
 ## Public Member Functions

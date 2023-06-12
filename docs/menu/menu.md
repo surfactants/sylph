@@ -1,6 +1,8 @@
 # Menus
 *module*
 
+[Return to docs](../docs.md)
+
 Sylph's menu system comprises a sub-state machine under `Menu_State` (a **Main_State**). It operates like the main state machine: a map containing unique base pointers for each state, and a raw non-owning “current state” pointer.
 
 The **Menu** class itself is an abstract base class, defining the bulk of the operations for the menu – particularly input. Individual menu screens are derived from Menu. For more information, please read [Deriving A New Menu State]().

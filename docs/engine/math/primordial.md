@@ -2,6 +2,9 @@
 *header*
 *engine/math/primordial.hpp*
 
+[Module Engine](../engine.md)
+[Library Math](math.md)
+
 Functions for basic math operations.
 
 - T **scalarDistance( *const sf::Vector2<T> v, const sf::Vector2<T> w* ):** calculates a scalar (single-value) distance between two sf::Vector2 points.

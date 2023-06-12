@@ -2,6 +2,9 @@
 *header*
 *engine/util/text.hpp*
 
+[Module Engine](../engine.md)
+[Library Util](util.md)
+
 Functions for the manipulation of sf::Text objects
 
 - void **centerText( *sf::Text& text* ):** centers text

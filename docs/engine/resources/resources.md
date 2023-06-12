@@ -2,6 +2,8 @@
 *submodule*
 *engine/resources/*
 
+[Module Engine](../engine.md)
+
 Resource management.
 
 - [Font_Manager](font_manager.md): singleton that contains and provides sf::Font objects

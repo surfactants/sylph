@@ -2,6 +2,9 @@
 *header*
 *engine/math/collide.hpp*
 
+[Module Engine](../engine.md)
+[Library Math](math.md)
+
 Checks intersections between SFML types. All functions are provided within the namespace **collide**.
 
 - bool **convexShape_Point( *const sf::ConvexShape& shape, const sf::Vector2f point* ):** checks if the point is inside the shape

@@ -2,6 +2,9 @@
 *header*
 *engine/math/prng.hpp*
 
+[Module Engine](../engine.md)
+[Library Math](math.md)
+
 Pseudo-random number generator. All functions are provided within the namespace **prng**.
 
 - T **number( *const T floor, const T ceil* ):** generates a random number between floor and ceil; integral or floating point.

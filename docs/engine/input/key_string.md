@@ -2,6 +2,9 @@
 *class*
 *engine/input/key_string.hpp*
 
+[Module Engine](../engine.md)
+[Submodule Input](input.md)
+
 Handles conversions between sf::Keyboard::Key and std::string. A slight modification of the approach found in Bromeon's Thor library. The conversion maps themselves are static, and only defined when the class is first constructed.
 
 ## Public Member Functions

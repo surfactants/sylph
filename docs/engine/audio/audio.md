@@ -2,7 +2,9 @@
 *submodule*
 *engine/audio/*
 
-Audio is handled through the event bus, with the sound and music players acting as listeners.
+[Module Engine](../engine.md)
+
+Audio is handled through the [event bus](../event/event_bus.md), with the sound and music players acting as listeners.
 
 ## Sound_Player
 The sound player listens for events of type Event::SOUND. It selects which sound to play from the event's tag.

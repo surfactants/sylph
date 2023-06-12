@@ -2,6 +2,9 @@
 *header*
 *engine/util/sfml_stream.hpp*
 
+[Module Engine](../engine.md)
+[Library Util](util.md)
+
 Stream operators for various SFML types.
 
 - std::ostream& **operator << ( *std::ostream& os, sf::Vector2<T> v* ):** reads sf::Vector2 objects into stream with format "(x, y)"

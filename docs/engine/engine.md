@@ -1,11 +1,13 @@
 # Engine
 *module*
 
+[Return to docs](../docs.md)
+
 Forms the core of Sylph's functionality.
 
 ## Submodules
 
-### [Audio](audio.audio.md)
+### [Audio](audio/audio.md)
 Sound and music players.
 
 ### [Event](event/event.md)
