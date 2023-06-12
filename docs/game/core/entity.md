@@ -1,4 +1,5 @@
 # Entity
+*concept, unsigned integral type alias*
 *game/core/entity.hpp*
 
 This file contains the following definitions:

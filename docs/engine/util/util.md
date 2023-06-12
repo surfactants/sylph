@@ -1,6 +1,6 @@
-# Utils
-*submodule*
-*engine/utils/*
+# Util
+*headers*
+*engine/util/*
 
 A group of miscellaneous headers providing useful functions.
 

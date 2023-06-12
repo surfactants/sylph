@@ -1,5 +1,5 @@
 # Math
-*submodule*
+*headers*
 *engine/math/*
 
 Header with functions providing various math operations.
