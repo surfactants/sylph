@@ -2,7 +2,7 @@
 *class*
 *engine/input/double_click.hpp*
 
-[Module Engine](../engine.md)
+[Module Engine](../engine.md)  
 [Submodule Input](input.md)
 
 Uses an sf::Clock object to determine time intervals between mouse clicks.

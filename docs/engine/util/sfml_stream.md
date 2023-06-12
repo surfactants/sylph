@@ -2,7 +2,7 @@
 *header*
 *engine/util/sfml_stream.hpp*
 
-[Module Engine](../engine.md)
+[Module Engine](../engine.md)  
 [Library Util](util.md)
 
 Stream operators for various SFML types.

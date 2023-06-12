@@ -1,7 +1,7 @@
 # Engine
 *module*
 
-[Return to docs](../docs.md)
+[Return to Docs](../docs.md)
 
 Forms the core of Sylph's functionality.
 

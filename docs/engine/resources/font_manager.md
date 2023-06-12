@@ -2,7 +2,7 @@
 *class*
 *engine/resources/font_manager.hpp*
 
-[Module Engine](../engine.md)
+[Module Engine](../engine.md)  
 [Submodule Resources](resources.md)
 
 Singleton that contains and provides sf::Font objects. Also stores the associated font buffers.

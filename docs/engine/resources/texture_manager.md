@@ -2,7 +2,7 @@
 *class*
 *engine/resources/texture_manager.hpp*
 
-[Module Engine](../engine.md)
+[Module Engine](../engine.md)  
 [Submodule Resources](resources.md)
 
 TODO

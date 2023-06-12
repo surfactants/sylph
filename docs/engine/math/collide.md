@@ -2,7 +2,7 @@
 *header*
 *engine/math/collide.hpp*
 
-[Module Engine](../engine.md)
+[Module Engine](../engine.md)  
 [Library Math](math.md)
 
 Checks intersections between SFML types. All functions are provided within the namespace **collide**.
