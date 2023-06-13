@@ -13,7 +13,7 @@ constexpr static float PI { 3.14159265359 };
 /// uses sqrt, so it's pretty expensive
 ///
 template <typename T>
-T scalarDistance(const sf::Vector2<T> v, sf::Vector2<T> const w)
+T scalarDistance(const sf::Vector2<T> v, const sf::Vector2<T> w)
 {
     T a = std::abs(w.x - v.x);
     T b = std::abs(w.y - v.y);
@@ -35,9 +35,6 @@ int sign(T val)
     return (T(0) < val) - (val < T(0));
 }
 
-inline int roundFloat(float f)
-{
-    return static_cast<int>(f + (sign(f) / 2.f));
-}
+int roundFloat(float f);
 
 sf::Vector2f calculateMoveVector(float angle, float velocity);

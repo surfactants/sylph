@@ -1,4 +1,5 @@
 * System_Manager
+*class*
 *game/core/system_manager.hpp*
 
 The system manager is where all game logic is performed, through the encapsulated [systems](system.md).

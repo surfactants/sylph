@@ -33,6 +33,7 @@ float Sound_Player::getVolume(Sound::Source s)
 void Sound_Player::read(Event event)
 {
     if (context[event.tag].ready()) {
+        // look at other events and decide whether to add it (i.e. avoid cacophany)
         Sound& s = context[event.tag];
         sounds.push_back(sf::Sound(s.buffer));
         sounds.back().setVolume(volume[s.source]);

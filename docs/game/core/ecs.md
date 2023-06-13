@@ -1,4 +1,8 @@
 # ECS
+*submodule, concept*
+*game/core/*
+*game/component/*
+*game/system/*
 
 Sylph uses an Entity Component System to provide extensible game behavior, based on [Austin Morlan's implementation](https://austinmorlan.com/posts/entity_component_system/) (and currently borrowing some code from it)
 

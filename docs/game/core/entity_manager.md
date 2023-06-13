@@ -1,4 +1,5 @@
 # Entity_Manager
+*class*
 *game/core/entity_manager.hpp*
 
 Handles the creation, destruction, and storage of [Entity](entity.md) objects along with their signatures.

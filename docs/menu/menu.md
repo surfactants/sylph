@@ -1,8 +1,11 @@
 # Menus
+*module*
+
+[Return to docs](../docs.md)
 
 Sylph's menu system comprises a sub-state machine under `Menu_State` (a **Main_State**). It operates like the main state machine: a map containing unique base pointers for each state, and a raw non-owning “current state” pointer.
 
-The **Menu** class itself is an abstract base class base class, defining the bulk of the operations for the menu – particularly input. Individual menu screens are derived from Menu. For more information, please read [Deriving A New Menu State]().
+The **Menu** class itself is an abstract base class, defining the bulk of the operations for the menu – particularly input. Individual menu screens are derived from Menu. For more information, please read [Deriving A New Menu State]().
 
 Stored in the base class is a vector of Button objects, called “nav”, which serve to allow user navigation through, to, and away from menu states.
 
@@ -32,9 +35,9 @@ Please note: the `elements` vector is not intended to hold raw owning pointers. 
 Input can generally be left alone, though some menus have special requirements, such as Menu_New_Game validating input to set availability of the “start” button, or 
 
 ### Examples:
-- `Menu_Main`, in `<include/engine/menu/state/menu_main.cpp>`
-- `Menu_Settings_Audio`, featuring more elements, custom functions, and even some callbacks. Its implementation file is in the same directory with the same naming convention, but it’s worth having a look at the header, as well as the Menu_State’s implementation, for a complete idea of how it works.
-- ‘Menu_New_Game`, featuring many elements.
+- **Menu_Main**
+- **Menu_Settings_Audio**, featuring more elements, custom functions, and some callbacks.
+- **Menu_New_Game**, featuring many elements.
 
 ## Read more...
 - [Elements](elements/elements.md)

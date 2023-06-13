@@ -1,4 +1,5 @@
 # System
+*class*
 *game/system/system.hpp*
 
 System is a base class for all systems that operate on entities.

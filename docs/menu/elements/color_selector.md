@@ -1,4 +1,6 @@
 # Color_Selector
+*class : Menu_Element*
+*menu/elements/color_selector.hpp*
 
 Menu element which provides a color selection widget. Contains:
 - [Button](button.md) for entry and preview

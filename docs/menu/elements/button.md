@@ -1,4 +1,6 @@
 # Button
+*class : Menu_Element*
+*menu/elements/button.hpp*
 
 Menu element with an onclick callback.
 

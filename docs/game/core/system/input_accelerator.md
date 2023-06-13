@@ -1,4 +1,5 @@
 # Input_Accelerator
+*class*
 *game/system/input_accelerator.hpp*
 
 Accepts WASD-style input and calculates a movement vector. Despite residing in the *system/* directory, and being encapsulated by System_Manager, this class does not derive from System.

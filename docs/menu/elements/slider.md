@@ -1,4 +1,6 @@
 # Slider
+*class : Menu_Element*
+*menu/elements/slider.hpp*
 
 Menu element providing a "slider" settings element, which allows selecting a number from 0-100.
 
