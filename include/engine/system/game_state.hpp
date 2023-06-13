@@ -11,9 +11,7 @@
 
 #include <game/state/game.hpp>
 
-#include <menu/state/menu.hpp>
-
-#include <ui/ui.hpp>
+#include <ui/hud/hud.hpp>
 
 #include "main_state.hpp"
 
@@ -68,7 +66,7 @@ private:
 
     std::vector<Command> commands {};
 
-    std::unique_ptr<UI> ui { nullptr };
+    std::unique_ptr<HUD> hud { nullptr };
 
     std::function<void()> stringToFunction(std::string str);
 

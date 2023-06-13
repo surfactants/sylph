@@ -5,12 +5,13 @@
 
 #include <engine/system/game_state.hpp> // for assigning loadGame
 
-#include <menu/state/menu.hpp> // for font (temporary for fps)
-#include <menu/state/menu_load_game.hpp> // for assigning loadGame
-#include <menu/state/menu_settings_general.hpp> // for assigning resizeWindow
+#include <ui/menu/menu_load_game.hpp> // for assigning loadGame
+#include <ui/menu/menu_settings_general.hpp> // for assigning resizeWindow
 
 #include <game/state/game.hpp> // for assigning relativeMousePos
 // abstract it through the state machine later - it will need assigning in multiple places anyway
+
+#include <engine/resources/font_manager.hpp> // for fps
 
 Shell::Shell()
     : window { sf::VideoMode::getDesktopMode(), "sylph x", sf::Style::Fullscreen, sf::ContextSettings(0, 0, 2) }
@@ -22,7 +23,7 @@ Shell::Shell()
     Menu_Load_Game::loadGame = std::bind(&Game_State::loadGame, game_state, std::placeholders::_1);
     Menu_Settings_General::resizeWindow = std::bind(resizeWindow, this, std::placeholders::_1);
 
-    fps_text.setFont(*Menu::font);
+    fps_text.setFont(*Font_Manager::get(Font::MENU));
     fps_text.setCharacterSize(36);
     fps_text.setPosition(sf::Vector2f(1800.f, 8.f));
 

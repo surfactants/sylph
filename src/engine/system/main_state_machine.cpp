@@ -10,7 +10,7 @@ Main_State_Machine::Main_State_Machine(sf::RenderWindow& window, Event_Bus& even
 
     auto open_pause = [&]() {
         setState(Main_State::MENU);
-        static_cast<Menu_State*>(states[Main_State::MENU].get())->setMenuState(Menu::PAUSE);
+        static_cast<Menu_State*>(states[Main_State::MENU].get())->setState(Menu::PAUSE);
     };
 
     states[Main_State::GAME] = std::make_unique<Game_State>(open_pause);
