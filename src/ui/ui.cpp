@@ -7,39 +7,54 @@ sf::Font* UI::font { Font_Manager::get(Font::UI) };
 std::function<void(Game::State)> UI::setGameState;
 std::function<void()> UI::openPause;
 
+std::function<void(Main_State::State)> UI::setMainState;
+std::function<void(UI::State)> UI::setUIState;
+
+std::function<void()> UI::clearGame;
+
 sf::View UI::view;
 
-UI_Element* UI::moused_element { nullptr };
-UI_Element* UI::active_element { nullptr };
+Element* UI::moused { nullptr };
+Element* UI::active { nullptr };
 
 UI::UI()
 {
-    if (active_element) {
-        active_element->deactivate();
-    }
-    if (moused_element) {
-        moused_element->setToBase();
-    }
-
-    sf::Vector2f pos(0.f, 0.f);
-    sf::Vector2f size(1920.f, 1080.f);
-    sf::Vector2f wsize(1920.f, 1080.f);
-    float xs = size.x / wsize.x;
-    float ys = size.y / wsize.y;
-
-    float xp = pos.x / wsize.x;
-    float yp = pos.y / wsize.y;
-
-    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
-    view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
-    view.setCenter(size / 2.f);
-
-    UI_Element::setActive = std::bind(setActive, std::placeholders::_1);
-    UI_Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
+    // static initialization ensure this operation is only performed once
+    static bool once = [&]() {
+        Element::setActive = std::bind(setActive, std::placeholders::_1);
+        Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
+        return true;
+    } (); // call it at definition end, but still in assignment of once
+    (void) once; // override compiler warning re: unused variable
 }
 
 void UI::update(const sf::Vector2i& mpos)
 {
+    if (active) {
+        if (active->update(mpos)) {
+            moused = active;
+            // still active, truncate
+            return;
+        }
+    }
+
+    if (moused) {
+        if (!moused->update(mpos)) {
+            moused = nullptr;
+        }
+        else {
+            // still moused, truncate
+            return;
+        }
+    }
+
+    // check all elements
+    for (auto& element : elements) {
+        if (element->update(mpos)) {
+            moused = element;
+            break;
+        }
+    }
 }
 
 bool UI::handleInput(const sf::Event& event)
@@ -74,56 +89,63 @@ bool UI::handleInput(const sf::Event& event)
     else if (event.type == sf::Event::TextEntered) {
         textEntered(event);
     }
-    else if (event.type == sf::Event::MouseWheelScrolled && moused_element) {
-        moused_element->scroll(event.mouseWheelScroll.delta);
+    else if (event.type == sf::Event::MouseWheelScrolled && moused) {
+        moused->scroll(event.mouseWheelScroll.delta);
     }
-    return (moused_element || active_element);
+    return (moused || active);
 }
 
 void UI::clickLeft()
 {
-    if (active_element) {
-        active_element->clickLeft();
+    if (active) {
+        active->clickLeft();
     }
-    if (moused_element && moused_element != active_element) {
-        moused_element->clickLeft();
-    }
-}
-
-void UI::releaseLeft()
-{
-    if (active_element) {
-        active_element->releaseLeft();
-    }
-    if (moused_element && moused_element != active_element) {
-        moused_element->releaseLeft();
+    if (moused && moused != active) {
+        moused->clickLeft();
     }
 }
 
 void UI::clickRight()
 {
-    if (active_element) {
-        active_element->clickRight();
+    if (active) {
+        active->clickRight();
     }
-    if (moused_element && moused_element != active_element) {
-        moused_element->clickRight();
+    if (moused && moused != active) {
+        moused->clickRight();
+    }
+}
+
+void UI::releaseLeft()
+{
+    if (active) {
+        active->releaseLeft();
+    }
+    if (moused && moused != active) {
+        moused->releaseLeft();
     }
 }
 
 void UI::releaseRight()
 {
-    if (active_element) {
-        active_element->releaseRight();
+    if (active) {
+        active->releaseRight();
     }
-    if (moused_element && moused_element != active_element) {
-        moused_element->releaseRight();
+    if (moused && moused != active) {
+        moused->releaseRight();
+    }
+}
+
+void UI::scroll(const float delta)
+{
+    if (moused) {
+        moused->scroll(delta);
     }
 }
 
 void UI::keyPressed(sf::Keyboard::Key key)
 {
-    if (active_element) {
-        active_element->keyPressed(key);
+    if (active) {
+        active->keyPressed(key);
     }
     else if (key == sf::Keyboard::Escape) {
         escape();
@@ -132,24 +154,54 @@ void UI::keyPressed(sf::Keyboard::Key key)
 
 void UI::textEntered(const sf::Event& event)
 {
-    if (active_element) {
-        active_element->textEntered(event);
+    if (active) {
+        active->textEntered(event);
     }
+}
+
+void UI::setEscape(Main_State::State state)
+{
+    escape_target = state;
+}
+
+void UI::setEscape(UI::State state)
+{
+    if (active) {
+        active->deactivate();
+    }
+    if (moused) {
+        moused->setToBase();
+    }
+    escape_target = state;
 }
 
 void UI::escape()
 {
+    if (moused) {
+        moused->deactivate();
+        moused = nullptr;
+    }
+    if (active) {
+        active->deactivate();
+    }
+    else {
+        reset();
+        std::visit(*this, escape_target);
+    }
 }
 
-void UI::setActive(UI_Element* element)
+void UI::setActive(Element* element)
 {
-    active_element = element;
+    if (active && active != element) {
+        active->deactivate();
+    }
+    active = element;
 }
 
-void UI::unsetActive(UI_Element* element)
+void UI::unsetActive(Element* element)
 {
-    if (element == active_element) {
-        active_element = nullptr;
+    if (element == active) {
+        active = nullptr;
     }
 }
 
@@ -163,12 +215,32 @@ void UI::setView(const sf::Vector2u& w_size)
     float xp = 0.f;
     float yp = 0.f;
 
-    sf::FloatRect vrect(xp, yp, xs, ys);
-    sf::Vector2f center(size / 2.f);
-
-    view.setViewport(vrect);
+    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
     view.setSize(size);
-    view.setCenter(center);
+    view.setCenter(size / 2.f);
+}
+
+void UI::clearNullElements()
+{
+    for (auto it = elements.begin(); it != elements.end();) {
+        if (!(*it)) {
+            elements.erase(it);
+        }
+        else {
+            it++;
+        }
+    }
+}
+
+void UI::reset()
+{
+    if (moused) {
+        moused->setToBase();
+        moused = nullptr;
+    }
+    if (active) {
+        active->deactivate();
+    }
 }
 
 void UI::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -3,7 +3,7 @@
 #include <engine/audio/audio.hpp>
 #include <engine/system/game_state.hpp>
 
-#include <menu/state/menu.hpp>
+#include <ui/menu/menu.hpp>
 
 #include "main_state.hpp"
 
@@ -16,12 +16,15 @@ public:
 
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
-    void setMenuState(Menu::State new_menu);
+    void setState(UI::State new_menu);
 
-    Menu* menu;
+    std::map<UI::State, std::unique_ptr<Menu>> menus;
 
-    std::map<Menu::State, std::unique_ptr<Menu>> menus;
+    struct State_Record {
+        UI::State state;
+        Menu* ptr;
+    };
 
-    Menu::State current_menu { Menu::MAIN };
-    Menu::State last_menu { Menu::MAIN };
+    State_Record current;
+    State_Record last;
 };

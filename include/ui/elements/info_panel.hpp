@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ui_element.hpp"
+#include "element.hpp"
 
-class Info_Panel : public UI_Element {
+class Info_Panel : public Element {
 public:
     Info_Panel();
 

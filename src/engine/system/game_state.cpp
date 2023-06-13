@@ -5,7 +5,7 @@
 #include <game/state/new_game.hpp>
 #include <game/state/game_play.hpp>
 
-#include <ui/ui_hud.hpp>
+#include <ui/hud/hud.hpp>
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
@@ -221,7 +221,7 @@ void Game_State::newToPlay()
 {
     game = std::make_unique<Game_Play>();
 
-    ui = std::make_unique<UI_HUD>(Game::core->systems);
+    hud = std::make_unique<HUD>(*Game::core);
 
     Database_Commands dbc;
     loadCommands(dbc.read());
@@ -230,7 +230,7 @@ void Game_State::newToPlay()
 
     drawables.clear();
     drawables.push_back(&Game::core->systems.renderer);
-    drawables.push_back(ui.get());
+    drawables.push_back(hud.get());
 
     loadNums();
 
@@ -253,8 +253,8 @@ void Game_State::windowResize(const sf::Vector2u& w_size)
 {
     this->w_size = w_size;
     UI::setView(w_size);
-    if (ui) {
-        ui->windowResize(w_size);
+    if (hud) {
+        hud->windowResize(w_size);
     }
     if (Game::core) {
         Game::core->systems.windowResize(w_size);
