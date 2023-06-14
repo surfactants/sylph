@@ -1,10 +1,18 @@
 # Game
-*module*
+*module, class*
 
-[Return to docs](../docs.md)
-
+## About
 The game is handled through a sub-state machine in the Main_State_Machine's Game_State. (TODO add links). Like the main state, the substate machine is polymorphic, deriving from the abstract *Game* class.
 
-An [Entity Component System](core/ecs.md) forms the basis of game behavior. The pertinent manager classes are static, providing persistence of game data across states.
+Internal behavior follows Entity-Component-System architecture. The pertinent manager classes are encapsulated within a static data structure, providing persistence of game data across states, as well as simple access from other modules.
 
-See also the submodule for [world generation](world/world_generation.md)
+## Submodules
+
+### [Core](core/core.md)
+Contains the Entity-Component-System classes
+
+### [World Generation](world/world_generation.md)
+
+---
+
+[Return to Docs](../docs.md)

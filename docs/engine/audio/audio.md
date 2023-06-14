@@ -2,8 +2,7 @@
 *submodule*
 *engine/audio/*
 
-[Module Engine](../engine.md)
-
+## About
 Audio is handled through the [event bus](../event/event_bus.md), with the sound and music players acting as listeners.
 
 ## Sound_Player
@@ -34,3 +33,8 @@ The music player has two modes: "Title", played in the main menu, and "Game", pl
 To add a song,
 - add to the *soundtrack/* directory.
 - title track is named "menu.wav"; game tracks are numbered (1.wav, 2.wav, etc.) and will play sequentially in-game.
+
+---
+
+[Module Engine](../engine.md)  
+[Return to docs](../../docs.md)
