@@ -2,7 +2,11 @@
 *header*
 *engine/util/time.hpp*
 
-[Module Engine](../engine.md)  
-[Library Util](util.md)
-
+## About
 uhhh move this somewhere else
+
+---
+
+[Module Engine](../engine.md)
+[Library Util](util.md)
+[Return to docs](../../docs.md)

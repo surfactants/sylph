@@ -2,8 +2,7 @@
 *submodule*
 *engine/event/*
 
-[Module Engine](../engine.md)
-
+## About
 For publishing and listening to events, through the [Event_Bus](event_bus.md).
 
 Event operations make use of the eponymous struct, which primarily holds two enums:
@@ -11,3 +10,8 @@ Event operations make use of the eponymous struct, which primarily holds two enu
 - **Tag**, which serves as a subtype. This is an enum class to differentiate its values from the Type enum.
 
 A default constructor is provided, which accepts Type and Tag variables (the latter defaulting to Tag::NONE)
+
+---
+
+[Module Engine](../engine.md)  
+[Return to docs](../../docs.md)
