@@ -1,7 +1,7 @@
 #pragma once
 
 #include "menu_load_game.hpp"
-#include "menu_main.hpp"
+#include "menu_title.hpp"
 #include "menu_new_game.hpp"
 #include "menu_pause.hpp"
 #include "menu_save_game.hpp"

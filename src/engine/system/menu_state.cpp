@@ -10,7 +10,7 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
 
     UI::clearGame = std::bind(&Game_State::clear, game);
 
-    menus[UI::TITLE] = std::make_unique<Menu_Main>();
+    menus[UI::TITLE] = std::make_unique<Menu_Title>();
     current.state = UI::TITLE;
     current.ptr = menus[UI::TITLE].get();
     last = current;

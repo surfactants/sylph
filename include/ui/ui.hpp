@@ -82,7 +82,6 @@ public:
 
 protected:
     static Renderer renderer;
-    static sf::Font* font;
     static sf::View view;
 
     static Element* moused;

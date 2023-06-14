@@ -1,6 +1,6 @@
-#include <ui/menu/menu_main.hpp>
+#include <ui/menu/menu_title.hpp>
 
-Menu_Main::Menu_Main()
+Menu_Title::Menu_Title()
 {
     addNav("new game", std::bind(setUIState, UI::NEW_GAME));
     addNav("continue", std::bind(setUIState, UI::NEW_GAME));

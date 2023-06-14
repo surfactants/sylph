@@ -1,5 +1,9 @@
 #include <ui/hud/hud.hpp>
 
+#include <engine/resources/font_manager.hpp>
+
+sf::Font* HUD::font { Font_Manager::get(Font::UI) };
+
 HUD::HUD(ECS_Core& core)
     : core { core }
 {

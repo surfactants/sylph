@@ -19,6 +19,8 @@ Button::Button(std::string nlabel, const sf::Font& font, unsigned int csize, Sta
     frame.setSize(sf::Vector2f(label.getLocalBounds().left + label.getLocalBounds().width + (padding * 2.f),
         label.getLocalBounds().top + label.getLocalBounds().height + (padding * 2.f)));
 
+    frame.setOutlineColor(Palette::blue);
+
     setState(base);
 
     target = []() {};
@@ -58,6 +60,8 @@ bool Button::update(const sf::Vector2i& mpos)
                 setState(READY);
                 return false;
             }
+            return true;
+        case SELECTED:
             return true;
         default:
             return false;
@@ -104,6 +108,9 @@ void Button::releaseLeft()
 void Button::setState(Button::State state)
 {
     if (state != this->state) {
+        if (this->state == SELECTED) {
+            frame.setOutlineThickness(0.f);
+        }
         this->state = state;
         switch (state) {
             case UNAVAILABLE:
@@ -121,6 +128,9 @@ void Button::setState(Button::State state)
             case ACTIVE:
                 frame.setFillColor(Palette::green);
                 label.setFillColor(Palette::white);
+                break;
+            case SELECTED:
+                frame.setOutlineThickness(2.f);
                 break;
             default:
                 // log this

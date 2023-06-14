@@ -1,9 +1,5 @@
 #include <ui/ui.hpp>
 
-#include <engine/resources/font_manager.hpp>
-
-sf::Font* UI::font { Font_Manager::get(Font::UI) };
-
 std::function<void(Game::State)> UI::setGameState;
 std::function<void()> UI::openPause;
 
@@ -22,7 +18,7 @@ UI::UI()
     // static initialization ensure this operation is only performed once
     static bool once = [&]() {
         Element::setActive = std::bind(setActive, std::placeholders::_1);
-        Element::setInactive = std::bind(unsetActive, std::placeholders::_1);
+        Element::unsetActive = std::bind(unsetActive, std::placeholders::_1);
         return true;
     } (); // call it at definition end, but still in assignment of once
     (void) once; // override compiler warning re: unused variable

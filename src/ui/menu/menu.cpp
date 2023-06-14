@@ -1,5 +1,9 @@
 #include <ui/menu/menu.hpp>
 
+#include <engine/resources/font_manager.hpp>
+
+sf::Font* Menu::font { Font_Manager::get(Font::MENU) };
+
 const sf::Vector2f Menu::nav_start { sf::Vector2f(64.f, 64.f) };
 
 Menu::Menu()

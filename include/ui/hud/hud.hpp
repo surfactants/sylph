@@ -17,8 +17,10 @@ public:
 
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
-private:
+protected:
     ECS_Core& core;
 
     System_Info system_info;
+
+    static sf::Font* font;
 };
