@@ -1,9 +1,11 @@
 # Engine
 *module*
 
-[Return to Docs](../docs.md)
+## About
 
 Forms the core of Sylph's functionality.
+
+---
 
 ## Submodules
 
@@ -31,3 +33,7 @@ Math-related functions.
 
 ### [Util](util/util.md)
 Miscellaneous functions, most notably sf::Text manipulators, and stream operators for SFML types.
+
+---
+
+[Return to docs](../docs.md)

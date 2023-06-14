@@ -23,5 +23,6 @@ Please view [the documentation for clang-format](https://clang.llvm.org/docs/Cla
 ### Capitalization
 - Capitalized_Snake_Case for types
 - lower_snake_case for variables, local constants, and lambdas
-- UPPER_SNAKE for global constants
+- UPPER_SNAKE for global constants or enumeration values
 - lowerCamelCase() for all functions, including std::function objects but excluding lambdas
+(TODO double check std::function object nomenclature)

@@ -2,6 +2,7 @@
 *class*
 *game/core/system_manager.hpp*
 
+## About
 The system manager is where all game logic is performed, through the encapsulated [systems](system.md).
 
 In addition to a default parameterless constructor, it has two public member functions:
@@ -18,3 +19,9 @@ There are a few important classes included by default:
 - **[Context](system/context.md):** Provides a state machine
 - **[Input_Accelerator](system/input_accelerator.md):** Accepts WASD-style input and calculates a movement vector.
 - **[Renderer](system/renderer.md):** Draws game objects in layers and provides view handling
+
+---
+
+[Module Game](../game.md)
+[Submodule Core](core.md)
+[Return to Docs](../../docs.md)

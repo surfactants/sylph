@@ -1,5 +1,6 @@
-# Sylph
+# Documentation
 
+## About
 Sylph is intended as a flexible, extensible, and lightweight game engine for use with C++/SFML. It consists of four modules (not to be confused with the C++20 feature)
 
 ## Modules
@@ -7,6 +8,7 @@ Sylph is intended as a flexible, extensible, and lightweight game engine for use
 ### [Engine](engine/engine.md)
 Forms the core of Sylph's functionality, with main state, audio, input, events, etc.
 
+___
 ### [Game](game/game.md)
 The sub-state machine and Entity-Component system which comprise gameplay.
 
