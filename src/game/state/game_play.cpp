@@ -9,7 +9,7 @@ Game_Play::~Game_Play()
     reset();
 }
 
-void Game_Play::update(float delta_time)
+void Game_Play::update(const float delta_time)
 {
     core->systems.update(delta_time);
 }

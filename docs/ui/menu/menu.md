@@ -3,7 +3,7 @@
 *ui/menu/menu.hpp*
 
 ## About
-The menus comprise one of the branches of the UI's inheritance tree. State is managed as a substate of the Main_State_Machine, within the [Menu_State](../../engine/system/menu_state.md).
+The menus comprise one of the branches of the UI's inheritance tree. State is managed as a substate of the Main_State_Machine, within the [Menu_State](../../engine/shell/menu_state.md).
 
 It is intended for further derivation, with each further element acting as a state. Only nav functionality is added by this class.
 
@@ -48,7 +48,7 @@ Several static constants are offered for offsets:
 - Add an entry to UI::State
 - Initialize the nav in the constructor by calling `addNav` for each element, then `placeNav`
 - `addNav` has an optional parameter for the nav button’s base state, defaulting to Element::READY. To prevent a nav button being used until a certain condition is met, pass Element::UNAVAILABLE.
-- call `setEscape()`, which provides an exit point. Accepts UI::State or Main_State::State. Can be updated dynamically; check [Menu_State](../../engine/system/menu_state.md) for more information.
+- call `setEscape()`, which provides an exit point. Accepts UI::State or Main_State::State. Can be updated dynamically; check [Menu_State](../../engine/shell/menu_state.md) for more information.
 - Define an entry point by adding an extra nav button to an existing menus, or otherwise set up logic somewhere which sets the menu state (and sets the main state to the menu, if necessary).
 
 ---

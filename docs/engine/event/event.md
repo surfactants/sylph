@@ -1,6 +1,6 @@
 # Event
-*submodule*
-*engine/event/*
+*submodule, struct*
+*engine/event/event.hpp*
 
 ## About
 For publishing and listening to events, through the [Event_Bus](event_bus.md).

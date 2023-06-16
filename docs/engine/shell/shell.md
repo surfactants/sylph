@@ -1,6 +1,6 @@
 # Shell
-*class*
-*engine/system/shell.hpp*
+*submodule, class*
+*engine/shell/shell.hpp*
 
 ## About
 The outermost abstraction layer. Provides highest level logic and encapsulates every other class, with direct encapsulation of the following:
@@ -14,5 +14,5 @@ The only non-constructor public member function is **run()**, which performs the
 ---
 
 [Module Engine](../engine.md)  
-[Submodule System](system.md)  
+[Submodule Shell](shell.md)  
 [Return to docs](../../docs.md)

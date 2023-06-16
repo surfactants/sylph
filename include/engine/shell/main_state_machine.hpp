@@ -12,7 +12,7 @@ class Main_State_Machine : public sf::Drawable {
 public:
     Main_State_Machine(sf::RenderWindow& window, Event_Bus& event_bus, Audio& audio);
 
-    void update(float delta_time);
+    void update(const float delta_time);
     void handleInput(const sf::Event& event);
 
     Main_State* state;

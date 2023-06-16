@@ -4,6 +4,7 @@
 
 sf::Vector2f Input_Accelerator::update(const float delta_time)
 {
+    // gross
     bool v_decay = (up == down);
     bool h_decay = (left == right);
 
@@ -54,20 +55,31 @@ sf::Vector2f Input_Accelerator::update(const float delta_time)
     }
 
     // gate at max speed
-    if (std::abs(m_velocity.x) > max_speed) {
-        m_velocity.x = sign(m_velocity.x) * max_speed;
+    if (m_velocity.x < -max_speed) {
+        m_velocity.x = -max_speed;
+    }
+    else if (m_velocity.x > max_speed) {
+        m_velocity.x = max_speed;
     }
 
-    if (std::abs(m_velocity.y) > max_speed) {
-        m_velocity.y = sign(m_velocity.y) * max_speed;
+    if (m_velocity.y < -max_speed) {
+        m_velocity.y = -max_speed;
+    }
+    else if (m_velocity.y > max_speed) {
+        m_velocity.y = max_speed;
     }
 
     return m_velocity;
 }
 
-void Input_Accelerator::setMaxSpeed(float speed)
+void Input_Accelerator::setSpeed(float speed)
 {
-    max_speed = speed;
+    this->speed = speed;
+}
+
+void Input_Accelerator::setMaxSpeed(float max_speed)
+{
+    this->max_speed = max_speed;
 }
 
 void Input_Accelerator::setAcceleration(float acceleration)

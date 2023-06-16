@@ -10,3 +10,9 @@ Provides a state machine for System_Manager through the encapsulated enum, **Typ
 - void **set( *Type c, Entity e* ):**
 - void **resetView( *Type t* ):**
 - void **setView( *const sf::Vector2u w_size* ):** reinitializes the current view to fill the passed size; currently only functions with views that fill the whole screen
+
+---
+
+[Module Game](../../game.md)
+[Submodule Core](../core.md)
+[Return to Docs](../../../docs.md)

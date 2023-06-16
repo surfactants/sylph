@@ -8,7 +8,7 @@ public:
 
     ~Game_Play();
 
-    virtual void update(float delta_time) override;
+    virtual void update(const float delta_time) override;
 
     virtual void clickLeft() override;
     virtual void releaseLeft() override;

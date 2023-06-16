@@ -34,7 +34,7 @@ New_Game::New_Game(std::filesystem::path load_path)
     thread_done.test_and_set();
 }
 
-void New_Game::update(float delta_time)
+void New_Game::update(const float delta_time)
 {
     if (thread_done.test()) {
         thread_done.clear();

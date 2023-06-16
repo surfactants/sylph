@@ -1,8 +1,8 @@
-#include <engine/system/main_state_machine.hpp>
+#include <engine/shell/main_state_machine.hpp>
 
-#include <engine/system/menu_state.hpp>
-#include <engine/system/game_state.hpp>
-#include <engine/system/quit_state.hpp>
+#include <engine/shell/menu_state.hpp>
+#include <engine/shell/game_state.hpp>
+#include <engine/shell/quit_state.hpp>
 
 Main_State_Machine::Main_State_Machine(sf::RenderWindow& window, Event_Bus& event_bus, Audio& audio)
 {
@@ -31,7 +31,7 @@ void Main_State_Machine::handleInput(const sf::Event& event)
     state->handleInput(event);
 }
 
-void Main_State_Machine::update(float delta_time)
+void Main_State_Machine::update(const float delta_time)
 {
     state->update(delta_time);
 }

@@ -19,9 +19,12 @@ System_Manager::System_Manager()
 void System_Manager::update(const float delta_time)
 {
     const sf::Vector2f mpos = relativeMousePos(*context.current_view);
+
+    // calculate wasd movement vector
     sf::Vector2f v = accelerator.update(delta_time);
     camera_controller.update(v, mpos);
 
+    // effect context
     switch (context()) {
         case Context::GALACTIC:
             tile_system.update(mpos);

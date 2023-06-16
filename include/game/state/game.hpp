@@ -22,7 +22,7 @@ public:
         UI
     };
 
-    virtual void update(float delta_time) = 0;
+    virtual void update(const float delta_time) = 0;
 
     virtual void loadSettings(Game_Settings settings);
 

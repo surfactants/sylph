@@ -1,4 +1,4 @@
-#include <engine/system/game_state.hpp>
+#include <engine/shell/game_state.hpp>
 
 #include <engine/database/database_commands.hpp>
 
@@ -73,7 +73,7 @@ void Game_State::scroll(const float delta)
     game->core->systems.camera_controller.zoomImpulse(delta);
 }
 
-void Game_State::update(float delta_time)
+void Game_State::update(const float delta_time)
 {
     game->update(delta_time);
 }

@@ -18,8 +18,8 @@ The Event_Bus and associated Event struct.
 ### [Input](input/input.md)
 Structs for defining mouse/keyboard input, and classes for using them.
 
-### [System](system/system.md)
-Main_State_Machine and Shell
+### [Shell](shell/shell.md)
+Outer logic layer which encapsulates every other class.
 
 ## Interfaces
 

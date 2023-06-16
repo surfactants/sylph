@@ -6,7 +6,7 @@
 
 #include <engine/event/event_bus.hpp>
 
-#include <engine/system/main_state.hpp>
+#include <engine/shell/main_state.hpp>
 
 #include <game/core/ecs_core.hpp>
 

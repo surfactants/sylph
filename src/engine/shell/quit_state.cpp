@@ -1,10 +1,10 @@
-#include <engine/system/quit_state.hpp>
+#include <engine/shell/quit_state.hpp>
 
 Quit_State::Quit_State(sf::RenderWindow& window)
     : window { window }
 {}
 
-void Quit_State::update(float delta_time)
+void Quit_State::update(const float delta_time)
 {
     window.close();
 }

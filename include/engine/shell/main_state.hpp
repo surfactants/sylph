@@ -16,7 +16,7 @@ public:
         QUIT
     };
 
-    virtual void update(float delta_time) = 0;
+    virtual void update(const float delta_time) = 0;
     virtual void handleInput(const sf::Event& event) = 0;
 
     virtual void windowResize(const sf::Vector2u& w_size) = 0;

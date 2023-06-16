@@ -1,4 +1,4 @@
-#include <engine/system/menu_state.hpp>
+#include <engine/shell/menu_state.hpp>
 
 #include <engine/database/database_commands.hpp>
 
@@ -34,7 +34,7 @@ Menu_State::Menu_State(Audio& audio, Game_State* game)
     drawables.push_back(current.ptr);
 }
 
-void Menu_State::update(float delta_time)
+void Menu_State::update(const float delta_time)
 {
     const sf::Vector2i mpos = sf::Mouse::getPosition();
     current.ptr->update(mpos);

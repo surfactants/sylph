@@ -2,12 +2,6 @@
 
 #include <SFML/System/Vector2.hpp>
 
-///////////////////////////////////
-// TODO:
-// - This class needs to be genericized to work with collision as well!
-// - > (currently, it only works for an rts-type wasd parser)
-//
-
 /// INPUT ACCELERATOR ///
 /// \brief Reads motion-based player input and generates a velocity vector
 ///
@@ -16,6 +10,7 @@ public:
     Input_Accelerator() = default;
     sf::Vector2f update(const float delta_time);
 
+    void setSpeed(float speed);
     void setMaxSpeed(float speed);
     void setAcceleration(float acceleration);
 

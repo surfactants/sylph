@@ -1,9 +1,9 @@
-#include <engine/system/shell.hpp>
+#include <engine/shell/shell.hpp>
 
 #include <engine/database/database_commands.hpp>
 #include <engine/input/command.hpp>
 
-#include <engine/system/game_state.hpp> // for assigning loadGame
+#include <engine/shell/game_state.hpp> // for assigning loadGame
 
 #include <ui/menu/menu_load_game.hpp> // for assigning loadGame
 #include <ui/menu/menu_settings_general.hpp> // for assigning resizeWindow

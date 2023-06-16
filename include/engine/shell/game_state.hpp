@@ -20,7 +20,7 @@ public:
     //Game_State() = default;
     Game_State(std::function<void()> open_pause);
 
-    virtual void update(float delta_time) override;
+    virtual void update(const float delta_time) override;
     virtual void handleInput(const sf::Event& event) override;
 
     virtual void windowResize(const sf::Vector2u& w_size) override;

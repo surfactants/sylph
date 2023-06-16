@@ -13,7 +13,7 @@ public:
     New_Game(New_Game_Data data);
     New_Game(std::filesystem::path load_path);
 
-    virtual void update(float delta_time) override;
+    virtual void update(const float delta_time) override;
 
     virtual void loadSettings(Game_Settings settings) override;
 

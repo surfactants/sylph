@@ -11,3 +11,9 @@ Draws game objects in private Layer structures. Each Layer holds a pointer to an
 - void **clear():** erases all layers
 - void **clearLayer( *size_t layer* ):** removes the selected layer from the vector
 - void **moveLayer( *size_t src, size_t target* ):**
+
+---
+
+[Module Game](../../game.md)
+[Submodule Core](../core.md)
+[Return to Docs](../../../docs.md)
