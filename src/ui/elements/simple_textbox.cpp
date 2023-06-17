@@ -40,9 +40,9 @@ void Simple_Textbox::setFont(const sf::Font& font)
     title.setFont(font);
 }
 
-void Simple_Textbox::setMaxLength(unsigned int newMax)
+void Simple_Textbox::setMaxLength(unsigned int max_length)
 {
-    max_length = newMax;
+    this->max_length = max_length;
 }
 
 unsigned int Simple_Textbox::getMaxLength()

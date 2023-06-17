@@ -6,7 +6,7 @@ Menu_Title::Menu_Title()
     addNav("continue", std::bind(setUIState, UI::NEW_GAME));
     addNav("load game", std::bind(setUIState, UI::LOAD_GAME));
     addNav("settings", std::bind(setUIState, UI::SETTINGS));
-    addNav("quit", std::bind(setMainState, Main_State::QUIT));
+    addNav("quit to desktop", std::bind(setMainState, Main_State::QUIT));
 
     setEscape(Main_State::QUIT);
 

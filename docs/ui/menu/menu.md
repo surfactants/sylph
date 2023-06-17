@@ -25,24 +25,34 @@ Several static constants are offered for offsets:
 ## States
 
 ### [Menu_Title](menu_title.md)
+Primary menu portal.
 
 ### [Menu_New_Game](menu_new_game.md)
+Allows the player to configure and start a new game.
 
 ### [Menu_Load_Game](menu_load_game.md)
+Uses a [Save_List](../elements/save_list.md) to start a game which replicates a save file.
 
 ### [Menu_Pause](menu_pause.md)
+Secondary menu portal, accessed from gameplay.
 
 ### [Menu_Save_Game](menu_save_game.md)
+Allows the player to record the current game state. Uses a [Save_List](../elements/save_list.md) to select a file for overwriting, or to input a new save name.
 
 ### [Menu_Settings](menu_settings.md)
+Settings portal. Escape state must be re-set on entry.
 
 ### [Menu_Settings_Audio](menu_settings_audio.md)
+Volume control sliders.
 
 ### [Menu_Settings_Game](menu_settings_game.md)
+TODO
 
 ### [Menu_Settings_General](menu_settings_general.md)
+TODO
 
 ### [Menu_Settings_Keymapper](menu_settings_keymapper.md)
+Offers key remapping using the encapsulated [Keymapper](../elements/keymapper.md) object.
 
 ## Deriving New Menu States
 - Add an entry to UI::State

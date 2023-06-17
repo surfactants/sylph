@@ -12,7 +12,7 @@ public:
 
     virtual bool handleInput(const sf::Event& event) override;
 
-    void start();
+    virtual void confirm() override;
     void cancel();
 
     std::function<void(New_Game_Data)> start_game;

@@ -41,18 +41,13 @@ public:
     void setFont(const sf::Font& font);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Draws background, box, title, text, and cursor to the render target.
-    ///
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-    ////////////////////////////////////////////////////////////
     /// \brief Changes the max length of the entered string.
     ///
     /// \param \b newMax -> maxLength
     ///
     /// \see getMaxLength()
     ///
-    void setMaxLength(unsigned int newMax);
+    void setMaxLength(unsigned int max_length);
 
     ////////////////////////////////////////////////////////////
     /// \brief Returns the max length of the entered string.
@@ -113,14 +108,6 @@ public:
     /// \see
     ///
     std::string getString();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Sets the text object's string to entered_text.
-    /// Internal, called whenever entered_text is updated.
-    ///
-    /// \see placeCursor()
-    ///
-    void updateText();
 
     ////////////////////////////////////////////////////////////
     /// \brief Changes the position of the cursor.
@@ -218,6 +205,14 @@ public:
     void setOutline();
 
 private:
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets the text object's string to entered_text.
+    /// Internal, called whenever entered_text is updated.
+    ///
+    /// \see placeCursor()
+    ///
+    void updateText();
+
     sf::Text title;
     sf::Text text; /**< entered text*/
 
@@ -230,4 +225,9 @@ private:
     unsigned int text_size; /**< display_text font size, default 48*/
 
     std::string disallowed {};
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Draws background, box, title, text, and cursor to the render target.
+    ///
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

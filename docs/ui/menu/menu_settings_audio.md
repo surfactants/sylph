@@ -3,7 +3,9 @@
 *ui/menu/menu_settings_audio.hpp*
 
 ## About
-Volume control options for different sound types.
+Uses [Slider](../elements/slider.md) elements to offer volume control.
+
+See [Submodule Audio](../../engine/audio/audio.md) for more information.
 
 ---
 

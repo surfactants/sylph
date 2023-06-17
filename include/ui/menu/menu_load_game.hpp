@@ -6,11 +6,14 @@
 
 #include "menu.hpp"
 
+/// Menu_Load_Game ///
+/// \brief Select a save game file and recreate its state in a new game state.
+///
 class Menu_Load_Game : public Menu {
 public:
     Menu_Load_Game();
 
-    void confirmLoad();
+    virtual void confirm() override;
     void deleteSave();
     void cancel();
 

@@ -3,7 +3,7 @@
 *ui/elements/scrollable.hpp*
 
 ## About
-Contains an sf::Viewport object which can be moved with mousewheel input.
+Contains an sf::Viewport object which moves vertically with mousewheel scroll input.
 
 Can be encapsulated or inherited.
 

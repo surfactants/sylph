@@ -23,7 +23,7 @@ public:
     /// \param \b pos -> rects/texts.setPosition()
     /// \param \b font -> texts.setFont()
     ///
-    void set(sf::Vector2f pos, sf::Font& font);
+    void set(sf::Vector2f pos, const sf::Font& font);
 
     /// findFill ///
     /// \brief Finds the fill by the mouse x position.
@@ -45,14 +45,6 @@ public:
     /// \param \b delta -> setFill()
     ///
     void scroll(float delta);
-
-    /// checkMouse ///
-    /// \brief Checks to see if the mouse is inside the container,
-    /// for tracking change and scrolling.
-    ///
-    /// \return \b true if mouse is inside container
-    ///
-    bool checkMouse(const sf::Vector2i& mpos);
 
     /// update ///
     /// \brief applies continual changes
@@ -101,7 +93,5 @@ protected:
     float fill_factor { -100.f };
 
 private:
-    /// draw ///
-    ///
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

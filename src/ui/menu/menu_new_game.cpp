@@ -7,7 +7,7 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    addNav("start", std::bind(start, this), Element::UNAVAILABLE);
+    addNav("start", std::bind(confirm, this), Element::UNAVAILABLE);
     addNav("cancel", std::bind(cancel, this));
 
     setEscape(UI::TITLE);
@@ -96,7 +96,7 @@ void Menu_New_Game::exitState()
     }
 }
 
-void Menu_New_Game::start()
+void Menu_New_Game::confirm()
 {
     // initiate game loading
     New_Game_Data data;

@@ -27,15 +27,7 @@ Slider::Slider(std::string ntitle)
     title.setCharacterSize(48);
 }
 
-void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-    target.draw(title, states);
-    target.draw(frame, states);
-    target.draw(fill, states);
-    target.draw(label, states);
-}
-
-void Slider::set(sf::Vector2f pos, sf::Font& font)
+void Slider::set(sf::Vector2f pos, const sf::Font& font)
 {
     title.setFont(font);
 
@@ -111,11 +103,6 @@ void Slider::scroll(float delta)
     }
 }
 
-bool Slider::checkMouse(const sf::Vector2i& mpos)
-{
-    return frame.getGlobalBounds().contains(mpos.x, mpos.y);
-}
-
 bool Slider::update(const sf::Vector2i& mpos)
 {
     if (changing) {
@@ -123,7 +110,7 @@ bool Slider::update(const sf::Vector2i& mpos)
         return true;
     }
     else {
-        moused = checkMouse(mpos);
+        moused = contains(mpos);
         return moused;
     }
 }
@@ -149,4 +136,12 @@ float Slider::revert()
 void Slider::finalize()
 {
     start_fill = getFill();
+}
+
+void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(title, states);
+    target.draw(frame, states);
+    target.draw(fill, states);
+    target.draw(label, states);
 }

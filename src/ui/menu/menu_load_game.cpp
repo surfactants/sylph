@@ -7,7 +7,7 @@ Menu_Load_Game::Menu_Load_Game()
                           , std::bind(chooseSave, this, std::placeholders::_1)
                           , std::bind(discardSave, this)) }
 {
-    addNav("load", std::bind(confirmLoad, this), Element::UNAVAILABLE);
+    addNav("load", std::bind(confirm, this), Element::UNAVAILABLE);
     addNav("cancel", std::bind(&UI::escape, this));
 
     setEscape(Main_State::QUIT);
@@ -64,7 +64,7 @@ void Menu_Load_Game::cancelDialog()
     //clearNullElements();
 }
 
-void Menu_Load_Game::confirmLoad()
+void Menu_Load_Game::confirm()
 {
     if (dialog) {
         cancelDialog();
@@ -73,7 +73,7 @@ void Menu_Load_Game::confirmLoad()
         // open confirmation dialog
         dialog = std::make_unique<Dialog>(font, view.getSize());
         dialog->setText("confirm");
-        dialog->setConfirm(std::bind(confirmLoad, this));
+        dialog->setConfirm(std::bind(confirm, this));
         dialog->setCancel(std::bind(cancelDialog, this));
         active = dialog.get();
         elements.push_back(dialog.get());

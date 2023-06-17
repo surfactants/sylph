@@ -3,7 +3,8 @@
 *ui/elements/color_selector.hpp*
 
 ## About
-UI element which provides a color selection widget. Contains:
+UI element which provides a color selection widget.
+
 - [Button](button.md) for entry and preview
 - saturation/value VertexArray where the actual selection occurs
 - hue slider which modifies the colors of the VertexArray

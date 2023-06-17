@@ -3,7 +3,7 @@
 *ui/elements/button.hpp*
 
 ## About
-UI element with an onclick callback.
+UI element with an onclick function.
 
 ---
 
