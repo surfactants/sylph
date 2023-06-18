@@ -2,9 +2,9 @@
 
 Menu_Settings_Audio::Menu_Settings_Audio(Audio& audio)
 {
-    addNav("save", std::bind(save, this));
-    addNav("default", std::bind(loadDefaults, this));
-    addNav("cancel", std::bind(cancel, this));
+    addNav("BUTTON_SAVE", std::bind(save, this));
+    addNav("BUTTON_DEFAULT", std::bind(loadDefaults, this));
+    addNav("BUTTON_CANCEL", std::bind(cancel, this));
 
     placeNav();
 

@@ -12,7 +12,10 @@ Menu::Menu()
 
 void Menu::addNav(std::string text, std::function<void()> target, Element::State base)
 {
-    nav.push_back(std::make_unique<Button>(text, *font, target, nav_csize, base));
+    std::string loc = localize(text);
+    nav.push_back(std::make_unique<Button>(loc, *font, target, nav_csize, base));
+    sf::Text* ptr = nav.back()->getText();
+    localize.recordPersistent(text, ptr);
     elements.push_back(nav.back().get());
 }
 

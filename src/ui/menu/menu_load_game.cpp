@@ -7,8 +7,8 @@ Menu_Load_Game::Menu_Load_Game()
                           , std::bind(chooseSave, this, std::placeholders::_1)
                           , std::bind(discardSave, this)) }
 {
-    addNav("load", std::bind(confirm, this), Element::UNAVAILABLE);
-    addNav("cancel", std::bind(&UI::escape, this));
+    addNav("BUTTON_CONFIRM", std::bind(confirm, this), Element::UNAVAILABLE);
+    addNav("BUTTON_CANCEL", std::bind(&UI::escape, this));
 
     setEscape(Main_State::QUIT);
 

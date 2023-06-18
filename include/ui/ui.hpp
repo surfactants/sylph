@@ -14,6 +14,8 @@
 
 #include "elements/elements.hpp"
 
+#include "strings/localizer.hpp"
+
 class UI : public sf::Drawable {
 public:
     UI();
@@ -97,6 +99,8 @@ protected:
     void clearNullElements();
 
     std::unique_ptr<Dialog> dialog { nullptr };
+
+    static Localizer localize;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

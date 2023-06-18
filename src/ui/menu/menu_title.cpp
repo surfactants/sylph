@@ -2,11 +2,11 @@
 
 Menu_Title::Menu_Title()
 {
-    addNav("new game", std::bind(setUIState, UI::NEW_GAME));
-    addNav("continue", std::bind(setUIState, UI::NEW_GAME));
-    addNav("load game", std::bind(setUIState, UI::LOAD_GAME));
-    addNav("settings", std::bind(setUIState, UI::SETTINGS));
-    addNav("quit to desktop", std::bind(setMainState, Main_State::QUIT));
+    addNav("BUTTON_NEW_GAME", std::bind(setUIState, UI::NEW_GAME));
+    addNav("BUTTON_CONTINUE", std::bind(setUIState, UI::NEW_GAME));
+    addNav("BUTTON_LOAD", std::bind(setUIState, UI::LOAD_GAME));
+    addNav("BUTTON_SETTINGS", std::bind(setUIState, UI::SETTINGS));
+    addNav("BUTTON_QUIT_TO_DESKTOP", std::bind(setMainState, Main_State::QUIT));
 
     setEscape(Main_State::QUIT);
 

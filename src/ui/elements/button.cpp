@@ -152,6 +152,11 @@ std::string Button::getLabel()
     return label.getString();
 }
 
+sf::Text* Button::getText()
+{
+    return &label;
+}
+
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(frame, states);

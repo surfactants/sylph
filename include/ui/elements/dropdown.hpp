@@ -166,6 +166,7 @@ public:
 
     virtual void activate() override
     {
+        scrollToActive();
         setState(ACTIVE);
         Element::activate();
     }
@@ -220,6 +221,11 @@ public:
         o->setState(ACTIVE);
         setLabel(o->getLabel());
         active_option = o;
+    }
+
+    void scrollToActive()
+    {
+        // TODO
     }
 
 protected:

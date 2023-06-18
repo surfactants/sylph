@@ -7,8 +7,8 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 {
     // textboxes, color pickers, buttons, checkboxes, sliders
 
-    addNav("start", std::bind(confirm, this), Element::UNAVAILABLE);
-    addNav("cancel", std::bind(cancel, this));
+    addNav("BUTTON_START", std::bind(confirm, this), Element::UNAVAILABLE);
+    addNav("BUTTON_CANCEL", std::bind(cancel, this));
 
     setEscape(UI::TITLE);
 

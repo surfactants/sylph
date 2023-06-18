@@ -23,7 +23,7 @@ The Database interface is concrete, but provides no public member functions othe
 ### void inalize()
 
 
-### void xecute( *std::string sql* )
+### void execute( *std::string sql* )
 
 
 ### std::string toString( *int column* )
@@ -41,6 +41,9 @@ Returns a Blob object for initializing objects such as textures, fonts, etc.
 Blob is a protected struct containing a buffer object (std::shared_ptr<char[]>) along with the buffer's length (int). It has an optional constructor which accepts a length and initializes the buffer from it.
 
 TODO link to json-to-sqlite docs
+
+## Notes
+
 
 ---
 

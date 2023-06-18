@@ -65,6 +65,8 @@ public:
         target();
     }
 
+    sf::Text* getText();
+
 protected:
     sf::Text label; /**< button text */
 

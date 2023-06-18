@@ -13,6 +13,8 @@ sf::View UI::view;
 Element* UI::moused { nullptr };
 Element* UI::active { nullptr };
 
+Localizer UI::localize;
+
 UI::UI()
 {
     // static initialization ensure this operation is only performed once

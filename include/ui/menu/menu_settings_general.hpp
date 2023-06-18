@@ -13,4 +13,5 @@ public:
 private:
     std::vector<Check_Box> check_boxes;
     Dropdown<sf::Vector2u> window_resizer;
+    Dropdown<std::string> language_selector;
 };

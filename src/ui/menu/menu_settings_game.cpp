@@ -5,9 +5,9 @@
 Menu_Settings_Game::Menu_Settings_Game(std::function<void(Game_Settings)> save_settings)
     : save_to_game { save_settings }
 {
-    addNav("save", std::bind(confirm, this));
-    addNav("default", std::bind(loadDefaults, this));
-    addNav("cancel", std::bind(escape, this));
+    addNav("BUTTON_SAVE", std::bind(confirm, this));
+    addNav("BUTTON_DEFAULT", std::bind(loadDefaults, this));
+    addNav("BUTTON_CANCEL", std::bind(escape, this));
 
     setEscape(Menu::SETTINGS);
 

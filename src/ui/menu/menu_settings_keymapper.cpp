@@ -5,9 +5,9 @@
 Menu_Settings_Keymapper::Menu_Settings_Keymapper(std::function<void(std::vector<Command>)> saveCommands)
     : saveCommands { saveCommands }
 {
-    addNav("save", std::bind(save, this));
-    addNav("default", std::bind(loadDefaults, this));
-    addNav("cancel", std::bind(escape, this));
+    addNav("BUTTON_SAVE", std::bind(save, this));
+    addNav("BUTTON_DEFAULT", std::bind(loadDefaults, this));
+    addNav("BUTTON_CANCEL", std::bind(escape, this));
 
     setEscape(Menu::SETTINGS);
 

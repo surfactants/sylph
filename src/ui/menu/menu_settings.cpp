@@ -2,11 +2,11 @@
 
 Menu_Settings::Menu_Settings()
 {
-    addNav("game", std::bind(setUIState, UI::SETTINGS_GAME));
-    addNav("general", std::bind(setUIState, UI::SETTINGS_GENERAL));
-    addNav("audio", std::bind(setUIState, UI::SETTINGS_AUDIO));
-    addNav("controls", std::bind(setUIState, UI::SETTINGS_KEYMAPPER));
-    addNav("back", std::bind(&UI::escape, this));
+    addNav("BUTTON_GAME_SETTINGS", std::bind(setUIState, UI::SETTINGS_GAME));
+    addNav("BUTTON_GENERAL_SETTINGS", std::bind(setUIState, UI::SETTINGS_GENERAL));
+    addNav("BUTTON_AUDIO_SETTINGS", std::bind(setUIState, UI::SETTINGS_AUDIO));
+    addNav("BUTTON_CONTROLS_SETTINGS", std::bind(setUIState, UI::SETTINGS_KEYMAPPER));
+    addNav("BUTTON_BACK", std::bind(&UI::escape, this));
 
     setEscape(UI::SETTINGS);
 
