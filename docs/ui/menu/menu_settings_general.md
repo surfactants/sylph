@@ -1,9 +1,13 @@
 # Menu_Settings_General
-*class : [Menu](menu.md)*
+*class : [Menu](menu.md)*  
 *ui/menu/menu_settings_general.hpp*
 
 ## About
-General settings, such as the display resolution.
+Global application.
+
+Contains two dropdowns:
+- language_selector
+- todo display resolution name (lol)
 
 ---
 
