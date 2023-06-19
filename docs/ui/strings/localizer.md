@@ -1,5 +1,5 @@
 # Localizer
-*class*
+*class*  
 *ui/strings/localizer.hpp*
 
 ## About
@@ -35,6 +35,6 @@ An empty value loads the active language from the settings.
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Strings](strings.md)
+[Module UI](../ui.md)  
+[Submodule Strings](strings.md)  
 [Return to Docs](../../docs.md)

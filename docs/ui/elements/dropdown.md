@@ -1,5 +1,5 @@
 # Dropdown
-*class : [Element](element.md)*
+*class : [Element](element.md)*  
 *menu/elements/dropdown.hpp*
 
 ## About
@@ -9,6 +9,6 @@ TODO: make sure selected element is in view when opening the menu.
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

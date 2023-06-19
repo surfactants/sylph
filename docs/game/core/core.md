@@ -1,5 +1,5 @@
 # Core
-*submodule*
+*submodule*  
 *game/core/*
 
 ## About
@@ -12,5 +12,5 @@ Each part is handled by a manager class, all held by a wrapper class (ECS_Core),
 
 ---
 
-[Module Game](../game.md)
+[Module Game](../game.md)  
 [Return to Docs](../../docs.md)

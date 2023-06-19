@@ -1,5 +1,5 @@
 # Collide
-*header*
+*header*  
 *engine/math/collide.hpp*
 
 ## About

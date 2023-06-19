@@ -1,5 +1,5 @@
 # Menu_Save_Game
-*class : [Menu](menu.md)*
+*class : [Menu](menu.md)*  
 *ui/menu/menu_save_game.hpp*
 
 ## About
@@ -17,6 +17,6 @@ Returns to the previous menu portal.
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Menu](menu.md)
+[Module UI](../ui.md)  
+[Submodule Menu](menu.md)  
 [Return to Docs](../../docs.md)

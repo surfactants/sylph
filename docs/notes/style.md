@@ -31,3 +31,7 @@ Please view [the documentation for clang-format](https://clang.llvm.org/docs/Cla
 - UPPER_SNAKE for global constants or enumeration values
 - lowerCamelCase() for all functions, including std::function objects but excluding lambdas
 (TODO double check std::function object nomenclature)
+
+---
+
+[Return to Docs](../docs.md)

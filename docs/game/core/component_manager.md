@@ -1,5 +1,5 @@
 # Component_Manager
-*class*
+*class*  
 *game/core/component_manager.hpp*
 
 Handles the creation, destruction, and storage of [Component](component.md) types.
@@ -11,6 +11,6 @@ this template function must be called for each and every component - ***but by d
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

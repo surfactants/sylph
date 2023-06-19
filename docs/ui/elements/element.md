@@ -1,5 +1,5 @@
 # Element
-*class*
+*class*  
 *ui/elements/element.hpp*
 
 ## About
@@ -101,6 +101,6 @@ Generally passed to an object's constructor as an optional parameter (defaulting
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

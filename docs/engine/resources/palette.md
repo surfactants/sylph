@@ -1,4 +1,6 @@
 # Palette
+*header*  
+*engine/resources/palette.hpp*
 
 ## About
 Namespace containing several const sf::Color objects.

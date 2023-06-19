@@ -1,5 +1,5 @@
 # Dialog
-*class : [Element](element.md)*
+*class : [Element](element.md)*  
 *ui/elements/dialog.hpp*
 
 ## About
@@ -9,6 +9,6 @@ TODO full placement implementation
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

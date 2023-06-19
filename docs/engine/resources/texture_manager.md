@@ -1,5 +1,5 @@
 # Texture_Manager
-*class*
+*class*  
 *engine/resources/texture_manager.hpp*
 
 TODO

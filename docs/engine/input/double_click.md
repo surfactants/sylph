@@ -1,5 +1,5 @@
 # Double_Click
-*class*
+*class*  
 *engine/input/double_click.hpp*
 
 ## About

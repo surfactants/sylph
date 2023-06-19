@@ -1,5 +1,5 @@
 # Color_Selector
-*class : [Element](element.md)*
+*class : [Element](element.md)*  
 *ui/elements/color_selector.hpp*
 
 ## About
@@ -13,6 +13,6 @@ The latter two elements are static. Each instance may define a position for them
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

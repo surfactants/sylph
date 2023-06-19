@@ -1,5 +1,5 @@
 # Save_List
-*class : [Toggle_Scroller](toggle_scroller.md)*
+*class : [Toggle_Scroller](toggle_scroller.md)*  
 *ui/elements/keymapper.hpp*
 
 ## About
@@ -14,6 +14,6 @@ Please see the following classes for more information:
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

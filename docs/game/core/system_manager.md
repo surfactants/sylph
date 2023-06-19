@@ -1,5 +1,5 @@
 * System_Manager
-*class*
+*class*  
 *game/core/system_manager.hpp*
 
 ## About
@@ -22,6 +22,6 @@ There are a few important classes included by default:
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

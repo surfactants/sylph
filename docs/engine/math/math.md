@@ -1,5 +1,5 @@
 # Math
-*library*
+*library*  
 *engine/math/*
 
 ## About

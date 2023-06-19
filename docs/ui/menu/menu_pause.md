@@ -1,5 +1,5 @@
 # Menu_Pause
-*class : [Menu](menu.md)*
+*class : [Menu](menu.md)*  
 *ui/menu/menu_pause.hpp*
 
 ## About
@@ -22,6 +22,6 @@ Returns to the [Game_State](../../engine/shell/game_state.md)
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Menu](menu.md)
+[Module UI](../ui.md)  
+[Submodule Menu](menu.md)  
 [Return to Docs](../../docs.md)

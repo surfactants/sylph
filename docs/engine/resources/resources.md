@@ -1,5 +1,5 @@
 # Resources
-*submodule*
+*submodule*  
 *engine/resources/*
 
 ## About

@@ -1,5 +1,5 @@
 # Key_String
-*class*
+*class*  
 *engine/input/key_string.hpp*
 
 ## About

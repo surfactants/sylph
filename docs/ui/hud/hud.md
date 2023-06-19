@@ -1,5 +1,5 @@
 # HUD
-*submodule, class : [UI](../ui.md)*
+*submodule, class : [UI](../ui.md)*  
 *ui/hud/hud.hpp*
 
 ## About
@@ -11,5 +11,5 @@ The only limit is your imagination.
 
 ---
 
-[Module UI](../ui.md)
+[Module UI](../ui.md)  
 [Return to Docs](../../docs.md)

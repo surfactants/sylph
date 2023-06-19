@@ -1,5 +1,5 @@
 # Entity_Manager
-*class*
+*class*  
 *game/core/entity_manager.hpp*
 
 ## About
@@ -14,6 +14,6 @@ Handles the creation, destruction, and storage of [Entity](entity.md) objects al
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

@@ -1,5 +1,5 @@
 # Entity
-*concept, unsigned integral type alias*
+*concept, unsigned integral type alias*  
 *game/core/entity.hpp*
 
 ## Definitions
@@ -9,6 +9,6 @@
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

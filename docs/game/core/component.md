@@ -1,5 +1,5 @@
 # Component
-*concept, enum class*
+*concept, enum class*  
 *game/component/component.hpp*
 
 ## About
@@ -20,6 +20,6 @@ All standard components are structs, typically POD (though with no such requirem
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

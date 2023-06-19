@@ -1,5 +1,5 @@
 # Scrollable
-*class*
+*class*  
 *ui/elements/scrollable.hpp*
 
 ## About
@@ -9,6 +9,6 @@ Can be encapsulated or inherited.
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

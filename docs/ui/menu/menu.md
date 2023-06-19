@@ -1,5 +1,5 @@
 # Menu
-*submodule, class : [UI](../ui.md)*
+*submodule, class : [UI](../ui.md)*  
 *ui/menu/menu.hpp*
 
 ## About
@@ -63,5 +63,5 @@ Offers key remapping using the encapsulated [Keymapper](../elements/keymapper.md
 
 ---
 
-[Module UI](../ui.md)
+[Module UI](../ui.md)  
 [Return to Docs](../../docs.md)

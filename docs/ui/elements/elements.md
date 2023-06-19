@@ -1,5 +1,5 @@
 # Elements
-*submodule*
+*submodule*  
 *ui/elements/*
 
 ## About
@@ -27,5 +27,5 @@ Contains an sf::Viewport object which can be moved with mousewheel input.
 
 ---
 
-[Module UI](../ui.md)
+[Module UI](../ui.md)  
 [Return to Docs](../../docs.md)

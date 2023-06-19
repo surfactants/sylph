@@ -1,5 +1,5 @@
 # Menu_Title
-*class : [Menu](menu.md)*
+*class : [Menu](menu.md)*  
 *ui/menu/menu_title.hpp*
 
 ## About
@@ -20,6 +20,6 @@ Currently unimplemented.
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Menu](menu.md)
+[Module UI](../ui.md)  
+[Submodule Menu](menu.md)  
 [Return to Docs](../../docs.md)

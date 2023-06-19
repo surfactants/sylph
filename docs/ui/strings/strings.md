@@ -1,5 +1,5 @@
 # Strings
-*submodule*
+*submodule*  
 *ui/strings/*
 
 ## About
@@ -10,5 +10,5 @@
 
 ---
 
-[Module UI](../ui.md)
+[Module UI](../ui.md)  
 [Return to Docs](../../docs.md)

@@ -1,5 +1,5 @@
 # SFML_Stream
-*header*
+*header*  
 *engine/util/sfml_stream.hpp*
 
 ## About
@@ -17,6 +17,6 @@ reads sf::Color objects into stream with format "(r, g, b, a)"
 
 ---
 
-[Module Engine](../engine.md)
-[Library Util](util.md)
+[Module Engine](../engine.md)  
+[Library Util](util.md)  
 [Return to docs](../../docs.md)

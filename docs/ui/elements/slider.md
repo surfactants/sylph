@@ -1,5 +1,5 @@
 # Slider
-*class : [Element](element.md)*
+*class : [Element](element.md)*  
 *menu/elements/slider.hpp*
 
 ## About
@@ -38,6 +38,6 @@ Fonts are required for proper placement because spacing is determined by the siz
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

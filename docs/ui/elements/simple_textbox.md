@@ -1,5 +1,5 @@
 # Simple_Textbox
-*class : [Element](element.md)*
+*class : [Element](element.md)*  
 *ui/elements/simple_textbox.hpp*
 
 ## About
@@ -47,6 +47,6 @@ Returns the inputted text
 
 ---
 
-[Module UI](../ui.md)
-[Submodule Elements](elements.md)
+[Module UI](../ui.md)  
+[Submodule Elements](elements.md)  
 [Return to Docs](../../docs.md)

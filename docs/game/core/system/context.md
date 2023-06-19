@@ -1,5 +1,5 @@
 # Context
-*class*
+*class*  
 *game/system/context.hpp*
 
 Provides a state machine for System_Manager through the encapsulated enum, **Type**. Also stores a pointer to the currently active sf::View object. View the prototype for an example, where it is used to switch between "galaxy" and "solar system" contexts.
@@ -13,6 +13,6 @@ Provides a state machine for System_Manager through the encapsulated enum, **Typ
 
 ---
 
-[Module Game](../../game.md)
-[Submodule Core](../core.md)
+[Module Game](../../game.md)  
+[Submodule Core](../core.md)  
 [Return to Docs](../../../docs.md)

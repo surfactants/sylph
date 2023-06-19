@@ -1,5 +1,5 @@
 # Game_State
-*class : [Main_State](main_state.md)*
+*class : [Main_State](main_state.md)*  
 *engine/shell/game_state.hpp*
 
 ## About

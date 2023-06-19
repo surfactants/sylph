@@ -1,5 +1,5 @@
 # Input_Accelerator
-*class*
+*class*  
 *game/system/input_accelerator.hpp*
 
 ## About
@@ -40,6 +40,6 @@ In **[System_Manager](../system_manager)::update()**, the vector is calculated, 
 
 ---
 
-[Module Game](../../game.md)
-[Submodule Core](../core.md)
+[Module Game](../../game.md)  
+[Submodule Core](../core.md)  
 [Return to Docs](../../../docs.md)

@@ -1,5 +1,5 @@
 # System
-*class*
+*class*  
 *game/system/system.hpp*
 
 ## About
@@ -12,6 +12,6 @@ The following default systems are available:
 
 ---
 
-[Module Game](../game.md)
-[Submodule Core](core.md)
+[Module Game](../game.md)  
+[Submodule Core](core.md)  
 [Return to Docs](../../docs.md)

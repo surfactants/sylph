@@ -1,5 +1,5 @@
 # Font_Manager
-*class*
+*class*  
 *engine/resources/font_manager.hpp*
 
 ## About

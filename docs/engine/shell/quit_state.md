@@ -1,5 +1,5 @@
 # Quit_State
-*class : [Main_State](main_state.md)
+*class : [Main_State](main_state.md)*  
 *engine/shell/quit_state.hpp*
 
 ## About

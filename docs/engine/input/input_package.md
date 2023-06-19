@@ -1,5 +1,5 @@
 # Input_Package
-*class*
+*class*  
 *engine/input/input_package.hpp*
 
 ## About
