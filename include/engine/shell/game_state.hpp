@@ -11,7 +11,7 @@
 
 #include <game/state/game.hpp>
 
-#include <ui/hud/hud.hpp>
+#include <ui/hud/states.hpp>
 
 #include "main_state.hpp"
 
@@ -26,6 +26,7 @@ public:
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
     void setGameState(Game::State state);
+    void setHUDState(UI::State state);
 
     void loadInput(Input_Package input);
 
@@ -66,7 +67,8 @@ private:
 
     std::vector<Command> commands {};
 
-    std::unique_ptr<HUD> hud { nullptr };
+    HUD* hud { nullptr };
+    std::map<UI::State, std::unique_ptr<HUD>> hud_states;
 
     std::function<void()> stringToFunction(std::string str);
 

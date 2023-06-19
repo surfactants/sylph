@@ -8,19 +8,25 @@
 
 class HUD : public UI {
 public:
-    HUD(ECS_Core& core);
+    HUD();
 
-    void loadSystemInfo(Entity e);
+    static void initialize(ECS_Core* x_core);
+
+    static void loadSystemInfo(Entity e);
+
+    virtual void update(const sf::Vector2i& mpos) override;
 
     virtual void enterState() override;
     virtual void exitState() override;
 
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
-protected:
-    ECS_Core& core;
+    static std::function<void(UI::State)> setHUDState;
 
-    System_Info system_info;
+protected:
+    static ECS_Core* core;
+
+    static System_Info system_info;
 
     static sf::Font* font;
 };

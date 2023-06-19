@@ -7,9 +7,10 @@
 
 #include <ui/hud/hud.hpp>
 
+#include <iostream>
+
 Game_State::Game_State(std::function<void()> open_pause)
 {
-
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
 
@@ -18,6 +19,11 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     UI::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     UI::openPause = open_pause;
+
+    HUD::setHUDState = std::bind(setHUDState, this, std::placeholders::_1);
+
+    hud_states[UI::PLAYER_TURN] = std::make_unique<Player_Turn>();
+    hud_states[UI::AI_TURN] = std::make_unique<AI_Turn>();
 }
 
 void Game_State::registration()
@@ -75,11 +81,18 @@ void Game_State::scroll(const float delta)
 
 void Game_State::update(const float delta_time)
 {
+    if (hud) {
+        std::cout << "\n\n" << hud << '\n';
+        hud->update(sf::Mouse::getPosition());
+    }
     game->update(delta_time);
 }
 
 void Game_State::handleInput(const sf::Event& event)
 {
+    if (hud->handleInput(event)) {
+        return;
+    }
     switch (event.type) {
         case sf::Event::MouseButtonPressed:
             input->press(event.mouseButton.button);
@@ -165,6 +178,19 @@ void Game_State::loadSettings(Game_Settings settings)
     }
 }
 
+void Game_State::setHUDState(UI::State state)
+{
+    if (hud_states.contains(state)) {
+        if (hud) {
+            hud->exitState();
+            drawables.pop_back();
+        }
+        hud = hud_states[state].get();
+        hud->enterState();
+        drawables.push_back(hud);
+    }
+}
+
 void Game_State::loadFunctions()
 {
     // here, bind game functions to string identifiers
@@ -221,7 +247,9 @@ void Game_State::newToPlay()
 {
     game = std::make_unique<Game_Play>();
 
-    hud = std::make_unique<HUD>(*Game::core);
+    HUD::initialize(game->core.get());
+
+    setHUDState(UI::PLAYER_TURN);
 
     Database_Commands dbc;
     loadCommands(dbc.read());
@@ -230,7 +258,7 @@ void Game_State::newToPlay()
 
     drawables.clear();
     drawables.push_back(&Game::core->systems.renderer);
-    drawables.push_back(hud.get());
+    drawables.push_back(hud);
 
     loadNums();
 
@@ -253,8 +281,8 @@ void Game_State::windowResize(const sf::Vector2u& w_size)
 {
     this->w_size = w_size;
     UI::setView(w_size);
-    if (hud) {
-        hud->windowResize(w_size);
+    for (auto& h : hud_states) {
+        h.second->windowResize(w_size);
     }
     if (Game::core) {
         Game::core->systems.windowResize(w_size);

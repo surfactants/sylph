@@ -19,6 +19,9 @@ Lorem ipsum dolor sit amet
 ### [HUD](hud/hud.md)
 consectutor adlipscisd fdsoe eloremads flfdsafdsf
 
+### [Strings](strings/strings.md)
+Provides string manipulation for the UI, most notably localization.
+
 ---
 
 [Return to docs](../docs.md)

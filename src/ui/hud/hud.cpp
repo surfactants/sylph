@@ -2,16 +2,30 @@
 
 #include <engine/resources/font_manager.hpp>
 
+#include <engine/util/sfml_stream.hpp>
+
+std::function<void(UI::State)> HUD::setHUDState;
+
+ECS_Core* HUD::core { nullptr };
+
+System_Info HUD::system_info;
+
 sf::Font* HUD::font { Font_Manager::get(Font::UI) };
 
-HUD::HUD(ECS_Core& core)
-    : core { core }
+HUD::HUD()
+{}
+
+void HUD::update(const sf::Vector2i& mpos)
 {
-    core.systems.tile_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
-    core.systems.solar_system.activateUI = std::bind(loadSystemInfo, this, std::placeholders::_1);
+    UI::update(mpos);
+}
+
+void HUD::initialize(ECS_Core* x_core)
+{
+    core = x_core;
+    core->systems.tile_system.activateUI = std::bind(loadSystemInfo, std::placeholders::_1);
+    core->systems.solar_system.activateUI = std::bind(loadSystemInfo, std::placeholders::_1);
     system_info.loadFont(font);
-    elements.push_back(&system_info);
-    windowResize(sf::Vector2u(view.getSize()));
 }
 
 void HUD::loadSystemInfo(Entity e)

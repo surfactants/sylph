@@ -22,6 +22,8 @@ public:
         UI
     };
 
+    void initializeCore();
+
     virtual void update(const float delta_time) = 0;
 
     virtual void loadSettings(Game_Settings settings);
@@ -41,6 +43,7 @@ public:
 
     static std::unique_ptr<ECS_Core> core;
     static Game_Settings settings;
+    static System_Manager* systems;
 
     //static Entity_Manager entities;
     //static Component_Manager components;

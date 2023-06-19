@@ -1,3 +1,5 @@
 #pragma once
 
-#include "hud.hpp"
+#include "player_turn.hpp"
+#include "ai_turn.hpp"
+//#include "simulate.hpp"

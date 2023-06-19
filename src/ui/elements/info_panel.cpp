@@ -14,6 +14,8 @@ void Info_Panel::loadFont(sf::Font* font)
 
 bool Info_Panel::update(const sf::Vector2i& mpos)
 {
+    bool cnt = contains(mpos);
+    return cnt;
 }
 
 void Info_Panel::clickLeft()
