@@ -1,10 +1,18 @@
 # UI
 *module, class*
+*ui/ui.hpp*
 
 ## About
-Sylph's user interface runs on polymorphism along two inheritance hierarchies: one for state, and one for elements.
+Sylph's user interface runs on polymorphism, with two inheritance hierarchies: one for state, and one for [elements](elements.md).
 
-The former uses the base class UI (*ui/ui.hpp*) to process input, 
+State uses the base class UI to store, display, and process input to elements. It contains two different hierarchy paths: one for [Menus](menu/menu.md), and one for the in-game [HUD](hud/hud.md)
+
+TODO
+## Public Member Functions
+
+## Protected Member Functions
+
+## Member Objects and Variables
 
 ---
 
@@ -14,10 +22,10 @@ The former uses the base class UI (*ui/ui.hpp*) to process input,
 Polymorphic element classes
 
 ### [Menu](menu/menu.md)
-Lorem ipsum dolor sit amet
+A state group for user navigation and configuration.
 
 ### [HUD](hud/hud.md)
-consectutor adlipscisd fdsoe eloremads flfdsafdsf
+A state group for displaying information during gameplay.
 
 ### [Strings](strings/strings.md)
 Provides string manipulation for the UI, most notably localization.
