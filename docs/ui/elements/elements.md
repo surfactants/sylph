@@ -13,17 +13,18 @@ UI Elements are handled polymorphically, through the abstract [Element](element.
 - [Simple_Textbox](simple_textbox.md)
 - [Slider](slider.md)
 
-In addition, several *compound elements* are provided, which are comprised of many sub-elements:
 ## Compound Elements
+Comprised of multiple sub-elements.
+
 - [Dialog](dialog.md)
 - [Dropdown](dropdown.md)
 - [Keymapper](keymapper.md)
 - [Save_List](save_list.md)
 - [Toggle_Scroller](toggle_scroller.md)
 
-Finally, a utility class for vertical scrolling is available:
+
 ### [Scrollable](scrollable.md)
-Contains an sf::Viewport object which can be moved with mousewheel input.
+Utility class providing vertical scroll functionality. Contains an sf::Viewport object which can be moved with mousewheel input.
 
 ---
 

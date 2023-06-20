@@ -3,7 +3,7 @@
 #include <engine/database/database_commands.hpp>
 
 #include <game/state/new_game.hpp>
-#include <game/state/game_play.hpp>
+#include <game/state/game_turn.hpp>
 
 #include <ui/hud/hud.hpp>
 
@@ -12,7 +12,7 @@
 Game_State::Game_State(std::function<void()> open_pause)
 {
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
-    input_map[Game::PLAY].addPress(sf::Keyboard::Escape, open_pause);
+    input.addPress(sf::Keyboard::Escape, open_pause);
 
     Game::setGameState = std::bind(setGameState, this, std::placeholders::_1);
     New_Game::newToPlay = std::bind(newToPlay, this);
@@ -24,11 +24,15 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     hud_states[UI::PLAYER_TURN] = std::make_unique<Player_Turn>();
     hud_states[UI::AI_TURN] = std::make_unique<AI_Turn>();
+
+    HUD::initialize();
 }
 
 void Game_State::registration()
 {
     Game::core->systems.camera_controller.view = &view;
+    Game::core->systems.tile_system.activateUI = std::bind(HUD::loadSystemInfo, std::placeholders::_1);
+    Game::core->systems.solar_system.activateUI = std::bind(HUD::loadSystemInfo, std::placeholders::_1);
 
     registerComponent<Transform>(Component::TRANSFORM);
     registerComponent<Collision_Rect>(Component::COLLISION_RECT);
@@ -95,19 +99,19 @@ void Game_State::handleInput(const sf::Event& event)
     }
     switch (event.type) {
         case sf::Event::MouseButtonPressed:
-            input->press(event.mouseButton.button);
+            input.press(event.mouseButton.button);
             break;
         case sf::Event::MouseButtonReleased:
-            input->release(event.mouseButton.button);
+            input.release(event.mouseButton.button);
             break;
         case sf::Event::MouseWheelScrolled:
-            input->scroll(event.mouseWheelScroll.delta);
+            input.scroll(event.mouseWheelScroll.delta);
             break;
         case sf::Event::KeyPressed:
-            input->press(event.key.code);
+            input.press(event.key.code);
             break;
         case sf::Event::KeyReleased:
-            input->release(event.key.code);
+            input.release(event.key.code);
             break;
         case sf::Event::LostFocus:
             // pause
@@ -125,29 +129,28 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 {
     commands = new_commands;
     loadFunctions();
-    Input_Package* ig = &input_map[Game::PLAY];
-    auto open_pause = ig->key_press[sf::Keyboard::Escape];
-    ig->clear();
+    auto open_pause = input.key_press[sf::Keyboard::Escape];
+    input.clear();
     for (const auto& c : commands) {
         if (c.key != sf::Keyboard::Unknown) {
-            ig->addPress(c.key, string_to_function[c.press]);
-            ig->addRelease(c.key, string_to_function[c.release]);
+            input.addPress(c.key, string_to_function[c.press]);
+            input.addRelease(c.key, string_to_function[c.release]);
         }
     }
 
     // must re-add permanent options
-    ig->addPress(sf::Keyboard::Escape, open_pause);
+    input.addPress(sf::Keyboard::Escape, open_pause);
 
-    ig->addPress(sf::Mouse::Left, std::bind(clickLeft, this));
-    ig->addRelease(sf::Mouse::Left, std::bind(releaseLeft, this));
+    input.addPress(sf::Mouse::Left, std::bind(clickLeft, this));
+    input.addRelease(sf::Mouse::Left, std::bind(releaseLeft, this));
 
-    ig->addPress(sf::Mouse::Right, std::bind(clickRight, this));
-    ig->addRelease(sf::Mouse::Right, std::bind(releaseRight, this));
+    input.addPress(sf::Mouse::Right, std::bind(clickRight, this));
+    input.addRelease(sf::Mouse::Right, std::bind(releaseRight, this));
 
-    ig->addPress(sf::Mouse::Middle, std::bind(clickMiddle, this));
-    ig->addRelease(sf::Mouse::Middle, std::bind(releaseMiddle, this));
+    input.addPress(sf::Mouse::Middle, std::bind(clickMiddle, this));
+    input.addRelease(sf::Mouse::Middle, std::bind(releaseMiddle, this));
 
-    ig->scroll = std::bind(scroll, this, std::placeholders::_1);
+    input.scroll = std::bind(scroll, this, std::placeholders::_1);
 
     loadNums();
     // TODO: deprecate current num setup
@@ -158,11 +161,10 @@ void Game_State::loadCommands(std::vector<Command> new_commands)
 
 void Game_State::loadNums()
 {
-    Input_Package* ig = &input_map[Game::PLAY];
     Key_String converter;
     for (unsigned int i = 0; i < 10; i++) {
         std::string num = "Num" + std::to_string(i);
-        ig->addPress(converter.toKey(num), std::bind(numPress, this, i));
+        input.addPress(converter.toKey(num), std::bind(numPress, this, i));
     }
 }
 
@@ -239,15 +241,14 @@ void Game_State::newGame(New_Game_Data data)
 void Game_State::loadGame(std::filesystem::path load_path)
 {
     game = std::make_unique<New_Game>(load_path);
+    // re-registration is required for a new ecs_core
     registration();
     setGameState(Game::NEW);
 }
 
 void Game_State::newToPlay()
 {
-    game = std::make_unique<Game_Play>();
-
-    HUD::initialize(game->core.get());
+    game = std::make_unique<Game_Turn>();
 
     setHUDState(UI::PLAYER_TURN);
 
@@ -261,14 +262,11 @@ void Game_State::newToPlay()
     drawables.push_back(hud);
 
     loadNums();
-
-    setGameState(Game::PLAY);
 }
 
 void Game_State::setGameState(Game::State state)
 {
     game_state = state;
-    input = &input_map[state];
 }
 
 void Game_State::clear()

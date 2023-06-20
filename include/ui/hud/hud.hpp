@@ -10,7 +10,7 @@ class HUD : public UI {
 public:
     HUD();
 
-    static void initialize(ECS_Core* x_core);
+    static void initialize();
 
     static void loadSystemInfo(Entity e);
 
@@ -23,8 +23,10 @@ public:
 
     static std::function<void(UI::State)> setHUDState;
 
+    template <typename T>
+    static inline std::function<T(Entity)> getComponent;
+
 protected:
-    static ECS_Core* core;
 
     static System_Info system_info;
 

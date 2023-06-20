@@ -28,8 +28,6 @@ public:
     void setGameState(Game::State state);
     void setHUDState(UI::State state);
 
-    void loadInput(Input_Package input);
-
     void loadCommands(std::vector<Command> new_commands);
     void loadNums();
     void loadSettings(Game_Settings settings);
@@ -58,6 +56,8 @@ public:
         Component_Serializer::to_component[t] = c;
         Component_Serializer::to_string[c] = t;
         Component_Serializer::getComponent<T> = get;
+
+        HUD::getComponent<T> = get;
     }
 
 private:
@@ -72,9 +72,7 @@ private:
 
     std::function<void()> stringToFunction(std::string str);
 
-    Input_Package* input;
-
-    std::unordered_map<Game::State, Input_Package> input_map;
+    Input_Package input;
 
     Game_Settings settings;
 

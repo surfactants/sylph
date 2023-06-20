@@ -27,7 +27,7 @@ Shell::Shell()
     fps_text.setCharacterSize(36);
     fps_text.setPosition(sf::Vector2f(1800.f, 8.f));
 
-    System_Manager::relativeMousePos = [&](sf::View v) {
+    Game::relativeMousePos = [&](sf::View v) {
         return window.mapPixelToCoords(sf::Mouse::getPosition(), v);
     };
 

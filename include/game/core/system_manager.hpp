@@ -12,7 +12,6 @@ class System_Manager {
 public:
     System_Manager();
 
-    void update(const float delta_time);
     void windowResize(const sf::Vector2u& w_size);
 
     Camera_Controller camera_controller;
@@ -25,8 +24,6 @@ public:
     Civilizations civilizations;
 
     Renderer renderer;
-
-    static std::function<sf::Vector2f(sf::View)> relativeMousePos;
 
     template <typename T>
     static inline std::function<T(Entity)> getComponent;

@@ -6,8 +6,6 @@
 
 std::function<void(UI::State)> HUD::setHUDState;
 
-ECS_Core* HUD::core { nullptr };
-
 System_Info HUD::system_info;
 
 sf::Font* HUD::font { Font_Manager::get(Font::UI) };
@@ -20,11 +18,8 @@ void HUD::update(const sf::Vector2i& mpos)
     UI::update(mpos);
 }
 
-void HUD::initialize(ECS_Core* x_core)
+void HUD::initialize()
 {
-    core = x_core;
-    core->systems.tile_system.activateUI = std::bind(loadSystemInfo, std::placeholders::_1);
-    core->systems.solar_system.activateUI = std::bind(loadSystemInfo, std::placeholders::_1);
     system_info.loadFont(font);
 }
 

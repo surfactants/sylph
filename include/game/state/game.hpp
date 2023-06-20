@@ -18,8 +18,8 @@ public:
 
     enum State {
         NEW,
-        PLAY,
-        UI
+        TURN,
+        SIMULATE
     };
 
     void initializeCore();
@@ -28,16 +28,18 @@ public:
 
     virtual void loadSettings(Game_Settings settings);
 
-    virtual void clickLeft() = 0;
-    virtual void releaseLeft() = 0;
+    virtual void clickLeft();
+    virtual void releaseLeft();
 
-    virtual void clickRight() = 0;
-    virtual void releaseRight() = 0;
+    virtual void clickRight();
+    virtual void releaseRight();
 
-    virtual void clickMiddle() = 0;
-    virtual void releaseMiddle() = 0;
+    virtual void clickMiddle();
+    virtual void releaseMiddle();
 
     static std::function<void(Game::State)> setGameState;
+
+    static std::function<sf::Vector2f(sf::View)> relativeMousePos;
 
     void reset();
 
@@ -45,8 +47,7 @@ public:
     static Game_Settings settings;
     static System_Manager* systems;
 
-    //static Entity_Manager entities;
-    //static Component_Manager components;
-    //static System_Manager systems;
-    //static Game_Info info;
+protected:
+    void controlCamera(const sf::Vector2f& mpos, const float delta_time);
+    void contextUpdate(const sf::Vector2f& mpos);
 };
