@@ -18,5 +18,5 @@ checks if the point is inside the circle
 ---
 
 [Module Engine](../engine.md)  
-[Library Math](math.md)  
+[Submodule Math](math.md)  
 [Return to docs](../../docs.md)

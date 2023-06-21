@@ -59,6 +59,8 @@ public:
 
     virtual void scroll(float delta);
 
+
+
 protected:
     sf::RectangleShape frame;
     State state { NULL_STATE };

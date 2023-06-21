@@ -21,5 +21,5 @@ provides internal access to a static Mersenne-Twister engine
 ---
 
 [Module Engine](../engine.md)  
-[Library Math](math.md)  
+[Submodule Math](math.md)  
 [Return to docs](../../docs.md)

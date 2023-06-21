@@ -24,5 +24,5 @@ determines whether or not the character's local x-position is within the provide
 ---
 
 [Module Engine](../engine.md)  
-[Library Util](util.md)  
+[Submodule Util](util.md)  
 [Return to docs](../../docs.md)

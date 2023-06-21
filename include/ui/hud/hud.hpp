@@ -13,6 +13,7 @@ public:
     static void initialize();
 
     static void loadSystemInfo(Entity e);
+    static void readResources(Entity e);
 
     virtual void update(const sf::Vector2i& mpos) override;
 
@@ -27,8 +28,8 @@ public:
     static inline std::function<T(Entity)> getComponent;
 
 protected:
+    static sf::Font* font;
 
     static System_Info system_info;
-
-    static sf::Font* font;
+    static Resource_Panel resource_panel;
 };

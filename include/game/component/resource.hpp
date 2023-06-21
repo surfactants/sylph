@@ -3,15 +3,13 @@
 #include <magic_enum.hpp>
 
 #include <cstdlib> // abort
+#include <map>
 
 struct Resource {
 public:
     enum Type {
-        // primary
-        ENERGY,
-        FOOD,
-        TEXTILES,
-        WATER,
+        FOOD = 0,
+        WATER = 1,
         AMMONIA,
         SILICATES,
         METALS,
@@ -22,13 +20,14 @@ public:
         PHOSPHATES,
         NITRATES,
         HYDROGEN,
-        // secondary
+        // secondary included for delineation
+        // i.e. if (type < Resource::SECONDARY) checks that it's a primary resource
+        SECONDARY,
         RESEARCH,
         ALLOYS,
         BASIC_GOODS,
         LUXURY_GOODS,
-        ELECTRONICS,
-        COUNT
+        ELECTRONICS
     };
 
     inline const static std::string dash_code { "__" };
@@ -58,8 +57,8 @@ public:
         while ((n = s.find(' ', n)) != std::string::npos) {
             s.replace(n, 1, space_code);
         }
-        Type t = magic_enum::enum_cast<Type>(s).value_or(COUNT);
-        if (t == COUNT) {
+        Type t = magic_enum::enum_cast<Type>(s).value_or(SECONDARY);
+        if (t == SECONDARY) {
             // log this
             std::abort();
         }
@@ -87,3 +86,16 @@ public:
 
     std::map<Type, float> values;
 };
+
+inline Resource emptyResource()
+{
+    Resource r;
+    const int secondary = Resource::SECONDARY;
+    const int end = Resource::ELECTRONICS;
+    for (int i = 0; i <= end; i++) {
+        if (i != secondary) {
+            r.values[static_cast<Resource::Type>(i)] = 0.f;
+        }
+    }
+    return r;
+}

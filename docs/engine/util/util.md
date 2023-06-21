@@ -1,5 +1,5 @@
 # Util
-*library*  
+*submodule*  
 *engine/util/*
 
 ## About

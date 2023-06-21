@@ -4,14 +4,21 @@
 
 #include <engine/util/sfml_stream.hpp>
 
+#include <game/component/resource.hpp>
+
 std::function<void(UI::State)> HUD::setHUDState;
 
 System_Info HUD::system_info;
 
+Resource_Panel HUD::resource_panel;
+
 sf::Font* HUD::font { Font_Manager::get(Font::UI) };
 
 HUD::HUD()
-{}
+{
+    elements.push_back(&system_info);
+    elements.push_back(&resource_panel);
+}
 
 void HUD::update(const sf::Vector2i& mpos)
 {
@@ -21,6 +28,8 @@ void HUD::update(const sf::Vector2i& mpos)
 void HUD::initialize()
 {
     system_info.loadFont(font);
+    resource_panel.initialize(emptyResource(), *font);
+    resource_panel.setPosition(sf::Vector2f(0.f, 0.f));
 }
 
 void HUD::loadSystemInfo(Entity e)
@@ -77,6 +86,11 @@ void HUD::loadSystemInfo(Entity e)
 
         system_info.setText(sf::Vector2f(16.f, 16.f));
     }
+}
+
+void HUD::readResources(Entity e)
+{
+    resource_panel.read(getComponent<Resource>(e));
 }
 
 void HUD::enterState()

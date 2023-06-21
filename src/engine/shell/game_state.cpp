@@ -86,7 +86,6 @@ void Game_State::scroll(const float delta)
 void Game_State::update(const float delta_time)
 {
     if (hud) {
-        std::cout << "\n\n" << hud << '\n';
         hud->update(sf::Mouse::getPosition());
     }
     game->update(delta_time);
@@ -213,17 +212,17 @@ void Game_State::loadFunctions()
 
         // ability functions
         { "start ability 1", []() {} },
-        { "stop ability 1", []() {} },
+        { "stop ability 1",  []() {} },
         { "start ability 2", []() {} },
-        { "stop ability 2", []() {} },
+        { "stop ability 2",  []() {} },
         { "start ability 3", []() {} },
-        { "stop ability 3", []() {} },
+        { "stop ability 3",  []() {} },
         { "start ability 4", []() {} },
-        { "stop ability 4", []() {} },
+        { "stop ability 4",  []() {} },
 
         // world
-        { "start interact", []() {} },
-        { "stop interact", []() {} },
+        { "start interact",  []() {} },
+        { "stop interact",   []() {} },
         { "switch maps", std::bind(&Context::toggle, &Game::core->systems.context) },
 
         // debug

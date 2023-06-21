@@ -24,5 +24,5 @@ calculates a velocity vector based on an actor's orientation and scalar velocity
 ---
 
 [Module Engine](../engine.md)  
-[Library Math](math.md)  
+[Submodule Math](math.md)  
 [Return to docs](../../docs.md)

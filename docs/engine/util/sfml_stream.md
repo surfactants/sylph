@@ -18,5 +18,5 @@ reads sf::Color objects into stream with format "(r, g, b, a)"
 ---
 
 [Module Engine](../engine.md)  
-[Library Util](util.md)  
+[Submodule Util](util.md)  
 [Return to docs](../../docs.md)

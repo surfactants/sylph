@@ -1,5 +1,5 @@
 # Noise
-*library*  
+*submodule*  
 *game/world/gen/noise/*
 
 A group of headers for noise generation.

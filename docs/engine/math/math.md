@@ -1,5 +1,5 @@
 # Math
-*library*  
+*submodule*  
 *engine/math/*
 
 ## About
