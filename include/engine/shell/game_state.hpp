@@ -22,6 +22,7 @@ public:
 
     virtual void update(const float delta_time) override;
     virtual void handleInput(const sf::Event& event) override;
+    void priorityInput(const sf::Event& event);
 
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
@@ -73,6 +74,7 @@ private:
     std::function<void()> stringToFunction(std::string str);
 
     Input_Package input;
+    Input_Package priority_input;
 
     Game_Settings settings;
 
@@ -80,7 +82,19 @@ private:
 
     sf::Vector2u w_size;
 
-    std::map<std::string, std::function<void()>> string_to_function;
+    struct Function {
+        std::function<void()> func;
+        bool priority;
+/*
+        Function(std::function<void()> func, bool priority = false)
+            : func { func }
+            , priority { priority }
+        {}*/
+    };
+
+    std::map<std::string, Function> string_to_function;
+
+    //std::map<std::string, std::function<void()>> string_to_function;
     void loadFunctions();
 
     sf::Vector2f translateGlobalPos(const sf::Vector2i& v);

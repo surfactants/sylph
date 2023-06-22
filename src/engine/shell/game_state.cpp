@@ -7,8 +7,6 @@
 
 #include <ui/hud/hud.hpp>
 
-#include <iostream>
-
 Game_State::Game_State(std::function<void()> open_pause)
 {
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
@@ -93,6 +91,7 @@ void Game_State::update(const float delta_time)
 
 void Game_State::handleInput(const sf::Event& event)
 {
+    priorityInput(event);
     if (hud->handleInput(event)) {
         return;
     }
@@ -124,16 +123,54 @@ void Game_State::handleInput(const sf::Event& event)
     }
 }
 
-void Game_State::loadCommands(std::vector<Command> new_commands)
+void Game_State::priorityInput(const sf::Event& event)
 {
-    commands = new_commands;
+    switch (event.type) {
+        case sf::Event::MouseButtonPressed:
+            priority_input.press(event.mouseButton.button);
+            break;
+        case sf::Event::MouseButtonReleased:
+            priority_input.release(event.mouseButton.button);
+            break;
+        case sf::Event::MouseWheelScrolled:
+            priority_input.scroll(event.mouseWheelScroll.delta);
+            break;
+        case sf::Event::KeyPressed:
+            priority_input.press(event.key.code);
+            break;
+        case sf::Event::KeyReleased:
+            priority_input.release(event.key.code);
+            break;
+        case sf::Event::LostFocus:
+            // pause
+            break;
+        case sf::Event::GainedFocus:
+            // unpause IF paused by a lostfocus event
+            // add a flag in Game_Pause
+            break;
+        default:
+            break;
+    }
+}
+
+void Game_State::loadCommands(std::vector<Command> commands)
+{
     loadFunctions();
     auto open_pause = input.key_press[sf::Keyboard::Escape];
     input.clear();
+    priority_input.clear();
     for (const auto& c : commands) {
-        if (c.key != sf::Keyboard::Unknown) {
-            input.addPress(c.key, string_to_function[c.press]);
-            input.addRelease(c.key, string_to_function[c.release]);
+        if (string_to_function[c.press].priority) {
+            priority_input.addPress(c.key, string_to_function[c.press].func);
+        }
+        else {
+            input.addPress(c.key, string_to_function[c.press].func);
+        }
+        if (string_to_function[c.release].priority) {
+            priority_input.addRelease(c.key, string_to_function[c.release].func);
+        }
+        else {
+            input.addRelease(c.key, string_to_function[c.release].func);
         }
     }
 
@@ -195,38 +232,24 @@ void Game_State::setHUDState(UI::State state)
 void Game_State::loadFunctions()
 {
     // here, bind game functions to string identifiers
-
-    auto acc = &Game::core->systems.accelerator;
+    Input_Accelerator* acc = &Game::core->systems.accelerator;
     string_to_function = {
-        { "null", []() {} },
+        { "null", { []() {}, false } },
 
         // movement functions
-        { "move up",    std::bind(&Input_Accelerator::startUp,      acc) },
-        { "stop up",    std::bind(&Input_Accelerator::stopUp,       acc) },
-        { "move left",  std::bind(&Input_Accelerator::startLeft,    acc) },
-        { "stop left",  std::bind(&Input_Accelerator::stopLeft,     acc) },
-        { "move down",  std::bind(&Input_Accelerator::startDown,    acc) },
-        { "stop down",  std::bind(&Input_Accelerator::stopDown,     acc) },
-        { "move right", std::bind(&Input_Accelerator::startRight,   acc) },
-        { "stop right", std::bind(&Input_Accelerator::stopRight,    acc) },
+        { "move up",    { std::bind(&Input_Accelerator::startUp,      acc), true } },
+        { "stop up",    { std::bind(&Input_Accelerator::stopUp,       acc), true } },
+        { "move left",  { std::bind(&Input_Accelerator::startLeft,    acc), true } },
+        { "stop left",  { std::bind(&Input_Accelerator::stopLeft,     acc), true } },
+        { "move down",  { std::bind(&Input_Accelerator::startDown,    acc), true } },
+        { "stop down",  { std::bind(&Input_Accelerator::stopDown,     acc), true } },
+        { "move right", { std::bind(&Input_Accelerator::startRight,   acc), true } },
+        { "stop right", { std::bind(&Input_Accelerator::stopRight,    acc), true } },
 
-        // ability functions
-        { "start ability 1", []() {} },
-        { "stop ability 1",  []() {} },
-        { "start ability 2", []() {} },
-        { "stop ability 2",  []() {} },
-        { "start ability 3", []() {} },
-        { "stop ability 3",  []() {} },
-        { "start ability 4", []() {} },
-        { "stop ability 4",  []() {} },
-
-        // world
-        { "start interact",  []() {} },
-        { "stop interact",   []() {} },
-        { "switch maps", std::bind(&Context::toggle, &Game::core->systems.context) },
+        { "switch maps", { std::bind(&Context::toggle, &Game::core->systems.context), false } },
 
         // debug
-        { "regenerate", std::bind(newGame, this, data) }
+        { "regenerate", { std::bind(newGame, this, data), false } }
     };
 }
 

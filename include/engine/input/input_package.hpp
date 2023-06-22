@@ -9,6 +9,8 @@
 
 #include "command.hpp"
 
+#include <engine/input/key_string.hpp>
+
 class Input_Package {
 public:
     Input_Package() = default;
@@ -34,4 +36,6 @@ public:
 
     std::map<sf::Mouse::Button, std::function<void()>> mouse_press;
     std::map<sf::Mouse::Button, std::function<void()>> mouse_release;
+
+    Key_String key_string;
 };
