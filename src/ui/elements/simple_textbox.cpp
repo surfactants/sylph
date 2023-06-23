@@ -29,7 +29,7 @@ Simple_Textbox::Simple_Textbox(std::string title_text, bool sanitized)
     base_state = READY;
 
     if (sanitized) {
-        disallowed = "\/:*?<>|\"\\";
+        disallowed = "/:*?<>|\"\\";
     }
 }
 
@@ -50,11 +50,12 @@ unsigned int Simple_Textbox::getMaxLength()
     return max_length;
 }
 
-void Simple_Textbox::textEntered(const sf::Event& event)
+bool Simple_Textbox::textEntered(const sf::Event& event)
 {
     if (event.key.code == sf::Keyboard::Left) {
+        return true;
     }
-    if (event.type == sf::Event::TextEntered && event.text.unicode < 128) {
+    else if (event.type == sf::Event::TextEntered && event.text.unicode < 128) {
         switch (event.text.unicode) {
             case UNICODE_BACKSPACE:
                 backspace();
@@ -82,7 +83,9 @@ void Simple_Textbox::textEntered(const sf::Event& event)
                 }
                 break;
         }
+        return true;
     }
+    return false;
 }
 
 void Simple_Textbox::setOutline()
@@ -103,17 +106,17 @@ void Simple_Textbox::setString(std::string tstr)
     placeCursor();
 }
 
-void Simple_Textbox::keyPressed(sf::Keyboard::Key key)
+bool Simple_Textbox::keyPressed(sf::Keyboard::Key key)
 {
     switch (key) {
         case sf::Keyboard::Left:
             scrollLeft();
-            break;
+            return true;
         case sf::Keyboard::Right:
             scrollRight();
-            break;
+            return true;
         default:
-            break;
+            return false;
     }
 }
 
@@ -284,16 +287,16 @@ bool Simple_Textbox::update(const sf::Vector2i& mpos)
     return cnt;
 }
 
-void Simple_Textbox::clickLeft()
+bool Simple_Textbox::clickLeft()
 {
     switch (state) {
         case HIGHLIGHTED:
             activate();
             // reset cursor blink
-            break;
+            return true;
         default:
             deactivate();
-            break;
+            return false;
     }
 }
 
@@ -310,13 +313,15 @@ void Simple_Textbox::deactivate()
     cursor.setFillColor(sf::Color::Transparent);
 }
 
-void Simple_Textbox::releaseLeft()
+bool Simple_Textbox::releaseLeft()
 {
+    return (highlighted());
 }
 
-void Simple_Textbox::releaseRight()
+bool Simple_Textbox::releaseRight()
 {
     deactivate();
+    return true;
 }
 
 void Simple_Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const

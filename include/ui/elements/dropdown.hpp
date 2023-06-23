@@ -139,13 +139,13 @@ public:
         return cnt;
     }
 
-    virtual void clickLeft() override
+    virtual bool clickLeft() override
     {
         switch (state) {
             case HIGHLIGHTED:
                 // open on highlight
                 activate();
-                break;
+                return true;
             case ACTIVE:
                 if (moused_option) {
                     if (moused_option->active()) {
@@ -154,13 +154,14 @@ public:
                     else {
                         set(moused_option);
                     }
+                    return true;
                 }
                 else {
                     deactivate();
+                    return false;
                 }
-                break;
             default:
-                break;
+                return false;
         }
     }
 
@@ -171,13 +172,18 @@ public:
         Element::activate();
     }
 
-    virtual void releaseLeft() override { }
+    virtual bool releaseLeft() override
+    {
+        return (moused_option);
+    }
 
-    virtual void clickRight() override
+    virtual bool clickRight() override
     {
         if (active()) {
             deactivate();
+            return true;
         }
+        return false;
     }
 
     virtual void deactivate() override
@@ -197,11 +203,13 @@ public:
         option_frame.scroll(delta, sf::Vector2f(sf::Mouse::getPosition()));
     }
 
-    virtual void keyPressed(sf::Keyboard::Key key)
+    virtual bool keyPressed(sf::Keyboard::Key key)
     {
         if (key == sf::Keyboard::Escape) {
             deactivate();
+            return true;
         }
+        return false;
     }
 
     void set(T t)

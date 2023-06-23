@@ -14,10 +14,6 @@ public:
 
     void setPosition(sf::Vector2f position);
 
-    virtual bool update(const sf::Vector2i& mpos) override { return false; }
-    virtual void clickLeft() override {}
-    virtual void releaseLeft() override {}
-
 private:
     struct Cell {
         sf::Sprite sprite;

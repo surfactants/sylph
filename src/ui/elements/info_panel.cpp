@@ -17,12 +17,14 @@ bool Info_Panel::update(const sf::Vector2i& mpos)
     return false;
 }
 
-void Info_Panel::clickLeft()
+bool Info_Panel::clickLeft()
 {
+    return (highlighted());
 }
 
-void Info_Panel::releaseLeft()
+bool Info_Panel::releaseLeft()
 {
+    return (highlighted());
 }
 
 void Info_Panel::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -34,9 +36,4 @@ void Info_Panel::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for (const auto& t : text) {
         target.draw(t, states);
     }
-    /*
-    for (const auto& b : buttons) {
-        target.draw(b, states);
-    }
-    */
 }

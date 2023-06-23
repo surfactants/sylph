@@ -49,10 +49,11 @@ void Keymapper::load(std::vector<Command> commands)
     setScrollable(button_pos.y);
 }
 
-void Keymapper::keyPressed(sf::Keyboard::Key k)
+bool Keymapper::keyPressed(sf::Keyboard::Key k)
 {
     if (k == sf::Keyboard::Escape) {
         deactivate();
+        return true;
     }
     else if (active_row && k != sf::Keyboard::Unknown) {
         // attempt swap
@@ -69,5 +70,7 @@ void Keymapper::keyPressed(sf::Keyboard::Key k)
         active_row->button.setState(READY);
         active_row = nullptr;
         setState(READY);
+        return true;
     }
+    return false;
 }

@@ -15,9 +15,9 @@ public:
     void load();
 
     // replicate logic from Toggle_Scroller
-    virtual void clickLeft() override;
+    virtual bool clickLeft() override;
 
-    virtual void clickRight() override;
+    virtual bool clickRight() override;
 
     const static std::string path;
     const static std::string extension;

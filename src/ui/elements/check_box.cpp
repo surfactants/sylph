@@ -50,15 +50,18 @@ void Check_Box::setState(State state)
     }
 }
 
-void Check_Box::clickLeft()
+bool Check_Box::clickLeft()
 {
     if (highlighted()) {
         setChecked(!checked);
+        return true;
     }
+    return false;
 }
 
-void Check_Box::releaseLeft()
+bool Check_Box::releaseLeft()
 {
+    return (highlighted());
 }
 
 void Check_Box::setChecked(bool state)

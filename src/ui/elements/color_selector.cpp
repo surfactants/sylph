@@ -194,7 +194,7 @@ bool Color_Selector::update(const sf::Vector2i& mpos)
     return true;
 }
 
-void Color_Selector::clickLeft()
+bool Color_Selector::clickLeft()
 {
     switch (moused) {
         case COLORS:
@@ -209,9 +209,10 @@ void Color_Selector::clickLeft()
         default:
             break;
     }
+    return (moused != NONE);
 }
 
-void Color_Selector::releaseLeft()
+bool Color_Selector::releaseLeft()
 {
     selecting = false;
     sliding = false;
@@ -227,6 +228,7 @@ void Color_Selector::releaseLeft()
         default:
             break;
     }
+    return (moused != NONE);
 }
 
 void Color_Selector::activate()
@@ -243,15 +245,18 @@ void Color_Selector::deactivate()
     Element::deactivate();
 }
 
-void Color_Selector::clickRight()
+bool Color_Selector::clickRight()
 {
+    return (active());
 }
 
-void Color_Selector::releaseRight()
+bool Color_Selector::releaseRight()
 {
-    if (moused == NONE) {
+    if (active()) {
         deactivate();
+        return true;
     }
+    return false;
 }
 
 void Color_Selector::slide(sf::Vector2i mousePos)

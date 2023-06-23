@@ -51,10 +51,11 @@ public:
     void readEvent(sf::Event& event);
 
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void clickLeft() override;
-    virtual void releaseLeft() override;
-    virtual void clickRight() override;
-    virtual void releaseRight() override;
+
+    virtual bool clickLeft() override;
+    virtual bool releaseLeft() override;
+    virtual bool clickRight() override;
+    virtual bool releaseRight() override;
 
     void setPreview(sf::Vector2f pos, sf::Vector2f size);
 

@@ -5,9 +5,12 @@
 class Check_Box : public Element {
 public:
     Check_Box(sf::Font& font, std::string ls, unsigned int csize);
+
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void clickLeft() override;
-    virtual void releaseLeft() override;
+
+    virtual bool clickLeft() override;
+    virtual bool releaseLeft() override;
+
     virtual void setState(State state);
 
     void setChecked(bool state);

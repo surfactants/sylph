@@ -27,10 +27,11 @@ public:
     void setConfirm(std::function<void()> target, Position pos = BOTTOM);
 
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void clickLeft() override;
-    virtual void releaseLeft() override;
-    virtual void clickRight() override;
-    virtual void textEntered(const sf::Event& event);
+
+    virtual bool clickLeft() override;
+    virtual bool releaseLeft() override;
+    virtual bool clickRight() override;
+    virtual bool textEntered(const sf::Event& event);
 
     void setText(std::string tstr);
     void setTextbox(std::string title, bool sanitized, std::string tstr = "");

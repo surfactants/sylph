@@ -65,9 +65,9 @@ public:
     ///
     /// \see append()
     ///
-    virtual void textEntered(const sf::Event& event) override;
+    virtual bool textEntered(const sf::Event& event) override;
 
-    virtual void keyPressed(sf::Keyboard::Key key) override;
+    virtual bool keyPressed(sf::Keyboard::Key key) override;
 
     /// APPEND ///
     /// \brief Adds entered character to the end of the text.
@@ -190,10 +190,11 @@ public:
     void setTextSize(const unsigned int size);
 
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void clickLeft() override;
-    virtual void releaseLeft() override;
 
-    virtual void releaseRight() override;
+    virtual bool clickLeft() override;
+    virtual bool releaseLeft() override;
+
+    virtual bool releaseRight() override;
 
     virtual void activate() override;
     virtual void deactivate() override;

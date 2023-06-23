@@ -9,8 +9,8 @@ public:
     void loadFont(sf::Font* font);
 
     virtual bool update(const sf::Vector2i& mpos) override;
-    virtual void clickLeft() override;
-    virtual void releaseLeft() override;
+    virtual bool clickLeft() override;
+    virtual bool releaseLeft() override;
 
 protected:
     sf::Font* font;

@@ -113,7 +113,7 @@ void Camera_Controller::startDrag(const sf::Vector2f& mpos)
     drag_pos = mpos;
 }
 
-void Camera_Controller::endDrag(const sf::Vector2f& mpos)
+void Camera_Controller::endDrag(const sf::Vector2f&)
 {
     dragging = false;
 }

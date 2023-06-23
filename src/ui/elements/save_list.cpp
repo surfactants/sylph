@@ -108,11 +108,12 @@ std::string Save_List::nextSaveName()
     return name;
 }
 
-void Save_List::clickLeft()
+bool Save_List::clickLeft()
 {
     if (!highlighted_row) {
         deactivate();
         discardSave();
+        return true;
     }
     else if (highlighted_row != active_row) {
         if (active_row) {
@@ -122,17 +123,21 @@ void Save_List::clickLeft()
         active_row->button.setState(ACTIVE);
         activate();
         chooseSave(active_row->data);
+        return true;
     }
     else if (state == READY) {
         if (active_row) {
             active_row->button.setState(READY);
             deactivate();
             discardSave();
+            return true;
         }
     }
+    return false;
 }
 
-void Save_List::clickRight()
+bool Save_List::clickRight()
 {
     deactivate();
+    return true;
 }

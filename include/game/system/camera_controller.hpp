@@ -16,7 +16,7 @@ public:
 
     void startDrag(const sf::Vector2f& mpos);
 
-    void endDrag(const sf::Vector2f& mpos);
+    void endDrag(const sf::Vector2f&);
 
     void drag(const sf::Vector2f& mpos);
 

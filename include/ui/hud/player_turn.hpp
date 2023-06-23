@@ -8,6 +8,8 @@ public:
 
     void nextTurn();
 
+    virtual void windowResize(const sf::Vector2u& w_size) override;
+
 private:
     Button next_turn;
 };

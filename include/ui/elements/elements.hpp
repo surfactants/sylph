@@ -11,3 +11,5 @@
 #include "save_list.hpp"
 #include "simple_textbox.hpp"
 #include "slider.hpp"
+
+using Panel = sf::RectangleShape;

@@ -12,6 +12,8 @@ System_Info HUD::system_info;
 
 Resource_Panel HUD::resource_panel;
 
+Panel HUD::turn_panel;
+
 sf::Font* HUD::font { Font_Manager::get(Font::UI) };
 
 HUD::HUD()
@@ -29,7 +31,11 @@ void HUD::initialize()
 {
     system_info.loadFont(font);
     resource_panel.initialize(emptyResource(), *font);
-    resource_panel.setPosition(sf::Vector2f(0.f, 0.f));
+    resource_panel.setPosition(sf::Vector2f(2.f, 2.f));
+
+    turn_panel.setFillColor(Palette::black);
+    turn_panel.setOutlineColor(Palette::white);
+    turn_panel.setOutlineThickness(2.f);
 }
 
 void HUD::loadSystemInfo(Entity e)
@@ -106,9 +112,30 @@ void HUD::windowResize(const sf::Vector2u& w_size)
     sf::Vector2f sinfo_pos;
     sf::Vector2f sinfo_size;
     sinfo_size.x = 320.f;
-    sinfo_size.y = w_size.y - (padding * 2.f);
+    sinfo_size.y = w_size.y - (padding * 2.f) - sinfo_size.x;
     sinfo_pos.x = w_size.x - sinfo_size.x - padding;
     sinfo_pos.y = padding;
     system_info.setPosition(sinfo_pos);
     system_info.setSize(sinfo_size);
+
+    sf::Vector2f tp_size;
+    tp_size.x = sinfo_size.x;
+    tp_size.y = sinfo_size.x - padding;
+
+    sf::Vector2f tp_pos;
+    tp_pos = sinfo_pos;
+    tp_pos.y += sinfo_size.y + padding;
+    turn_panel.setPosition(tp_pos);
+    turn_panel.setSize(tp_size);
+}
+
+void HUD::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.setView(view);
+    target.draw(turn_panel, states);
+
+    for (const auto& element : elements) {
+        target.setView(view);
+        target.draw(*element, states);
+    }
 }

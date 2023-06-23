@@ -14,7 +14,7 @@ class Keymapper : public Toggle_Scroller<Command> {
 public:
     Keymapper(const sf::Font& font);
 
-    virtual void keyPressed(sf::Keyboard::Key k) override;
+    virtual bool keyPressed(sf::Keyboard::Key k) override;
 
     void load(std::vector<Command> commands);
 

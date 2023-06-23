@@ -1,9 +1,14 @@
 # Documentation
 
 ## About
-Sylph is intended as a flexible, extensible, and lightweight game engine, written in and for C++/SFML. It consists of four modules\*, which further consist of submodules. Submodules range from simple utility libraries to complex systems.
+Sylph is intended as a flexible, extensible, and lightweight game engine, written in and for C++/SFML.
 
-*\*the term "module" is organizational, and therefore not to be confused with the homonymous C++20 feature*
+## Structure
+Sylph consists of three *modules*, themselves further comprised of *submodules*. Submodules range from simple utility libraries to complex systems.
+
+Header and implementation files are split into the *include/* and *src/* directories, respectively. Both are further organized into *module_name/submodule_name* directories. For example, to access the Engine module's Input submodule header file, one would go to the *engine/input* directory.
+
+The documentation's file structure also follows this pattern.
 
 ## Modules
 

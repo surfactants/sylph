@@ -32,4 +32,8 @@ protected:
 
     static System_Info system_info;
     static Resource_Panel resource_panel;
+    static Panel turn_panel;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

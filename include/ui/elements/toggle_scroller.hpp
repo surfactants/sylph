@@ -71,10 +71,11 @@ public:
         return cnt;
     }
 
-    virtual void clickLeft() override
+    virtual bool clickLeft() override
     {
         if (!highlighted_row) {
             deactivate();
+            return true;
         }
         else if (highlighted_row != active_row) {
             if (active_row) {
@@ -83,28 +84,36 @@ public:
             active_row = highlighted_row;
             active_row->button.setState(ACTIVE);
             activate();
+            return true;
         }
         else if (state == READY) {
             if (active_row) {
                 active_row->button.setState(READY);
                 deactivate();
+                return true;
             }
         }
+        return false;
     }
 
-    virtual void releaseLeft() override
-    {}
+    virtual bool releaseLeft() override
+    {
+        return true;
+    }
 
-    virtual void keyPressed(sf::Keyboard::Key k) override
+    virtual bool keyPressed(sf::Keyboard::Key k) override
     {
         if (k == sf::Keyboard::Escape) {
             deactivate();
+            return true;
         }
+        return false;
     }
 
-    virtual void clickRight() override
+    virtual bool clickRight() override
     {
         deactivate();
+        return true;
     }
 
     virtual void activate() override

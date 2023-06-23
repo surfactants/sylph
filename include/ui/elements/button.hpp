@@ -50,9 +50,9 @@ public:
     /// clickLeft ///
     /// \brief returns true if button is available and highlighted. also calls target if applicable
     ///
-    virtual void clickLeft() override;
+    virtual bool clickLeft() override;
 
-    virtual void releaseLeft() override;
+    virtual bool releaseLeft() override;
 
     std::function<void()> target; /**< onclick callback */
 

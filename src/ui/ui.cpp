@@ -60,11 +60,9 @@ bool UI::handleInput(const sf::Event& event)
     if (event.type == sf::Event::MouseButtonPressed) {
         switch (event.mouseButton.button) {
             case sf::Mouse::Left:
-                clickLeft();
-                break;
+                return clickLeft();
             case sf::Mouse::Right:
-                clickRight();
-                break;
+                return clickRight();
             default:
                 break;
         }
@@ -72,89 +70,97 @@ bool UI::handleInput(const sf::Event& event)
     else if (event.type == sf::Event::MouseButtonReleased) {
         switch (event.mouseButton.button) {
             case sf::Mouse::Left:
-                releaseLeft();
-                break;
+                return releaseLeft();
             case sf::Mouse::Right:
-                releaseRight();
-                break;
+                return releaseRight();
             default:
                 break;
         }
     }
     else if (event.type == sf::Event::KeyPressed) {
-        keyPressed(event.key.code);
+        return keyPressed(event.key.code);
     }
     else if (event.type == sf::Event::TextEntered) {
-        textEntered(event);
+        return textEntered(event);
     }
     else if (event.type == sf::Event::MouseWheelScrolled && moused) {
         moused->scroll(event.mouseWheelScroll.delta);
     }
-    return (moused || active);
+    return active;
 }
 
-void UI::clickLeft()
+bool UI::clickLeft()
+{
+    bool ret { false };
+    if (active) {
+        ret = active->clickLeft();
+    }
+    if (!ret && moused && moused != active) {
+        return moused->clickLeft();
+    }
+    return ret;
+}
+
+bool UI::clickRight()
 {
     if (active) {
-        active->clickLeft();
+        return active->clickRight();
     }
     if (moused && moused != active) {
-        moused->clickLeft();
+        return moused->clickRight();
     }
+    return false;
 }
 
-void UI::clickRight()
+bool UI::releaseLeft()
 {
     if (active) {
-        active->clickRight();
+        return active->releaseLeft();
     }
     if (moused && moused != active) {
-        moused->clickRight();
+        return moused->releaseLeft();
     }
+    return false;
 }
 
-void UI::releaseLeft()
+bool UI::releaseRight()
 {
     if (active) {
-        active->releaseLeft();
+        return active->releaseRight();
     }
     if (moused && moused != active) {
-        moused->releaseLeft();
+        return moused->releaseRight();
     }
+    return false;
 }
 
-void UI::releaseRight()
-{
-    if (active) {
-        active->releaseRight();
-    }
-    if (moused && moused != active) {
-        moused->releaseRight();
-    }
-}
-
-void UI::scroll(const float delta)
+bool UI::scroll(const float delta)
 {
     if (moused) {
         moused->scroll(delta);
     }
+    return (moused);
 }
 
-void UI::keyPressed(sf::Keyboard::Key key)
+bool UI::keyPressed(sf::Keyboard::Key key)
 {
     if (active) {
-        active->keyPressed(key);
+        return active->keyPressed(key);
     }
     else if (key == sf::Keyboard::Escape) {
+        bool ac = (active);
         escape();
+        return ac;
     }
+    return false;
 }
 
-void UI::textEntered(const sf::Event& event)
+bool UI::textEntered(const sf::Event& event)
 {
     if (active) {
-        active->textEntered(event);
+        return active->textEntered(event);
     }
+    return false;
 }
 
 void UI::setEscape(Main_State::State state)

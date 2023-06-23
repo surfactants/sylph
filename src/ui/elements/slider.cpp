@@ -115,16 +115,19 @@ bool Slider::update(const sf::Vector2i& mpos)
     }
 }
 
-void Slider::releaseLeft()
+bool Slider::releaseLeft()
 {
     changing = false;
+    return (moused);
 }
 
-void Slider::clickLeft()
+bool Slider::clickLeft()
 {
     if (moused) {
         changing = true;
+        return true;
     }
+    return false;
 }
 
 float Slider::revert()

@@ -46,16 +46,19 @@ public:
 
     virtual void setToBase();
 
-    virtual bool update(const sf::Vector2i& mpos) = 0;
+    virtual bool update(const sf::Vector2i&)
+    {
+        return false;
+    }
 
-    virtual void clickLeft() = 0;
-    virtual void releaseLeft() = 0;
+    virtual bool clickLeft();
+    virtual bool releaseLeft();
 
-    virtual void clickRight();
-    virtual void releaseRight();
+    virtual bool clickRight();
+    virtual bool releaseRight();
 
-    virtual void textEntered(const sf::Event& event);
-    virtual void keyPressed(sf::Keyboard::Key key);
+    virtual bool textEntered(const sf::Event& event);
+    virtual bool keyPressed(sf::Keyboard::Key key);
 
     virtual void scroll(float delta);
 

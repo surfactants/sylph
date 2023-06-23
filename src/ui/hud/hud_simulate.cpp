@@ -1,39 +1,38 @@
-#include <ui/hud/ai_turn.hpp>
+#include <ui/hud/hud_simulate.hpp>
 
-AI_Turn::AI_Turn()
+HUD_Simulate::HUD_Simulate()
 {
     elements.push_back(&system_info);
     panel_text.setFont(*font);
     panel_text.setFillColor(Palette::white);
-    panel_text.setString("AI deciding...");
 
-    std::string text = "AI_DECIDING";
+    std::string text = "SIMULATING";
     std::string loc = localize(text);
     panel_text.setString(loc);
     localize.recordPersistent(text, &panel_text);
 }
 
-void AI_Turn::enterState()
+void HUD_Simulate::enterState()
 {
     clock.restart();
 }
 
-void AI_Turn::update(const sf::Vector2i& mpos)
+void HUD_Simulate::update(const sf::Vector2i& mpos)
 {
     UI::update(mpos);
     if (clock.getElapsedTime().asSeconds() >= threshold) {
-        setHUDState(UI::SIMULATE);
+        setHUDState(UI::PLAYER_TURN);
     }
 }
 
-void AI_Turn::windowResize(const sf::Vector2u& w_size)
+void HUD_Simulate::windowResize(const sf::Vector2u& w_size)
 {
     HUD::windowResize(w_size);
     sf::Vector2f panel_pos = turn_panel.getPosition() + sf::Vector2f(16.f, 16.f);
     panel_text.setPosition(panel_pos);
 }
 
-void AI_Turn::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void HUD_Simulate::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.setView(view);
     target.draw(turn_panel, states);

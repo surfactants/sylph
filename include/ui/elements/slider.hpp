@@ -54,13 +54,13 @@ public:
     /// clickLeft ///
     ///
     /// \brief activates continual changes if
-    virtual void clickLeft();
+    virtual bool clickLeft();
 
     /// releaseLeft ///
     ///
     /// \brief deactivates changing
     ///
-    virtual void releaseLeft();
+    virtual bool releaseLeft();
 
     /// setFill ///
     /// \brief Sets the fill.

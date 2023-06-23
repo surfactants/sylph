@@ -119,3 +119,134 @@ std::string Component_Serializer::values(Component c, Entity e)
     v += ")";
     return v;
 }
+
+void Component_Serializer::addType(std::string& sql, std::string name, std::string type, bool for_init)
+{
+    sql += name;
+    if (for_init) {
+        sql += " " + type;
+    }
+    sql += ",";
+}
+
+std::string Component_Serializer::writeTransform(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Transform>(e);
+    addValue(v, t.position.x);
+    addValue(v, t.position.y);
+    addValue(v, t.rotation);
+    addValue(v, t.scale);
+    return v;
+}
+
+std::string Component_Serializer::writeCollisionRect(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Collision_Rect>(e);
+    addValue(v, t.min.x);
+    addValue(v, t.min.y);
+    addValue(v, t.size.x);
+    addValue(v, t.size.y);
+    return v;
+}
+
+std::string Component_Serializer::writePolygonTile(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Polygon_Tile>(e);
+    v += "'";
+    for (const auto& it : t.vertices) {
+        v += std::to_string(it.x) + "," + std::to_string(it.y) + ";";
+    }
+    v += "',";
+    addValue(v, t.color.r);
+    addValue(v, t.color.g);
+    addValue(v, t.color.b);
+    addValue(v, t.color.a);
+    return v;
+}
+
+std::string Component_Serializer::writeHierarchy(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Hierarchy>(e);
+    v += "'";
+    for (const auto& it : t.child) {
+        v += std::to_string(it) + ";";
+    }
+    v += "',";
+    v += "'";
+    for (const auto& it : t.parent) {
+        v += std::to_string(it) + ";";
+    }
+    v += "',";
+    return v;
+}
+
+std::string Component_Serializer::writeTile(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Tile>(e);
+    v += "'oops',";
+    return v;
+}
+
+std::string Component_Serializer::writeEntityData(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Entity_Data>(e);
+    addValue(v, t.name);
+    addValue(v, t.description);
+    return v;
+}
+
+std::string Component_Serializer::writeBodyInfo(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Body_Info>(e);
+    addValue(v, t.type);
+    addValue(v, t.subtype);
+    addValue(v, t.radius);
+    addValue(v, t.orbit);
+    addValue(v, t.temperature);
+    addValue(v, t.light);
+    addValue(v, t.color.r);
+    addValue(v, t.color.g);
+    addValue(v, t.color.b);
+    addValue(v, t.owned);
+    addValue(v, t.owner);
+    return v;
+}
+
+std::string Component_Serializer::writeCivilizationData(Entity e)
+{
+    std::string v;
+    auto t = getComponent<Civilization_Data>(e);
+    addValue(v, t.capital_system);
+    addValue(v, t.homeworld);
+    v += "'";
+    for (const auto& it : t.systems) {
+        v += std::to_string(it) + ";";
+    }
+    v += "',";
+    addValue(v, t.population);
+    addValue(v, t.color.r);
+    addValue(v, t.color.g);
+    addValue(v, t.color.b);
+    return v;
+}
+
+std::string Component_Serializer::writeResource(Entity e)
+{
+    std::string v = "'";
+    auto r = getComponent<Resource>(e);
+    for (const auto& t : r.values) {
+        v += Resource::toString(t.first);
+        v += ',';
+        v += std::to_string(t.second);
+        v += ";";
+    }
+    v += "'";
+    return v;
+}

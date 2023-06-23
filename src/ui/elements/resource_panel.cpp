@@ -13,7 +13,7 @@ const sf::Vector2f Resource_Panel::padding = sf::Vector2f(16.f, 16.f);
 Resource_Panel::Resource_Panel()
     : texture { *Texture_Manager::get("RESOURCE_ICONS") }
 {
-    frame.setSize(sf::Vector2f(256.f, 1080.f));
+    frame.setSize(sf::Vector2f(252.f, 1086.f));
 }
 
 void Resource_Panel::read(const Resource& resource)

@@ -35,7 +35,6 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
         pos.y += size.y + 128.f;
     }
 
-    int i = 0;
     for (auto& t : textboxes) {
         elements.push_back(&t);
     }

@@ -90,19 +90,22 @@ sf::Vector2f Button::getSize()
     return frame.getSize();
 }
 
-void Button::clickLeft()
+bool Button::clickLeft()
 {
     setState(ACTIVE);
     Event_Bus::publish(Event(Event::SOUND, Event::Tag::BUTTON_PRESSED));
+    return true;
 }
 
-void Button::releaseLeft()
+bool Button::releaseLeft()
 {
     if (active()) {
         setState(base_state);
         Event_Bus::publish(Event(Event::SOUND, Event::Tag::BUTTON_TRIGGERED));
         target();
+        return true;
     }
+    return false;
 }
 
 void Button::setState(Button::State state)

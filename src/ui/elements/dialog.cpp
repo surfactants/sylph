@@ -93,38 +93,48 @@ bool Dialog::update(const sf::Vector2i& mpos)
     return moused;
 }
 
-void Dialog::clickLeft()
+bool Dialog::clickLeft()
 {
     if (moused) {
         moused->clickLeft();
+        return true;
     }
+
+    return false;
 }
 
-void Dialog::releaseLeft()
+bool Dialog::releaseLeft()
 {
     if (moused) {
         moused->releaseLeft();
+        return true;
     }
+
+    return false;
 }
 
-void Dialog::clickRight()
+bool Dialog::clickRight()
 {
     if (moused && moused != textbox.get()) {
         moused->clickRight();
+        return true;
     }
+
+    return false;
 }
 
-void Dialog::textEntered(const sf::Event& event)
+bool Dialog::textEntered(const sf::Event& event)
 {
     switch (event.text.unicode) {
         case UNICODE_ESCAPE:
             (*cancel)();
-            break;
+            return true;
         case UNICODE_RETURN:
             if (confirm->available()) {
                 (*confirm)();
+                return true;
             }
-            break;
+            return false;
         default:
             if (textbox) {
                 textbox->textEntered(event);
@@ -134,8 +144,9 @@ void Dialog::textEntered(const sf::Event& event)
                 else {
                     confirm->setState(UNAVAILABLE);
                 }
+                return true;
             }
-            break;
+            return false;
     }
 }
 

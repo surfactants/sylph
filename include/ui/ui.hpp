@@ -43,14 +43,14 @@ public:
     virtual void update(const sf::Vector2i& mpos);
     virtual bool handleInput(const sf::Event& event);
 
-    virtual void clickLeft();
-    virtual void clickRight();
-    virtual void releaseLeft();
-    virtual void releaseRight();
-    virtual void scroll(const float delta);
+    virtual bool clickLeft();
+    virtual bool clickRight();
+    virtual bool releaseLeft();
+    virtual bool releaseRight();
+    virtual bool scroll(const float delta);
 
-    virtual void keyPressed(sf::Keyboard::Key key);
-    virtual void textEntered(const sf::Event& event);
+    virtual bool keyPressed(sf::Keyboard::Key key);
+    virtual bool textEntered(const sf::Event& event);
     virtual void escape();
     virtual void confirm() { }
 

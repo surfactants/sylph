@@ -2,9 +2,9 @@
 
 #include "hud.hpp"
 
-class AI_Turn : public HUD {
+class HUD_Simulate : public HUD {
 public:
-    AI_Turn();
+    HUD_Simulate();
 
     virtual void enterState() override;
 
