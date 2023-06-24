@@ -76,9 +76,19 @@ bool Element::releaseLeft()
     return false;
 }
 
-bool Element::textEntered(const sf::Event& event) { return false; }
-bool Element::keyPressed(sf::Keyboard::Key key) { return false; }
+bool Element::textEntered(const sf::Event&) { return false; }
+bool Element::keyPressed(sf::Keyboard::Key) { return false; }
 bool Element::clickRight() { return false; }
 bool Element::releaseRight() { return false; }
-void Element::scroll(float delta) { }
+void Element::scroll(float) { }
+
+sf::Vector2f Element::getPosition()
+{
+    return frame.getPosition();
+}
+
+sf::Vector2f Element::getSize()
+{
+    return frame.getSize();
+}
 

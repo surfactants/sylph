@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <engine/resources/palette.hpp>
+
 class Element : public sf::Drawable {
 public:
     enum State {
@@ -12,6 +14,9 @@ public:
         SELECTED,
         NULL_STATE
     };
+
+    constexpr static float padding { 8.f };
+    constexpr static float outline { 2.f };
 
     Element() = default;
 
@@ -62,7 +67,8 @@ public:
 
     virtual void scroll(float delta);
 
-
+    virtual sf::Vector2f getPosition();
+    virtual sf::Vector2f getSize();
 
 protected:
     sf::RectangleShape frame;

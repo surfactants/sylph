@@ -7,9 +7,9 @@
 #include "dropdown.hpp"
 #include "info_panel.hpp"
 #include "keymapper.hpp"
+#include "panel.hpp"
 #include "resource_panel.hpp"
 #include "save_list.hpp"
 #include "simple_textbox.hpp"
 #include "slider.hpp"
-
-using Panel = sf::RectangleShape;
+#include "timekeeper.hpp"

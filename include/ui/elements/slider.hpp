@@ -2,8 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <engine/resources/palette.hpp>
-
 #include "element.hpp"
 
 /// SLIDER ///

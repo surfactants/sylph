@@ -13,6 +13,11 @@ Player_Turn::Player_Turn()
     elements.push_back(&next_turn);
 }
 
+void Player_Turn::enterState()
+{
+    turn_panel->setString("");
+}
+
 void Player_Turn::nextTurn()
 {
     setHUDState(HUD::AI_TURN);
@@ -21,9 +26,9 @@ void Player_Turn::nextTurn()
 void Player_Turn::windowResize(const sf::Vector2u& w_size)
 {
     HUD::windowResize(w_size);
-    sf::Vector2f panel_size = turn_panel.getSize();
-    sf::Vector2f button_size = next_turn.getFrame().getSize();
-    sf::Vector2f next_pos = turn_panel.getPosition();
+    sf::Vector2f panel_size = turn_panel->getSize();
+    sf::Vector2f button_size = next_turn.getSize();
+    sf::Vector2f next_pos = turn_panel->getPosition();
 
     float padding = (panel_size.x - button_size.x) / 2.f;
     next_pos.x += padding;

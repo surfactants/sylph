@@ -11,3 +11,5 @@ void centerTextHorizontal(sf::Text& text);
 bool charInBounds(sf::Text& text, unsigned int i, float width);
 
 void wrapText(sf::Text& text, float width);
+
+sf::Vector2f textSize(const sf::Text& text);

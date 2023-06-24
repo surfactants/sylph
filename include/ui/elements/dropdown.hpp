@@ -1,7 +1,5 @@
 #pragma once
 
-#include <engine/resources/palette.hpp>
-
 #include "button.hpp"
 #include "scrollable.hpp"
 

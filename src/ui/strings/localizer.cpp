@@ -51,5 +51,18 @@ void Localizer::changeLanguage(std::string language)
             }
         }
     }
+}
 
+void Localizer::erase(sf::Text* to_erase)
+{
+    for (auto& row : records) {
+        for (auto it = row.second.begin(); it != row.second.end();) {
+            if (*it == to_erase) {
+                row.second.erase(it);
+            }
+            else {
+                it++;
+            }
+        }
+    }
 }

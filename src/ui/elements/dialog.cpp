@@ -164,7 +164,7 @@ void Dialog::setCancel(std::function<void()> target, Position pos)
     addButton("confirm", target, pos, CANCEL);
     sf::Vector2f cpos = frame.getPosition() - frame.getOrigin();
     cpos.y += frame.getSize().y;
-    cpos.y -= buttons.back().first->getFrame().getSize().y;
+    cpos.y -= buttons.back().first->getSize().y;
     buttons.back().first->setPosition(cpos);
 }
 
@@ -173,7 +173,7 @@ void Dialog::setConfirm(std::function<void()> target, Position pos)
     addButton("confirm", target, pos, CONFIRM);
     sf::Vector2f cpos = frame.getPosition() - frame.getOrigin();
     cpos += frame.getSize();
-    cpos -= buttons.back().first->getFrame().getSize();
+    cpos -= buttons.back().first->getSize();
     buttons.back().first->setPosition(cpos);
 }
 

@@ -27,6 +27,8 @@ public:
 
     void changeLanguage(std::string language);
 
+    void erase(sf::Text* to_erase);
+
 private:
     std::map<std::string, std::string> strings;
     std::map<std::string, std::vector<sf::Text*>> persistent_records;

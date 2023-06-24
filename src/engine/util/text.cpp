@@ -64,3 +64,9 @@ void wrapText(sf::Text& text, float width)
 
     text.setString(wrapped);
 }
+
+sf::Vector2f textSize(const sf::Text& text)
+{
+    const sf::FloatRect& rect = text.getLocalBounds();
+    return sf::Vector2f(rect.left + rect.width, rect.top + rect.height);
+}
