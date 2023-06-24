@@ -13,14 +13,16 @@ const sf::Vector2f Resource_Panel::padding = sf::Vector2f(16.f, 16.f);
 Resource_Panel::Resource_Panel()
     : texture { *Texture_Manager::get("RESOURCE_ICONS") }
 {
-    frame.setSize(sf::Vector2f(252.f, 1086.f));
+    frame.setSize(sf::Vector2f(226.f, 1076.f));
 }
 
 void Resource_Panel::read(const Resource& resource)
 {
     // std::map<Resource::Type, float>
     for (const auto& v : resource.values) {
-        cells_by_type[v.first]->text.setString(std::to_string(v.second));
+        std::string val = std::to_string(v.second);
+        val = val.substr(0, val.find('.'));
+        cells_by_type[v.first]->text.setString(val);
     }
 }
 
@@ -56,7 +58,9 @@ void Resource_Panel::initialize(const Resource& resource, const sf::Font& font)
         c.sprite.setTextureRect(trect);
 
         c.text.setFont(font);
-        c.text.setString(std::to_string(v.second));
+        std::string val = std::to_string(v.second);
+        val = val.substr(0, val.find('.'));
+        c.text.setString(val);
         c.text.setFillColor(Palette::white);
         cells.push_back(std::make_unique<Cell>(c));
         cells_by_type[v.first] = cells.back().get();

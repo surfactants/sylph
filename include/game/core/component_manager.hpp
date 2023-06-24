@@ -9,6 +9,7 @@
 #include <game/component/component.hpp>
 
 #include <game/component/body_info.hpp>
+#include <game/component/date.hpp>
 #include <game/component/entity_data.hpp>
 #include <game/component/transform.hpp>
 #include <game/component/collision_rect.hpp>

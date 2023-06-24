@@ -17,11 +17,3 @@ void HUD_Simulate::exitState()
 {
     localize.erase(&turn_panel->getText());
 }
-
-void HUD_Simulate::update(const sf::Vector2i& mpos)
-{
-    UI::update(mpos);
-    if (clock.getElapsedTime().asSeconds() >= threshold) {
-        setHUDState(UI::PLAYER_TURN);
-    }
-}

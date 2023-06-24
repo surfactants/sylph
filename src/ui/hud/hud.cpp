@@ -139,3 +139,14 @@ void HUD::windowResize(const sf::Vector2u& w_size)
 
     timekeeper->setPosition(tk_pos);
 }
+
+void HUD::updateDate(const Date& date)
+{
+    timekeeper->setYear(date.year);
+    timekeeper->setMonth(date.month);
+}
+
+void HUD::updateResourcePanel(const Resource& resource)
+{
+    resource_panel->read(resource);
+}

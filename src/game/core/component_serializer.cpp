@@ -68,6 +68,9 @@ std::string Component_Serializer::types(Component c, bool for_init)
         case Component::RESOURCE:
             addType(t, "VAL", "TEXT", for_init);
             break;
+        case Component::DATE:
+            addType(t, "YEAR", "INT", for_init);
+            addType(t, "MONTH", "INT", for_init);
     }
     if (t.back() == ',') {
         t.pop_back();
@@ -111,6 +114,9 @@ std::string Component_Serializer::values(Component c, Entity e)
             break;
         case Component::RESOURCE:
             v += writeResource(e);
+            break;
+        case Component::DATE:
+            v += writeDate(e);
             break;
     }
     if (v.back() == ',') {
@@ -248,5 +254,14 @@ std::string Component_Serializer::writeResource(Entity e)
         v += ";";
     }
     v += "'";
+    return v;
+}
+
+std::string Component_Serializer::writeDate(Entity e)
+{
+    std::string v;
+    auto d = getComponent<Date>(e);
+    addValue(v, d.year);
+    addValue(v, d.month);
     return v;
 }

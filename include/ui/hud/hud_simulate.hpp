@@ -9,8 +9,6 @@ public:
     virtual void enterState() override;
     virtual void exitState() override;
 
-    virtual void update(const sf::Vector2i& mpos) override;
-
 private:
     sf::Clock clock;
     float threshold { 5.f };

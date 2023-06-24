@@ -2,9 +2,9 @@
 
 #include "game.hpp"
 
-class Game_Turn : public Game {
+class Game_Player_Turn : public Game {
 public:
-    Game_Turn() = default;
+    Game_Player_Turn() = default;
 
     virtual void update(const float delta_time) override;
 };

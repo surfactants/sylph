@@ -21,4 +21,6 @@ struct Game_Info {
         time += std::to_string(minutes_played);
         return time;
     }
+
+    Date date { 1, 1 };
 };

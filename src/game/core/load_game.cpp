@@ -121,6 +121,22 @@ void Load_Game::collisionRect()
     }
 }
 
+void Load_Game::date()
+{
+    selectTable(serializer.to_string[Component::DATE]);
+
+    while (step()) {
+        int col { 0 };
+        Entity e = toInt(col++);
+
+        Date date;
+        date.year = toInt(col++);
+        date.month = toInt(col++);
+
+        core->components.addComponent(e, date);
+    }
+}
+
 void Load_Game::entityData()
 {
     selectTable(serializer.to_string[Component::ENTITY_DATA]);

@@ -20,6 +20,7 @@ void Civilization_Generator::generatePlayer()
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
     sig.flip(toInt(Component::CIVILIZATION_DATA));
+    sig.flip(toInt(Component::RESOURCE));
     core->entities.define(civilization, sig);
 
     Entity_Data entity_data;
@@ -40,8 +41,11 @@ void Civilization_Generator::generatePlayer()
     civilization_data.systems.push_back(capital_system);
     civilization_data.color = data.player_color;
 
+    Resource resource = emptyResource();
+
     core->components.addComponent(civilization, entity_data);
     core->components.addComponent(civilization, civilization_data);
+    core->components.addComponent(civilization, resource);
 
     core->components.getComponent<Polygon_Tile>(capital_system).color = data.player_color;
     auto& system_info = core->components.getComponent<Body_Info>(capital_system);
@@ -76,6 +80,7 @@ void Civilization_Generator::generateAI()
     Signature sig;
     sig.flip(toInt(Component::ENTITY_DATA));
     sig.flip(toInt(Component::CIVILIZATION_DATA));
+    sig.flip(toInt(Component::RESOURCE));
     core->entities.define(civilization, sig);
 
     Entity_Data entity_data;
@@ -106,8 +111,11 @@ void Civilization_Generator::generateAI()
 
     civilization_data.color = color;
 
+    Resource resource = emptyResource();
+
     core->components.addComponent(civilization, entity_data);
     core->components.addComponent(civilization, civilization_data);
+    core->components.addComponent(civilization, resource);
 
     core->components.getComponent<Polygon_Tile>(capital_system).color = color;
     auto& system_info = core->components.getComponent<Body_Info>(capital_system);

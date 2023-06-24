@@ -1,5 +1,7 @@
 #pragma once
 
+#include <game/component/date.hpp>
+
 #include <game/core/ecs_core.hpp>
 
 #include <ui/ui.hpp>
@@ -26,6 +28,9 @@ public:
 
     template <typename T>
     static inline std::function<T(Entity)> getComponent;
+
+    void updateDate(const Date& date);
+    void updateResourcePanel(const Resource& resource);
 
 protected:
     static sf::Font* font;

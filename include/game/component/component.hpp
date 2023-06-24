@@ -10,6 +10,7 @@ enum class Component {
     BODY_INFO,
     CIVILIZATION_DATA,
     RESOURCE,
+    DATE,
     SIZE // gets total number of components
 };
 

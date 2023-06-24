@@ -3,7 +3,9 @@
 #include <engine/database/database_commands.hpp>
 
 #include <game/state/new_game.hpp>
-#include <game/state/game_turn.hpp>
+#include <game/state/game_player_turn.hpp>
+#include <game/state/game_ai_turn.hpp>
+#include <game/state/game_simulate.hpp>
 
 #include <ui/hud/states.hpp>
 
@@ -25,6 +27,11 @@ Game_State::Game_State(std::function<void()> open_pause)
     hud_states[UI::PLAYER_TURN] = std::make_unique<Player_Turn>();
     hud_states[UI::AI_TURN] = std::make_unique<AI_Turn>();
     hud_states[UI::SIMULATE] = std::make_unique<HUD_Simulate>();
+
+    HUD* hsim = hud_states[UI::SIMULATE].get();
+
+    Game_Simulate::updateDate = std::bind(HUD::updateDate, hsim, std::placeholders::_1);
+    Game_Simulate::updateResourcePanel = std::bind(HUD::updateResourcePanel, hsim, std::placeholders::_1);
 }
 
 void Game_State::registration()
@@ -42,6 +49,7 @@ void Game_State::registration()
     registerComponent<Entity_Data>(Component::ENTITY_DATA);
     registerComponent<Civilization_Data>(Component::CIVILIZATION_DATA);
     registerComponent<Resource>(Component::RESOURCE);
+    registerComponent<Date>(Component::DATE);
 }
 
 void Game_State::clickLeft()
@@ -185,6 +193,20 @@ void Game_State::setHUDState(UI::State state)
         hud = hud_states[state].get();
         hud->enterState();
         drawables.push_back(hud);
+
+        switch (state) {
+            case UI::PLAYER_TURN:
+                game = std::make_unique<Game_Player_Turn>();
+                break;
+            case UI::AI_TURN:
+                game = std::make_unique<Game_AI_Turn>();
+                break;
+            case UI::SIMULATE:
+                game = std::make_unique<Game_Simulate>();
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -229,8 +251,6 @@ void Game_State::loadGame(std::filesystem::path load_path)
 
 void Game_State::newToPlay()
 {
-    game = std::make_unique<Game_Turn>();
-
     setHUDState(UI::PLAYER_TURN);
 
     Database_Commands dbc;
@@ -248,6 +268,19 @@ void Game_State::newToPlay()
 void Game_State::setGameState(Game::State state)
 {
     game_state = state;
+    switch (state) {
+        case Game::PLAYER_TURN:
+            setHUDState(UI::PLAYER_TURN);
+            break;
+        case Game::AI_TURN:
+            setHUDState(UI::AI_TURN);
+            break;
+        case Game::SIMULATE:
+            setHUDState(UI::SIMULATE);
+            break;
+        default:
+            break;
+    }
 }
 
 void Game_State::clear()

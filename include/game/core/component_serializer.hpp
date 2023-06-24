@@ -56,4 +56,6 @@ private:
     std::string writeCivilizationData(Entity e);
 
     std::string writeResource(Entity e);
+
+    std::string writeDate(Entity e);
 };

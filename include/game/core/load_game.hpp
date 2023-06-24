@@ -27,6 +27,7 @@ private:
     void bodyInfo();
     void civData();
     void collisionRect();
+    void date();
     void entityData();
     void hierarchy();
     void polygonTile();

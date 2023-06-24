@@ -18,7 +18,8 @@ public:
 
     enum State {
         NEW,
-        TURN,
+        PLAYER_TURN,
+        AI_TURN,
         SIMULATE
     };
 
