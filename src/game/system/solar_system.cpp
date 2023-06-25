@@ -18,7 +18,7 @@ void Solar_System::load(Entity s)
 {
     system = s;
     clear();
-    auto c = getComponent<Hierarchy>(s).child;
+    auto c = getComponent<Hierarchy>(s).children;
     for (auto e : c) {
         entities.insert(e);
         auto transform = getComponent<Transform>(e);

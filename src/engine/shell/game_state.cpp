@@ -30,8 +30,8 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     HUD* hsim = hud_states[UI::SIMULATE].get();
 
-    Game_Simulate::updateDate = std::bind(HUD::updateDate, hsim, std::placeholders::_1);
-    Game_Simulate::updateResourcePanel = std::bind(HUD::updateResourcePanel, hsim, std::placeholders::_1);
+    Game::updateDate = std::bind(HUD::updateDate, hsim, std::placeholders::_1);
+    Game::updateResourcePanel = std::bind(HUD::updateResourcePanel, hsim, std::placeholders::_1);
 }
 
 void Game_State::registration()

@@ -85,7 +85,7 @@ Entity System_Generator::makeStar(Entity system)
     core->components.addComponent(star, resource);
 
     Hierarchy s_hierarchy;
-    s_hierarchy.parent = { system };
+    s_hierarchy.parents = { system };
     core->components.addComponent(star, s_hierarchy);
 
     Transform transform;
@@ -105,7 +105,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
     size_t count = prng::number(1, 17);
 
     Hierarchy system_hierarchy;
-    system_hierarchy.child = { star };
+    system_hierarchy.children = { star };
 
     float orbital_radius = core->components.getComponent<Body_Info>(star).radius;
 
@@ -149,7 +149,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
         core->components.addComponent(body, b_info);
 
         Hierarchy b_hierarchy;
-        b_hierarchy.parent = { system };
+        b_hierarchy.parents = { system };
         core->components.addComponent(body, b_hierarchy);
 
         unsigned int point_count = std::pow(orbital_radius, .5) + 1;
@@ -162,7 +162,7 @@ void System_Generator::makePlanets(Entity system, Entity star)
 
         orbital_radius += b_info.radius; // "clearing the neighborhood";
 
-        system_hierarchy.child.push_back(body);
+        system_hierarchy.children.push_back(body);
 
         makeResource(body);
     }

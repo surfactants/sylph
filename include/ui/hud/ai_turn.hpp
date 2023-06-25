@@ -13,5 +13,5 @@ public:
 
 private:
     sf::Clock clock;
-    float threshold { 5.f };
+    float threshold { 1.f };
 };

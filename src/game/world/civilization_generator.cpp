@@ -28,7 +28,7 @@ void Civilization_Generator::generatePlayer()
     entity_data.description = "player_civilization_desc";
 
     Entity capital_system = core->systems.tile_system.random();
-    auto children = core->components.getComponent<Hierarchy>(capital_system).child;
+    auto children = core->components.getComponent<Hierarchy>(capital_system).children;
     size_t body_index;
     do {
         body_index = prng::number(children.size());
@@ -91,7 +91,7 @@ void Civilization_Generator::generateAI()
     do {
         capital_system = core->systems.tile_system.random();
     } while (core->components.getComponent<Body_Info>(capital_system).owned);
-    auto children = core->components.getComponent<Hierarchy>(capital_system).child;
+    auto children = core->components.getComponent<Hierarchy>(capital_system).children;
     size_t body_index;
     do {
         body_index = prng::number(children.size());

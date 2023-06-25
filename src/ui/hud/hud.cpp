@@ -63,7 +63,7 @@ void HUD::loadSystemInfo(Entity e)
         system_info->addText(classtype, 28);
 
         if (info.type == "system") {
-            size_t planet_count = getComponent<Hierarchy>(e).child.size() - 1;
+            size_t planet_count = getComponent<Hierarchy>(e).children.size() - 1;
             std::string count = std::to_string(planet_count);
             count += " planet";
             if (planet_count != 1) {

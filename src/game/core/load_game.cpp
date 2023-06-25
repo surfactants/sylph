@@ -162,8 +162,8 @@ void Load_Game::hierarchy()
         Entity e = toInt(col++);
 
         Hierarchy h;
-        vectorize(h.child, toString(col++));
-        vectorize(h.parent, toString(col++));
+        vectorize(h.children, toString(col++));
+        vectorize(h.parents, toString(col++));
 
         core->components.addComponent(e, h);
     }

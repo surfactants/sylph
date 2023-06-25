@@ -5,6 +5,7 @@
 #include <game/core/entity.hpp>
 
 struct Hierarchy {
-    std::vector<Entity> child;
-    std::vector<Entity> parent;
+    std::vector<Entity> children;
+    std::vector<Entity> parents;
+    std::vector<Entity> neighbors;
 };

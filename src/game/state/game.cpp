@@ -10,6 +10,9 @@ std::unique_ptr<ECS_Core> Game::core { nullptr };
 
 System_Manager* Game::systems { nullptr };
 
+std::function<void(const Date&)> Game::updateDate;
+std::function<void(const Resource&)> Game::updateResourcePanel;
+
 void Game::initializeCore()
 {
     core = std::make_unique<ECS_Core>();

@@ -178,12 +178,12 @@ std::string Component_Serializer::writeHierarchy(Entity e)
     std::string v;
     auto t = getComponent<Hierarchy>(e);
     v += "'";
-    for (const auto& it : t.child) {
+    for (const auto& it : t.children) {
         v += std::to_string(it) + ";";
     }
     v += "',";
     v += "'";
-    for (const auto& it : t.parent) {
+    for (const auto& it : t.parents) {
         v += std::to_string(it) + ";";
     }
     v += "',";

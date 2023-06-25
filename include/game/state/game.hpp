@@ -48,6 +48,9 @@ public:
     static Game_Settings settings;
     static System_Manager* systems;
 
+    static std::function<void(const Date&)> updateDate;
+    static std::function<void(const Resource&)> updateResourcePanel;
+
 protected:
     void controlCamera(const sf::Vector2f& mpos, const float delta_time);
     void contextUpdate(const sf::Vector2f& mpos);

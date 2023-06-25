@@ -10,9 +10,6 @@ public:
 
     virtual void update(const float delta_time) override;
 
-    static std::function<void(const Date&)> updateDate;
-    static std::function<void(const Resource&)> updateResourcePanel;
-
 private:
     sf::Clock step_timer;
     constexpr static float step_length { 1.f };

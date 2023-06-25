@@ -2,9 +2,6 @@
 
 #include <iostream>
 
-std::function<void(const Date&)> Game_Simulate::updateDate;
-std::function<void(const Resource&)> Game_Simulate::updateResourcePanel;
-
 void Game_Simulate::update(const float delta_time)
 {
     const sf::Vector2f mpos = relativeMousePos(*(systems->context.current_view));
