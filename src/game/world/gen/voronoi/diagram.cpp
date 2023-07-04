@@ -15,21 +15,13 @@
 
 #define BREAKPOINTS_EPSILON 1.0e-5
 
-namespace Voronoi {
+namespace Voronoi
+{
 
 Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double> max)
-    : frame { sf::Vector2f(min), sf::Vector2f(max) }
+    : frame { min, max }
 {
     sf::Vector2f size(max - min);
-    sf::Vector2f A(min);
-    sf::Vector2f B(max.x, min.x);
-    sf::Vector2f C(max);
-    sf::Vector2f D(min.x, max.y);
-
-    frame_face.push_back(std::make_pair(A, B));
-    frame_face.push_back(std::make_pair(B, C));
-    frame_face.push_back(std::make_pair(C, D));
-    frame_face.push_back(std::make_pair(D, A));
 
     generatePoints(point_count, min, max);
     point_count = points.size();
@@ -82,11 +74,13 @@ Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double
             if (h->added) {
                 continue;
             }
-            //reordered_points.push_back(h->vertex->point);
+            m_cells.push_back(sf::ConvexShape());
+            sf::ConvexShape& shape = m_cells.back();
             do {
                 if (h) {
+                    h->cell_index = m_cells.size() - 1;
                     if (h->vertex0()) {
-                        p.push_back(h->vertex0()->point.sfv());
+                        p.push_back(h->vertex0()->point.sf<float>());
                     }
                     h->added = true;
                 }
@@ -94,18 +88,17 @@ Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double
                 h = h->next;
             } while (h && h != half_edges[i]);
             size_t s = p.size();
-            sf::ConvexShape shape(s);
+            shape = sf::ConvexShape(s);
             for (size_t j = 0; j < s; j++) {
                 shape.setPoint(j, p[j]);
             }
             shape.setFillColor(sf::Color::Transparent);
             shape.setOutlineColor(Palette::white);
-            m_cells.push_back(shape);
         }
     }
 
     for (auto it = points.begin(); it != points.end();) {
-        if (!frame.contains(it->sfv())) {
+        if (!frame.contains(it->sf<double>())) {
             points.erase(it);
         }
         else {
@@ -113,25 +106,47 @@ Diagram::Diagram(size_t point_count, sf::Vector2<double> min, sf::Vector2<double
         }
     }
 
-    const static sf::Vector2f r_size { 32.f, 32.f };
-    const static sf::Vector2f r_orig { r_size / 2.f };
+    //const static sf::Vector2f r_size { 32.f, 32.f };
+    //const static sf::Vector2f r_orig { r_size / 2.f };
 
     // reorder points to match the indices of the cells that contain them
-    // if no point is found, delete the cell
+    // if no such point is found, the cell is discarded
+    // in addition, record the cell index changes for neighbor assignments
     std::vector<Point> r_points;
     std::vector<sf::ConvexShape> r_cells;
-    for (auto& c : m_cells) {
+    std::map<size_t, size_t> cell_indices;
+    n = m_cells.size();
+    for (size_t i = 0; i < n; i++) {
+        sf::ConvexShape& c = m_cells[i];
         for (auto& p : points) {
-            if (collide::convexShape_Point(c, p.sfv())) {
+            const auto& sfv = p.sf<float>();
+            if (frame.contains(p.sf<double>()) && collide::convexShape_Point(c, sfv)) {
+                m_sites.push_back(sfv);
                 r_cells.push_back(c);
-                r_points.push_back(p);
-                m_sites.push_back(p.sfv());
+                cell_indices[i] = r_cells.size() - 1;
                 break;
             }
         }
     }
-    points = r_points;
+
     m_cells = r_cells;
+    n = m_cells.size(); // size has changed
+
+    m_neighbors.resize(n);
+    n = half_edges.size();
+
+    // record neighbor indices
+    for (auto& h : half_edges) {
+        if (h && h->twin && h->added && h->twin->added && h->cell_index >= 0 && h->twin->cell_index >= 0) {
+            if (cell_indices.contains(h->cell_index)) {
+                size_t key = cell_indices[h->cell_index];
+                size_t val = cell_indices[h->twin->cell_index];
+                if (key != val && key != 0 && val != 0) {
+                    m_neighbors[key].push_back(val);
+                }
+            }
+        }
+    }
 }
 
 void Diagram::generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max)
@@ -184,6 +199,12 @@ std::vector<sf::Vector2f> Diagram::sites()
 {
     return m_sites;
 }
+
+std::vector<std::vector<size_t>> Diagram::neighbors()
+{
+    return m_neighbors;
+}
+
 
 struct Event {
     Event(int index = -1, int type = Event::SKIP, const Point& point = Point(0.0, 0.0))
@@ -449,8 +470,7 @@ void Diagram::build()
     }
 
     // Fill edges corresponding to faces
-    for (size_t i = 0; i < half_edges.size(); ++i) {
-        Half_Edge_ptr he = half_edges[i];
+    for (const auto& he : half_edges) {
         if (he->prev == nullptr || faces[he->left_index] == nullptr) {
             faces[he->left_index] = he;
         }

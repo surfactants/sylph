@@ -4,11 +4,13 @@
 #include <filesystem>
 #include <thread>
 
+#include <engine/util/async_loader.hpp>
+
 #include <game/data/new_game_data.hpp>
 
 #include "game.hpp"
 
-class New_Game : public Game {
+class New_Game : public Game, public Async_Loader {
 public:
     New_Game(New_Game_Data data);
     New_Game(std::filesystem::path load_path);
@@ -27,17 +29,12 @@ public:
     virtual void releaseMiddle() override;
 
 private:
-    std::atomic_flag thread_done { ATOMIC_FLAG_INIT };
-    std::thread thread;
-
     New_Game_Data data;
 
     void createWorld();
     void generateSystem(Entity system);
     void createCivilizations();
+    void finalPrep();
 
     void load(std::filesystem::path load_path);
-
-    std::vector<std::function<void()>> tasks;
-    size_t task_index { 0 };
 };

@@ -66,6 +66,12 @@ public:
     bool isHorizontal();
     bool isValid();
 
+    template <typename T>
+    sf::Vector2<T> sf()
+    {
+        return sf::Vector2<T>(x, y);
+    }
+
     sf::Vector2f sfv();
 };
 

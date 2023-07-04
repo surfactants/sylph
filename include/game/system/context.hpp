@@ -40,6 +40,8 @@ public:
 
     void setView(const sf::Vector2u& w_size);
 
+    void setCenter(Entity e);
+
 private:
     Type type { SOLAR };
     Camera_Controller& camera_controller;
@@ -49,5 +51,5 @@ private:
 
     sf::Vector2u w_size;
 
-    Entity last_system { MAX_ENTITIES };
+    Entity last_system { NULL_ENTITY };
 };

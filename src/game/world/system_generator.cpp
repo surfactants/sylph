@@ -7,9 +7,6 @@
 #include <engine/database/database_body.hpp>
 #include <engine/math/prng.hpp>
 
-#include <game/component/body_info.hpp>
-#include <game/component/transform.hpp>
-
 #include <engine/util/sfml_stream.hpp>
 
 System_Generator::System_Generator(ECS_Core* core)
@@ -40,10 +37,10 @@ System_Generator::System_Generator(ECS_Core* core)
     }
 }
 
-void System_Generator::make(Entity system)
+void System_Generator::make(Entity system, Hierarchy system_hierarchy)
 {
     Entity star = makeStar(system);
-    makePlanets(system, star);
+    makePlanets(system, star, system_hierarchy);
 }
 
 Entity System_Generator::makeStar(Entity system)
@@ -84,9 +81,9 @@ Entity System_Generator::makeStar(Entity system)
     Resource resource;
     core->components.addComponent(star, resource);
 
-    Hierarchy s_hierarchy;
-    s_hierarchy.parents = { system };
-    core->components.addComponent(star, s_hierarchy);
+    Hierarchy star_hierarchy;
+    star_hierarchy.parents = { system };
+    core->components.addComponent(star, star_hierarchy);
 
     Transform transform;
     core->components.addComponent(star, transform);
@@ -100,11 +97,10 @@ Entity System_Generator::makeStar(Entity system)
     return star;
 }
 
-void System_Generator::makePlanets(Entity system, Entity star)
+void System_Generator::makePlanets(Entity system, Entity star, Hierarchy system_hierarchy)
 {
     size_t count = prng::number(1, 17);
 
-    Hierarchy system_hierarchy;
     system_hierarchy.children = { star };
 
     float orbital_radius = core->components.getComponent<Body_Info>(star).radius;

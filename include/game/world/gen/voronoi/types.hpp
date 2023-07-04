@@ -29,6 +29,8 @@ struct Half_Edge {
     int left_index;
     int right_index;
 
+    int cell_index { -1 };
+
     Vertex_ptr vertex;
 
     Half_Edge_ptr twin;

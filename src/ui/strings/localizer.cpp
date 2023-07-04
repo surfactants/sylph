@@ -3,8 +3,6 @@
 #include <engine/database/database_strings.hpp>
 #include <engine/database/database_settings_general.hpp>
 
-#include <iostream>
-
 Localizer::Localizer()
 {
     load();

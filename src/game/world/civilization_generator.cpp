@@ -9,7 +9,9 @@ Civilization_Generator::Civilization_Generator(New_Game_Data data, ECS_Core* cor
     , core { core }
 {
     generatePlayer();
+
     for (size_t i = 0; i < 9; i++) {
+
         generateAI();
     }
 }

@@ -61,8 +61,14 @@ void World::generateSystems()
     Voronoi::Diagram d(point_count, world_min, world_max);
     std::vector<sf::ConvexShape> cells = d.get();
     std::vector<sf::Vector2f> sites = d.sites();
+    std::vector<std::vector<size_t>> neighbors = d.neighbors();
+    std::vector<Entity> systems;
 
     size_t n = cells.size();
+
+    for (size_t i = 0; i < n; i++) {
+        systems.push_back(core->entities.create());
+    }
 
     for (size_t i = 0; i < n; i++) {
         // make systems
@@ -84,15 +90,23 @@ void World::generateSystems()
         s.set(toInt(Component::RESOURCE));
         s.set(toInt(Component::ENTITY_DATA));
 
-        Entity system = core->entities.create();
+        Entity system = systems[i];
         core->entities.define(system, s);
 
         core->components.addComponent(system, tile);
         core->components.addComponent(system, transform);
 
-        system_generator.make(system);
+        Hierarchy hierarchy;
 
-        core->systems.tile_system.addTile(system);
+        for (const auto& neighbor : neighbors[i]) {
+            hierarchy.neighbors.push_back(neighbor);
+        }
+
+        system_generator.make(system, hierarchy);
+    }
+
+    for (const auto& system : systems) {
+        core->systems.tile_system.loadEntity(system);
     }
 
     min -= sf::Vector2f(512.f, 512.f);

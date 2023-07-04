@@ -93,11 +93,14 @@ public:
     Diagram(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
     std::vector<sf::ConvexShape> get();
     std::vector<sf::Vector2f> sites();
+    std::vector<std::vector<size_t>> neighbors();
 
 private:
     std::vector<sf::ConvexShape> m_cells;
 
     std::vector<sf::Vector2f> m_sites;
+
+    std::vector<std::vector<size_t>> m_neighbors;
 
     std::vector<Point> points;
     std::vector<Half_Edge_ptr> half_edges;
@@ -114,9 +117,7 @@ private:
 
     size_t extra_point_count;
 
-    sf::FloatRect frame;
-
-    std::vector<std::pair<sf::Vector2f, sf::Vector2f>> frame_face;
+    sf::Rect<double> frame;
 
     void generatePoints(size_t point_count, const sf::Vector2<double> min, const sf::Vector2<double> max);
 

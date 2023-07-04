@@ -100,7 +100,7 @@ void Game_State::update(const float delta_time)
 
 void Game_State::handleInput(const sf::Event& event)
 {
-    if (hud->handleInput(event)) {
+    if (hud && hud->handleInput(event)) {
         return;
     }
     switch (event.type) {
@@ -263,6 +263,9 @@ void Game_State::newToPlay()
     drawables.push_back(hud);
 
     loadNums();
+
+    const auto& civ_data = Game::core->components.getComponent<Civilization_Data>(Game::core->info.player);
+    Game::core->systems.camera_controller.setCenter(civ_data.capital_system);
 }
 
 void Game_State::setGameState(Game::State state)

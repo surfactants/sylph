@@ -13,52 +13,44 @@ std::function<void()> New_Game::newToPlay;
 New_Game::New_Game(New_Game_Data data)
     : data { data }
 {
-    tasks.clear();
-
     initializeCore();
     core->info.player_name = data.player_name;
-    tasks.push_back(std::bind(createWorld, this));
-    tasks.push_back(std::bind(createCivilizations, this));
-
-    thread_done.test_and_set();
+    addTask(std::bind(createWorld, this));
+    addTask(std::bind(createCivilizations, this));
+    addTask(std::bind(finalPrep, this));
 }
 
 New_Game::New_Game(std::filesystem::path load_path)
 {
-    tasks.clear();
-
     initializeCore();
     core->info.player_name = data.player_name;
-    tasks.push_back(std::bind(load, this, load_path));
+    addTask(std::bind(load, this, load_path));
+    addTask(std::bind(finalPrep, this));
+}
+
+void New_Game::finalPrep()
+{
+    core->systems.context.world_bounds = Collision_Rect(core->info.world_bounds);
+    core->systems.context.set(Context::GALACTIC, NULL_ENTITY);
+
+    // populate tile system based on player's home system
+    const auto& civ_data = core->components.getComponent<Civilization_Data>(core->info.player);
+    core->systems.tile_system.setTileVisible(civ_data.capital_system);
+
+    const auto& hierarchy = core->components.getComponent<Hierarchy>(civ_data.capital_system);
+    for (const auto& neighbor : hierarchy.neighbors) {
+        core->systems.tile_system.setTileVisible(neighbor);
+    }
 
     thread_done.test_and_set();
 }
 
 void New_Game::update(const float delta_time)
 {
-    if (thread_done.test()) {
-        thread_done.clear();
-        if (task_index == tasks.size()) {
-            if (thread.joinable()) {
-                thread.join();
-            }
-            // initiate transition to play
-            task_index = 0;
-            core->systems.context.world_bounds = Collision_Rect(core->info.world_bounds);
-            core->systems.context.set(Context::GALACTIC, MAX_ENTITIES);
-            newToPlay();
-            return;
-        }
-        else {
-            // launch next thread
-            if (thread.joinable()) {
-                thread.join();
-            }
-            thread = std::thread(tasks[task_index]);
-            task_index++;
-        }
+    if (Async_Loader::update()) {
+        newToPlay();
     }
-    // render screen
+    // check renderer?
 }
 
 void New_Game::loadSettings(Game_Settings settings)

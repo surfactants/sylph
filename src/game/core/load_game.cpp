@@ -164,6 +164,7 @@ void Load_Game::hierarchy()
         Hierarchy h;
         vectorize(h.children, toString(col++));
         vectorize(h.parents, toString(col++));
+        vectorize(h.neighbors, toString(col++));
 
         core->components.addComponent(e, h);
     }
@@ -247,6 +248,6 @@ void Load_Game::passTiles()
 {
     selectTable("TILE_SYSTEM");
     while (step()) {
-        core->systems.tile_system.addTile(toInt(0));
+        core->systems.tile_system.loadEntity(toInt(0));
     }
 }

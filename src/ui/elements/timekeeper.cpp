@@ -4,8 +4,6 @@
 
 #include <engine/util/text.hpp>
 
-#include <iostream>
-
 Timekeeper::Timekeeper(const sf::Font& font, Localizer& localize)
 {
     year_label.setFont(font);
@@ -55,14 +53,12 @@ Timekeeper::Timekeeper(const sf::Font& font, Localizer& localize)
 
 void Timekeeper::setYear(const unsigned int year)
 {
-    std::cout << "\tyear set to " << year << '\n';
     this->year.setString(std::to_string(year));
     centerText(this->year);
 }
 
 void Timekeeper::setMonth(const unsigned int month)
 {
-    std::cout << "\tmonth set to " << month << '\n';
     this->month.setString(std::to_string(month));
     centerText(this->month);
 }

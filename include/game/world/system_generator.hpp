@@ -16,7 +16,7 @@ class System_Generator {
 public:
     System_Generator(ECS_Core* core);
 
-    void make(Entity system);
+    void make(Entity system, Hierarchy system_hierarchy);
 
 private:
     std::map<std::string, Body_Info> star_min;
@@ -30,7 +30,7 @@ private:
     ECS_Core* core;
 
     Entity makeStar(Entity system);
-    void makePlanets(Entity system, Entity star);
+    void makePlanets(Entity system, Entity star, Hierarchy system_hierarchy);
     void makeResource(Entity planet);
 
     std::string randomStar();

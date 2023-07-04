@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "beachline.hpp"
 #include "types.hpp"
 
 namespace Voronoi {

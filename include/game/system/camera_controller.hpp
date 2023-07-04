@@ -26,6 +26,8 @@ public:
 
     void setBounds(Collision_Rect b);
 
+    void setCenter(Entity e);
+
     float max_zoom { 8.f }; // scale this to world size...
     constexpr static float max_speed { 0.12f };
     constexpr static float min_zoom { 0.5f };

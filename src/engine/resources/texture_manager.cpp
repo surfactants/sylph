@@ -26,6 +26,7 @@ sf::Texture* Texture_Manager::get(std::string key)
         return &instance->textures[key];
     }
     else {
+        // log this
         std::cout << "FAILED TO FIND TEXTURE OF KEY " << key << "!\n";
     }
 

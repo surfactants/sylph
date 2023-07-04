@@ -1,7 +1,5 @@
 #include <ui/hud/player_turn.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 Player_Turn::Player_Turn()
 {
     std::string text = "NEXT_TURN";

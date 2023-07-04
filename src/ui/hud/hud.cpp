@@ -2,8 +2,6 @@
 
 #include <engine/resources/font_manager.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 #include <game/component/resource.hpp>
 
 sf::Font* HUD::font { Font_Manager::get(Font::UI) };
@@ -45,7 +43,7 @@ void HUD::initialize()
 
 void HUD::loadSystemInfo(Entity e)
 {
-    if (e == MAX_ENTITIES) {
+    if (e == NULL_ENTITY) {
         system_info->clear();
     }
     else if (system_info->entity != e) {

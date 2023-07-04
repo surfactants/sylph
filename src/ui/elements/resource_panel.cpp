@@ -5,8 +5,6 @@
 #include <engine/resources/palette.hpp>
 #include <engine/resources/texture_manager.hpp>
 
-#include <engine/util/sfml_stream.hpp>
-
 const sf::Vector2f Resource_Panel::icon_size = sf::Vector2f(32.f, 32.f);
 const sf::Vector2f Resource_Panel::padding = sf::Vector2f(16.f, 16.f);
 
@@ -76,7 +74,6 @@ void Resource_Panel::setPosition(sf::Vector2f position)
         sf::Vector2f tpos = position;
         tpos.x += icon_size.x + padding.x;
         cell->text.setPosition(tpos);
-        std::cout << tpos << '\n';
         position.y += icon_size.y + padding.y;
     }
 }

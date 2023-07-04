@@ -12,7 +12,7 @@ void System_Info::clear()
     sprites.clear();
     text.clear();
     //buttons.clear();
-    entity = MAX_ENTITIES;
+    entity = NULL_ENTITY;
 }
 
 void System_Info::addText(std::string str, unsigned int csize)

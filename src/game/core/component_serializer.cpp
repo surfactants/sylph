@@ -35,6 +35,7 @@ std::string Component_Serializer::types(Component c, bool for_init)
         case Component::HIERARCHY:
             addType(t, "CHILDREN", "TEXT", for_init);
             addType(t, "PARENTS", "TEXT", for_init);
+            addType(t, "NEIGHBORS", "TEXT", for_init);
             break;
         case Component::TILE:
             addType(t, "TODO", "TEXT", for_init);
@@ -184,6 +185,11 @@ std::string Component_Serializer::writeHierarchy(Entity e)
     v += "',";
     v += "'";
     for (const auto& it : t.parents) {
+        v += std::to_string(it) + ";";
+    }
+    v += "',";
+    v += "'";
+    for (const auto& it : t.neighbors) {
         v += std::to_string(it) + ";";
     }
     v += "',";

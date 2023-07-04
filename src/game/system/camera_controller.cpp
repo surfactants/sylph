@@ -1,5 +1,7 @@
 #include <game/system/camera_controller.hpp>
 
+#include <game/component/transform.hpp>
+
 Camera_Controller::Camera_Controller()
 {
     name = "CAMERA_CONTROLLER";
@@ -120,4 +122,11 @@ void Camera_Controller::endDrag(const sf::Vector2f&)
 
 void Camera_Controller::drag(const sf::Vector2f& mpos)
 {
+}
+
+void Camera_Controller::setCenter(Entity e)
+{
+    const auto& transform = getComponent<Transform>(e);
+
+    view->setCenter(transform.position);
 }

@@ -14,9 +14,9 @@ void Context::toggle()
 {
     switch (type) {
         case GALACTIC:
-            if (last_system == MAX_ENTITIES) {
-                if (tile_system.active) {
-                    last_system = std::get<Entity>(*tile_system.active);
+            if (last_system == NULL_ENTITY) {
+                if (tile_system.active != NULL_ENTITY) {
+                    last_system = tile_system.active;
                 }
                 else {
                     break;
@@ -49,7 +49,7 @@ void Context::set(Type t, Entity e)
             camera_controller.setBounds(world_bounds);
             resetView(Context::GALACTIC);
 
-            if (last_system != MAX_ENTITIES) {
+            if (last_system != NULL_ENTITY) {
                 current_view->setCenter(getComponent<Transform>(last_system).position);
             }
 
@@ -57,8 +57,8 @@ void Context::set(Type t, Entity e)
             break;
 
         case SOLAR:
-            if (e == MAX_ENTITIES) {
-                if (last_system != MAX_ENTITIES) {
+            if (e == NULL_ENTITY) {
+                if (last_system != NULL_ENTITY) {
                     e = last_system;
                 }
                 else {

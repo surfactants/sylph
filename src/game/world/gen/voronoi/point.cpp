@@ -23,13 +23,7 @@ Point::Point(double x, double y)
 Point::Point(const Point& point)
     : x(point.x)
     , y(point.y)
-{
-}
-
-sf::Vector2f Point::sfv()
-{
-    return sf::Vector2f(x, y);
-}
+{}
 
 Point& Point::operator-=(const Point& p)
 {
