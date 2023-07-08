@@ -33,11 +33,50 @@ Simple_Textbox::Simple_Textbox(std::string title_text, bool sanitized)
     }
 }
 
+Simple_Textbox::Simple_Textbox(const std::string title_text, const sf::Font& font, const unsigned int title_size, bool sanitized)
+{
+    //set text defaults
+    max_length = 32;
+    text_size = 32;
+
+    title.setFont(font);
+    title.setFillColor(Palette::white);
+    title.setString(title_text);
+    title.setCharacterSize(title_size);
+
+    text.setFont(font);
+    text.setFillColor(Palette::white);
+    text.setCharacterSize(text_size);
+
+    cursor.setFont(font);
+    cursor.setFillColor(sf::Color::Transparent);
+    cursor.setCharacterSize(text_size);
+    cursor.setString("|");
+    placeCursor();
+
+    //set box defaults
+    frame.setSize(sf::Vector2f(256.f, 96.f));
+    frame.setPosition(sf::Vector2f(160, 440));
+    frame.setFillColor(Palette::black);
+
+    state = READY;
+    base_state = READY;
+
+    if (sanitized) {
+        disallowed = "/:*?<>|\"\\";
+    }
+}
+
 void Simple_Textbox::setFont(const sf::Font& font)
 {
     text.setFont(font);
     cursor.setFont(font);
     title.setFont(font);
+}
+
+void Simple_Textbox::setTitleSize(const unsigned int tcsize)
+{
+    title.setCharacterSize(tcsize);
 }
 
 void Simple_Textbox::setMaxLength(unsigned int max_length)
@@ -242,22 +281,18 @@ void Simple_Textbox::setSize(sf::Vector2f size)
 
 sf::Vector2f Simple_Textbox::getSize()
 {
-    return frame.getSize();
-}
-
-sf::Vector2f Simple_Textbox::totalSize()
-{
     sf::Vector2f size = frame.getSize();
     size.y += (frame.getPosition().y - title.getPosition().y);
     return size;
 }
 
-void Simple_Textbox::setPosition(sf::Vector2f pos)
+void Simple_Textbox::setPosition(const sf::Vector2f& pos)
 {
     title.setPosition(pos);
-    pos.y += title.getLocalBounds().top + title.getLocalBounds().height + 16.f;
-    frame.setPosition(pos);
-    text.setPosition(pos + text_offset);
+    sf::Vector2f box_pos = pos;
+    box_pos.y += title.getLocalBounds().top + title.getLocalBounds().height + 16.f;
+    frame.setPosition(box_pos);
+    text.setPosition(box_pos + text_offset);
 }
 
 sf::Vector2f Simple_Textbox::getPosition()

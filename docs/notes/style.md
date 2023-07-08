@@ -33,8 +33,7 @@ Please view [the documentation for clang-format](https://clang.llvm.org/docs/Cla
 (TODO double check std::function object nomenclature)
 
 ### Initializer Lists
-Initializer lists are always indented one more than its preceding function definition. They are not to be included in declarations which are not also definitions. Each initialization statement should occupy its own line, starting with the colon or comma.
-
+Initializer lists are always indented one more than its preceding function definition. They are written in definitions. Each initialization statement should occupy its own line, starting with the colon or comma.
 ```
 Some_Class::Some_Class(Type& object1, Type& object2)
 	: object1 { object2 }
@@ -43,6 +42,11 @@ Some_Class::Some_Class(Type& object1, Type& object2)
 	// ...
 }
 ```
+
+
+### Miscellaneous
+- **Member pointers** are always default-initialized as *nullptr*
+- **using namespace** is discouraged, and is primarily allowable for verbose or complex scopes such as *std::chrono*. Namespace aliases are preferable (and **using** is fine for regular aliases)
 
 ---
 

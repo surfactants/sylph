@@ -5,7 +5,7 @@
 #include <type_traits> // is_same_v
 
 #include <game/component/component.hpp>
-#include <game/core/component_manager.hpp> // for component types
+#include <game/core/components.hpp>
 
 #include <game/core/entity.hpp>
 

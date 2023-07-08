@@ -33,7 +33,7 @@ void HUD::initialize()
 {
     system_info = std::make_unique<System_Info>();
     resource_panel = std::make_unique<Resource_Panel>();
-    turn_panel = std::make_unique<Panel>(*font);
+    turn_panel = std::make_unique<Panel>();
     timekeeper = std::make_unique<Timekeeper>(*HUD::font, UI::localize);
 
     system_info->loadFont(font);

@@ -18,8 +18,6 @@ public:
     constexpr static float padding { 8.f };
     constexpr static float outline { 2.f };
 
-    Element() = default;
-
     virtual void setPosition(const sf::Vector2f& position);
 
     virtual void setState(State state);
@@ -71,6 +69,8 @@ public:
     virtual sf::Vector2f getSize();
 
 protected:
+    Element() = default;
+
     sf::RectangleShape frame;
     State state { NULL_STATE };
     State base_state { NULL_STATE };

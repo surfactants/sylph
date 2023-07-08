@@ -26,7 +26,6 @@ Color_Selector::Color_Selector(std::string title, const sf::Font& font)
     label.setFont(font);
     label.setString(title);
     label.setFillColor(Palette::white);
-    centerTextVertical(label);
 }
 
 void Color_Selector::initialize()
@@ -97,6 +96,15 @@ void Color_Selector::prepare()
 
     state = READY;
     base_state = READY;
+
+    preview.setSize(sf::Vector2f(128.f, 96.f));
+}
+
+sf::Vector2f Color_Selector::getSize()
+{
+    sf::Vector2f size(256.f + padding + 24.f, preview.getSize().y);
+    size.y += (preview.getPosition().y - label.getPosition().y);
+    return size;
 }
 
 void Color_Selector::reset()
@@ -106,10 +114,16 @@ void Color_Selector::reset()
     setHue();
 }
 
-void Color_Selector::setPosition(sf::Vector2f pos)
+void Color_Selector::setPosition(const sf::Vector2f& pos)
 {
-    position = pos;
+    label.setPosition(pos);
+    const sf::FloatRect bounds = label.getLocalBounds();
+    sf::Vector2f cpos(pos.x, pos.y + bounds.top + bounds.height + padding);
+    preview.setPosition(cpos);
+    cpos.y += preview.getSize().y;
+    position = cpos;
 }
+
 void Color_Selector::enactPosition()
 {
     sf::Vector2f size = sf::Vector2f(256, 256);
@@ -261,8 +275,6 @@ bool Color_Selector::releaseRight()
 
 void Color_Selector::slide(sf::Vector2i mousePos)
 {
-    // this function is VERY heavy duty, presumably due to ::setHue(). try to find a way to optimize it.
-
     slider_handle.setPosition(sf::Vector2f(slider[0].position.x, mousePos.y));
 
     if (slider_handle.getPosition().y < slider[0].position.y) {
@@ -286,6 +298,7 @@ void Color_Selector::slide(sf::Vector2i mousePos)
 
 void Color_Selector::setHue()
 {
+    // TODO optimize
     const double hue = (slider_handle.getPosition().y - slider[0].position.y) / (slider[23].position.y - slider[0].position.y);
     const int hp = hue * 6;
     for (unsigned int y = 0; y < 256; y++) {

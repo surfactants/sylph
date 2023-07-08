@@ -3,12 +3,10 @@
 #include <cmath>
 
 #if defined(_WIN64) || defined(_WIN32)
-//    #define isnan(x) _isnan(x)
+//    #define std::isnan(x) _std::isnan(x)
 #endif
 
 namespace Voronoi {
-
-using namespace std;
 
 const double Point::Inf = std::numeric_limits<double>::infinity();
 
@@ -73,19 +71,19 @@ void Point::setY(double y)
 
 bool Point::isVertical()
 {
-    return (y == Inf && !isnan(x) && x != Inf);
+    return (y == Inf && !std::isnan(x) && x != Inf);
 }
 
 bool Point::isHorizontal()
 {
-    return (x == Inf && !isnan(y) && y != Inf);
+    return (x == Inf && !std::isnan(y) && y != Inf);
 }
 
 bool Point::isValid()
 {
     if (x == Inf && y == Inf)
         return false;
-    return (!isnan(x) && !isnan(y));
+    return (!std::isnan(x) && !std::isnan(y));
 }
 
 Point Point::normalized()

@@ -34,7 +34,7 @@ public:
     ///
     /// \param pos top left position
     ///
-    void setPosition(sf::Vector2f pos);
+    virtual void setPosition(const sf::Vector2f& pos) override;
 
     ////////////////////////////////////////////////////////////
     /// \brief Returns the selected color.
@@ -42,6 +42,8 @@ public:
     /// \return selected_color
     ///
     sf::Color getColor();
+
+    virtual sf::Vector2f getSize() override;
 
     ////////////////////////////////////////////////////////////
     /// \brief Main event loop, checks for mouse pos, click, and release.

@@ -68,7 +68,7 @@ void Dialog::setTextbox(std::string title, bool sanitized, std::string tstr)
 
     sf::Vector2f pos = text.getPosition();
     textbox->setPosition(pos);
-    pos.y += textbox->totalSize().y;
+    pos.y += textbox->getSize().y;
     pos.y += 16.f;
     text.setPosition(pos);
     textbox->activate();

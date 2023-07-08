@@ -31,14 +31,24 @@
 class Simple_Textbox : public Element {
 public:
     ////////////////////////////////////////////////////////////
-    /// \brief Default constructor.
+    /// \brief ...
     ///
     Simple_Textbox(std::string title_text = "", bool sanitized = false);
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
     ///
+    Simple_Textbox(const std::string title_text, const sf::Font& font, const unsigned int title_size, bool sanitized = false);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief ...
+    ///
     void setFont(const sf::Font& font);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief ...
+    ///
+    void setTitleSize(const unsigned int tcsize);
 
     ////////////////////////////////////////////////////////////
     /// \brief Changes the max length of the entered string.
@@ -132,21 +142,14 @@ public:
     ///
     /// \see setSize(), totalSize()
     ///
-    sf::Vector2f getSize();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief returns frame size
-    ///
-    /// \see setSize(), getSize()
-    ///
-    sf::Vector2f totalSize();
+    virtual sf::Vector2f getSize() override;
 
     ////////////////////////////////////////////////////////////
     /// \brief ...
     ///
     /// \see getPosition()
     ///
-    void setPosition(sf::Vector2f pos);
+    virtual void setPosition(const sf::Vector2f& pos) override;
 
     ////////////////////////////////////////////////////////////
     /// \brief Returns textbox position.

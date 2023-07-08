@@ -14,49 +14,88 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     placeNav();
 
-    sf::Vector2f size(512.f, 96.f);
+    const sf::Vector2f tbox_size(512.f, 96.f);
 
-    sf::Vector2f pos = nav.front()->getPosition();
-    pos.x += 392.f;
+    std::string text;
+    std::string loc;
 
-    std::vector<std::string> tbox_names = {
-        "civilization name",
-        "home system name",
-        "homeworld name",
-        "species name"
-    };
+    const sf::Vector2f tab_size(96.f, 870.f);
+    const sf::Vector2f panel_size(1300.f, tab_size.y);
 
-    for (const auto& name : tbox_names) {
-        Simple_Textbox textbox(name);
-        textbox.setFont(*font);
-        textbox.setPosition(pos);
-        textbox.setSize(size);
-        textboxes.push_back(std::move(textbox));
-        pos.y += size.y + 128.f;
-    }
+    const sf::Vector2f tab_pos = nav.front()->getPosition() + sf::Vector2f(392.f, 0.f);
+    const sf::Vector2f panel_pos = tab_pos + sf::Vector2f(tab_size.x, 0.f);
 
-    for (auto& t : textboxes) {
-        elements.push_back(&t);
-    }
+    const unsigned int elem_csize { 32 };
+    const unsigned int title_csize { 48 };
 
-    pos = textboxes.front().getPosition();
-    pos.x += 512.f + 64.f;
+    // TABBED PANELS
+    panels = std::make_unique<Tabbed_Panel>();
+    panels->setPosition(tab_pos);
+    panels->setSize(tab_size);
 
-    sf::Vector2f preview_size(96.f, 64.f);
+    // SPECIES PANEL
+    species_panel = std::make_shared<Panel>(panel_pos, panel_size);
 
-    Color_Selector selector("civilization color", *font);
-    selector.setPreview(pos, preview_size);
+    // title
+    text = "SPECIES_TITLE";
+    loc = localize(text);
+    species_title = std::make_shared<sf::Text>(loc, *font, title_csize);
+    localize.recordPersistent(text, species_title.get());
+    species_panel->addText(species_title.get(), Panel::LEFT, panel_size.x);
 
-    sf::Vector2f selector_pos(pos);
-    selector_pos.x += preview_size.x + 192.f;
-    selector_pos.y = textboxes.front().getPosition().y;
-    selector.setPosition(selector_pos);
+    // elements
+    tbox_species_name = std::make_shared<Simple_Textbox>("SPECIES_NAME", *font, elem_csize);
+    tbox_species_name->setSize(tbox_size);
+    species_panel->addElement(tbox_species_name.get(), Panel::LEFT);
 
-    selectors.push_back(std::move(selector));
+    // HOME PANEL
+    home_panel = std::make_shared<Panel>(panel_pos, panel_size);
 
-    for (auto& s : selectors) {
-        elements.push_back(&s);
-    }
+    // title
+    text = "HOME_TITLE";
+    loc = localize(text);
+    home_title = std::make_shared<sf::Text>(loc, *font, title_csize);
+    localize.recordPersistent(text, home_title.get());
+    home_panel->addText(home_title.get(), Panel::LEFT, panel_size.x);
+
+    // elements
+    tbox_star_name = std::make_shared<Simple_Textbox>("STAR_NAME", *font, elem_csize);
+    tbox_star_name->setSize(tbox_size);
+    home_panel->addElement(tbox_star_name.get(), Panel::LEFT);
+
+    tbox_homeworld_name = std::make_shared<Simple_Textbox>("HOMEWORLD_NAME", *font, elem_csize);
+    tbox_homeworld_name->setSize(tbox_size);
+    home_panel->addElement(tbox_homeworld_name.get(), Panel::LEFT);
+
+    // CIV PANEL
+    civ_panel = std::make_shared<Panel>(panel_pos, panel_size);
+
+    // title
+    text = "CIV_TITLE";
+    loc = localize(text);
+    civ_title = std::make_shared<sf::Text>(loc, *font, title_csize);
+    localize.recordPersistent(text, civ_title.get());
+    civ_panel->addText(civ_title.get(), Panel::LEFT, panel_size.x);
+
+    // elements
+    tbox_civ_name = std::make_shared<Simple_Textbox>("CIVILIZATION_NAME", *font, elem_csize);
+    tbox_civ_name->setSize(tbox_size);
+    civ_panel->addElement(tbox_civ_name.get(), Panel::LEFT);
+
+    civ_color = std::make_shared<Color_Selector>("COLOR", *font);
+    civ_panel->addElement(civ_color.get(), Panel::RIGHT);
+
+    // SAVE PANELS
+    panels->addPanel(species_panel);
+    panels->addPanel(home_panel);
+    panels->addPanel(civ_panel);
+
+    elements.push_back(panels.get());
+
+    textboxes.push_back(tbox_species_name);
+    textboxes.push_back(tbox_star_name);
+    textboxes.push_back(tbox_homeworld_name);
+    textboxes.push_back(tbox_civ_name);
 }
 
 bool Menu_New_Game::handleInput(const sf::Event& event)
@@ -75,10 +114,20 @@ bool Menu_New_Game::handleInput(const sf::Event& event)
     return handled;
 }
 
+bool Menu_New_Game::keyPressed(sf::Keyboard::Key key)
+{
+    if (key == sf::Keyboard::Tab) {
+        return panels->keyPressed(key);
+    }
+    else {
+        return UI::keyPressed(key);
+    }
+}
+
 bool Menu_New_Game::validate()
 {
     for (auto& t : textboxes) {
-        if (t.empty()) {
+        if (t->empty()) {
             return false;
         }
     }
@@ -87,22 +136,21 @@ bool Menu_New_Game::validate()
 
 void Menu_New_Game::exitState()
 {
+    panels->setTab(0);
     for (auto& t : textboxes) {
-        t.clear();
+        t->clear();
     }
-    for (auto& s : selectors) {
-        s.deactivate();
-    }
+    civ_color->reset();
 }
 
 void Menu_New_Game::confirm()
 {
     // initiate game loading
     New_Game_Data data;
-    data.player_name = textboxes[0].getString();
-    data.home_system = textboxes[1].getString();
-    data.homeworld = textboxes[2].getString();
-    data.player_color = selectors.front().getColor();
+    data.player_name = tbox_civ_name->getString();
+    data.home_system = tbox_star_name->getString();
+    data.homeworld = tbox_homeworld_name->getString();
+    data.player_color = civ_color->getColor();
     start_game(data);
     setMainState(Main_State::GAME);
     Event_Bus::publish(Event(Event::MAIN_MENU_EXITED));

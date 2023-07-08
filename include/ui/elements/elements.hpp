@@ -12,4 +12,5 @@
 #include "save_list.hpp"
 #include "simple_textbox.hpp"
 #include "slider.hpp"
+#include "tabbed_panel.hpp"
 #include "timekeeper.hpp"

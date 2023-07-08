@@ -22,8 +22,8 @@ private:
 
     Localizer localize;
 
-    constexpr static unsigned int csize { 30 };
-    constexpr static unsigned int label_csize { 34 };
+    constexpr static unsigned int csize { 32 };
+    constexpr static unsigned int label_csize { 32 };
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

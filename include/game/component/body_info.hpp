@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics/Color.hpp>
 
+#include <game/core/entity.hpp>
+
 struct Body_Info {
     std::string type;
     std::string subtype;

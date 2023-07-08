@@ -4,13 +4,8 @@
 #include <memory>
 
 #include <game/core/ecs_core.hpp>
-#include <game/core/game_info.hpp>
 
 #include <game/data/game_settings.hpp>
-
-#include <game/core/component_manager.hpp>
-#include <game/core/entity_manager.hpp>
-#include <game/core/system_manager.hpp>
 
 class Game {
 public:

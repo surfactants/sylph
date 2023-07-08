@@ -13,5 +13,5 @@ public:
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
 private:
-    Button next_turn;
+    std::shared_ptr<Button> next_turn;
 };

@@ -39,4 +39,6 @@ protected:
     static std::unique_ptr<Resource_Panel> resource_panel;
     static std::unique_ptr<Panel> turn_panel;
     static std::unique_ptr<Timekeeper> timekeeper;
+
+    sf::Text panel_text;
 };
