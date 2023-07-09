@@ -1,7 +1,6 @@
 #pragma once
 
 #include <filesystem>
-#include <iostream> // debug
 
 #include <engine/input/input_package.hpp>
 
@@ -46,7 +45,6 @@ public:
     void registerComponent(Component c)
     {
         std::string t(typeid(T).name());
-        std::cout << "\nREGISTERING COMPONENT:" << t;
 
         auto get = Game::core->components.registerComponent<T>();
         System::getComponent<T> = get;

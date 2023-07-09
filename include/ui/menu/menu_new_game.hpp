@@ -2,6 +2,10 @@
 
 #include <game/data/new_game_data.hpp>
 
+#include "panels/civ_panel.hpp"
+#include "panels/home_panel.hpp"
+#include "panels/species_panel.hpp"
+
 #include "menu.hpp"
 
 class Menu_New_Game : public Menu {
@@ -23,19 +27,9 @@ protected:
 
     std::unique_ptr<Tabbed_Panel> panels { nullptr };
 
-    std::shared_ptr<Panel> species_panel { nullptr };
-        std::shared_ptr<sf::Text> species_title { nullptr };
-        std::shared_ptr<Simple_Textbox> tbox_species_name { nullptr };
-
-    std::shared_ptr<Panel> home_panel { nullptr };
-        std::shared_ptr<sf::Text> home_title { nullptr };
-        std::shared_ptr<Simple_Textbox> tbox_star_name { nullptr };
-        std::shared_ptr<Simple_Textbox> tbox_homeworld_name { nullptr };
-
-    std::shared_ptr<Panel> civ_panel { nullptr };
-        std::shared_ptr<sf::Text> civ_title { nullptr };
-        std::shared_ptr<Simple_Textbox> tbox_civ_name { nullptr };
-        std::shared_ptr<Color_Selector> civ_color;
+    std::shared_ptr<Species_Panel> species { nullptr };
+    std::shared_ptr<Home_Panel> home { nullptr };
+    std::shared_ptr<Civ_Panel> civ { nullptr };
 
     std::vector<std::shared_ptr<Simple_Textbox>> textboxes;
 

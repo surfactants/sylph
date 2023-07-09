@@ -4,22 +4,32 @@
 
 void Scrollable::setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u window_size)
 {
+    w_size = sf::Vector2f(window_size);
     this->size = size;
-    sf::Vector2f wsize(window_size);
-    float xs = size.x / wsize.x;
-    float ys = size.y / wsize.y;
+    xs = size.x / w_size.x;
+    ys = size.y / w_size.y;
 
-    float xp = pos.x / wsize.x;
-    float yp = pos.y / wsize.y;
+    xp = pos.x / w_size.x;
+    yp = pos.y / w_size.y;
 
     view.setViewport(sf::FloatRect(xp, yp, xs, ys));
-    view.setSize(sf::Vector2f(wsize.x * xs, wsize.y * ys));
+    view.setSize(sf::Vector2f(w_size.x * xs, w_size.y * ys));
     view.setCenter(size / 2.f);
 
     frame.left = pos.x;
     frame.top = pos.y;
 
     background.setFillColor(Palette::gray_dark);
+}
+
+void Scrollable::setPosition(const sf::Vector2f& pos)
+{
+    sf::Vector2f center { pos };
+    xp = pos.x / w_size.x;
+    yp = pos.y / w_size.y;
+    view.setViewport(sf::FloatRect(xp, yp, xs, ys));
+    frame.left = pos.x;
+    frame.top = pos.y;
 }
 
 sf::View Scrollable::getView() const

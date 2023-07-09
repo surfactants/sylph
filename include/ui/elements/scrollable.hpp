@@ -27,6 +27,8 @@ public:
     ///
     void setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u window_size = sf::Vector2u(1920u, 1080u));
 
+    void setPosition(const sf::Vector2f& pos);
+
     /// getView ///
     /// \brief returns the view
     ///
@@ -100,6 +102,10 @@ protected:
     sf::View view; /**< viewport */
 
     float scroll_x_pos; /**< x-position of the scrollbar. on the right edge by default */
+
+    float xs, ys, xp, yp;
+
+    sf::Vector2f w_size;
 
     float current_scroll = 0.f; /**< current scroll position */
 

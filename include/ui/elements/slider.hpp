@@ -13,7 +13,7 @@ public:
 
     /// DEFAULT CONSTRUCTOR ///
     ///
-    Slider(std::string ntitle);
+    Slider(std::string ntitle, unsigned int title_size = 48);
 
     /// set ///
     /// \brief Prepares the bar.
@@ -67,10 +67,16 @@ public:
     ///
     void setFill(float f);
 
+    virtual void setPosition(const sf::Vector2f& pos);
+
+    virtual sf::Vector2f getSize() override;
+
+    virtual void deactivate() override;
+
     float revert();
     void finalize();
 
-    std::function<void(float)> fillChangeCallback;
+    std::function<void(float)> fillChangeCallback { [](float){} };
 
 protected:
     sf::Text title; /**< Title label */

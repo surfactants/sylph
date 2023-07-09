@@ -16,10 +16,8 @@ void Game_Simulate::update(const float delta_time)
 
 void Game_Simulate::step()
 {
-    std::cout << "SIMULATION STEP!\n";
-    std::cout << "\tdate from " << core->info.date.month;
     core->info.date.month++;
-    std::cout << " to " << core->info.date.month << '\n';
+
     bool ending { false };
     if (core->info.date.month > 12) {
         core->info.date.year++;

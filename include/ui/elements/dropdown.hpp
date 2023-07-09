@@ -3,6 +3,8 @@
 #include "button.hpp"
 #include "scrollable.hpp"
 
+#include <iostream>
+
 /// DROPDOWN ///
 /// \brief a dropdown menu for selecting one of many options. uses a view-based scrollbar (Scrollable option_frame).
 /// The templated type is what the options themselves store. setView() and load() MUST be called, IN THAT ORDER.
@@ -30,10 +32,9 @@ protected:
     class Option : public Button {
     public:
         Option() = default;
-        Option(std::string label, sf::Font& font, unsigned int csize, State base)
+        Option(std::string label, const sf::Font& font, unsigned int csize, State base)
             : Button(label, font, csize, base)
-        {
-        }
+        {}
 
         T data;
 
@@ -71,16 +72,22 @@ public:
 
     constexpr static float padding = 2.f;
 
+    virtual void setPosition(const sf::Vector2f& pos)
+    {
+        Button::setPosition(pos);
+        option_frame.setPosition(pos);
+    }
+
     void setView(sf::Vector2f pos, sf::Vector2f size, sf::Vector2u window_size)
     {
-        setPosition(pos);
+        frame.setPosition(pos);
         pos -= sf::Vector2f(padding, padding); // offset the view so the buttons match
         option_frame.setView(pos, size, window_size);
         option_frame.setScrollable(size.y * 2.f);
         option_frame.setBackground(Palette::gray_dark);
     }
 
-    void load(std::vector<std::pair<std::string, T>> data, sf::Font& font, unsigned int csize, size_t current)
+    void load(std::vector<std::pair<std::string, T>> data, const sf::Font& font, unsigned int csize, size_t current)
     {
         sf::Vector2f view_size = option_frame.getSize();
         sf::Vector2f total_size(view_size.x - option_frame.scrollbarSize().x, padding);
@@ -229,6 +236,17 @@ public:
         active_option = o;
     }
 
+    void set(unsigned int index)
+    {
+        if (index >= options.size()) {
+            index = 0;
+        }
+        active_option->setToBase();
+        options[0].setState(ACTIVE);
+        setLabel(options[0].getLabel());
+        active_option = &options[0];
+    }
+
     void scrollToActive()
     {
         // TODO
@@ -267,7 +285,8 @@ protected:
         else {
             resetMousedOption();
         }
-        return cnt;
+        std::cout << "active update\n";
+        return true;
     }
 
     void resetMousedOption()

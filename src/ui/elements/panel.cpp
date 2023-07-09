@@ -2,8 +2,6 @@
 
 #include <engine/util/text.hpp>
 
-#include <iostream>
-
 Panel::Panel()
 {
     frame.setFillColor(Palette::gray_dark);
@@ -94,6 +92,8 @@ void Panel::addElement(Element* element, Place place)
     }
     element->setPosition(pos);
     elements.push_back(element);
+
+    renderer.push_front(element);
 }
 
 void Panel::addText(sf::Text* t, const Place place, const float wrap_width)
@@ -121,6 +121,8 @@ void Panel::addText(sf::Text* t, const Place place, const float wrap_width)
     }
     t->setPosition(pos);
     text.push_back(t);
+
+    renderer.push_front(t);
 }
 
 void Panel::clear()
@@ -192,20 +194,21 @@ bool Panel::keyPressed(sf::Keyboard::Key key)
 void Panel::deactivate()
 {
     if (active) {
-            std::cout << "deactivating active element\n";
         active->deactivate();
     }
     active = nullptr;
     moused = nullptr;
 }
 
+void Panel::reset()
+{
+}
+
 void Panel::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(frame, states);
-    for (const auto& element : elements) {
+    for (const auto& element : renderer) {
         target.draw(*element, states);
-    }
-    for (const auto& t : text) {
-        target.draw(*t, states);
+        target.setView(*view);
     }
 }

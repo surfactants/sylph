@@ -10,7 +10,7 @@ const float Slider::offset = 3.f;
 
 const float Slider::scroll_factor = 5.f;
 
-Slider::Slider(std::string ntitle)
+Slider::Slider(std::string ntitle, unsigned int title_size)
 {
     fillChangeCallback = [](float) {};
 
@@ -24,30 +24,58 @@ Slider::Slider(std::string ntitle)
     setFill(100.f);
 
     title.setString(ntitle);
-    title.setCharacterSize(48);
+    title.setCharacterSize(title_size);
 }
 
 void Slider::set(sf::Vector2f pos, const sf::Font& font)
 {
     title.setFont(font);
-
     label.setFont(font);
-
-    title.setPosition(pos);
-
-    pos.y += title.getLocalBounds().height + title.getLocalBounds().top + (offset * 2.f);
-
-    frame.setPosition(pos);
-    fill.setPosition(pos + sf::Vector2f(offset, offset));
-
-    pos.x += frame.getSize().x - (label.getLocalBounds().width + label.getLocalBounds().left) - (offset * 4.f);
-    pos.y += (fill.getSize().y - (label.getLocalBounds().height + label.getLocalBounds().top)) / 2.f - offset;
-    label.setPosition(pos);
 
     title.setFillColor(Palette::white);
     label.setFillColor(Palette::white);
-
     frame.setOutlineColor(Palette::white);
+
+    setPosition(pos);
+}
+
+void Slider::setPosition(const sf::Vector2f& pos)
+{
+    title.setPosition(pos);
+    sf::Vector2f sub_pos { pos };
+    sub_pos.y += title.getLocalBounds().top + title.getLocalBounds().height + (padding * 2.f);
+    frame.setPosition(sub_pos);
+    fill.setPosition(sub_pos + sf::Vector2f(offset, offset));
+
+    sub_pos.x += frame.getSize().x - (label.getLocalBounds().width + label.getLocalBounds().left) - (offset * 4.f);
+    sub_pos.y += (fill.getSize().y - (label.getLocalBounds().height + label.getLocalBounds().top)) / 2.f - offset;
+    label.setPosition(sub_pos);
+}
+
+void Slider::deactivate()
+{
+    changing = false;
+    moused = false;
+    Element::deactivate();
+}
+
+sf::Vector2f Slider::getSize()
+{
+    sf::Vector2f size;
+    const sf::FloatRect title_bounds = title.getLocalBounds();
+    const sf::Vector2f text_size(title_bounds.left + title_bounds.width, title_bounds.top + title_bounds.height);
+    const sf::Vector2f frame_size = frame.getSize();
+
+    if (text_size.x > frame_size.x) {
+        size.x = text_size.x;
+    }
+    else {
+        size.x = frame_size.x;
+    }
+
+    size.y = frame_size.y + (frame.getPosition().y - title.getPosition().y);
+
+    return size;
 }
 
 void Slider::setFill(float f)
