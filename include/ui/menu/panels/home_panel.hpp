@@ -14,8 +14,10 @@ public:
 
     virtual void reset() override;
 
-    std::shared_ptr<Simple_Textbox> star_name { nullptr };
     std::shared_ptr<Simple_Textbox> homeworld_name { nullptr };
+
+    std::shared_ptr<Simple_Textbox> star_name { nullptr };
+    std::shared_ptr<Dropdown<std::string>> star_type { nullptr };
 
 protected:
     std::shared_ptr<sf::Text> title { nullptr };
