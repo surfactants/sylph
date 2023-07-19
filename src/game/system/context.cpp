@@ -2,31 +2,15 @@
 
 #include <game/component/transform.hpp>
 
-Context::Context(Camera_Controller& camera, Renderer& renderer, Solar_System& solar, Tile_System& tile)
+Context::Context(Camera_Controller& camera, Renderer& renderer)
     : camera_controller { camera }
     , renderer { renderer }
-    , solar_system { solar }
-    , tile_system { tile }
-{
-}
+{}
 
 void Context::toggle()
 {
     switch (type) {
-        case GALACTIC:
-            if (last_system == NULL_ENTITY) {
-                if (tile_system.active != NULL_ENTITY) {
-                    last_system = tile_system.active;
-                }
-                else {
-                    break;
-                }
-            }
-            set(SOLAR, last_system);
-            break;
-
-        case SOLAR:
-            set(GALACTIC, last_system);
+        default:
             break;
     }
 }
@@ -45,37 +29,11 @@ void Context::set(Type t, Entity e)
     renderer.setLayer(0, current_view);
 
     switch (t) {
-        case GALACTIC:
-            camera_controller.setBounds(world_bounds);
-            resetView(Context::GALACTIC);
-
-            if (last_system != NULL_ENTITY) {
-                current_view->setCenter(getComponent<Transform>(last_system).position);
-            }
-
-            renderer.add(0, &tile_system);
-            break;
-
-        case SOLAR:
-            if (e == NULL_ENTITY) {
-                if (last_system != NULL_ENTITY) {
-                    e = last_system;
-                }
-                else {
-                    break;
-                }
-            }
-            else {
-                last_system = e;
-            }
-            solar_system.load(e);
-
-            camera_controller.setBounds(getComponent<Collision_Rect>(e));
-            resetView(Context::SOLAR);
-
-            current_view->setCenter(sf::Vector2f(0.f, 0.f));
-
-            renderer.add(0, &solar_system);
+        // set bounds for camera controller
+        // call resetView
+        // current_view->setCenter
+        // add systems to the renderer
+        default:
             break;
     }
 }

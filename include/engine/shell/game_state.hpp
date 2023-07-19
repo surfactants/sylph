@@ -28,7 +28,6 @@ public:
     void setHUDState(UI::State state);
 
     void loadCommands(std::vector<Command> new_commands);
-    void loadNums();
     void loadSettings(Game_Settings settings);
 
     void newGame(New_Game_Data data);
@@ -38,8 +37,6 @@ public:
     void clear();
 
     void registration();
-
-    void numPress(unsigned int i);
 
     template <typename T>
     void registerComponent(Component c)

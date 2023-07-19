@@ -6,16 +6,14 @@
 
 #include "camera_controller.hpp"
 #include "renderer.hpp"
-#include "solar_system.hpp"
-#include "tile_system.hpp"
 
 class Context : public System{
 public:
-    Context(Camera_Controller& camera, Renderer& renderer, Solar_System& solar, Tile_System& tile);
+    Context(Camera_Controller& camera, Renderer& renderer);
 
     enum Type {
-        GALACTIC,
-        SOLAR
+        CONTEXT_ONE,
+        CONTEXT_TWO
     };
 
     Type operator() ()
@@ -30,8 +28,8 @@ public:
     Collision_Rect world_bounds;
 
     std::map<Type, sf::View> view {
-        { GALACTIC, sf::View() },
-        { SOLAR, sf::View() }
+        { CONTEXT_ONE, sf::View() },
+        { CONTEXT_TWO, sf::View() }
     };
 
     sf::View* current_view { nullptr };
@@ -43,11 +41,9 @@ public:
     void setCenter(Entity e);
 
 private:
-    Type type { SOLAR };
+    Type type;
     Camera_Controller& camera_controller;
     Renderer& renderer;
-    Solar_System& solar_system;
-    Tile_System& tile_system;
 
     sf::Vector2u w_size;
 

@@ -32,8 +32,6 @@ private:
     New_Game_Data data;
 
     void createWorld();
-    void generateSystem(Entity system);
-    void createCivilizations();
     void finalPrep();
 
     void load(std::filesystem::path load_path);

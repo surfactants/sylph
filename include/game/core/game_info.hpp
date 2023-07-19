@@ -5,10 +5,8 @@
 struct Game_Info {
     Entity player;
     std::string player_name;
-    unsigned int year { 0 };
-    unsigned int minutes_played { 0 };
 
-    sf::FloatRect world_bounds;
+    unsigned int minutes_played { 0 };
 
     std::string timePlayed()
     {
@@ -21,6 +19,4 @@ struct Game_Info {
         time += std::to_string(minutes_played);
         return time;
     }
-
-    Date date { 1, 1 };
 };

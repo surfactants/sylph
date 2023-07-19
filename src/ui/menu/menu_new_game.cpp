@@ -5,7 +5,7 @@
 Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     : start_game { start_game }
 {
-    addNav("BUTTON_START", std::bind(confirm, this), Element::UNAVAILABLE);
+    addNav("BUTTON_START", std::bind(confirm, this)); // , Element::UNAVAILABLE);
     addNav("BUTTON_CANCEL", std::bind(cancel, this));
 
     setEscape(UI::TITLE);
@@ -23,24 +23,9 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
     panels->setPosition(tab_pos);
     panels->setSize(tab_size);
 
-    species = std::make_shared<Species_Panel>(*font, panel_pos, panel_size, localize);
-    species->view = &view;
-    home = std::make_shared<Home_Panel>(*font, panel_pos, panel_size, localize);
-    home->view = &view;
-    civ = std::make_shared<Civ_Panel>(*font, panel_pos, panel_size, localize);
-    civ->view = &view;
-
-    // SAVE PANELS
-    panels->addPanel(species);
-    panels->addPanel(home);
-    panels->addPanel(civ);
+    // initialize panels and add them to the tabbed
 
     elements.push_back(panels.get());
-
-    textboxes.push_back(species->name);
-    textboxes.push_back(home->star_name);
-    textboxes.push_back(home->homeworld_name);
-    textboxes.push_back(civ->name);
 }
 
 bool Menu_New_Game::handleInput(const sf::Event& event)
@@ -88,10 +73,7 @@ void Menu_New_Game::confirm()
 {
     // initiate game loading
     New_Game_Data data;
-    data.player_name = civ->name->getString();
-    data.home_system = home->star_name->getString();
-    data.homeworld = home->homeworld_name->getString();
-    data.player_color = civ->color->getColor();
+
     start_game(data);
     setMainState(Main_State::GAME);
     Event_Bus::publish(Event(Event::MAIN_MENU_EXITED));

@@ -39,23 +39,12 @@ private:
         }
         sql += ",";
     }
-    std::string writeTransform(Entity e);
 
     std::string writeCollisionRect(Entity e);
 
-    std::string writePolygonTile(Entity e);
+    std::string writeEntityData(Entity e);
 
     std::string writeHierarchy(Entity e);
 
-    std::string writeTile(Entity e);
-
-    std::string writeEntityData(Entity e);
-
-    std::string writeBodyInfo(Entity e);
-
-    std::string writeCivilizationData(Entity e);
-
-    std::string writeResource(Entity e);
-
-    std::string writeDate(Entity e);
+    std::string writeTransform(Entity e);
 };

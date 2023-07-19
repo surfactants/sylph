@@ -29,12 +29,7 @@ void Save_Game::createTables()
     sql = "CREATE TABLE INFO(\
         PLAYER_UID INT PRIMARY KEY NOT NULL\
       , PLAYER_NAME INT NOT NULL\
-      , YEAR INT NOT NULL\
       , MINUTES_PLAYED INT NOT NULL\
-      , WORLD_BOUNDS_LEFT REAL NOT NULL\
-      , WORLD_BOUNDS_TOP REAL NOT NULL\
-      , WORLD_BOUNDS_WIDTH REAL NOT NULL\
-      , WORLD_BOUNDS_HEIGHT REAL NOT NULL\
       );";
       // todo blob for preview image
 
@@ -54,19 +49,10 @@ void Save_Game::writeInfo()
     sql += "PLAYER_NAME,";
     sql += "YEAR,";
     sql += "MINUTES_PLAYED,";
-    sql += "WORLD_BOUNDS_LEFT,";
-    sql += "WORLD_BOUNDS_TOP,";
-    sql += "WORLD_BOUNDS_WIDTH,";
-    sql += "WORLD_BOUNDS_HEIGHT) ";
     sql += "VALUES(";
     sql += std::to_string(info.player);
     sql += ",'" + info.player_name + "',";
-    sql += std::to_string(info.year) + ",";
-    sql += std::to_string(info.minutes_played) + ",";
-    sql += std::to_string(info.world_bounds.left) + ",";
-    sql += std::to_string(info.world_bounds.top) + ",";
-    sql += std::to_string(info.world_bounds.width) + ",";
-    sql += std::to_string(info.world_bounds.height) + ");";
+    sql += std::to_string(info.minutes_played) + ");";
 
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, nullptr);
 }

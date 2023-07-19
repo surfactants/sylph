@@ -2,17 +2,12 @@
 
 #include <engine/database/database_commands.hpp>
 
-#include <game/state/new_game.hpp>
-#include <game/state/game_player_turn.hpp>
-#include <game/state/game_ai_turn.hpp>
-#include <game/state/game_simulate.hpp>
+#include <game/state/states.hpp>
 
 #include <ui/hud/states.hpp>
 
 Game_State::Game_State(std::function<void()> open_pause)
 {
-    HUD::initialize();
-
     // loadCommands handles permanent functions but open_pause is carried over in the newly-defined input package
     input.addPress(sf::Keyboard::Escape, open_pause);
 
@@ -24,32 +19,17 @@ Game_State::Game_State(std::function<void()> open_pause)
 
     HUD::setHUDState = std::bind(setHUDState, this, std::placeholders::_1);
 
-    hud_states[UI::PLAYER_TURN] = std::make_unique<Player_Turn>();
-    hud_states[UI::AI_TURN] = std::make_unique<AI_Turn>();
-    hud_states[UI::SIMULATE] = std::make_unique<HUD_Simulate>();
-
-    HUD* hsim = hud_states[UI::SIMULATE].get();
-
-    Game::updateDate = std::bind(HUD::updateDate, hsim, std::placeholders::_1);
-    Game::updateResourcePanel = std::bind(HUD::updateResourcePanel, hsim, std::placeholders::_1);
+    // initialize hud states here
 }
 
 void Game_State::registration()
 {
     Game::core->systems.camera_controller.view = &view;
-    Game::core->systems.tile_system.activateUI = std::bind(HUD::loadSystemInfo, std::placeholders::_1);
-    Game::core->systems.solar_system.activateUI = std::bind(HUD::loadSystemInfo, std::placeholders::_1);
 
-    registerComponent<Transform>(Component::TRANSFORM);
     registerComponent<Collision_Rect>(Component::COLLISION_RECT);
-    registerComponent<Polygon_Tile>(Component::POLYGON_TILE);
-    registerComponent<Hierarchy>(Component::HIERARCHY);
-    registerComponent<Tile>(Component::TILE);
-    registerComponent<Body_Info>(Component::BODY_INFO);
     registerComponent<Entity_Data>(Component::ENTITY_DATA);
-    registerComponent<Civilization_Data>(Component::CIVILIZATION_DATA);
-    registerComponent<Resource>(Component::RESOURCE);
-    registerComponent<Date>(Component::DATE);
+    registerComponent<Hierarchy>(Component::HIERARCHY);
+    registerComponent<Transform>(Component::TRANSFORM);
 }
 
 void Game_State::clickLeft()
@@ -154,25 +134,6 @@ void Game_State::loadCommands(std::vector<Command> commands)
     input.addRelease(sf::Mouse::Middle, std::bind(releaseMiddle, this));
 
     input.scroll = std::bind(scroll, this, std::placeholders::_1);
-
-    loadNums();
-    // TODO: deprecate current num setup
-    // either set up a conditional which passes the number to the function
-    // or attempt to pass a char for all keyboard functions (yuck?)
-    // or figure something else out.....
-}
-
-void Game_State::loadNums()
-{
-    Key_String converter;
-    for (unsigned int i = 0; i < 10; i++) {
-        std::string num = "Num" + std::to_string(i);
-        input.addPress(converter.toKey(num), std::bind(numPress, this, i));
-    }
-}
-
-void Game_State::numPress(unsigned int i)
-{
 }
 
 void Game_State::loadSettings(Game_Settings settings)
@@ -195,15 +156,7 @@ void Game_State::setHUDState(UI::State state)
         drawables.push_back(hud);
 
         switch (state) {
-            case UI::PLAYER_TURN:
-                game = std::make_unique<Game_Player_Turn>();
-                break;
-            case UI::AI_TURN:
-                game = std::make_unique<Game_AI_Turn>();
-                break;
-            case UI::SIMULATE:
-                game = std::make_unique<Game_Simulate>();
-                break;
+            // state-specific operations
             default:
                 break;
         }
@@ -227,8 +180,6 @@ void Game_State::loadFunctions()
         { "move right", std::bind(&Input_Accelerator::startRight,   acc) },
         { "stop right", std::bind(&Input_Accelerator::stopRight,    acc) },
 
-        { "switch maps", std::bind(&Context::toggle, &Game::core->systems.context) },
-
         // debug
         { "regenerate", std::bind(newGame, this, data) }
     };
@@ -251,7 +202,7 @@ void Game_State::loadGame(std::filesystem::path load_path)
 
 void Game_State::newToPlay()
 {
-    setHUDState(UI::PLAYER_TURN);
+    // set HUD state
 
     Database_Commands dbc;
     loadCommands(dbc.read());
@@ -261,26 +212,14 @@ void Game_State::newToPlay()
     drawables.clear();
     drawables.push_back(&Game::core->systems.renderer);
     drawables.push_back(hud);
-
-    loadNums();
-
-    const auto& civ_data = Game::core->components.getComponent<Civilization_Data>(Game::core->info.player);
-    Game::core->systems.camera_controller.setCenter(civ_data.capital_system);
 }
 
 void Game_State::setGameState(Game::State state)
 {
     game_state = state;
     switch (state) {
-        case Game::PLAYER_TURN:
-            setHUDState(UI::PLAYER_TURN);
-            break;
-        case Game::AI_TURN:
-            setHUDState(UI::AI_TURN);
-            break;
-        case Game::SIMULATE:
-            setHUDState(UI::SIMULATE);
-            break;
+        // state-specific operations
+        // also call setHUDState
         default:
             break;
     }

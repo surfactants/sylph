@@ -24,19 +24,10 @@ private:
     void readEntities();
     void readComponents();
 
-    void bodyInfo();
-    void civData();
     void collisionRect();
-    void date();
     void entityData();
     void hierarchy();
-    void polygonTile();
-    void resource();
-    void tile();
     void transform();
-
-    void passCivs();
-    void passTiles();
 
     template <typename T>
     void vectorize(std::vector<sf::Vector2<T>>& v_all, const std::string& read)

@@ -1,16 +1,10 @@
 #pragma once
 
 enum class Component {
-    TRANSFORM = 0,
     COLLISION_RECT,
-    POLYGON_TILE,
-    HIERARCHY,
-    TILE,
     ENTITY_DATA,
-    BODY_INFO,
-    CIVILIZATION_DATA,
-    RESOURCE,
-    DATE,
+    HIERARCHY,
+    TRANSFORM,
     SIZE // gets total number of components
 };
 

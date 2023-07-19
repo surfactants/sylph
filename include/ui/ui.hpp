@@ -21,7 +21,7 @@ public:
     UI();
 
     enum State {
-        // MENU
+        // MENU STATES
         TITLE = 0,
         PAUSE = 1,
         SETTINGS,
@@ -33,10 +33,7 @@ public:
         LOAD_GAME,
         SAVE_GAME,
 
-        // HUD
-        PLAYER_TURN,
-        AI_TURN,
-        SIMULATE,
+        // HUD STATES
         NULL_STATE
     };
 
