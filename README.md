@@ -1,4 +1,4 @@
-C++/SFML ECS-based game engine. For now, a concurrently-developed prototype is included.
+C++/SFML ECS-based game engine.
 
 [Documentation](docs/docs.md)
 

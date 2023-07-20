@@ -2,6 +2,8 @@
 
 #include <game/data/new_game_data.hpp>
 
+#include "panels/new_game_base_panel.hpp"
+
 #include "menu.hpp"
 
 class Menu_New_Game : public Menu {
@@ -23,6 +25,9 @@ protected:
 
     std::unique_ptr<Tabbed_Panel> panels { nullptr };
 
+    std::shared_ptr<Base_Panel> base { nullptr };
+
+    // textboxes are stored here for simple validation
     std::vector<std::shared_ptr<Simple_Textbox>> textboxes;
 
     bool valid { false };

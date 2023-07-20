@@ -3,6 +3,8 @@
 #include <deque>
 #include <memory>
 
+#include <ui/strings/localizer.hpp>
+
 #include "element.hpp"
 
 class Panel : public Element {

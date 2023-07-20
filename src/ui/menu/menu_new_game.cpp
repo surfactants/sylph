@@ -12,18 +12,25 @@ Menu_New_Game::Menu_New_Game(std::function<void(New_Game_Data)> start_game)
 
     placeNav();
 
-    // PANEL CREATION
-
+    // initialize Tabbed_Panel
     const sf::Vector2f tab_size(96.f, 870.f);
-    const sf::Vector2f panel_size(1300.f, tab_size.y);
-
     const sf::Vector2f tab_pos = nav.front()->getPosition() + sf::Vector2f(392.f, 0.f);
-    const sf::Vector2f panel_pos = tab_pos + sf::Vector2f(tab_size.x, 0.f);
+
     panels = std::make_unique<Tabbed_Panel>();
     panels->setPosition(tab_pos);
     panels->setSize(tab_size);
 
-    // initialize panels and add them to the tabbed
+    // initialize Panels and add them to Tabbed_Panel
+    const sf::Vector2f panel_pos = tab_pos + sf::Vector2f(tab_size.x, 0.f);
+    const sf::Vector2f panel_size(1300.f, tab_size.y);
+
+    // base panel
+    base = std::make_shared<Base_Panel>(*font, panel_pos, panel_size, localize);
+    base->view = &view;
+
+    textboxes.push_back(base->player_name);
+
+    panels->addPanel(base);
 
     elements.push_back(panels.get());
 }
@@ -73,6 +80,7 @@ void Menu_New_Game::confirm()
 {
     // initiate game loading
     New_Game_Data data;
+    data.player_name = base->player_name->getString();
 
     start_game(data);
     setMainState(Main_State::GAME);
