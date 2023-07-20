@@ -90,5 +90,8 @@ void Menu_New_Game::confirm()
 void Menu_New_Game::cancel()
 {
     // reset values and return to main menu
+    for (auto& t : textboxes) {
+        t->clear();
+    }
     setUIState(UI::TITLE);
 }
