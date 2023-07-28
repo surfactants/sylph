@@ -9,13 +9,13 @@ All standard components are structs, typically POD (though with no such requirem
 
 ## Custom Components
 - Declare a type T
-- Include it in the [component manager](component_manager.md)
+- Include it in <game/core/components.hpp>
 - Add an entry to the enum
-- Register the component inside Game_State::registration()
-- Extend the Component_Serializer (TODO add link):
+- Register the component inside <engine/shell/game_state>::registration()
+- Extend the Component_Serializer (<game/core/component_serializer>)
 - - Add a uniquely-named (non-overloading) write function for the type
 - - Add entries to the switch statements in **::types()** and **::values()**
-- Extend Load_Game (TODO add link):
+- Extend Load_Game (<game/core/load_game>):
 - - Add a uniquely-named (non-overloading) function which reads values from a save game database and converts them to the type.
 
 ---
