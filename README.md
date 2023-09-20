@@ -2,6 +2,8 @@ C++/SFML ECS-based game engine.
 
 [Documentation](docs/docs.md)
 
+[sylph editor](https://github.com/surfactants/sylph-editor) - a Qt application for creating and editing projects made with sylph.
+
 Dependencies:
 - [SFML 2.5.1](https://github.com/SFML/SFML/releases/tag/2.5.1)
 - [SQLite 3.39.4 amalgamation](http://www.sqlite.org/2022/sqlite-amalgamation-3390400.zip) (direct download link)

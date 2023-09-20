@@ -61,6 +61,7 @@ void Menu_State::setState(UI::State new_menu)
     current.ptr = menus[new_menu].get();
     current.state = new_menu;
     current.ptr->enterState();
+    current.ptr->grabElementActivity();
     drawables[0] = current.ptr;
 
     if ((new_menu == UI::SETTINGS && last.state <= UI::PAUSE)

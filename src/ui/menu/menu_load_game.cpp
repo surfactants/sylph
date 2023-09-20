@@ -57,8 +57,8 @@ void Menu_Load_Game::cancel()
 
 void Menu_Load_Game::cancelDialog()
 {
-    moused = nullptr;
-    active = nullptr;
+    controller.moused = nullptr;
+    controller.active = nullptr;
     dialog = nullptr;
     elements.pop_back();
     //clearNullElements();
@@ -75,7 +75,7 @@ void Menu_Load_Game::confirm()
         dialog->setText("confirm");
         dialog->setConfirm(std::bind(confirm, this));
         dialog->setCancel(std::bind(cancelDialog, this));
-        active = dialog.get();
+        controller.setActive(dialog.get());
         elements.push_back(dialog.get());
         return;
     }

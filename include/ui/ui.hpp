@@ -16,9 +16,11 @@
 
 #include "strings/localizer.hpp"
 
+#include "ui_controller.hpp"
+
 class UI : public sf::Drawable {
 public:
-    UI();
+    UI() = default;
 
     enum State {
         // MENU STATES
@@ -54,7 +56,7 @@ public:
     virtual void reset();
 
     virtual void enterState() { }
-    virtual void exitState()  { }
+    virtual void exitState() { }
 
     static std::function<void(Game::State)> setGameState;
     static std::function<void()> openPause;
@@ -84,17 +86,15 @@ public:
         setMainState(state);
     }
 
+    void grabElementActivity();
+
 protected:
     static Renderer renderer;
     static sf::View view;
 
-    static Element* moused;
-    static Element* active;
-
-    static void setActive(Element* element);
-    static void unsetActive(Element* element);
-
     std::vector<Element*> elements;
+
+    UI_Controller controller { elements };
 
     std::variant<UI::State, Main_State::State> escape_target;
 

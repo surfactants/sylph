@@ -153,6 +153,7 @@ void Game_State::setHUDState(UI::State state)
         }
         hud = hud_states[state].get();
         hud->enterState();
+        hud->grabElementActivity();
         drawables.push_back(hud);
 
         switch (state) {

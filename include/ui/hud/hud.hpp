@@ -11,9 +11,6 @@ public:
 
     virtual void update(const sf::Vector2i& mpos) override;
 
-    virtual void enterState() override;
-    virtual void exitState() override;
-
     virtual void windowResize(const sf::Vector2u& w_size) override;
 
     static std::function<void(UI::State)> setHUDState;

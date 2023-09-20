@@ -15,12 +15,6 @@ void HUD::update(const sf::Vector2i& mpos)
     UI::update(mpos);
 }
 
-void HUD::enterState()
-{}
-
-void HUD::exitState()
-{}
-
 void HUD::windowResize(const sf::Vector2u& w_size)
 {
     setView(w_size);

@@ -50,7 +50,7 @@ void Menu_Save_Game::confirmSave()
         active_save = std::filesystem::path(std::string(save_list.path + dialog->getString() + save_list.extension));
         dialog->setConfirm(std::bind(confirmSave, this));
         dialog->setCancel(std::bind(cancelDialog, this));
-        active = dialog.get();
+        controller.active = dialog.get();
         elements.push_back(dialog.get());
         return;
     }
@@ -62,8 +62,8 @@ void Menu_Save_Game::confirmSave()
 
 void Menu_Save_Game::cancelDialog()
 {
-    moused = nullptr;
-    active = nullptr;
+    controller.moused = nullptr;
+    controller.active = nullptr;
     dialog = nullptr;
     clearNullElements();
 }

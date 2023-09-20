@@ -10,49 +10,17 @@ std::function<void()> UI::clearGame;
 
 sf::View UI::view;
 
-Element* UI::moused { nullptr };
-Element* UI::active { nullptr };
-
 Localizer UI::localize;
 
-UI::UI()
+void UI::grabElementActivity()
 {
-    // static initialization ensure this operation is only performed once
-    static bool once = [&]() {
-        Element::setActive = std::bind(setActive, std::placeholders::_1);
-        Element::unsetActive = std::bind(unsetActive, std::placeholders::_1);
-        return true;
-    } (); // call it at definition end, but still in assignment of once
-    (void) once; // override compiler warning re: unused variable
+    Element::setActive = std::bind(&UI_Controller::setActive, &controller, std::placeholders::_1);
+    Element::unsetActive = std::bind(&UI_Controller::unsetActive, &controller, std::placeholders::_1);
 }
 
 void UI::update(const sf::Vector2i& mpos)
 {
-    if (active) {
-        if (active->update(mpos)) {
-            moused = active;
-            // still active, truncate
-            return;
-        }
-    }
-
-    if (moused) {
-        if (!moused->update(mpos)) {
-            moused = nullptr;
-        }
-        else {
-            // still moused, truncate
-            return;
-        }
-    }
-
-    // check all elements
-    for (auto& element : elements) {
-        if (element->update(mpos)) {
-            moused = element;
-            break;
-        }
-    }
+    controller.update(mpos);
 }
 
 bool UI::handleInput(const sf::Event& event)
@@ -83,72 +51,72 @@ bool UI::handleInput(const sf::Event& event)
     else if (event.type == sf::Event::TextEntered) {
         return textEntered(event);
     }
-    else if (event.type == sf::Event::MouseWheelScrolled && moused) {
-        moused->scroll(event.mouseWheelScroll.delta);
+    else if (event.type == sf::Event::MouseWheelScrolled && controller.moused) {
+        controller.moused->scroll(event.mouseWheelScroll.delta);
     }
-    return active;
+    return controller.active;
 }
 
 bool UI::clickLeft()
 {
     bool ret { false };
-    if (active) {
-        ret = active->clickLeft();
+    if (controller.active) {
+        ret = controller.active->clickLeft();
     }
-    if (!ret && moused && moused != active) {
-        return moused->clickLeft();
+    if (!ret && controller.moused && controller.moused != controller.active) {
+        return controller.moused->clickLeft();
     }
     return ret;
 }
 
 bool UI::clickRight()
 {
-    if (active) {
-        return active->clickRight();
+    if (controller.active) {
+        return controller.active->clickRight();
     }
-    if (moused && moused != active) {
-        return moused->clickRight();
+    if (controller.moused && controller.moused != controller.active) {
+        return controller.moused->clickRight();
     }
     return false;
 }
 
 bool UI::releaseLeft()
 {
-    if (active) {
-        return active->releaseLeft();
+    if (controller.active) {
+        return controller.active->releaseLeft();
     }
-    if (moused && moused != active) {
-        return moused->releaseLeft();
+    if (controller.moused && controller.moused != controller.active) {
+        return controller.moused->releaseLeft();
     }
     return false;
 }
 
 bool UI::releaseRight()
 {
-    if (active) {
-        return active->releaseRight();
+    if (controller.active) {
+        return controller.active->releaseRight();
     }
-    if (moused && moused != active) {
-        return moused->releaseRight();
+    if (controller.moused && controller.moused != controller.active) {
+        return controller.moused->releaseRight();
     }
     return false;
 }
 
 bool UI::scroll(const float delta)
 {
-    if (moused) {
-        moused->scroll(delta);
+    if (controller.moused) {
+        controller.moused->scroll(delta);
     }
-    return (moused);
+    return (controller.moused);
 }
 
 bool UI::keyPressed(sf::Keyboard::Key key)
 {
-    if (active) {
-        return active->keyPressed(key);
+    if (controller.active) {
+        return controller.active->keyPressed(key);
     }
     else if (key == sf::Keyboard::Escape) {
-        bool ac = (active);
+        bool ac = (controller.active);
         escape();
         return ac;
     }
@@ -157,8 +125,8 @@ bool UI::keyPressed(sf::Keyboard::Key key)
 
 bool UI::textEntered(const sf::Event& event)
 {
-    if (active) {
-        return active->textEntered(event);
+    if (controller.active) {
+        return controller.active->textEntered(event);
     }
     return false;
 }
@@ -170,42 +138,27 @@ void UI::setEscape(Main_State::State state)
 
 void UI::setEscape(UI::State state)
 {
-    if (active) {
-        active->deactivate();
+    if (controller.active) {
+        controller.active->deactivate();
     }
-    if (moused) {
-        moused->setToBase();
+    if (controller.moused) {
+        controller.moused->setToBase();
     }
     escape_target = state;
 }
 
 void UI::escape()
 {
-    if (moused) {
-        moused->deactivate();
-        moused = nullptr;
+    if (controller.moused) {
+        controller.moused->deactivate();
+        controller.moused = nullptr;
     }
-    if (active) {
-        active->deactivate();
+    if (controller.active) {
+        controller.active->deactivate();
     }
     else {
         reset();
         std::visit(*this, escape_target);
-    }
-}
-
-void UI::setActive(Element* element)
-{
-    if (active && active != element) {
-        active->deactivate();
-    }
-    active = element;
-}
-
-void UI::unsetActive(Element* element)
-{
-    if (element == active) {
-        active = nullptr;
     }
 }
 
@@ -238,12 +191,12 @@ void UI::clearNullElements()
 
 void UI::reset()
 {
-    if (moused) {
-        moused->setToBase();
-        moused = nullptr;
+    if (controller.moused) {
+        controller.moused->setToBase();
+        controller.moused = nullptr;
     }
-    if (active) {
-        active->deactivate();
+    if (controller.active) {
+        controller.active->deactivate();
     }
 }
 
